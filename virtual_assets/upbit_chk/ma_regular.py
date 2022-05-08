@@ -33,11 +33,15 @@ def main(argv):
         opts, etc_args = getopt.getopt(argv[1:], "hc:i:", ["count=", "interval="])
 
     except getopt.GetoptError:
-        print(argv[0], '-c <count>')
+        print(argv[0], '-c <count> -i <interval>')
+        print('<interval>')
+        print('\t\t minute240, minute60, minute30, minute15, minute10, minute5, minute3, minute1')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print(argv[0], '-c <count>')
+            print(argv[0], '-c <count> -i <interval>')
+            print('<interval>')
+            print('\t\t minute240, minute60, minute30, minute15, minute10, minute5, minute3, minute1')
             sys.exit()
 
         elif opt in ("-c", "--count"):  # day count
@@ -51,7 +55,7 @@ def main(argv):
 
     lst = get_ticker_list()
 
-    print('업비트 이평선 정배열 종목 MA5, MA20, MA60')
+    print('업비트 이평선 정배열 종목(interval=',interval, ') MA5, MA20, MA60')
     print('')
     for t in lst:
         sleep(0.3)
