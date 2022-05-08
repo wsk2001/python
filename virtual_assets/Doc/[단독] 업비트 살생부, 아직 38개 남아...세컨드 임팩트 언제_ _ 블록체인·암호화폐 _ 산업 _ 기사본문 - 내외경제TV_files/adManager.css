@@ -1,0 +1,56 @@
+/*****************************************************
+ * 광고 관리
+ * 작성자 : 이찬범
+ * 작성일자 : 20181212
+ * Note : 광고목록 기본 CSS
+ *****************************************************/
+
+/* list */
+.ad-manager-list .ad-manager-search .search-field { max-width: 245px }
+@media screen and (max-width: 39.9375em) { .ad-manager-list .ad-manager-search .search-field { max-width: 100% } }
+.ad-manager-list .ad-manager-search .select-viewer { margin-right: 1px }
+.ad-manager-list .ad-manager-search .select-viewer select { min-height: 40px; font-size: .75rem; color: #727d92; letter-spacing: -0.05em }
+.ad-manager-list .ad-manager-search .ad-manager-search-plus { position: relative; min-height: 40px; padding: 0 10px; margin-left: 1px; font-size: .75rem; color: #32323a; letter-spacing: -0.05em; cursor: pointer }
+.ad-manager-list .ad-manager-search .ad-manager-search-plus::after { content: ''; float: right; position: absolute; margin-top: -3px; border-width: 3px; border-style: solid; border-color: transparent transparent #32323a transparent; right: 0px; top: 50% }
+.ad-manager-list .ad-manager-search .ad-manager-search-plus:hover { color: #e32f66 }
+.ad-manager-list .ad-manager-search .ad-manager-search-plus:hover::after { border-bottom-color: #e32f66 }
+.ad-manager-list .ad-manager-search .select-mode select { margin-bottom: 1px; font-size: .75rem; color: #727d92; letter-spacing: -0.05em }
+.ad-manager-list .ad-manager-search .dropdown-pane { border-radius: .2rem }
+.ad-manager-list .ad-manager-search .dropdown-pane::before, .ad-manager-list .ad-manager-search .dropdown-pane::after { content: ''; position: absolute; border-style: solid; border-color: transparent; top: 100% }
+.ad-manager-list .ad-manager-search .dropdown-pane::before { z-index: 1; border-width: 5px; border-top-color: #cacaca; left: 35px }
+.ad-manager-list .ad-manager-search .dropdown-pane::after { z-index: 2; border-width: 4px; border-top-color: #fff; left: 36px }
+
+.adManager-set-modal .search-btn-set { top: 10px; right: 25px; }
+
+/* write */
+.ad-manager-write .search-btn-set { top: 10px; right: 25px; }
+.ad-manager-write .code-list .code-btn { top: 0px; right: 0px; }
+.ad-manager-write .required-val.on, .ad-manager-write label.on { border: 1px solid #E73F72 !important; background: #FCE6E2; }
+.ad-manager-write .search-select option { height: 30px; }
+.ad-manager-write .search-list-set { margin-top: 0px; }
+.ad-manager-write .ad-help { font-size: 0.9em; }
+.ad-manager-write .ad-help .ex { background: #fff; color: #888; margin-top: 10px; padding: 5px 10px; border-radius: 5px; }
+.ad-manager-write .ad-help .ex span { color: #EF6262; font-weight: bold; }
+.ad-manager-write .ad-help .ex .tip { float: right; background: #EF6262; color: #fff; padding: 2px 5px; border-radius: 3px; }
+
+
+/* view */
+.ad-template .ad-code-id { position:absolute; background-color:rgba(0,0,0,0.3); color:#fff; font-size:9px; left:0px; top:0px; padding:1px 5px; }
+.ad-template.ad-close.ad-close-tl .ad-close-btn { position:absolute; top:0px; left:0px; background-color:rgba(0,0,0,0.7); color:#fff; font-size:9px; padding:1px 5px; cursor:pointer; }
+.ad-template.ad-close.ad-close-tr .ad-close-btn { position:absolute; top:0px; right:0px; background-color:rgba(0,0,0,0.7); color:#fff; font-size:9px; padding:1px 5px; cursor:pointer; }
+.ad-template.ad-close.ad-close-bl .ad-close-btn { position:absolute; bottom:0px; left:0px; background-color:rgba(0,0,0,0.7); color:#fff; font-size:9px; padding:1px 5px; cursor:pointer; }
+.ad-template.ad-close.ad-close-br .ad-close-btn { position:absolute; bottom:0px; right:0px; background-color:rgba(0,0,0,0.7); color:#fff; font-size:9px; padding:1px 5px; cursor:pointer; }
+
+/* 목록 정렬 드롭다운 메뉴 */
+#sort-dropdown.dropdown-pane { position: absolute; z-index: 10; display: block; width: 140px; padding: 0; border: 1px solid #727d92; border-radius: 0; background-color: #727d92; font-size: 1rem; }
+#sort-dropdown.dropdown-pane ul { list-style: none; padding: 0px; margin: 0px; }
+#sort-dropdown.dropdown-pane ul li button { margin: 0 0 1px; text-align: left; }
+
+/* 노출순서 변경 모달 목록 */
+#adManager-modal #adStep { list-style: none; margin: 0px; }
+#adManager-modal #adStep li { padding: 10px 15px; border: 0px; border-top: 1px solid #ddd; font-size: 0.8em; cursor: move; }
+#adManager-modal #adStep li:last-child { border-bottom: 1px solid #ddd; }
+
+/* 날개배너 관련 */
+#wingBanner .wing-banner-left {position:absolute;right:calc(100% + 15px)}
+#wingBanner .wing-banner-right {position:absolute;left:calc(100% + 15px)}

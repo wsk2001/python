@@ -1,0 +1,19 @@
+Metadata-Version: 2.1
+Name: pybithumb
+Version: 1.0.21
+Summary: python wrapper for Bithumb API
+Home-page: https://github.com/sharebook-kr/pybithumb
+Author: Lukas Yoo, Brayden Jo
+Author-email: jonghun.yoo@outlook.com, pystock@outlook.com
+License: MIT
+Platform: UNKNOWN
+Requires-Dist: requests
+Requires-Dist: pandas
+Requires-Dist: bs4
+Requires-Dist: html5lib
+Requires-Dist: datetime
+Requires-Dist: websockets
+
+UNKNOWN
+
+

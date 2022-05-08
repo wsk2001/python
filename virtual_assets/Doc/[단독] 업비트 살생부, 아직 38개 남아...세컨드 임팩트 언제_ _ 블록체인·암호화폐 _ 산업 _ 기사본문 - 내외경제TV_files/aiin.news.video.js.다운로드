@@ -1,0 +1,199 @@
+/**
+ * aiinad news video
+ * @returns {*}
+ * @constructor
+ */
+
+var MCI_KOREA_AIIN_VIDEO = function() {
+
+    var MDL;
+    var contentLoadCnt = 0;
+    var loadResult = false;
+    this.Init = function () {
+        this.host = document.location.hostname;
+        MDL = this;
+        if (document.addEventListener) {
+            document.addEventListener("DOMContentLoaded", function () {
+                document.removeEventListener("DOMContentLoaded", arguments.callee, false);
+                MDL.onLoad();
+            }, false);
+        } else if (document.attachEvent) {
+            document.attachEvent("onreadystatechange", function () {
+                if (document.readyState === "complete") {
+                    document.detachEvent("onreadystatechange", arguments.callee);
+                    MDL.onLoad();
+                }
+            });
+        }
+    };
+    /**
+     * 스크립트 로딩후 피드 불러오기 시작
+     */
+    this.onLoad = function() {
+        var isMobile = function() {
+            var a = navigator.userAgent;
+            if (a.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || a.match(/LG|SAMSUNG|Samsung/) != null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        var loadScripts = function(scripts) {
+            var script = scripts.shift();
+            var el = document.createElement('script');
+            el.src = script;
+            document.head.appendChild(el);
+            el.onload = function() {
+                if (scripts.length) {
+                    loadScripts(scripts);
+                } else {
+                    MDL.container = $MCI(".aiin-video-container");
+                    MDL.contentLoad();
+                }
+            };
+        };
+        var scripts = [
+            "https://pop.site3.co.kr/custom_jquery.js"
+        ];
+        /**
+        var scripts = [
+            "https://pop.site3.co.kr/custom_jquery.js",
+            "https://webfeed2.aiinad.com/js/jquery.ajax-cross-origin.min.js",
+        ];
+         */
+        loadScripts(scripts);
+    };
+
+    /**
+     * 동영상 콘텐츠 삽입
+     */
+    this.contentLoad = function(webfeed) {
+        var loadStyles = function(styles) {
+            var style = styles.shift();
+            var link  = document.createElement('link');
+            link.rel  = 'stylesheet';
+            link.href = style;
+            document.head.appendChild(link);
+            link.onload = function() {
+                if (styles.length) {
+                    loadStyles(styles);
+                }
+            };
+        };
+        var loadScripts = function(scripts) {
+            var script = scripts.shift();
+            var el = document.createElement('script');
+            el.src = script;
+            document.head.appendChild(el);
+            el.onload = function() {
+                if (scripts.length) {
+                    loadScripts(scripts);
+                }
+            };
+        };
+
+
+        var domain = window.location.hostname;
+        var pathname = window.location.pathname;
+        var pathname_split = pathname.split("/");
+        var content_id = pathname_split[3];
+
+        // var ratio = window.devicePixelRatio || 1;
+        // var w = screen.width * ratio;
+        // var h = screen.height * ratio;
+
+        var isMobile = function() {
+            var a = navigator.userAgent;
+            if (a.match(/iPhone|iPod|Android|Windows CE|BlackBerry|Symbian|Windows Phone|webOS|Opera Mini|Opera Mobi|POLARIS|IEMobile|lgtelecom|nokia|SonyEricsson/i) != null || a.match(/LG|SAMSUNG|Samsung/) != null) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        if ($MCI(".aiin-video-container").data("width")) {
+            var video_width = $MCI(".aiin-video-container").data("width");
+        } else {
+            if (isMobile()) {
+                var video_width = screen.width - 15;
+            } else {
+                var video_width = 300;
+            }
+        }
+        var video_height = video_width / 16 * 9;
+
+        var site_host = window.location.hostname;
+        console.log(site_host)
+        var video_url = '';
+        if (site_host == 'famtimes.co.kr' || site_host == 'www.famtimes.co.kr') {
+            video_url = 'https://player.vimeo.com/external/412634290.hd.mp4?s=137dd75e42556c942f65a5ea45a949a9b9f17141&profile_id=174';
+        } else if (site_host == 'nbntv.co.kr') {
+            video_url = 'https://player.vimeo.com/external/417035019.hd.mp4?s=a02d5966a97dbe8ff0e906e20887fe9286487f3e&profile_id=174';
+        }
+        if (video_url) {
+            var styles = [
+                "//webfeed2.aiinad.com/video/dist/video-js.css",
+                "//webfeed2.aiinad.com/video/dist/videojs-contrib-ads.css",
+                "//webfeed2.aiinad.com/video/dist/videojs.ima.css"
+            ];
+            loadStyles(styles);
+            var video = "<div class='aiin-webfeed-video-content-wrap'>" +
+                "<video id='content_video' class='video-js vjs-default-skin' controls playsinline autoplay muted preload='auto' width='" + video_width + "' height='" + video_height + "'>\n" +
+                "    <source src='" + video_url + "' type='video/mp4'/>\n" +
+                "</video>" +
+                "</div>"
+            $MCI(".aiin-video-container").prepend(video);
+            var scripts = [
+                "//webfeed2.aiinad.com/video/dist/video.js",
+                "//imasdk.googleapis.com/js/sdkloader/ima3.js",
+                "//webfeed2.aiinad.com/video/dist/videojs-contrib-ads.js",
+                "//webfeed2.aiinad.com/video/dist/videojs.ima.js",
+                "//webfeed2.aiinad.com/video/" + site_host + ".player.js"
+            ];
+            loadScripts(scripts);
+        } else {
+            console.log("video_url none");
+        }
+        /*
+        $.ajax({
+            crossOrigin: true,
+            url: "//webfeed2.aiinad.com/api/Video.php",
+            data: "domain=researchnews.co.kr&content_id=243442",
+            //data: "domain=" + domain + "&content_id=" + content_id,
+            success: function (data) {
+                console.log(data)
+                if (data) {
+                    var styles = [
+                        "//webfeed2.aiinad.com/video/dist/video-js.css",
+                        "//webfeed2.aiinad.com/video/dist/videojs-contrib-ads.css",
+                        "//webfeed2.aiinad.com/video/dist/videojs.ima.css"
+                    ];
+                    loadStyles(styles);
+                    var video = "<div class='aiin-webfeed-video-content-wrap'>" +
+                        "<video id='content_video' class='video-js vjs-default-skin' controls playsinline autoplay muted preload='auto' width='" + video_width + "' height='" + video_height + "'>\n" +
+                        "    <source src='" + data + "' type='video/mp4'/>\n" +
+                        "</video>" +
+                        "</div>"
+                    $MCI(".aiin-video-container").prepend(video);
+                    var site_host = window.location.hostname;
+                    var scripts = [
+                        "//webfeed2.aiinad.com/video/dist/video.js",
+                        "//imasdk.googleapis.com/js/sdkloader/ima3.js",
+                        "//webfeed2.aiinad.com/video/dist/videojs-contrib-ads.js",
+                        "//webfeed2.aiinad.com/video/dist/videojs.ima.js",
+                        "//webfeed2.aiinad.com/video/" + site_host + ".player.js"
+                    ];
+                    loadScripts(scripts);
+                } else {
+                    console.log("video_url none");
+                }
+            },
+            error: function (xhr) {
+                console.log('video content load failed - ', xhr);
+            }
+        })
+         */
+    }
+
+    return this.Init();
+}
+new MCI_KOREA_AIIN_VIDEO();

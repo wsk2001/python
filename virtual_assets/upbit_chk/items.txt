@@ -1,0 +1,75 @@
+# Featured coin for may 2022.
+
+
+# [Caleb insic] 금일(2022-05-03) 저녁즈음 반등상황을 보고 1차 알트 재매수를 들어갈지 판단하려합니다.
+# *비트가 여기서 한번더 밀리면 1차매수는 좀 더 대기할 예정입니다.
+
+################################
+# 코인판 https://coinpan.com 
+# wonsool // kang0192(O)P
+################################
+# 데일리 호들 https://dailyhodl.com
+# 코인니스 https://coinness.live/
+# 코인코드 https://coincode.kr/
+# 코인리더스 http://coinreaders.com
+# 싸이프랜닷컴 http://www.cyfren.com/
+# 크립토스토리 https://blog.naver.com/PostList.naver?blogId=kimim1115&categoryNo=8&skinType=&skinId=&from=menu&userSelectMenu=true
+# 블록미디어 https://www.blockmedia.co.kr/
+# 그레이 스케일 https://www.coinglass.com/Grayscale
+# https://www.coindalin.com/twitter/ardor/1320
+# 나스닥 종합: https://m.finance.daum.net/global/quotes
+#
+# 엘리엇 파동 이론 구현(Python): https://github.com/philippe-ostiguy/PyBacktesting
+#                         https://jeyinvest.tistory.com/33
+# https://md2biz.tistory.com/480
+# http://www.blockchaintoday.co.kr/news/articleView.html?idxno=20837
+
+
+# BTC 선물옵션 만기일: 1/28, 2/25, 3/25, 4/29, 5/27, 6/24, 12/30
+# cme는 런던 시간(GMT) 기준으로 매월 마지막주 금요일 오후(PM 4시) 이고, 한국시간(GMT+9) 토요일 새벽(AM 1시)
+# 바이 비트, 바이 낸스 펀딩비 시간 01:00, 09:00, 17:00
+# 바낸 펀딩비 : https://youngmaninvestment.tistory.com/218
+# 하락장 대처법 : https://cyberpol.tistory.com/15
+# 워뇨띠 등 글 참조: https://cyberpol.tistory.com/
+# Algorithm Trading for Crypto
+# https://github.com/search?l=Python&o=desc&q=Algorithm+Trading+for+Crypto&s=stars&type=Repositories
+# -- https://github.com/songv1/2019-Cryptocurrency-Trading-Algorithm
+# https://blog.naver.com/PostView.naver?blogId=pp8762&logNo=222439726692&categoryNo=16&parentCategoryNo=16&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
+
+# 상승 가능성이 있는 종목 찾기.
+# https://superhky.tistory.com/282
+
+# 하락장 07 매수, 08:35 매도, 이후 대기 및 저점 (10:40 매수 검토)
+# 1,815,242
+CASH 0
+
+WEMIX 2965 150.71047949
+
+# FOMC : 연준 의장의 기자회견이 있는 달은 3월, 6월, 9월, 12월
+#
+#2021년 
+#	 1월 26일 (화요일) ~ 1월 27일 (수요일)
+#	 3월 16일 (화요일) ~ 3월 17일 (수요일)
+#	 4월 27일 (화요일) ~ 4월 28일 (수요일)
+#	 6월 15일 (화요일) ~ 6월 16일 (수요일)
+#	 7월 27일 (화요일) ~ 7월 28일 (수요일)
+#	 9월 21일 (화요일) ~ 9월 22일 (수요일)
+#	11월 2일 (화요일) ~ 11월 3일 (수요일)
+#	12월 14일 (화요일) ~ 12월 15일 (수요일)
+#
+#
+#2022년 FOMC 일정
+#	1월 26~27일
+#	3월 15 ~16일
+#	5월 3~ 4일
+#	6월 14 ~15일
+#	7월 26~27일
+#	9월 20~21일
+#	11월 1 ~ 2일
+#	12월 13 ~14일
+
+
+
+
+
+
