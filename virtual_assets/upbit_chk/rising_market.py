@@ -28,13 +28,11 @@ def rising_market(ticker):
 
     if 2 < len(chk_macd):
         if (chk_macd[-1] > rising_signal[-1]) \
-                and (price > ema[-1]):
+                and (chk_macd[-1] > chk_macd[-2]) \
+                and (price > ema[-1]) \
+                and (price > chk_mov[-1]) \
+                and (price > new_df[-2]):
             return True
-            # if (chk_macd[-1] > rising_signal[-1]) \
-            #         and (chk_macd[-1] > chk_macd[-2]) \
-            #         and (price > ema[-1]) \
-            #         and (price > chk_mov[-1]) \
-            #         and (price > new_df[-2]):
 
 def main(argv):
     while True:

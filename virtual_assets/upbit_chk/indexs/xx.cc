@@ -1,15 +1,13 @@
-grouping.py -s 20220320 -e 20220329 -i UBAI_30.txt		19.83
-grouping.py -s 20220320 -e 20220329 -i UBMI_30.txt		19.51
-grouping.py -s 20220320 -e 20220329 -i china.txt		22.38
-grouping.py -s 20220320 -e 20220329 -i cloud.txt		17.24
-grouping.py -s 20220320 -e 20220329 -i defi.txt			17.78
-grouping.py -s 20220320 -e 20220329 -i kimchi.txt		19.37
-grouping.py -s 20220320 -e 20220329 -i major.txt		15.04
-grouping.py -s 20220320 -e 20220329 -i market_cap.txt	20.65
-grouping.py -s 20220320 -e 20220329 -i meta.txt			18.32
-grouping.py -s 20220320 -e 20220329 -i nft.txt			25.30
-grouping.py -s 20220320 -e 20220329 -i platform.txt		24.65
-grouping.py -s 20220320 -e 20220329 -i pumping.txt		20.61
-grouping.py -s 20220320 -e 20220329 -i top56.txt		23.17
-grouping.py -s 20220320 -e 20220329 -i web3.txt
-grouping.py -s 20220320 -e 20220329 -i all.txt  21.57
+py grouping.py -s 20220412 -e 20220509 -i china.txt			-15.68 (trx)
+py grouping.py -s 20220412 -e 20220509 -i cloud.txt			-22.9
+py grouping.py -s 20220412 -e 20220509 -i defi.txt			-18.7 (trx)
+py grouping.py -s 20220412 -e 20220509 -i kimchi.txt			-25.4
+py grouping.py -s 20220412 -e 20220509 -i major.txt			-20.4
+py grouping.py -s 20220412 -e 20220509 -i market_cap.txt		-23.8
+py grouping.py -s 20220412 -e 20220509 -i meta.txt			-32.8
+py grouping.py -s 20220412 -e 20220509 -i nft.txt			-28.8
+py grouping.py -s 20220412 -e 20220509 -i platform.txt			-23.1
+py grouping.py -s 20220412 -e 20220509 -i pumping.txt			-17.5
+py grouping.py -s 20220412 -e 20220509 -i top56.txt			-24.4
+py grouping.py -s 20220412 -e 20220509 -i web3.txt
+py grouping.py -s 20220412 -e 20220509 -i all.txt

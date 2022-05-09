@@ -4,6 +4,7 @@ import sys, time
 import pyupbit
 from common.utils import market_code, get_interval
 
+
 class ohlc:
     def __init__(self):
         self.day = ''
@@ -11,6 +12,7 @@ class ohlc:
         self.h = 0.0
         self.l = 0.0
         self.c = 0.0
+
 
 start_date = ''
 hv = ohlc()
@@ -21,6 +23,7 @@ high_p = 1
 low_p = 2
 close_p = 3
 vol_p = 4
+
 
 def analyze(ticker, cnt, interval='day'):
     if not ticker.startswith('KRW-'):

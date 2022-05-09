@@ -9,8 +9,10 @@ from pandas import Series, DataFrame
 open_posi = 0
 close_posi = 3
 
+
 def get_ma(df, n):
     return df['close'].rolling(window=n).mean()
+
 
 def check_ma(t, cnt, i):
     if not t.upper().startswith('KRW-'):
@@ -23,8 +25,10 @@ def check_ma(t, cnt, i):
     if ma5 > ma20 > ma60:
         print(f'{t[4:]}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f}')
 
+
 def get_ticker_list():
     return pyupbit.get_tickers(fiat="KRW")
+
 
 def main(argv):
     count = 180
@@ -55,11 +59,12 @@ def main(argv):
 
     lst = get_ticker_list()
 
-    print('업비트 이평선 정배열 종목(interval=',interval, ') MA5, MA20, MA60')
+    print('업비트 이평선 정배열 종목(interval=', interval, ') MA5, MA20, MA60')
     print('')
     for t in lst:
         sleep(0.3)
         check_ma(t, count, interval)
+
 
 if __name__ == "__main__":
     main(sys.argv)
