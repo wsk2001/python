@@ -1,39 +1,34 @@
-import time, datetime, sys, getopt
+import time, sys, getopt
 import pyupbit
-import pandas as pd
 
-def save_ticker(v):
-    df = pyupbit.get_ohlcv(v, count=3000, period=1)
-    f = open('./data_files/' + v + '_' + datetime.datetime.now().strftime('%Y%m%d') + '.txt', 'w')
-    print(v, file=f)
-    print(df, file=f)
-    print(v)
-    f.close()
 
-def save_ticker_cur(v):
+def calc_earn(v):
     df = pyupbit.get_ohlcv(v, count=1)
     o = df['open'][0]
-    h = df['high'][0]
-    l = df['low'][0]
     c = df['close'][0]
-    vol = df['volume'][0]
     p = ((c / o) - 1.0) * 100.0
 
-    df = pyupbit.get_ohlcv(v, count=1, period=1)
-    d = datetime.datetime.now().strftime('%Y%m%d')
-    f = open(d + '.txt', 'a')
-    print(d, v, o, h, l, c, vol, f'{p:3.2f}',  file=f)
-    print(d, v, o, h, l, c, vol, f'{p:3.2f}')
-    f.close()
+    return v[4:], o, c, p
+
 
 def main(argv):
-    pd.set_option('display.max_rows', 3500)
     lst = pyupbit.get_tickers(fiat="KRW")
+    earns = [[]]
+
+    earns.clear()
 
     for v in lst:
         time.sleep(0.1)
-        save_ticker(v)
-        # save_ticker_cur(v)
+        arr = calc_earn(v)
+        earns.append(list(arr))
+
+    earns = sorted(earns, key=lambda x : x[3], reverse=True)
+
+    print(time.strftime('%Y-%m-%d %H:%M:%S'))
+    print('ticker, open, close, earning')
+
+    for e in earns:
+        print(f'{e[0]},', f'{e[1]},', f'{e[2]},', f'{e[3]:.2f}%')
 
 
 if __name__ == "__main__":

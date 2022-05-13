@@ -34,7 +34,7 @@ def rsi_calculate(l, n, sample_number):  # l = price_list, n = rsi_number
 
     return rsi
 
-def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_down=30, option="multi"):  # 1분 RSI 분석
+def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_down=30, option="multi"):
 
     start = time.time()
 
@@ -170,40 +170,51 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
 # Main function
 def main(argv):
 
-    rsi_up = 60
-    rsi_down = 35
-    minute = 240
+    rsi_up = 70
+    rsi_bottom = 30
+    unit = 1
+    time_unit = "DAYS"
 
     try:
-        opts, etc_args = getopt.getopt(argv[1:], "hm:u:d:"
-                                       , ["help", "minute=", "up=", "down="])
+        opts, etc_args = getopt.getopt(argv[1:], "hdwm:u:b:"
+                                       , ["help", "days", "weeks", "minutes=", "up=", "down="])
 
     except getopt.GetoptError:
-        print(argv[0], '-m <minute> -u <rsi up level>  -d <rsi down level>')
+        print(argv[0], '-m <minute> -u <rsi up level>  -b <rsi bottom level>')
+        print('\t\t-d \t\t일자 기준 RSI')
+        print('\t\t-w \t\t주 기준 RSI')
         print('ex) python', f'{argv[0]}', '-m 240 -u 70  -d 30')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-h", "--help"):
+            print(argv[0], '-m <minute> -u <rsi up level>  -b <rsi bottom level>')
+            print('\t\t-d \t\t일자 기준 RSI')
+            print('\t\t-w \t\t주 기준 RSI')
             print('ex) python', f'{argv[0]}', '-m 240 -u 70  -d 30')
-            print('')
             sys.exit()
 
-        elif opt in ("-m", "--minute"):  # ticker symbol
-            minute = int(arg.strip())
+        elif opt in ("-d", "--days"):  # ticker symbol
+            time_unit = "DAYS"
+
+        elif opt in ("-w", "--weeks"):  # ticker symbol
+            time_unit = "WEEKS"
+
+        elif opt in ("-m", "--minutes"):  # ticker symbol
+            unit = int(arg.strip())
+            time_unit = "MINUTES"
 
         elif opt in ("-u", "--up"):  # count
             rsi_up = int(arg.strip())
 
-        elif opt in ("-d", "--down"):  # count
-            rsi_down = int(arg.strip())
+        elif opt in ("-b", "--bottom"):  # count
+            rsi_bottom = int(arg.strip())
 
     print("Start\n")
     code_list, name_to_code, code_to_name = market_code()
     while 1:
         # 1, 3, 5, 10, 15, 30, 60, 240
         try:
-            # RSI_analysis(code_list, code_to_name, "minutes", minute, rsi_up, rsi_down)
-            RSI_analysis(code_list, code_to_name, "DAYS", minute, rsi_up, rsi_down)
+            RSI_analysis(code_list, code_to_name, time_unit, unit, rsi_up, rsi_bottom)
         except Exception as e:
             print(e)
             exit(0)

@@ -5,6 +5,7 @@ from ast import literal_eval
 import requests
 import json
 
+
 # 마켓코드조회
 def market_code():
     url = "https://api.upbit.com/v1/market/all"
@@ -37,6 +38,7 @@ def market_code():
             cl.append(r_dict["market"])  # 코드 리스트
     return cl, ntc, ctn
 
+
 def get_binance_btc(t):
     ep = 'https://api.binance.com'
     ping = '/api/v1/ping'
@@ -54,11 +56,13 @@ def get_fng():
     r1 = requests.get(url)
     return int(r1.json()['data'][0]['value'])
 
+
 def upbit_get_usd_krw():
     url = 'https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD'
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
     exchange = requests.get(url, headers=headers).json()
     return exchange[0]['basePrice']
+
 
 def get_interval(k):
     interval_dic = {'d': 'day',
@@ -74,8 +78,20 @@ def get_interval(k):
                     'm240': 'minute240'}
     return interval_dic[k]
 
+
 def get_profit(open_price, close_price):
     return ((close_price / open_price) - 1.0) * 100.0
+
+
+# 환률 정보 조회
+def upbit_get_usd_krw():
+    url = 'https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD'
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
+
+    exchange = requests.get(url, headers=headers).json()
+    return exchange[0]['basePrice']
+
 
 if __name__ == "__main__":
     code_list, name_to_code, code_to_name = market_code()

@@ -8,7 +8,7 @@ from common.dominance import get_dominance
 
 item_list = []
 
-usd = 1750
+usd = 1270
 
 class item:
     def __init__(self, ticker, base, count):
@@ -139,6 +139,8 @@ def main(argv):
         item_list.append(item(strings[0], float(strings[1]), float(strings[2])))
 
     file.close()
+
+    usd = upbit_get_usd_krw()
 
     i = 0
     while True:

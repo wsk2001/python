@@ -4,26 +4,22 @@ import requests
 ep = 'https://api.binance.com'
 ping = '/api/v1/ping'
 ticker24h = '/api/v1/ticker/24hr'
-exchange_rate = 1186
 
-def get_ohlc(t):
+
+def get_ohlc_binance(t):
     params = {'symbol': t + 'USDT'}
     r1 = requests.get(ep+ping)
     r2 = requests.get(ep+ticker24h, params=params)
+    # print(r2.json())
 
-    return float(r2.json()['openPrice']), float(r2.json()['lastPrice'])
+    return float(r2.json()['openPrice']), float(r2.json()['lastPrice']), float(r2.json()['priceChangePercent'])
 
 
 while 1:
-    tickers = ['BTC', 'ETH', 'CHZ', 'FIL', 'ADA', 'IOST']
-    # tickers = ['BTC', 'ETH', 'IOST']
+    tickers = ['BTC', 'ETH', 'LTC', 'XLM', 'ADA', 'XRP']
     for t in tickers:
-        open_price, last_price = get_ohlc(t)
-        cur_rate = ((last_price / open_price) - 1.0) * 100.0
-        print(t, last_price,  f'{cur_rate:.3f}', last_price * exchange_rate)
+        open_price, last_price, chang_per = get_ohlc_binance(t)
+        print(t, open_price, last_price,  f'{chang_per:.2f}%')
 
     sleep(10)
     print()
-
-
-
