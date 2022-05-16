@@ -1,5 +1,6 @@
 from time import sleep
 import requests
+import sys, datetime
 
 ep = 'https://api.binance.com'
 ping = '/api/v1/ping'
@@ -15,11 +16,20 @@ def get_ohlc_binance(t):
     return float(r2.json()['openPrice']), float(r2.json()['lastPrice']), float(r2.json()['priceChangePercent'])
 
 
-while 1:
-    tickers = ['BTC', 'ETH', 'LTC', 'XLM', 'ADA', 'XRP']
-    for t in tickers:
-        open_price, last_price, chang_per = get_ohlc_binance(t)
-        print(t, open_price, last_price,  f'{chang_per:.2f}%')
+def main(argv):
+    # tickers = ['BTC', 'ETH', 'LTC', 'XLM', 'ADA', 'XRP']
+    tickers = ['BTC', 'ETH', 'XRP']
 
-    sleep(10)
-    print()
+    while 1:
+        cur = datetime.datetime.now().strftime('%H:%M:%S')
+
+        for t in tickers:
+            open_price, last_price, chang_per = get_ohlc_binance(t)
+            print(cur, t, open_price, last_price, f'{chang_per:.2f}%')
+
+        sleep(10)
+        print()
+
+
+if __name__ == "__main__":
+    main(sys.argv)

@@ -111,7 +111,7 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
             target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
 
             for i in target_dict:
-                print("%s\tRSI:%d" % (i[0], i[1]))
+                print(i[0], i[1])
 
         target_dict = {}
 
