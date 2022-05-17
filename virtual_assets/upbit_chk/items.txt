@@ -29,6 +29,7 @@
 # 바낸 펀딩비 : https://youngmaninvestment.tistory.com/218
 # 하락장 대처법 : https://cyberpol.tistory.com/15
 # 워뇨띠 등 글 참조: https://cyberpol.tistory.com/
+# 토큰포스트: https://www.tokenpost.kr/forum/free
 # Algorithm Trading for Crypto
 # https://github.com/search?l=Python&o=desc&q=Algorithm+Trading+for+Crypto&s=stars&type=Repositories
 # -- https://github.com/songv1/2019-Cryptocurrency-Trading-Algorithm
@@ -44,6 +45,11 @@
 # 1,815,242
 CASH 0
 
-MBL 6.86 15456.70313531
+XRP 557 192.67027168
 BTC-LUNA 1000 1
 
+# 2022-05-17
+# 16일(현지시각) 암호화폐 시장은 비트코인 3만달러, 이더리움 2000달러에서 등락을 계속하는 가운데 전반적인 하락세로 마감했다. 
+# 톱10 종목 중 7개가 하락했고, 톱100 중 72개의 가격이 내렸다. BTC 39,505,000KRW
+# 시카고상품거래소(CME)의 비트코인 선물가는 가장 활발하게 거래되고 있는 5월물이 280달러 하락한 2만9755달러, 6월물은 255달러 내린 2만9810달러를 기록했다.
+# 이더리움 선물 가격은 5월물이 38.00달러 하락해 2024.50달러, 6월물은 35.00달러 내린 2031.00달러에 거래됐다.
