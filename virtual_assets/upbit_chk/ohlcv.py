@@ -3,6 +3,7 @@ import getopt
 import sys, time
 import pyupbit
 from common.utils import market_code, get_interval
+from datetime import datetime
 
 
 class ohlc:
@@ -23,6 +24,12 @@ high_p = 1
 low_p = 2
 close_p = 3
 vol_p = 4
+
+
+def what_day_is_it(date):
+    days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    day = date.weekday()
+    return days[day]
 
 
 def analyze(ticker, cnt, interval='day'):
@@ -47,8 +54,11 @@ def analyze(ticker, cnt, interval='day'):
         rh = ((values[i][high_p] / values[i][open_p]) - 1) * 100.0
         rl = ((values[i][low_p] / values[i][open_p]) - 1) * 100.0
         if interval.startswith('day'):
-            print(str(i), str(indexs[i])[:10], ',', values[i][open_p], ',', values[i][high_p], ',', values[i][low_p], ',',
-                  values[i][close_p], ',', values[i][vol_p], ',', f'{rh:.3f}%', ',', f'{rl:.3f}%', ',', f'{rc:.3f}%')
+            chk_date = datetime.strptime(str(indexs[i])[:10], "%Y-%m-%d")
+            week_day = (what_day_is_it(chk_date))
+            print(str(i), str(indexs[i])[:10], week_day, ',', values[i][open_p], ',', values[i][high_p], ',',
+                  values[i][low_p], ',',  values[i][close_p], ',', values[i][vol_p], ',', f'{rh:.3f}%', ',',
+                  f'{rl:.3f}%', ',', f'{rc:.3f}%')
             if hv.o == 0.0:
                 start_date = str(indexs[i])[:10]
                 hv.day = str(indexs[i])[:10]
@@ -57,7 +67,7 @@ def analyze(ticker, cnt, interval='day'):
                 hv.l = values[i][low_p]
                 hv.c = values[i][close_p]
 
-            if lv.o == 0.0:
+            if lv.o == 0.0 or values[i][close_p] < lv.c:
                 lv.day = str(indexs[i])[:10]
                 lv.o = values[i][open_p]
                 lv.h = values[i][high_p]
@@ -71,12 +81,12 @@ def analyze(ticker, cnt, interval='day'):
                 hv.l = values[i][low_p]
                 hv.c = values[i][close_p]
 
-            if values[i][close_p] < lv.c:
-                lv.day = str(indexs[i])[:10]
-                lv.o = values[i][open_p]
-                lv.h = values[i][high_p]
-                lv.l = values[i][low_p]
-                lv.c = values[i][close_p]
+            # if values[i][close_p] < lv.c:
+            #     lv.day = str(indexs[i])[:10]
+            #     lv.o = values[i][open_p]
+            #     lv.h = values[i][high_p]
+            #     lv.l = values[i][low_p]
+            #     lv.c = values[i][close_p]
 
         else:
             print(indexs[i], ',', values[i][open_p], ',', values[i][high_p], ',', values[i][low_p], ',',

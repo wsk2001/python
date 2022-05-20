@@ -16,8 +16,16 @@ class item:
         self.base = base
         self.count = count
 
+
+def what_day_is_it(date):
+    days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    day = date.weekday()
+    return days[day]
+
+
 def exit_gracefully(signal, frame):
     sys.exit(0)
+
 
 def check_btc_ticker(v, btc_rate, base, cnt):
     df = pyupbit.get_ohlcv(v, count=1)
@@ -36,6 +44,7 @@ def check_btc_ticker(v, btc_rate, base, cnt):
 
     return amt, tot
 
+
 def check_usdt_ticker(v, btc_rate, base, cnt):
     df = pyupbit.get_ohlcv(v, count=1)
     _, price = get_binance_btc('BTC')
@@ -52,6 +61,7 @@ def check_usdt_ticker(v, btc_rate, base, cnt):
           + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
     return amt, tot
+
 
 def check_krw_ticker(v, btc_rate, base, cnt):
     df = pyupbit.get_ohlcv(v, count=1)
@@ -170,11 +180,11 @@ def main(argv):
                 i = 0
 
         if view_binance:
-            print(f'fng: {fng}%, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
+            print(f'fng: {fng}, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
                   f' BTC: $' + format(price, ',.2f'), f'{chg24:.3f}', f'Domi {domi:.3f},',
                   'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
         else:
-            print(f'fng: {fng}%, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
+            print(f'fng: {fng}, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
                   'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
 
         time.sleep(sleep_sec)

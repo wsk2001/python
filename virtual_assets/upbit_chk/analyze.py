@@ -9,6 +9,7 @@ from pandas import Series, DataFrame
 open_posi = 0
 close_posi = 3
 
+
 def earning(t):
     if not t.upper().startswith('KRW-'):
         t = 'KRW-' + t
@@ -22,8 +23,10 @@ def earning(t):
     else:
         return 0
 
+
 def get_ticker_list():
     return pyupbit.get_tickers(fiat="KRW")
+
 
 def main(argv):
     total_count = 0
@@ -42,10 +45,11 @@ def main(argv):
             minus_count += 1
 
     now = time
-    print("업비트 원화 마켓 기준 현재:", now.strftime('%Y-%m-%d %H:%M:%S'))
-    print("plus  : " + str(plus_count))
-    print("minus : " + str(minus_count))
-    print("total : " + str(total_count))
+    print("업비트 원화 마켓", now.strftime('%m-%d %H:%M:%S'),
+          "상승:" + str(plus_count),
+          ", 하락:" + str(minus_count),
+          ", 종목수 : " + str(total_count))
+
 
 if __name__ == "__main__":
     main(sys.argv)

@@ -57,6 +57,7 @@ def get_fng():
     return int(r1.json()['data'][0]['value'])
 
 
+# 환률 정보 조회
 def upbit_get_usd_krw():
     url = 'https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD'
     headers = {'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
@@ -81,16 +82,6 @@ def get_interval(k):
 
 def get_profit(open_price, close_price):
     return ((close_price / open_price) - 1.0) * 100.0
-
-
-# 환률 정보 조회
-def upbit_get_usd_krw():
-    url = 'https://quotation-api-cdn.dunamu.com/v1/forex/recent?codes=FRX.KRWUSD'
-    headers = {
-        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_11_5) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36'}
-
-    exchange = requests.get(url, headers=headers).json()
-    return exchange[0]['basePrice']
 
 
 if __name__ == "__main__":

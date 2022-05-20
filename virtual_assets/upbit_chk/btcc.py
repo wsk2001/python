@@ -1,6 +1,6 @@
 from time import sleep
 import requests
-import sys, datetime
+import sys, getopt, datetime
 
 ep = 'https://api.binance.com'
 ping = '/api/v1/ping'
@@ -23,6 +23,21 @@ def main(argv):
     position = 'LONG'
     base_amt = 30000.0
     base_str = '30000.0'
+    sleep_sec = 10
+
+    try:
+        opts, etc_args = getopt.getopt(argv[1:], "hs:", ["sleep="])
+
+    except getopt.GetoptError:
+        print(argv[0], '-s <sleep seconds>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print(argv[0], '-s <sleep seconds>')
+            sys.exit()
+
+        elif opt in ("-s", "--sleep"):  # upbit item symbol
+            sleep_sec = int(arg.strip())
 
     for l in lines:
         line = l.strip()
@@ -53,7 +68,7 @@ def main(argv):
                 earn = earn * -1.0
             print(cur, t, position, '(' + base_str + ')', open_price, last_price, f'{chang_per:.2f}%', f'{earn:.2f}%')
 
-        sleep(10)
+        sleep(sleep_sec)
 
 
 if __name__ == "__main__":
