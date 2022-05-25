@@ -13,6 +13,8 @@ headers = {
     'X-CMC_PRO_API_KEY': '8fd0b0e4-a44e-4311-8468-ecaf68a810db',
 }
 
+# 'X-CMC_PRO_API_KEY': '408f9e2f-96b8-45fb-ae03-0cd552fda446'
+# https://github.com/ky039/BTC-USDT-Dominance-Analysis/blob/main/USDT%20Market%20Dominance.ipynb
 
 def get_dominance():
     session = Session()

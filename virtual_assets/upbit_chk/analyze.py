@@ -29,26 +29,29 @@ def get_ticker_list():
 
 
 def main(argv):
-    total_count = 0
-    plus_count = 0
-    minus_count = 0
+    while True:
+        total_count = 0
+        plus_count = 0
+        minus_count = 0
 
-    lst = get_ticker_list()
+        lst = get_ticker_list()
 
-    for v in lst:
-        total_count += 1
-        sleep(0.2)
-        i = earning(v)
-        if i == 1:
-            plus_count += 1
-        elif i == -1:
-            minus_count += 1
+        for v in lst:
+            total_count += 1
+            sleep(0.2)
+            i = earning(v)
+            if i == 1:
+                plus_count += 1
+            elif i == -1:
+                minus_count += 1
 
-    now = time
-    print("업비트 원화 마켓", now.strftime('%m-%d %H:%M:%S'),
-          "상승:" + str(plus_count),
-          ", 하락:" + str(minus_count),
-          ", 종목수 : " + str(total_count))
+        now = time
+        print("업비트 원화 마켓", now.strftime('%m-%d %H:%M:%S'),
+              "상승:" + str(plus_count),
+              ", 하락:" + str(minus_count),
+              ", 종목수 : " + str(total_count))
+
+        sleep(60*10)
 
 
 if __name__ == "__main__":

@@ -58,6 +58,8 @@ def main_(argv):
         print(key[4:], df['open'][0], df['close'][cnt - 1], f'{profit:4.3f}%')
         time.sleep(0.2)
 
+# def state_ud(start, end, period):
+#
 
 if __name__ == "__main__":
     get_price_100()

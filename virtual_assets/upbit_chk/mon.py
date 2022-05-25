@@ -175,6 +175,9 @@ def main(argv):
             op_btc, price = get_binance_btc('BTC')
             chg24 = ((price / op_btc) - 1.0) * 100.0
 
+            # op_usdt, price_usdt = get_binance_btc('ETH')
+            # chg24_usdt = ((price_usdt / op_usdt) - 1.0) * 100.0
+
             i += 1
             if 1000 <= i:
                 i = 0
@@ -182,6 +185,7 @@ def main(argv):
         if view_binance:
             print(f'fng: {fng}, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
                   f' BTC: $' + format(price, ',.2f'), f'{chg24:.3f}', f'Domi {domi:.3f},',
+                  # f' ETH: $' + format(price_usdt, ',.2f'), f'{chg24_usdt:.3f}',
                   'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
         else:
             print(f'fng: {fng}, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
