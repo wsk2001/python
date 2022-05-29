@@ -32,7 +32,17 @@ def rising_market(ticker):
                 and (price > ema[-1]) \
                 and (price > chk_mov[-1]) \
                 and (price > new_df[-2]):
+
+            df = pyupbit.get_ohlcv(ticker, count=1)
+            open_price = df['open'][0]
+            close_price = df['close'][0]
+            earning = ((close_price / open_price) - 1.0) * 100.0
+
+            cur_dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S:')
+            print(cur_dt, ticker, open_price, close_price, f'{earning:10.2f}%', "expected to rise")
+
             return True
+
 
 def main(argv):
     while True:
@@ -42,10 +52,7 @@ def main(argv):
             print(cur, "checking...")
 
             for ticker in tickers:
-                is_bull = rising_market(ticker)
-                if is_bull:
-                    cur = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S:')
-                    print(cur, ticker, "expected to rise")
+                rising_market(ticker)
                 time.sleep(0.2)
 
             time.sleep(300)
