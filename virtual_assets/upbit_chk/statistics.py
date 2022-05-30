@@ -1,67 +1,37 @@
 import calendar
-import datetime
 import getopt
 import locale
 import sys
 from time import sleep
+from datetime import datetime
 
 import pyupbit
 
-op = 0
-cp = 3
 
-# 일자별 통계
-def analyze_day(v, count, lastdate):
-    ld = [0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0, 0, 0, 0, 0,
-          0, 0, 0]
+def what_day_is_it(date):
+    days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
+    day = date.weekday()
+    return days[day]
 
-    locale.setlocale(locale.LC_ALL, 'ko_KR')
-    df = pyupbit.get_ohlcv(v, interval='day', count=count, to=lastdate, period=1)
 
-    values = df.values.tolist()
-    indexs = df.index.tolist()
+def analyze_day(v, count):
+    df = pyupbit.get_ohlcv(v, interval='day', count=count, period=1)
 
-    j = 0
-    for i in indexs:
-        d = i.day-1
-        e = values[j][3] - values[j][0]
-        if 0.0 < e:
-            ld[d] = ld[d] + 1
-        elif 0.0 > e:
-            ld[d] = ld[d] - 1
+    stat = {'Mon': 0, 'Tue': 0, 'Wed': 0, 'Thu': 0, 'Fri': 0, 'Sat': 0, 'Sun': 0}
+    plus_cnt = 0
+    minus_cnt = 0
 
-        j += 1
+    for ind, row in df.iterrows():
+        wd = what_day_is_it(ind.to_pydatetime())
+        earn = ((row["close"] / row["open"]) - 1.0) * 100.0
+        if earn < 0:
+            stat[wd] = stat[wd] - 1
+            minus_cnt = minus_cnt + 1
+        elif 0 < earn:
+            stat[wd] = stat[wd] + 1
+            plus_cnt = plus_cnt + 1
 
-    print(v[4:], ld)
-
-# 요일별 통계
-def analyze_weekday(v, count, lastdate):
-    lwd = [0, 0, 0, 0, 0, 0, 0]
-
-    locale.setlocale(locale.LC_ALL, 'ko_KR')
-    df = pyupbit.get_ohlcv(v, interval='day', count=count, to=lastdate, period=1)
-
-    # ohlcv
-    values = df.values.tolist()
-
-    # date
-    indexs = df.index.tolist()
-
-    j = 0
-    for i in indexs:
-        wd = i.weekday()
-        e = values[j][3] - values[j][0]
-        if 0.0 < e:
-            lwd[wd] = lwd[wd] + 1
-        elif 0.0 > e:
-            lwd[wd] = lwd[wd] - 1
-
-        j += 1
-
-    print(v[4:]+',', lwd[0], ',', lwd[1], ',', lwd[2], ',', lwd[3], ',', lwd[4], ',', lwd[5], ',', lwd[6])
+    return v, stat, plus_cnt, minus_cnt
 
 
 def get_ticker_list():
@@ -69,46 +39,37 @@ def get_ticker_list():
 
 
 def main(argv):
-    lasttime = " 23:59:59"
-    lastdate = datetime.datetime.now().strftime('%Y%m%d')
+    cnt = 1
 
-    worktype = 'days'
     try:
-        opts, etc_args = getopt.getopt(argv[1:], "hc:dwl:"
-                                       , ["help", "count=", "day", "week", "lastdate="])
+        opts, etc_args = getopt.getopt(argv[1:], "hc:"
+                                       , ["help", "count="])
 
     except getopt.GetoptError:
-        print('usage:', argv[0], '-c <days> -d -w -l <last date(yyyymmdd)>')
+        print('usage:', argv[0], '-c <days>')
         print('ex) python', f'{argv[0]}', '-c 365')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print('usage:', argv[0], '-c <days> -d -w -l <last date(yyyymmdd)>')
-            print('ex) python', f'{argv[0]}', '-c 365 -d')
-            print('ex) python', f'{argv[0]}', f'-c 365 -w -l {lastdate}')
+            print('usage:', argv[0], '-c <days>')
+            print('ex) python', f'{argv[0]}', '-c 365')
             print('')
             sys.exit()
 
         elif opt in ("-c", "--count"):  # count
             cnt = int(arg.strip())
 
-        elif opt in ("-d", "--day"):  # count
-            worktype = 'days'
-
-        elif opt in ("-w", "--week"):  # count
-            worktype = 'weeks'
-
-        elif opt in ("-l", "--lastdate"):  # count
-            lastdate = arg.strip()
-
     lst = get_ticker_list()
 
+    print('종목,', '월,', '화,', '수,', '목,', '금,', '토,', '일,', '상승,', '하락')
+
     for v in lst:
-        sleep(0.1)
-        if worktype == "weeks":
-            analyze_weekday(v, cnt, lastdate + lasttime)
-        else:
-            analyze_day(v, cnt, lastdate + lasttime)
+        rv, st, p, m = analyze_day(v, cnt)
+        print(rv[4:]+',', str(st['Mon'])+',', str(st['Tue'])+',', str(st['Wed'])+',',
+              str(st['Thu'])+',', str(st['Fri'])+',', str(st['Sat'])+',',
+              str(st['Sun'])+',', str(p)+',', m)
+        sleep(0.2)
+
 
 if __name__ == "__main__":
     main(sys.argv)
