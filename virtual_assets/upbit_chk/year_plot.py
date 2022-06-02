@@ -70,12 +70,16 @@ def main(argv):
                 ticker = 'KRW-' + arg.upper()
 
     day_of_year = datetime.datetime.now().timetuple().tm_yday
+    y4, data4 = make_data(ticker, '2018', 365)
+    y3, data3 = make_data(ticker, '2019', 365)
     y2, data2 = make_data(ticker, '2020', 365)
     y1, data1 = make_data(ticker, '2021', 365)
     y0, data0 = make_data(ticker, '2022', day_of_year)
     x = np.arange(365)
 
     plt.title('UPBIT ' + ticker)
+    plt.plot(x, data4, label=y4)
+    plt.plot(x, data3, label=y3)
     plt.plot(x, data2, label=y2)
     plt.plot(x, data1, label=y1)
     plt.plot(x, data0, label=y0)
