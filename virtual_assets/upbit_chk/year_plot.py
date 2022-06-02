@@ -44,13 +44,38 @@ def make_data(t, year, period):
 
 
 def main(argv):
+    ticker = 'KRW-BTC'
+
+    try:
+        opts, etc_args = getopt.getopt(argv[1:], "ht:"
+                                       , ["help", "ticker="])
+
+    except getopt.GetoptError:
+        print(argv[0], '-t <ticker symbol>')
+        print('ex) python', f'{argv[0]}', '-t ada')
+        print('ex) python', f'{argv[0]}', '-t btc')
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print(argv[0], '-t <ticker symbol>')
+            print('ex) python', f'{argv[0]}', '-t ada')
+            print('ex) python', f'{argv[0]}', '-t btc')
+            sys.exit()
+
+        elif opt in ("-t", "--ticker"):  # ticker symbol
+            if arg.upper().startswith("KRW-"):
+                ticker = arg
+            else:
+                ticker = 'KRW-' + arg.upper()
+
     day_of_year = datetime.datetime.now().timetuple().tm_yday
-    y2, data2 = make_data('KRW-BTC', '2020', 365)
-    y1, data1 = make_data('KRW-BTC', '2021', 365)
-    y0, data0 = make_data('KRW-BTC', '2022', day_of_year)
+    y2, data2 = make_data(ticker, '2020', 365)
+    y1, data1 = make_data(ticker, '2021', 365)
+    y0, data0 = make_data(ticker, '2022', day_of_year)
     x = np.arange(365)
 
-    plt.title('UPBIT KRW-BTC')
+    plt.title('UPBIT ' + ticker)
     plt.plot(x, data2, label=y2)
     plt.plot(x, data1, label=y1)
     plt.plot(x, data0, label=y0)
