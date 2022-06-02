@@ -1,63 +1,94 @@
-import sys, getopt
+import time, sys, getopt
 import pyupbit
-from time import sleep
 
-open_posi = 0
-high_posi = 1
-close_posi = 3
-check_day = 30
-pump_cnt = 10
-rate = 10.0
-
-def rcmd(v):
-    cnt = 0
-    df = pyupbit.get_ohlcv(v, count=check_day)
-    lst = df.values.tolist()
-
-    for t in lst:
-        cv = t[close_posi] - t[open_posi]
-        rv = (cv / t[open_posi]) * 100.0
-
-        if rate < rv:
-            cnt = cnt + 1
-
-    if pump_cnt <= cnt:
-        print(f'ticker = {v[4:]}: count = {cnt}')
+open_p = 0
+high_p = 1
+low_p = 2
+close_p = 3
 
 
-def get_ticker_list():
-    return pyupbit.get_tickers(fiat="KRW")
+def plus_count_close(v, earn, period):
+    p_count = 0
+    df = pyupbit.get_ohlcv(v, count=period)
+    values = df.values.tolist()
+
+    for i in range(len(values)):
+        rc = ((values[i][close_p] / values[i][open_p]) - 1) * 100.0
+        if earn <= rc:
+            p_count += 1
+
+    return v[4:], p_count
+
+
+def plus_count_high(v, earn, period):
+    p_count = 0
+    df = pyupbit.get_ohlcv(v, count=period)
+    values = df.values.tolist()
+
+    for i in range(len(values)):
+        rc = ((values[i][high_p] / values[i][open_p]) - 1) * 100.0
+        if earn <= rc:
+            p_count += 1
+
+    return v[4:], p_count
+
 
 def main(argv):
-    global check_day, pump_cnt, rate
+    period = 90
+    earn = 10.0
+    output_count = 30
+    worktype = "high"
+    lst = pyupbit.get_tickers(fiat="KRW")
+    pumping = [[]]
+    pumping.clear()
+
     try:
-        opts, etc_args = getopt.getopt(argv[1:], "hd:c:r:", ["days=", "count=", "rate"])
+        opts, etc_args = getopt.getopt(argv[1:], "hco:p:e:"
+                                       , ["help", "output_count", "period", "earning"])
 
     except getopt.GetoptError:
-        print(argv[0], '-d <days> -r <rate> -c <count>')
-        print('ex:', argv[0], '-d <days> -r <rate> -c <count>')
+        print(argv[0], '-p <period - days> -c (close price/high price) -o <output count> -e <earning percent>')
+        print('ex) python', f'{argv[0]}', '-p 100 -c -o 30 -e 10')
         sys.exit(2)
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print(argv[0], '-d <days> -r <rate> -c <count>')
+            print(argv[0], '-p <period - days> -c (close price/high price) -o <output count> -e <earning percent>')
+            print('ex) python', f'{argv[0]}', '-p 100 -c -o 30 -e 10')
             sys.exit()
 
-        elif opt in ("-d", "--days"):  # befor day count
-            check_day = int(arg.strip())
+        elif opt in ("-p", "--period"):
+            period = int(arg.strip())
 
-        elif opt in ("-r", "--rate"):  # befor day count
-            rate = float(arg.strip())
+        elif opt in ("-o", "--output"):
+            output_count = int(arg.strip())
 
-        elif opt in ("-c", "--count"):  # befor day count
-            pump_cnt = int(arg.strip())
+        elif opt in ("-e", "--earning"):
+            earn = int(arg.strip())
 
-    lst = get_ticker_list()
+        elif opt in ("-c"):
+            worktype = "close"
+
     for v in lst:
-        sleep(0.3)
-        rcmd(v)
+        time.sleep(0.1)
+        if worktype.startswith("close"):
+            arr = plus_count_close(v, earn, period)
+        else:
+            arr = plus_count_high(v, earn, period)
+
+        pumping.append(list(arr))
+
+    earns = sorted(pumping, key=lambda x : x[1], reverse=True)
+
+    print('based on', worktype, ',작성 기준 일자', time.strftime('%Y-%m-%d %H:%M:%S'))
+    print('ticker, pumping count')
+
+    i = 0
+    for e in earns:
+        print(f'{e[0]},', f'{e[1]}')
+        i += 1
+        if output_count < i:
+            break
 
 
 if __name__ == "__main__":
     main(sys.argv)
-
-# python pumping.py -d 30 -r 10 -c 8
