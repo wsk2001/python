@@ -111,7 +111,7 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
             target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
 
             for i in target_dict:
-                print(i[0], i[1])
+                print(i[0], f'{i[1]:.2f}')
 
         target_dict = {}
 
@@ -126,7 +126,7 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
 
             target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
             for i in target_dict:
-                print("%s\tRSI:%d" % (i[0], i[1]))
+                print(i[0], f'{i[1]:.2f}')
             end = time.time()
             print("\nRunning time : ", end - start)
             print("현재시간 : " + time.strftime('%c', time.localtime(time.time())) + "\n")
@@ -144,7 +144,7 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
 
             target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
             for i in target_dict:
-                print("%s\tRSI:%d" % (i[0], i[1]))
+                print(i[0], f'{i[1]:.2f}')
             end = time.time()
             print("\nRunning time : ", end - start)
             print("현재시간 : " + time.strftime('%c', time.localtime(time.time())) + "\n")
@@ -161,7 +161,7 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
             target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
 
             for i in target_dict:
-                print("%s\tRSI:%d" % (i[0], i[1]))
+                print(i[0], f'{i[1]:.3f}')
             end = time.time()
             print("\nRunning time : ", end - start)
             print("현재시간 : " + time.strftime('%c', time.localtime(time.time())) + "\n")

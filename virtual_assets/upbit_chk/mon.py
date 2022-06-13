@@ -5,6 +5,8 @@ import pyupbit
 from common.utils import get_binance_btc, get_fng
 from common.utils import upbit_get_usd_krw
 from common.dominance import get_dominance
+import requests
+import json
 
 item_list = []
 
@@ -96,6 +98,29 @@ def rate(v):
     res = ((close_price / open_price) - 1.0) * 100.0
     return res, close_price
 
+def get_binance_btc_json(t, btc_rate, base, cnt):
+    ep = 'https://api.binance.com'
+    ping = '/api/v1/ping'
+    ticker24h = '/api/v1/ticker/24hr'
+
+    params = {'symbol': t + 'USDT'}
+    r1 = requests.get(ep + ping)
+    r2 = requests.get(ep + ticker24h, params=params)
+
+    cur = datetime.datetime.now().strftime('%H:%M:%S')
+    open_price = float(r2.json()['openPrice'])
+    close_price = float(r2.json()['lastPrice'])
+    p = close_price - base
+    mgn = p - base
+    amt = mgn * cnt
+    tot = p * cnt
+    pcnt = (mgn / base) * 100.0
+
+    cur_rate = ((close_price / open_price) - 1.0) * 100.0
+    print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
+          + f'{v[4:]:<6}' + ': ' + f'{base:14.4f}' + ', ' + f'{p:14.4f}' + ', ' \
+          + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
+
 
 def main(argv):
     global usd
@@ -160,6 +185,7 @@ def main(argv):
         for itm in item_list:
             if itm.ticker.startswith('BTC-'):
                 t_mgn, t_amt = check_btc_ticker(itm.ticker, btc_rate, itm.base, itm.count)
+                # get_binance_btc_json(itm.ticker[4:], btc_rate, itm.base, itm.count)
             else :
                 t_mgn, t_amt = check_krw_ticker(itm.ticker, btc_rate, itm.base, itm.count)
             mgn += t_mgn
