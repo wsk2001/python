@@ -43,13 +43,20 @@ def get_binance_btc_json(ticker, enter, count, pay_off, magn):
     cur_tot = (close_price - enter) * count
 
     # If short
+    posi_short = False
     if enter < pay_off:
         cur_rate *= -1.0
         cur_tot *= -1.0
+        posi_short = True
 
-    print(cur + f' {ticker:<6}' + f' ({price_change:4.2f}%) :' + f' {count:6.4f}' + ', ' +
-          f'{enter:6.2f}' + ', ' + f'{close_price:6.2f}' + ', ' + f'{pay_off:6.2f}' + ', ' +
-          format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.2f}')
+    if posi_short:
+        print(cur + f' {ticker:<6}' + f' ({price_change:4.2f}%) S' + f' {count:6.4f}' + ', ' +
+              f'{enter:6.2f}' + ', ' + f'{close_price:6.2f}' + ', ' + f'{pay_off:6.2f}' + ', ' +
+              format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.2f}')
+    else:
+        print(cur + f' {ticker:<6}' + f' ({price_change:4.2f}%) L' + f' {count:6.4f}' + ', ' +
+              f'{enter:6.2f}' + ', ' + f'{close_price:6.2f}' + ', ' + f'{pay_off:6.2f}' + ', ' +
+              format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.2f}')
 
 
 def main(argv):

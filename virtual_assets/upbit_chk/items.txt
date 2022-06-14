@@ -53,9 +53,9 @@
 # BTCC: 010 전화 // kang0192
 # 2022-05-30 08:15:02: KRW-WEMIX 5345.0 5665.0       5.99% expected to rise
 
-CASH 625578
+CASH 0
 
-ETH 1755000.0000 1
+XTZ 1870 190.24391547
 #BTC-ETH 1347.11 0.5
 
 # 분석 글 : https://twitter.com/mignoletkr/status/1533332058000371712
