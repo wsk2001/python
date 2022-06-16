@@ -7,16 +7,19 @@ from common.utils import upbit_get_usd_krw
 from common.dominance import get_dominance
 import requests
 import json
+from win10toast import ToastNotifier
 
 item_list = []
 
 usd = 1270
 
 class item:
-    def __init__(self, ticker, base, count):
+    def __init__(self, ticker, base, count, sl, tp):
         self.ticker = ticker
         self.base = base
         self.count = count
+        self.sl = sl
+        self.tp = tp
 
 
 def what_day_is_it(date):
@@ -65,7 +68,7 @@ def check_usdt_ticker(v, btc_rate, base, cnt):
     return amt, tot
 
 
-def check_krw_ticker(v, btc_rate, base, cnt):
+def check_krw_ticker(v, btc_rate, base, cnt, sl=0.0, tp=0.0):
     df = pyupbit.get_ohlcv(v, count=1)
     p = df['close'][0]
     cur_rate = ((df['close'][0] / df['open'][0]) - 1.0) * 100.0
@@ -87,6 +90,14 @@ def check_krw_ticker(v, btc_rate, base, cnt):
         print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
               + f'{v[4:]:<6}' + ': ' + f'{base:14.4f}' + ', ' + f'{p:14.4f}' + ', ' \
               + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
+
+        if sl != 0.0 and amt < sl:
+            toaster = ToastNotifier()
+            toaster.show_toast("Toast Notifier", f' {v[4:]:<6}' + ' Stop loss ' + f'{amt:7.2f}')
+
+        if tp != 0.0 and tp < amt:
+            toaster = ToastNotifier()
+            toaster.show_toast("Toast Notifier", f' {v[4:]:<6}' + ' Take profit ' + f'{amt:7.2f}')
 
         return amt, tot
 
@@ -171,7 +182,7 @@ def main(argv):
         if not strings[0].startswith('BTC-'):
             strings[0] = 'KRW-' + strings[0]
 
-        item_list.append(item(strings[0], float(strings[1]), float(strings[2])))
+        item_list.append(item(strings[0], float(strings[1]), float(strings[2]), float(strings[3]), float(strings[4])))
 
     file.close()
 
@@ -187,7 +198,7 @@ def main(argv):
                 t_mgn, t_amt = check_btc_ticker(itm.ticker, btc_rate, itm.base, itm.count)
                 # get_binance_btc_json(itm.ticker[4:], btc_rate, itm.base, itm.count)
             else :
-                t_mgn, t_amt = check_krw_ticker(itm.ticker, btc_rate, itm.base, itm.count)
+                t_mgn, t_amt = check_krw_ticker(itm.ticker, btc_rate, itm.base, itm.count, itm.sl, itm.tp)
             mgn += t_mgn
             amt += t_amt
 

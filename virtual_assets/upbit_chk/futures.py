@@ -7,18 +7,22 @@ from common.utils import upbit_get_usd_krw
 from common.dominance import get_dominance
 import requests
 import json
+from win10toast import ToastNotifier
 
 item_list = []
 
-usd = 1270
+stop_loss = -1.0
+take_profit = 1.0
 
-class item:
+
+class Item:
     def __init__(self, ticker, enter, count, pay_off, magn):
         self.ticker = ticker
         self.enter = enter
         self.count = count
         self.pay_off = pay_off
         self.magn = magn
+
 
 def exit_gracefully(signal, frame):
     sys.exit(0)
@@ -30,16 +34,15 @@ def get_binance_btc_json(ticker, enter, count, pay_off, magn):
     ticker24h = '/api/v1/ticker/24hr'
 
     params = {'symbol': ticker + 'USDT'}
-    r1 = requests.get(ep + ping)
+    requests.get(ep + ping)
     r2 = requests.get(ep + ticker24h, params=params)
 
     cur = datetime.datetime.now().strftime('%H:%M:%S')
-    open_price = float(r2.json()['openPrice'])
     close_price = float(r2.json()['lastPrice'])
     price_change = float(r2.json()['priceChangePercent'])
-    # pcnt = (mgn / base) * 100.0
 
-    cur_rate = ((close_price / enter) - 1.0) * 100.0 * count * magn
+    # count 에는 이미 magn 이 반영 되어 있음.
+    cur_rate = ((close_price / enter) - 1.0) * 100.0 * count
     cur_tot = (close_price - enter) * count
 
     # If short
@@ -50,17 +53,25 @@ def get_binance_btc_json(ticker, enter, count, pay_off, magn):
         posi_short = True
 
     if posi_short:
-        print(cur + f' {ticker:<6}' + f' ({price_change:4.2f}%) S' + f' {count:6.4f}' + ', ' +
-              f'{enter:6.2f}' + ', ' + f'{close_price:6.2f}' + ', ' + f'{pay_off:6.2f}' + ', ' +
-              format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.2f}')
+        print(cur + f' {ticker}' + f' Short' + f' {count:6.4f}' + ', ' +
+              f'{enter:6.3f}' + ', ' + f'{close_price:6.3f}' + ', ' + f'{pay_off:6.3f}' + ', ' +
+              format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.3f}')
     else:
-        print(cur + f' {ticker:<6}' + f' ({price_change:4.2f}%) L' + f' {count:6.4f}' + ', ' +
-              f'{enter:6.2f}' + ', ' + f'{close_price:6.2f}' + ', ' + f'{pay_off:6.2f}' + ', ' +
-              format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.2f}')
+        print(cur + f' {ticker}' + f' Long ' + f' {count:6.4f}' + ', ' +
+              f'{enter:6.3f}' + ', ' + f'{close_price:6.3f}' + ', ' + f'{pay_off:6.3f}' + ', ' +
+              format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.3f}')
+
+    if cur_tot < stop_loss:
+        toaster = ToastNotifier()
+        toaster.show_toast("Toast Notifier", f' {ticker:<6}' + ' Stop Loss. ' + f'{cur_tot:4.2f}')
+
+    if take_profit < cur_tot:
+        toaster = ToastNotifier()
+        toaster.show_toast("Toast Notifier", f' {ticker:<6}' + ' Take profit. ' + f'{cur_tot:4.2f}')
 
 
 def main(argv):
-    global usd
+    global stop_loss, take_profit
     inv_amt = 0.0
     sleep_sec = 5
     view_binance = False
@@ -96,9 +107,19 @@ def main(argv):
         if len(line) <= 0:
             continue
 
-        strings = line.split()
+        if line.upper().startswith("STOP_LOSS"):
+            s = line.split()
+            stop_loss = float(s[1])
+            continue
 
-        item_list.append(item(strings[0], float(strings[1]), float(strings[2]),float(strings[3]), float(strings[4][1:])))
+        if line.upper().startswith("TAKE_PROFIT"):
+            s = line.split()
+            take_profit = float(s[1])
+            continue
+
+        s = line.split()
+
+        item_list.append(Item(s[0], float(s[1]), float(s[2]), float(s[3]), float(s[4][1:])))
 
     file.close()
 
