@@ -169,11 +169,11 @@ if __name__ == "__main__":
 
     v = 'ARW'
     res = pybithumb.Bithumb.get_ohlc(v)
-    print(type(res))
-    o = res.get(v)[0]
-    h = res.get(v)[1]
-    l = res.get(v)[2]
-    c = res.get(v)[3]
-    e = (c - o) / o * 100.0
-    print('{}: open={}, high={}, low={}, current={}, earning={:0.3f}%'
-          .format(v, o, h, l, c, e))
+    cs = res.get(v)
+
+    o = cs[0]
+    h = cs[1]
+    l = cs[2]
+    c = cs[3]
+    e = ((c - o) / o) * 100.0
+    print(f'{v}: open={o}, high={h}, low={l}, current={c}, earning={e:0.3f}%')

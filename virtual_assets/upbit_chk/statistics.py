@@ -20,10 +20,12 @@ def analyze_day(v, count):
     stat = {'Mon': 0, 'Tue': 0, 'Wed': 0, 'Thu': 0, 'Fri': 0, 'Sat': 0, 'Sun': 0}
     plus_cnt = 0
     minus_cnt = 0
+    day_cnt = 0
 
     for ind, row in df.iterrows():
         wd = what_day_is_it(ind.to_pydatetime())
         earn = ((row["close"] / row["open"]) - 1.0) * 100.0
+        day_cnt += 1
         if earn < 0:
             stat[wd] = stat[wd] - 1
             minus_cnt = minus_cnt + 1
@@ -31,7 +33,7 @@ def analyze_day(v, count):
             stat[wd] = stat[wd] + 1
             plus_cnt = plus_cnt + 1
 
-    return v, stat, plus_cnt, minus_cnt
+    return v, stat, plus_cnt, minus_cnt, day_cnt
 
 
 def get_ticker_list():
@@ -61,13 +63,14 @@ def main(argv):
 
     lst = get_ticker_list()
 
-    print('종목,', '월,', '화,', '수,', '목,', '금,', '토,', '일,', '상승,', '하락')
+    print('업비트 원화 종목 요일별 등/락 분석 (상승은 +1, 하락은 -1 로 계산 하여 집계를 냄)')
+    print('종목,', '월,', '화,', '수,', '목,', '금,', '토,', '일,', '상승,', '하락,', '계산 일수')
 
     for v in lst:
-        rv, st, p, m = analyze_day(v, cnt)
+        rv, st, p, m, dc = analyze_day(v, cnt)
         print(rv[4:]+',', str(st['Mon'])+',', str(st['Tue'])+',', str(st['Wed'])+',',
               str(st['Thu'])+',', str(st['Fri'])+',', str(st['Sat'])+',',
-              str(st['Sun'])+',', str(p)+',', m)
+              str(st['Sun'])+',', str(p)+',', str(m)+',', dc)
         sleep(0.2)
 
 
