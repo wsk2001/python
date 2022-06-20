@@ -1,56 +1,56 @@
 # Featured coin for may 2022.
 
-#ÃÊº¸µéÀÌ ÀúÁö¸£±â ½¬¿î ÃÖ´ë ½Ç¼ö´Â ´Ù¸¥ Æ®·¹ÀÌ´õµéÀº ¹Ì·¡¸¦ ¿¹ÃøÇÒ ¼ö ÀÖ´Ù°í ¹Ï´Â °Í. »ç½ÇÀº ±× ´©±¸µµ ¸ğ¸§. 
+#ì´ˆë³´ë“¤ì´ ì €ì§€ë¥´ê¸° ì‰¬ìš´ ìµœëŒ€ ì‹¤ìˆ˜ëŠ” ë‹¤ë¥¸ íŠ¸ë ˆì´ë”ë“¤ì€ ë¯¸ë˜ë¥¼ ì˜ˆì¸¡í•  ìˆ˜ ìˆë‹¤ê³  ë¯¿ëŠ” ê²ƒ. ì‚¬ì‹¤ì€ ê·¸ ëˆ„êµ¬ë„ ëª¨ë¦„. 
 
-# - ÀÚ½Å¸¸ÀÇ ½Ã½ºÅÛ/½Ã±×³Î È°¿ë (ÀÚ½ÅÀÇ ¿øÄ¢À» ¸¸µé°Í)
-# - ÀúÇ×¼± ¿¡¼­ ¸®½ºÅ©¸¦ ´ú¾î³¾ °Í (¸Åµµ °í·Á)
-# - ÁöÁö¼± ¿¡¼­ ¸®½ºÅ©¸¦ ´õÇÒ °Í (¸Å¼ö °í·Á)
-# - Æ²·ÈÀ½ÀÌ ¸í¹éÇÑ ÁöÁ¡À» ½Äº°ÇØ³õÀ» °Í (¼ÕÀı°¡ ÁöÁ¤)
-# - Æ²·ÈÀ» ¶§ °¡Â÷¾øÀÌ ¼ÕÀıÇÏ´Â ÀıÁ¦·ÂÀ» ±â¸¦ °Í (ÇÊ¿ä½Ã ¿¹¾à ¸Åµµ)
+# - ìì‹ ë§Œì˜ ì‹œìŠ¤í…œ/ì‹œê·¸ë„ í™œìš© (ìì‹ ì˜ ì›ì¹™ì„ ë§Œë“¤ê²ƒ)
+# - ì €í•­ì„  ì—ì„œ ë¦¬ìŠ¤í¬ë¥¼ ëœì–´ë‚¼ ê²ƒ (ë§¤ë„ ê³ ë ¤)
+# - ì§€ì§€ì„  ì—ì„œ ë¦¬ìŠ¤í¬ë¥¼ ë”í•  ê²ƒ (ë§¤ìˆ˜ ê³ ë ¤)
+# - í‹€ë ¸ìŒì´ ëª…ë°±í•œ ì§€ì ì„ ì‹ë³„í•´ë†“ì„ ê²ƒ (ì†ì ˆê°€ ì§€ì •)
+# - í‹€ë ¸ì„ ë•Œ ê°€ì°¨ì—†ì´ ì†ì ˆí•˜ëŠ” ì ˆì œë ¥ì„ ê¸°ë¥¼ ê²ƒ (í•„ìš”ì‹œ ì˜ˆì•½ ë§¤ë„)
 
 
 ################################
-# ÄÚÀÎÆÇ https://coinpan.com 
+# ì½”ì¸íŒ https://coinpan.com 
 ################################
-# µ¥ÀÏ¸® È£µé https://dailyhodl.com
-# ÄÚÀÎ´Ï½º https://coinness.live/
-# ÄÚÀÎÄÚµå https://coincode.kr/
-# ÄÚÀÎ¸®´õ½º http://coinreaders.com
-# ½ÎÀÌÇÁ·£´åÄÄ http://www.cyfren.com/
-# Å©¸³Åä½ºÅä¸® https://blog.naver.com/PostList.naver?blogId=kimim1115&categoryNo=8&skinType=&skinId=&from=menu&userSelectMenu=true
-# ºí·Ï¹Ìµğ¾î https://www.blockmedia.co.kr/
-# ±×·¹ÀÌ ½ºÄÉÀÏ https://www.coinglass.com/Grayscale
+# ë°ì¼ë¦¬ í˜¸ë“¤ https://dailyhodl.com
+# ì½”ì¸ë‹ˆìŠ¤ https://coinness.live/
+# ì½”ì¸ì½”ë“œ https://coincode.kr/
+# ì½”ì¸ë¦¬ë”ìŠ¤ http://coinreaders.com
+# ì‹¸ì´í”„ëœë‹·ì»´ http://www.cyfren.com/
+# í¬ë¦½í† ìŠ¤í† ë¦¬ https://blog.naver.com/PostList.naver?blogId=kimim1115&categoryNo=8&skinType=&skinId=&from=menu&userSelectMenu=true
+# ë¸”ë¡ë¯¸ë””ì–´ https://www.blockmedia.co.kr/
+# ê·¸ë ˆì´ ìŠ¤ì¼€ì¼ https://www.coinglass.com/Grayscale
 # https://www.coindalin.com/twitter/ardor/1320
-# ³ª½º´Ú Á¾ÇÕ: https://m.finance.daum.net/global/quotes
+# ë‚˜ìŠ¤ë‹¥ ì¢…í•©: https://m.finance.daum.net/global/quotes
 #
-# ¿¤¸®¾ù ÆÄµ¿ ÀÌ·Ğ ±¸Çö(Python): https://github.com/philippe-ostiguy/PyBacktesting
+# ì—˜ë¦¬ì—‡ íŒŒë™ ì´ë¡  êµ¬í˜„(Python): https://github.com/philippe-ostiguy/PyBacktesting
 #                         https://jeyinvest.tistory.com/33
 # https://md2biz.tistory.com/480
 # http://www.blockchaintoday.co.kr/news/articleView.html?idxno=20837
 
 
-# BTC ¼±¹°¿É¼Ç ¸¸±âÀÏ: 1/28, 2/25, 3/25, 4/29, 5/27, 6/24, 12/30
-# cme´Â ·±´ø ½Ã°£(GMT) ±âÁØÀ¸·Î ¸Å¿ù ¸¶Áö¸·ÁÖ ±İ¿äÀÏ ¿ÀÈÄ(PM 4½Ã) ÀÌ°í, ÇÑ±¹½Ã°£(GMT+9) Åä¿äÀÏ »õº®(AM 1½Ã)
-# ¹ÙÀÌ ºñÆ®, ¹ÙÀÌ ³½½º Æİµùºñ ½Ã°£ 01:00, 09:00, 17:00
-# ¹Ù³½ Æİµùºñ : https://youngmaninvestment.tistory.com/218
-# ÇÏ¶ôÀå ´ëÃ³¹ı : https://cyberpol.tistory.com/15
-# ¿ö´¢¶ì µî ±Û ÂüÁ¶: https://cyberpol.tistory.com/
-# ÅäÅ«Æ÷½ºÆ®: https://www.tokenpost.kr/forum/free
+# BTC ì„ ë¬¼ì˜µì…˜ ë§Œê¸°ì¼: 1/28, 2/25, 3/25, 4/29, 5/27, 6/24, 12/30
+# cmeëŠ” ëŸ°ë˜ ì‹œê°„(GMT) ê¸°ì¤€ìœ¼ë¡œ ë§¤ì›” ë§ˆì§€ë§‰ì£¼ ê¸ˆìš”ì¼ ì˜¤í›„(PM 4ì‹œ) ì´ê³ , í•œêµ­ì‹œê°„(GMT+9) í† ìš”ì¼ ìƒˆë²½(AM 1ì‹œ)
+# ë°”ì´ ë¹„íŠ¸, ë°”ì´ ë‚¸ìŠ¤ í€ë”©ë¹„ ì‹œê°„ 01:00, 09:00, 17:00
+# ë°”ë‚¸ í€ë”©ë¹„ : https://youngmaninvestment.tistory.com/218
+# í•˜ë½ì¥ ëŒ€ì²˜ë²• : https://cyberpol.tistory.com/15
+# ì›Œë‡¨ë  ë“± ê¸€ ì°¸ì¡°: https://cyberpol.tistory.com/
+# í† í°í¬ìŠ¤íŠ¸: https://www.tokenpost.kr/forum/free
 # Algorithm Trading for Crypto
 # https://github.com/search?l=Python&o=desc&q=Algorithm+Trading+for+Crypto&s=stars&type=Repositories
 # -- https://github.com/songv1/2019-Cryptocurrency-Trading-Algorithm
 # https://blog.naver.com/PostView.naver?blogId=pp8762&logNo=222439726692&categoryNo=16&parentCategoryNo=16&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
 
-# »ó½Â °¡´É¼ºÀÌ ÀÖ´Â Á¾¸ñ Ã£±â.
+# ìƒìŠ¹ ê°€ëŠ¥ì„±ì´ ìˆëŠ” ì¢…ëª© ì°¾ê¸°.
 # https://superhky.tistory.com/282
 
-# BTCC »óÀå Á¾¸ñ: BTC, ETH, LTC, BCH, EOS, XRP, DASH, ADA, 
+# BTCC ìƒì¥ ì¢…ëª©: BTC, ETH, LTC, BCH, EOS, XRP, DASH, ADA, 
 ########################################################
 # https://github.com/WestXu/support_resistance_line
 ########################################################
 
-# ÇÏ¶ôÀå 07 ¸Å¼ö, 08:35 ¸Åµµ, ÀÌÈÄ ´ë±â ¹× ÀúÁ¡ (10:40 ¸Å¼ö °ËÅä)
-# BTCC: 010 ÀüÈ­ // kang0192
+# í•˜ë½ì¥ 07 ë§¤ìˆ˜, 08:35 ë§¤ë„, ì´í›„ ëŒ€ê¸° ë° ì €ì  (10:40 ë§¤ìˆ˜ ê²€í† )
+# BTCC: 010 ì „í™” // kang0192
 # 2022-05-30 08:15:02: KRW-WEMIX 5345.0 5665.0       5.99% expected to rise
 
 ################################
@@ -65,6 +65,6 @@ MLK 467 1  -5000.0 5000.0
 BTC 27038000 1 -5000.0 5000.0
 ETH 1439500 1 -39500.0 39500.0
 
-# ºĞ¼® ±Û : https://twitter.com/mignoletkr/status/1533332058000371712
+# ë¶„ì„ ê¸€ : https://twitter.com/mignoletkr/status/1533332058000371712
 # futures 
-# »ó½Â ÇÒ ¶§´Â Æİµùºñ ³ª°¡´Â ½Ã°£ ¿¡µµ ¿À¸¥´Ù. (Æİµùºñ¸¦ °¨´ç ÇÒ ¼ö ÀÖ´Â ¼öÁØ ±îÁö ¿Ã¶ú±â ¶§¹®À¸·Î ÆÇ´Ü µÈ´Ù).
+# ìƒìŠ¹ í•  ë•ŒëŠ” í€ë”©ë¹„ ë‚˜ê°€ëŠ” ì‹œê°„ ì—ë„ ì˜¤ë¥¸ë‹¤. (í€ë”©ë¹„ë¥¼ ê°ë‹¹ í•  ìˆ˜ ìˆëŠ” ìˆ˜ì¤€ ê¹Œì§€ ì˜¬ëê¸° ë•Œë¬¸ìœ¼ë¡œ íŒë‹¨ ëœë‹¤).
