@@ -6,7 +6,8 @@ import json
 from common.utils import get_binance_btc
 from common.dominance import get_dominance
 import ccxt
-
+import cbpro
+import datetime
 
 url = "https://api.alternative.me/fng/?limit="
 
@@ -88,6 +89,15 @@ def fear_month():
 
     return sum / 30
 
+
+# Coinbase Index
+def cb_index(bn_p):
+    public_client = cbpro.PublicClient()
+    res = public_client.get_product_order_book('BTC-USD')
+    cb_p = float(res["bids"][0][0])
+    return cb_p, bn_p, cb_p - bn_p, ((cb_p - bn_p) / bn_p) * 100
+
+
 def main(argv):
     fng_today = fear_day(0)
     fng_yesterday = fear_day(1)
@@ -99,7 +109,7 @@ def main(argv):
 
     fng_week = fear_week()
     fng_month = fear_month()
-    print('공포/탐욕 지수')
+    print('공포/탐욕 지수', '(' + datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S') + ')')
     print('일간:', fng_sixdayago, '->', fng_fivedayago, '->', fng_fourdayago, '->',
           fng_threedayago, '->', fng_twodayago, '->', fng_yesterday, '->', fng_today)
     print('주간:', f'{fng_week:.2f}')
@@ -113,12 +123,10 @@ def main(argv):
     print(f'비트코인 도미: {domi:.3f}')
     print('')
 
-    # fr_binanc = funding_rate_binance()
-    # print('바이낸스 펀딩비:', fr_binanc)
-    # fr_bybit = funding_rate_bybit()
-    # fr_bitmax = funding_rate_bitmex()
-    # print('바이비트 펀딩비:', fr_bybit)
-    # print('비트맥스 펀딩비:', fr_bitmax)
+    cb_p, bn_p, cb_diff, cb_e = cb_index(price)
+
+    #print('코인베이스 프리미엄 지수:', f'${cb_p:,}, ${bn_p:,}, {cb_diff:.2f}$, {cb_e:.2f}%')
+    print('코인베이스 프리미엄 지수:', f'{cb_diff:.2f}$, {cb_e:.2f}%')
 
 
 if __name__ == "__main__":

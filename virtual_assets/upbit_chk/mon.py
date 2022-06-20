@@ -156,7 +156,7 @@ def main(argv):
         elif opt in "-b":  # upbit item symbol
             view_binance = True
 
-    file = open("items.txt", "r")
+    file = open("items.txt", "r", encoding='UTF8')
     lines = file.readlines()
     cash = 0.0
     usd = upbit_get_usd_krw()
