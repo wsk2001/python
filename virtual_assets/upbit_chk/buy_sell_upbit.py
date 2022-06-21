@@ -22,6 +22,15 @@ def get_usdt_price():
     usdt = float(handler.get_analysis().indicators['close'])
     return usdt
 
+
+def earning(v):
+    df = pyupbit.get_ohlcv('KRW-'+ v, count=1)
+    open_price = df['open'][0]
+    close_price = df['close'][0]
+    res = ((close_price / open_price) - 1.0) * 100.0
+    return res, close_price
+
+
 # INTERVAL_1_MINUTE = "1m"
 # INTERVAL_5_MINUTES = "5m"
 # INTERVAL_15_MINUTES = "15m"
@@ -33,16 +42,21 @@ def get_usdt_price():
 # INTERVAL_1_WEEK = "1W"
 # INTERVAL_1_MONTH = "1M"
 
+Recommendation = {'STRONG_BUY': '강한 매수', 'BUY': '매수', 'SELL': '매도', 'STRONG_SELL': '강한 매도', 'NEUTRAL': '중립'}
 
-def buy_sell_upbit(ticker):
+
+def buy_sell_upbit(ticker, interval):
     handler = TA_Handler(
         symbol=ticker+"KRW",
         exchange="UPBIT",
         screener="crypto",
-        interval=Interval.INTERVAL_1_HOUR
+        interval=interval
     )
     dt = handler.get_analysis().summary
-    print(ticker + ':', dt['RECOMMENDATION'], dt['BUY'], dt['SELL'], dt['NEUTRAL'] )
+    cur = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+    earn, p = earning(ticker)
+    print(cur + ':',  ticker + ',', Recommendation[str(dt['RECOMMENDATION'])]+',', str(dt['BUY'])+',',
+          str(dt['SELL'])+',', str(dt['NEUTRAL'])+',',  f'{p:8.3f},', f'{earn:6.2f}%')
 
 
 def main(argv):
@@ -51,10 +65,16 @@ def main(argv):
 
     earns.clear()
 
-    for v in lst:
-        buy_sell_upbit(v[4:])
-        time.sleep(0.1)
+    print('시각, 심볼, 추천, 매수, 매도, 중립(지수), 가격, 등/락')
+    while True:
+        buy_sell_upbit('ALGO', Interval.INTERVAL_30_MINUTES)
+        time.sleep(10)
 
+        # for v in lst:
+        #     buy_sell_upbit(v[4:], Interval.INTERVAL_1_MINUTE)
+        #     time.sleep(0.1)
+        #
+        # break
 
 if __name__ == "__main__":
     main(sys.argv)
