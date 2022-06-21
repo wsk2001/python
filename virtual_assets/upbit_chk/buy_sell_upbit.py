@@ -65,15 +65,19 @@ def main(argv):
 
     earns.clear()
 
-    print('시각, 심볼, 추천, 매수, 매도, 중립(지수), 가격, 등/락')
-    while True:
-        buy_sell_upbit('ALGO', Interval.INTERVAL_30_MINUTES)
-        time.sleep(10)
 
-        # for v in lst:
-        #     buy_sell_upbit(v[4:], Interval.INTERVAL_1_MINUTE)
-        #     time.sleep(0.1)
-        #
+    while True:
+        # buy_sell_upbit('ALGO', Interval.INTERVAL_30_MINUTES)
+        # time.sleep(10)
+
+        print('시각, 심볼, 추천, 매수, 매도, 중립(지수), 가격, 등/락')
+        lst_mon = ['KRW-ALGO', 'KRW-BTC', 'KRW-ETH']
+        for v in lst_mon:
+            buy_sell_upbit(v[4:], Interval.INTERVAL_1_MINUTE)
+            time.sleep(0.1)
+
+        print('')
+        time.sleep(5)
         # break
 
 if __name__ == "__main__":
