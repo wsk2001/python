@@ -5,9 +5,8 @@ import requests
 import json
 from common.utils import get_binance_btc
 from common.dominance import get_dominance
-import ccxt
-import cbpro
-import datetime
+import ccxt, cbpro, datetime
+from tradingview_ta import TA_Handler, Interval, Exchange
 
 url = "https://api.alternative.me/fng/?limit="
 
@@ -95,7 +94,15 @@ def cb_index(bn_p):
     public_client = cbpro.PublicClient()
     res = public_client.get_product_order_book('BTC-USD')
     cb_p = float(res["bids"][0][0])
-    return cb_p, bn_p, cb_p - bn_p, ((cb_p - bn_p) / bn_p) * 100
+    handler = TA_Handler(
+        symbol="USDTUSD",
+        exchange="KRAKEN",
+        screener="crypto",
+        interval=Interval.INTERVAL_1_MINUTE
+    )
+    ti = float(handler.get_analysis().indicators['close'])
+    return cb_p, bn_p, cb_p - bn_p * ti, ti
+    # return cb_p, bn_p, cb_p - bn_p, ((cb_p - bn_p) / bn_p) * 100
 
 
 def main(argv):
@@ -118,15 +125,16 @@ def main(argv):
 
     _, _, _, domi = get_dominance()
     _, price = get_binance_btc('BTC')
-
-    print(f'비트코인 가격: $' + format(price, ',.2f'))
-    print(f'비트코인 도미: {domi:.3f}')
-    print('')
-
-    cb_p, bn_p, cb_diff, cb_e = cb_index(price)
-
-    #print('코인베이스 프리미엄 지수:', f'${cb_p:,}, ${bn_p:,}, {cb_diff:.2f}$, {cb_e:.2f}%')
-    print('코인베이스 프리미엄 지수:', f'{cb_diff:.2f}$, {cb_e:.2f}%')
+    # cb_p, bn_p, cb_idx, ti = cb_index(price)
+    #
+    # print(f'바낸 비트 가격: $' + format(price, ',.2f'))
+    # print(f'바낸 비트 도미: {domi:.3f}')
+    # print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
+    # print(f'테더 가격     : ' + format(ti, ',.5f'))
+    # print('')
+    # print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
+    # print('  산출 방법: 코베 - (바낸 * 테더)')
+    # print('')
 
 
 if __name__ == "__main__":
