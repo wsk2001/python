@@ -60,24 +60,70 @@ def buy_sell_upbit(ticker, interval):
 
 
 def main(argv):
+    sleep_sec = 10.0
+    interval = "5m"
     lst = pyupbit.get_tickers(fiat="KRW")
     earns = [[]]
-
     earns.clear()
 
+    try:
+        opts, etc_args = getopt.getopt(argv[1:], "hs:i:f:", ["sleep=", "interval=", "filename="])
 
+    except getopt.GetoptError:
+        print(argv[0], '-s <sleep seconds> -i <interval> -f <filename>')
+        print('')
+        print('interval')
+        print('\t1m  \tInterval 1 minute')
+        print('\t5m  \tInterval 5 minutes')
+        print('\t15m \tInterval 15 minutes')
+        print('\t30m \tInterval 30 minutes')
+        print('\t1h  \tInterval 1 hour')
+        print('\t2h  \tInterval 2 hours')
+        print('\t4h  \tInterval 4 hours')
+        print('\t1d  \tInterval 1 day')
+        print('\t1W  \tInterval 1 week')
+        print('\t1M  \tInterval 1 month(X)')
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print(argv[0], '-s <sleep seconds> -i <interval> -f <filename>')
+            print('interval')
+            print('\t1m  \tInterval 1 minute')
+            print('\t5m  \tInterval 5 minutes')
+            print('\t15m \tInterval 15 minutes')
+            print('\t30m \tInterval 30 minutes')
+            print('\t1h  \tInterval 1 hour')
+            print('\t2h  \tInterval 2 hours')
+            print('\t4h  \tInterval 4 hours')
+            print('\t1d  \tInterval 1 day')
+            print('\t1W  \tInterval 1 week')
+            print('\t1M  \tInterval 1 month(X)')
+
+            sys.exit()
+
+        elif opt in ("-s", "--sleep"):
+            sleep_sec = int(arg.strip())
+
+        elif opt in("-i", "--interval"):
+            interval = arg.strip()
+
+        elif opt in("-f", "--filename"):
+            filename = arg.strip()
+
+    print('Interval: '+interval)
+    print('시각, 심볼, 추천, 매수, 매도, 중립(지수), 가격, 등/락')
     while True:
         # buy_sell_upbit('ALGO', Interval.INTERVAL_30_MINUTES)
         # time.sleep(10)
 
-        print('시각, 심볼, 추천, 매수, 매도, 중립(지수), 가격, 등/락')
-        lst_mon = ['KRW-ALGO', 'KRW-BTC', 'KRW-ETH']
+        lst_mon = ['KRW-WAVES', 'KRW-BTC', 'KRW-ETH']
         for v in lst_mon:
-            buy_sell_upbit(v[4:], Interval.INTERVAL_1_MINUTE)
+            buy_sell_upbit(v[4:], interval)
             time.sleep(0.1)
 
         print('')
-        time.sleep(5)
+        time.sleep(sleep_sec)
         # break
 
 if __name__ == "__main__":
