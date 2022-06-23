@@ -9,7 +9,7 @@ import requests
 import json
 from win10toast import ToastNotifier
 
-item_list = []
+symbols = []
 
 usd = 1270
 
@@ -115,6 +115,7 @@ def rate(v):
     res = ((close_price / open_price) - 1.0) * 100.0
     return res, close_price
 
+
 def get_binance_btc_json(t, btc_rate, base, cnt):
     ep = 'https://api.binance.com'
     ping = '/api/v1/ping'
@@ -156,10 +157,10 @@ def main(argv):
             print(argv[0], '-s <sleep seconds> -b [vew binance]')
             sys.exit()
 
-        elif opt in ("-s", "--sleep"):  # upbit item symbol
+        elif opt in ("-s", "--sleep"):
             sleep_sec = int(arg.strip())
 
-        elif opt in "-b":  # upbit item symbol
+        elif opt in "-b":
             view_binance = True
 
     file = open("items.txt", "r", encoding='UTF8')
@@ -188,7 +189,7 @@ def main(argv):
         if not strings[0].startswith('BTC-'):
             strings[0] = 'KRW-' + strings[0]
 
-        item_list.append(item(strings[0], float(strings[1]), float(strings[2]), float(strings[3]), float(strings[4])))
+        symbols.append(item(strings[0], float(strings[1]), float(strings[2]), float(strings[3]), float(strings[4])))
 
     file.close()
 
@@ -199,7 +200,7 @@ def main(argv):
         amt = 0.0
         mgn = 0.0
         btc_rate, _ = rate('KRW-BTC')
-        for itm in item_list:
+        for itm in symbols:
             if itm.ticker.startswith('BTC-'):
                 t_mgn, t_amt = check_btc_ticker(itm.ticker, btc_rate, itm.base, itm.count)
                 # get_binance_btc_json(itm.ticker[4:], btc_rate, itm.base, itm.count)
