@@ -1,6 +1,6 @@
-#-*- coding:utf-8 -*-
+# -*- coding:utf-8 -*-
 
-import time, sys, getopt
+import time, sys, getopt, signal
 import requests
 import json
 from common.utils import get_binance_btc
@@ -15,116 +15,155 @@ import pyupbit
 def get_usdt_price():
     handler = TA_Handler(
         symbol="USDTUSD",
+        screener="CRYPTO",
         exchange="KRAKEN",
-        screener="crypto",
         interval=Interval.INTERVAL_1_MINUTE
     )
     usdt = float(handler.get_analysis().indicators['close'])
     return usdt
 
 
+def get_ta(symbol, screener, exchange, interval):
+    return TA_Handler(
+        symbol=symbol,
+        screener=screener,
+        exchange=exchange,
+        interval=interval,
+    ).get_analysis().summary
+
+
 def earning(v):
-    df = pyupbit.get_ohlcv('KRW-'+ v, count=1)
+    df = pyupbit.get_ohlcv('KRW-' + v, count=1)
     open_price = df['open'][0]
     close_price = df['close'][0]
     res = ((close_price / open_price) - 1.0) * 100.0
     return res, close_price
 
 
-# INTERVAL_1_MINUTE = "1m"
-# INTERVAL_5_MINUTES = "5m"
-# INTERVAL_15_MINUTES = "15m"
-# INTERVAL_30_MINUTES = "30m"
-# INTERVAL_1_HOUR = "1h"
-# INTERVAL_2_HOURS = "2h"
-# INTERVAL_4_HOURS = "4h"
-# INTERVAL_1_DAY = "1d"
-# INTERVAL_1_WEEK = "1W"
-# INTERVAL_1_MONTH = "1M"
-
-Recommendation = {'STRONG_BUY': '강한 매수', 'BUY': '매수', 'SELL': '매도', 'STRONG_SELL': '강한 매도', 'NEUTRAL': '중립'}
-
+# Interval
+# "1m", "5m", "15m", "30m", "1h", "2h", "4h", "1d", "1W", "1M"
 
 def buy_sell_upbit(ticker, interval):
-    handler = TA_Handler(
-        symbol=ticker+"KRW",
-        exchange="UPBIT",
-        screener="crypto",
-        interval=interval
-    )
-    dt = handler.get_analysis().summary
+    dt = get_ta(ticker + "KRW", "CRYPTO", "UPBIT", interval)
     cur = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
     earn, p = earning(ticker)
-    print(cur + ':',  ticker + ',', Recommendation[str(dt['RECOMMENDATION'])]+',', str(dt['BUY'])+',',
-          str(dt['SELL'])+',', str(dt['NEUTRAL'])+',',  f'{p:8.3f},', f'{earn:6.2f}%')
+    recmd = dt['RECOMMENDATION']
+    print(cur + ': ' f'{ticker:<6}', f'{recmd:<10}', f'{str(dt["BUY"]):>4}',
+          f'{str(dt["SELL"]):>4}', f'{str(dt["NEUTRAL"]):>4}', f'{p:14.3f}', f'{earn:6.2f}%')
+
+
+def get_binance_price(ticker, interval):
+    handler = TA_Handler(
+        symbol=ticker + "USDT",
+        screener="CRYPTO",
+        exchange="Binance",
+        interval=interval
+    )
+    print(handler.get_analysis().indicators)
+
+
+def buy_sell_binance(ticker, interval):
+    dt = get_ta(ticker + "USDT", "CRYPTO", "Binance", interval)
+    cur = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
+    op_btc, price = get_binance_btc(ticker)
+    earn = ((price / op_btc) - 1.0) * 100.0
+    p = price
+    recmd = dt['RECOMMENDATION']
+    print(cur + ': ' f'{ticker:<6}', f'{recmd:<10}', f'{str(dt["BUY"]):>4}',
+          f'{str(dt["SELL"]):>4}', f'{str(dt["NEUTRAL"]):>4}', f'{p:14.3f}', f'{earn:6.2f}%')
+
+
+def usage(app):
+    print(app, '-s <sleep seconds> -i <interval> -f <filename> -b [binance]')
+    print('')
+    print('interval')
+    print('\t1m  \tInterval 1 minute')
+    print('\t5m  \tInterval 5 minutes')
+    print('\t15m \tInterval 15 minutes')
+    print('\t30m \tInterval 30 minutes')
+    print('\t1h  \tInterval 1 hour')
+    print('\t2h  \tInterval 2 hours')
+    print('\t4h  \tInterval 4 hours')
+    print('\t1d  \tInterval 1 day')
+    print('\t1W  \tInterval 1 week')
+    print('\t1M  \tInterval 1 month(X)')
+    sys.exit()
 
 
 def main(argv):
     sleep_sec = 10.0
     interval = "5m"
-    lst = pyupbit.get_tickers(fiat="KRW")
-    earns = [[]]
-    earns.clear()
+    filename = ''
+    binance = 0
+    symbols = []
+    symbols.clear()
 
     try:
-        opts, etc_args = getopt.getopt(argv[1:], "hs:i:f:", ["sleep=", "interval=", "filename="])
-
+        opts, etc_args = getopt.getopt(argv[1:], "hs:i:f:b", ["sleep=", "interval=", "filename="])
     except getopt.GetoptError:
-        print(argv[0], '-s <sleep seconds> -i <interval> -f <filename>')
-        print('')
-        print('interval')
-        print('\t1m  \tInterval 1 minute')
-        print('\t5m  \tInterval 5 minutes')
-        print('\t15m \tInterval 15 minutes')
-        print('\t30m \tInterval 30 minutes')
-        print('\t1h  \tInterval 1 hour')
-        print('\t2h  \tInterval 2 hours')
-        print('\t4h  \tInterval 4 hours')
-        print('\t1d  \tInterval 1 day')
-        print('\t1W  \tInterval 1 week')
-        print('\t1M  \tInterval 1 month(X)')
-        sys.exit(2)
+        usage(argv[0])
 
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print(argv[0], '-s <sleep seconds> -i <interval> -f <filename>')
-            print('interval')
-            print('\t1m  \tInterval 1 minute')
-            print('\t5m  \tInterval 5 minutes')
-            print('\t15m \tInterval 15 minutes')
-            print('\t30m \tInterval 30 minutes')
-            print('\t1h  \tInterval 1 hour')
-            print('\t2h  \tInterval 2 hours')
-            print('\t4h  \tInterval 4 hours')
-            print('\t1d  \tInterval 1 day')
-            print('\t1W  \tInterval 1 week')
-            print('\t1M  \tInterval 1 month(X)')
-
-            sys.exit()
+            usage(argv[0])
 
         elif opt in ("-s", "--sleep"):
             sleep_sec = int(arg.strip())
 
-        elif opt in("-i", "--interval"):
+        elif opt in ("-i", "--interval"):
             interval = arg.strip()
 
-        elif opt in("-f", "--filename"):
+        elif opt in ("-f", "--filename"):
             filename = arg.strip()
 
-    print('Interval: '+interval)
-    print('시각, 심볼, 추천, 매수, 매도, 중립(지수), 가격, 등/락')
-    while True:
-        # buy_sell_upbit('ALGO', Interval.INTERVAL_30_MINUTES)
-        # time.sleep(10)
+        elif opt == '-b':
+            binance = 1
 
-        lst_mon = ['KRW-WAVES', 'KRW-BTC', 'KRW-ETH']
-        for v in lst_mon:
-            buy_sell_upbit(v[4:], interval)
+    if len(filename) <= 0:
+        lst = pyupbit.get_tickers(fiat="KRW")
+        for v in lst:
+            symbols.append(v[4:])
+    else:
+        file = open(filename, "r", encoding='UTF8')
+        lines = file.readlines()
+
+        for l in lines:
+            line = l.strip()
+            if not line:
+                continue
+
+            if line.startswith("#") or line.startswith("//"):
+                continue
+
+            if len(line) <= 0:
+                continue
+
+            strings = line.split()
+            symbols.append(strings[0])
+
+        file.close()
+
+    while True:
+        print('Interval: ' + interval)
+        print('시각                 심볼   추천       매수  매도 중립         가격     등/락')
+
+        for s in symbols:
+            if binance:
+                buy_sell_binance(s, interval)
+            else:
+                buy_sell_upbit(s, interval)
+
             time.sleep(0.1)
 
         print('')
         time.sleep(sleep_sec)
         # break
 
+
+def exit_gracefully(signal, frame):
+    sys.exit(0)
+
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, exit_gracefully)
     main(sys.argv)

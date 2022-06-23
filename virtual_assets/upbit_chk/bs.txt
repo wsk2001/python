@@ -1,0 +1,6 @@
+# buy_sell datafile
+SAND
+WAVES
+BTC
+ETH
+ADA
