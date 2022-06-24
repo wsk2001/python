@@ -1,6 +1,5 @@
 # buy_sell datafile
-SAND
-WAVES
+WEMIX
 BTC
 ETH
-ADA
+SAND

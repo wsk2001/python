@@ -48,8 +48,9 @@ def buy_sell_upbit(ticker, interval):
     cur = datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S')
     earn, p = earning(ticker)
     recmd = dt['RECOMMENDATION']
+    pr = "{:0,.3f}".format(p)
     print(cur + ': ' f'{ticker:<6}', f'{recmd:<10}', f'{str(dt["BUY"]):>4}',
-          f'{str(dt["SELL"]):>4}', f'{str(dt["NEUTRAL"]):>4}', f'{p:14.3f}', f'{earn:6.2f}%')
+          f'{str(dt["SELL"]):>4}', f'{str(dt["NEUTRAL"]):>4}', f'  {pr:>14}', f'{earn:6.2f}%')
 
 
 def get_binance_price(ticker, interval):
@@ -69,8 +70,9 @@ def buy_sell_binance(ticker, interval):
     earn = ((price / op_btc) - 1.0) * 100.0
     p = price
     recmd = dt['RECOMMENDATION']
+    pr = "{:0,.3f}".format(p)
     print(cur + ': ' f'{ticker:<6}', f'{recmd:<10}', f'{str(dt["BUY"]):>4}',
-          f'{str(dt["SELL"]):>4}', f'{str(dt["NEUTRAL"]):>4}', f'{p:14.3f}', f'{earn:6.2f}%')
+          f'{str(dt["SELL"]):>4}', f'{str(dt["NEUTRAL"]):>4}', f'  {pr:>14}', f'{earn:6.2f}%')
 
 
 def usage(app):
@@ -145,7 +147,7 @@ def main(argv):
 
     while True:
         print('Interval: ' + interval)
-        print('시각                 심볼   추천       매수  매도 중립         가격     등/락')
+        print('Date and Time        Symbol Urge        Buy  Sell Neut           Price   Fluctuation')
 
         for s in symbols:
             if binance:
