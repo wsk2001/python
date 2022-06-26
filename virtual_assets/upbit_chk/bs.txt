@@ -1,5 +1,4 @@
 # buy_sell datafile
-WEMIX
 BTC
 ETH
 SAND
