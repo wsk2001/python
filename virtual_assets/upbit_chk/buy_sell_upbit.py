@@ -88,6 +88,7 @@ def usage(app):
     print('\t4h  \tInterval 4 hours')
     print('\t1d  \tInterval 1 day')
     print('\t1W  \tInterval 1 week')
+    print('\tall  \tInterval all-1m ~ 1d')
     print('\t1M  \tInterval 1 month(X)')
     sys.exit()
 

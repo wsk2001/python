@@ -73,3 +73,9 @@ ETH  1462000.0 1 -39500.0 39500.0
 
 # 예상/분석/심리 관련 글.
 # https://m.blog.naver.com/respect2030/222788536188
+
+# Interval: 5m
+# Date and Time        Symbol Urge        Buy  Sell Neut           Price   Fluctuation
+# 2022/06/27 08:54:17: BTC    SELL          1   15   10       21,026.770  -2.19%
+# 2022/06/27 08:54:17: ETH    SELL          2   15    9        1,198.250  -3.61%
+# 2022/06/27 08:54:18: SAND   SELL          2   15    9            1.177  -7.91%
