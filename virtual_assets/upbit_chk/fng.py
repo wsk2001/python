@@ -1,5 +1,6 @@
 #-*- coding:utf-8 -*-
 
+import time
 import sys
 import requests
 import json
@@ -125,17 +126,22 @@ def main(argv):
 
     _, _, _, domi = get_dominance()
     _, price = get_binance_btc('BTC')
-    # cb_p, bn_p, cb_idx, ti = cb_index(price)
-    #
-    # print(f'바낸 비트 가격: $' + format(price, ',.2f'))
-    # print(f'바낸 비트 도미: {domi:.3f}')
-    # print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
-    # print(f'테더 가격     : ' + format(ti, ',.5f'))
-    # print('')
-    # print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
-    # print('  산출 방법: 코베 - (바낸 * 테더)')
-    # print('')
+    cb_p, bn_p, cb_idx, ti = cb_index(price)
 
+    print(f'바낸 비트 가격: $' + format(price, ',.2f'))
+    print(f'바낸 비트 도미: {domi:.3f}')
+    print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
+    print(f'테더 가격     : ' + format(ti, ',.5f'))
+    print('')
+    print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
+    print('  산출 방법: 코베 - (바낸 * 테더)')
+    print('')
+
+    while True:
+        _, price = get_binance_btc('BTC')
+        cb_p, bn_p, cb_idx, ti = cb_index(price)
+        print('Coinbase Premium Index:', f'{cb_idx:.2f}')
+        time.sleep(5)
 
 if __name__ == "__main__":
     main(sys.argv)
