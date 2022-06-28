@@ -49,7 +49,7 @@ def buy_sell_upbit(ticker, interval):
     earn, p = earning(ticker)
     recmd = dt['RECOMMENDATION']
     pr = "{:0,.3f}".format(p)
-    print(cur + ': ' f'{ticker:<6}', f'{recmd:<10}', f'{str(dt["BUY"]):>4}',
+    print(cur + ': ' f'{ticker:<6}', f'{recmd:<11}', f'{str(dt["BUY"]):>4}',
           f'{str(dt["SELL"]):>4}', f'{str(dt["NEUTRAL"]):>4}', f'  {pr:>14}', f'{earn:6.2f}%')
 
 
@@ -71,7 +71,7 @@ def buy_sell_binance(ticker, interval):
     p = price
     recmd = dt['RECOMMENDATION']
     pr = "{:0,.3f}".format(p)
-    print(cur + ': ' f'{ticker:<6}', f'{recmd:<10}', f'{str(dt["BUY"]):>4}',
+    print(cur + ': ' f'{ticker:<6}', f'{recmd:<11}', f'{str(dt["BUY"]):>4}',
           f'{str(dt["SELL"]):>4}', f'{str(dt["NEUTRAL"]):>4}', f'  {pr:>14}', f'{earn:6.2f}%')
 
 
@@ -148,7 +148,7 @@ def main(argv):
 
     while True:
         print('Interval: ' + interval)
-        print('Date and Time        Symbol Urge        Buy  Sell Neut           Price   Fluctuation')
+        print('Date and Time        Symbol Recommend    Buy  Sell Neut           Price   Fluctuation')
 
         for s in symbols:
             if binance:

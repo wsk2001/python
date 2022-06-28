@@ -3,8 +3,6 @@ import datetime
 import sys, getopt
 import pyupbit
 from time import sleep
-import requests
-from pandas import Series, DataFrame
 
 open_posi = 0
 close_posi = 3
@@ -29,6 +27,22 @@ def get_ticker_list():
 
 
 def main(argv):
+    sleep_min = 10
+    try:
+        opts, etc_args = getopt.getopt(argv[1:], "hs:", ["sleep="])
+
+    except getopt.GetoptError:
+        print(argv[0], '-s <sleep minutes>')
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print(argv[0], '-s <sleep minutes>')
+            sys.exit()
+
+        elif opt in ("-s", "--sleep"):
+            sleep_min = int(arg.strip())
+
     while True:
         total_count = 0
         plus_count = 0
@@ -51,7 +65,7 @@ def main(argv):
               ", 하락:" + str(minus_count),
               ", 종목수 : " + str(total_count))
 
-        sleep(60*10)
+        sleep(sleep_min*60)
 
 
 if __name__ == "__main__":
