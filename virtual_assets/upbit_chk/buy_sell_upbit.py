@@ -148,7 +148,7 @@ def main(argv):
 
     while True:
         print('Interval: ' + interval)
-        print('Date and Time        Symbol Recommend    Buy  Sell Neut           Price   Fluctuation')
+        print('Date and Time        Symbol Recommend    Buy  Sell Neutral        Price   Fluctuation')
 
         for s in symbols:
             if binance:

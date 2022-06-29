@@ -55,11 +55,12 @@
 # BTCC: 010 전화 // kang0192
 # 2022-05-30 08:15:02: KRW-WEMIX 5345.0 5665.0       5.99% expected to rise
 
+
 ################################
-# 2022-06-17
-# 53.31$
-# 234909
+# https://bitcode.tv/
+# 실시간 차트채팅. 청산맵. 매수매도 시그널 알고리즘...
 ################################
+
 CASH 0
 
 # ticker, amount, count, stop loss, take profit
@@ -77,3 +78,26 @@ DOGE 90.50 545.67191542 -10000.0 10000.0
 # 스캘핑 기법
 # 출처: https://chobocoinguide.com/56
 
+#import ccxt
+#from datetime import datetime
+#import pandas as pd
+#
+#binance = ccxt.binance()
+#ohlcvs = binance.fetch_ohlcv('ETH/BTC')
+#
+#df = pd.DataFrame(ohlcvs, columns=['date', 'open', 'high', 'low', 'close', 'volume'])
+#df = df.set_index('date')
+#df.index = pd.to_datetime(df.index, unit='ms')
+#df.head()
+#
+#
+#binance = ccxt.binance()
+#
+#since = "2021-09-28"
+#since = int(pd.to_datetime(since).timestamp() * 1000)
+#ohlcvs = binance.fetch_ohlcv('ETH/BTC', since=since)
+#
+#df = pd.DataFrame(ohlcvs, columns=['date', 'open', 'high', 'low', 'close', 'volume'])
+#df = df.set_index('date')
+#df.index = pd.to_datetime(df.index, unit='ms')
+#df.head()
