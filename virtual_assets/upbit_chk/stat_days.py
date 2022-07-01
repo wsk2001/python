@@ -86,7 +86,8 @@ def main(argv):
     lst = get_ticker_list()
 
     i = 1
-    for v in lst:
+    lts_man = ['KRW-WEMIX', 'KRW-REP', 'KRW-SC']
+    for v in lts_man:
         analyze_day(v, cnt)
         sleep(0.2)
         i += 1

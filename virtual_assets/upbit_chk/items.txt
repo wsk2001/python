@@ -63,6 +63,8 @@
 # 실시간 차트채팅. 청산맵. 매수매도 시그널 알고리즘...
 ################################
 
+# WEMIX 23 일날 오정에 사서 25 일날 저녁에 팔것.
+
 CASH 0
 
 # ticker, amount, count, stop loss, take profit
