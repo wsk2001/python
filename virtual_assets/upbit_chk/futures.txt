@@ -29,7 +29,7 @@
 ######################################################################
 
 # ticker, enter, count, pay_off, maginification
-ETH 1172.89 0.70 1237.14 x20
+BTC 18852.78 0.03 19687.23 x20
 
-STOP_LOSS -10.0
-TAKE_PROFIT 50.0
+STOP_LOSS -10
+TAKE_PROFIT 20.0

@@ -8,6 +8,8 @@
 # - 틀렸음이 명백한 지점을 식별해놓을 것(손절가 지정)
 # - 틀렸을 때 가차없이 손절하는 절제력을 기를 것(필요시 예약 매도)
 
+# - 선물은 자신이 Control 할 수 없는 시간에는 거래를 하지 말것.
+# - 아침 거래는 3대 지수 확인 후 들어 갈것.
 
 ################################
 # 코인판 https://coinpan.com 
@@ -65,6 +67,7 @@ CASH 0
 
 # ticker, amount, count, stop loss, take profit
 DOGE 90.50 545.67191542 -10000.0 10000.0
+ETH 1398500 1           -100000.0 100000.0
 
 # 분석 글 : https://twitter.com/mignoletkr/status/1533332058000371712
 # futures 
@@ -78,26 +81,3 @@ DOGE 90.50 545.67191542 -10000.0 10000.0
 # 스캘핑 기법
 # 출처: https://chobocoinguide.com/56
 
-#import ccxt
-#from datetime import datetime
-#import pandas as pd
-#
-#binance = ccxt.binance()
-#ohlcvs = binance.fetch_ohlcv('ETH/BTC')
-#
-#df = pd.DataFrame(ohlcvs, columns=['date', 'open', 'high', 'low', 'close', 'volume'])
-#df = df.set_index('date')
-#df.index = pd.to_datetime(df.index, unit='ms')
-#df.head()
-#
-#
-#binance = ccxt.binance()
-#
-#since = "2021-09-28"
-#since = int(pd.to_datetime(since).timestamp() * 1000)
-#ohlcvs = binance.fetch_ohlcv('ETH/BTC', since=since)
-#
-#df = pd.DataFrame(ohlcvs, columns=['date', 'open', 'high', 'low', 'close', 'volume'])
-#df = df.set_index('date')
-#df.index = pd.to_datetime(df.index, unit='ms')
-#df.head()
