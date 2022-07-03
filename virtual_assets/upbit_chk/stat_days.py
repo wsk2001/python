@@ -52,10 +52,18 @@ def analyze_day(v, count):
     print(v, start_date[:10], '~', end_date[:10])
     print('day : plus, minus, sum')
     i = 1
+    pt = 0
+    mt = 0
+    ct = 0
     for l in lst:
         p, m, c = l.get_earn()
+        pt += p
+        mt += m
+        ct += c
         print(i, ':',  str(p)+',', '-'+str(m)+',', str(c))
         i += 1
+
+    print('total', ':',  str(pt)+',', '-'+str(mt)+',', str(ct))
 
 
 def get_ticker_list():
@@ -85,13 +93,13 @@ def main(argv):
 
     lst = get_ticker_list()
 
-    i = 1
+    # i = 1
     for v in lst:
         analyze_day(v, cnt)
         sleep(0.2)
-        i += 1
-        if 2 < i:
-            break
+        # i += 1
+        # if 2 < i:
+        #     break
 
 
 if __name__ == "__main__":
