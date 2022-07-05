@@ -65,11 +65,11 @@
 
 # WEMIX 23 일날 오정에 사서 25 일날 저녁에 팔것.
 # 2022-07-05 1MW 시드 충전.
-CASH 1023269
+CASH 254698
 
 # ticker, amount, count, stop loss, take profit
-POWR 298 1  -10000.0 30000.0		# 매도 303
-ETH  1502000 1  -10000.0 15000.0
+ADA   604 844.21440397 -10000 10000 # (06:46)
+SAND 1580 161.28164556 -10000 10000 # (06:46)
 
 # 분석 글 : https://twitter.com/mignoletkr/status/1533332058000371712
 # futures 
@@ -83,3 +83,5 @@ ETH  1502000 1  -10000.0 15000.0
 # 스캘핑 기법
 # 출처: https://chobocoinguide.com/56
 
+# 시간대별 분석
+# 

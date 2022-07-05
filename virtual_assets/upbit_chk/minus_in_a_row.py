@@ -121,3 +121,4 @@ def main(argv):
 if __name__ == "__main__":
     main(sys.argv)
 
+# 연속으로 얼마나 내렸나 조회

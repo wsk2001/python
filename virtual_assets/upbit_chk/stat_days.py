@@ -125,3 +125,6 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv)
+
+
+# 정해진 기간 동안 몇일 오르고 몇일 내렸는지 확인
