@@ -43,6 +43,9 @@ def main(argv):
         elif opt in ("-s", "--sleep"):
             sleep_min = int(arg.strip())
 
+    now = time
+    print("업비트 원화 마켓", now.strftime('%m-%d'))
+
     while True:
         total_count = 0
         plus_count = 0
@@ -60,7 +63,7 @@ def main(argv):
                 minus_count += 1
 
         now = time
-        print("업비트 원화 마켓", now.strftime('%m-%d %H:%M:%S'),
+        print(now.strftime('%H:%M:%S'),
               "상승:" + str(plus_count),
               ", 하락:" + str(minus_count),
               ", 종목수 : " + str(total_count))
