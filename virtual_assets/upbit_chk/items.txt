@@ -65,11 +65,11 @@
 
 # WEMIX 23 일날 오정에 사서 25 일날 저녁에 팔것.
 # 2022-07-05 1MW 시드 충전.
-CASH 521486
+CASH 0
 
 # ticker, amount, count, stop loss, take profit
-ADA   604 844.21440397 -10000 15000 # (06:46)
-SAND 1580 1 -10000 15000 # (06:46) 1655에 매도
+IQ    5.82 177295.33322886 -25000 25000 # (2022-07-07 07:25)
+ADA   604 1 -10000 15000
 
 # 분석 글 : https://twitter.com/mignoletkr/status/1533332058000371712
 # futures 

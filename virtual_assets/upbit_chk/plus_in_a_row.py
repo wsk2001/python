@@ -1,9 +1,8 @@
-import calendar
+#-*- coding:utf-8 -*-
+
 import getopt
-import sys, time
+import sys
 import pyupbit
-from common.utils import market_code, get_interval
-from datetime import datetime
 
 
 class in_a_row:

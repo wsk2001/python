@@ -1,7 +1,6 @@
 #-*- coding:utf-8 -*-
 
-import time
-import sys
+import time, sys, signal
 import requests
 import json
 from common.utils import get_binance_btc
@@ -143,5 +142,10 @@ def main(argv):
         print('Coinbase Premium Index:', f'{cb_idx:.2f}')
         time.sleep(5)
 
+
+def exit_gracefully(signal, frame):
+    sys.exit(0)
+
 if __name__ == "__main__":
+    signal.signal(signal.SIGINT, exit_gracefully)
     main(sys.argv)

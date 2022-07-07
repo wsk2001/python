@@ -1,3 +1,5 @@
+#-*- coding:utf-8 -*-
+
 import getopt
 import sys
 from time import sleep
@@ -61,6 +63,7 @@ def analyze_day(v, count):
 
     print('total', 'plus:' + str(pt)+',', 'minus:' + '-'+str(mt)+',', 'sum:' + str(ct))
     print('')
+
 
 def get_ticker_list():
     return pyupbit.get_tickers(fiat="KRW")

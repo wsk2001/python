@@ -1,1 +1,1 @@
-btc eth ada sol
+btc eth wemix iq
