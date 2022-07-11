@@ -65,13 +65,13 @@
 
 # WEMIX 23 일날 오정에 사서 25 일날 저녁에 팔것.
 # 2022-07-05 1MW 시드 충전. 2022-07-08: 1,043,747
-CASH 0
+CASH 1007092 
 
 # ticker, amount, count, stop loss, take profit
 # 7-09 cre 15% +
-BTC 28466000 0.01823961	-15000 15000 # (2022-07-08)
-BORA 407 712.71980717 -15000 15000 # (2022-07-10)
-MATIC 777 373.70270270 -15000 15000 # (2022-07-10)
+BTC 26833000 1	-20000 15000 # (2022-07-11, -3.05% 에 매입) 하락장 이라서 17시쯤 오르려나 ? 확인 필요.
+WAXP 141 1 -5000 50000 # (2022-07-10)
+MFT 5.82 1 -5000 50000 # (2022-07-10)
 
 # 분석 글 : https://twitter.com/mignoletkr/status/1533332058000371712
 # futures 
@@ -87,3 +87,6 @@ MATIC 777 373.70270270 -15000 15000 # (2022-07-10)
 
 # 시간대별 분석
 # 
+
+# price predicting 
+# https://pythoninoffice.com/predicting-bitcoin-price-stock-to-flow-python/
