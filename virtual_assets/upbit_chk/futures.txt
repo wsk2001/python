@@ -29,10 +29,11 @@
 ######################################################################
 
 # ticker, enter, count, pay_off, maginification
-BTC 19203.83 0.01 22457.72 x10
+BTC 20012.81 0.01 23366.43 x10
 
-STOP_LOSS -5.5
-TAKE_PROFIT 20.0
+STOP_LOSS 2.0
+TAKE_PROFIT 12.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
+# 16:41:28 BTC Short 0.0100, 20012.810, 19735.680, 23366.430, 10 0.01%, 2.771

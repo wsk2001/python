@@ -22,7 +22,8 @@ def view(v, to_time):
     else:
         df = pyupbit.get_ohlcv('KRW-' + v, interval='minute1', count=1440, to=end_time, period=1)
 
-    plt.rcParams['axes.facecolor'] = 'black'
+    plt.style.use(['dark_background'])
+    # plt.rcParams['axes.facecolor'] = 'black'
     plt.rcParams['lines.linewidth'] = 1
     plt.rcParams['axes.grid'] = True
     dfs = df['close']

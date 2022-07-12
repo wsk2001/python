@@ -65,17 +65,17 @@
 
 # WEMIX 23 일날 오정에 사서 25 일날 저녁에 팔것.
 # 2022-07-05 1MW 시드 충전. 2022-07-08: 1,043,747
-CASH 1007092 
+CASH 991749
 
 # ticker, amount, count, stop loss, take profit
 # 7-09 cre 15% +
-BTC 26833000 1	-20000 15000 # (2022-07-11, -3.05% 에 매입) 하락장 이라서 17시쯤 오르려나 ? 확인 필요.
-WAXP 141 1 -5000 50000 # (2022-07-10)
-MFT 5.82 1 -5000 50000 # (2022-07-10)
+WEMIX  3115 1 -15000 15000 #
+MBL    6.24 1 -15000 15000 #
 
 # 분석 글 : https://twitter.com/mignoletkr/status/1533332058000371712
 # futures 
 # 상승 할 때는 펀딩비 나가는 시간 에도 오른다. (펀딩비를 감당 할 수 있는 수준 까지 올랐기 때문으로 판단 된다).
+# 하락장 에도 펀딩비 나가는 시간 에도 오른다. ( 반대로 지급 되므로 오르는것 으로 판단됨)
 # 코인베이스 프리미엄, SOPR, MVRV 비율, 미실현 순수익(NUPL), 
 # 
 
@@ -90,3 +90,7 @@ MFT 5.82 1 -5000 50000 # (2022-07-10)
 
 # price predicting 
 # https://pythoninoffice.com/predicting-bitcoin-price-stock-to-flow-python/
+
+# https://investing-world.com/kr/lee-jae-yong-investment/?lpkey=16c857d3591e87df19&offer=Bitcoin%20Buyer&uclick=usqd16xrbl&uclickhash=usqd16xrbl-usqd16xrbl-fna8-0-8p17-uslpi4-usgm6o-c8a726
+
+# buy 1240, sl 930, sell-1 1400, sell-2 1470, sell-3 1700
