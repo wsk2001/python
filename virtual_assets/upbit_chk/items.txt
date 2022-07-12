@@ -67,11 +67,11 @@
 
 # WEMIX 23 일날 오정에 사서 25 일날 저녁에 팔것.
 # 2022-07-05 1MW 시드 충전. 2022-07-08: 1,043,747
-CASH 991749
+CASH 497717
 
 # ticker, amount, count, stop loss, take profit
 # 7-09 cre 15% +
-WEMIX  3115 1 -15000 15000 #
+WEMIX 3021 161.41686993 -10000 10000 #
 MBL    6.24 1 -15000 15000 #
 
 # 분석 글 : https://twitter.com/mignoletkr/status/1533332058000371712

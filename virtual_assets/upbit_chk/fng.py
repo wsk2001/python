@@ -7,8 +7,11 @@ from common.utils import get_binance_btc
 from common.dominance import get_dominance
 import ccxt, cbpro, datetime
 from tradingview_ta import TA_Handler, Interval, Exchange
+import io
+from bs4 import BeautifulSoup
 
 url = "https://api.alternative.me/fng/?limit="
+
 
 def funding_rate_binance():
     binance = ccxt.binance({'options': {
@@ -18,17 +21,20 @@ def funding_rate_binance():
     fund = binance.fetch_funding_rate(symbol='BTC/USDT')
     return fund['interestRate']
 
+
 def funding_rate_bybit():
     bybit = ccxt.bybit()
     tick = bybit.fetch_ticker(symbol='BTC/USDT')
     tick_info = tick['info']
     return tick_info['funding_rate']
 
+
 def funding_rate_bitmex():
     bitmex = ccxt.bitmex()
     tick = bitmex.fetch_ticker(symbol='BTC/USD')
     tick_info = tick['info']
     return tick_info['fundingRate']
+
 
 def fear_day(bef):
     _bef = str(bef+1)
@@ -104,6 +110,28 @@ def cb_index(bn_p):
     return cb_p, bn_p, cb_p - bn_p * ti, ti
     # return cb_p, bn_p, cb_p - bn_p, ((cb_p - bn_p) / bn_p) * 100
 
+# 워뇨띠 포지션
+def aoa_posi():
+    # sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
+    # sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
+
+    r = requests.get('https://www.bitsignal.me/indexw.php');
+
+    soup = BeautifulSoup(r.content.decode('utf-8', 'replace'), 'html.parser')
+    str0 = soup.prettify()
+    idx = str0.find('<td class="one">')
+    str1 = str0[idx:idx + 300]
+    strs = str1.splitlines()
+
+    str_out = ''
+    for s in strs:
+        if s.strip().startswith('<'):
+            continue
+        else:
+            str_out = str_out + ' ' + s.strip()
+
+    return str_out.strip()
+
 
 def main(argv):
     fng_today = fear_day(0)
@@ -129,22 +157,25 @@ def main(argv):
 
     print(f'바낸 비트 가격: $' + format(price, ',.2f'))
     print(f'바낸 비트 도미: {domi:.3f}')
-    print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
-    print(f'테더 가격     : ' + format(ti, ',.5f'))
-    print('')
-    print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
-    print('  산출 방법: 코베 - (바낸 * 테더)')
-    print('')
+    print(aoa_posi() + ' (bitsignal)')
 
-    while True:
-        _, price = get_binance_btc('BTC')
-        cb_p, bn_p, cb_idx, ti = cb_index(price)
-        print('Coinbase Premium Index:', f'{cb_idx:.2f}')
-        time.sleep(5)
+    # print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
+    # print(f'테더 가격     : ' + format(ti, ',.5f'))
+    # print('')
+    # print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
+    # print('  산출 방법: 코베 - (바낸 * 테더)')
+    # print('')
+    #
+    # while True:
+    #     _, price = get_binance_btc('BTC')
+    #     cb_p, bn_p, cb_idx, ti = cb_index(price)
+    #     print('Coinbase Premium Index:', f'{cb_idx:.2f}')
+    #     time.sleep(5)
 
 
 def exit_gracefully(signal, frame):
     sys.exit(0)
+
 
 if __name__ == "__main__":
     signal.signal(signal.SIGINT, exit_gracefully)
