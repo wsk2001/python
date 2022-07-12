@@ -14,6 +14,8 @@
 ################################
 # 코인판 https://coinpan.com 
 ################################
+# 워뇨띠 포지션 https://www.bitsignal.me/indexw.php
+#          https://btctools.io/stats/leaderboard
 # 데일리 호들 https://dailyhodl.com
 # 코인니스 https://coinness.live/
 # 코인코드 https://coincode.kr/
