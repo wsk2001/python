@@ -1,1 +1,1 @@
-btc eth wemix iq
+btc eth wemix

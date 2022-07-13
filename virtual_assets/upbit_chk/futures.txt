@@ -29,10 +29,10 @@
 ######################################################################
 
 # ticker, enter, count, pay_off, maginification
-BTC 20012.81 0.01 23366.43 x10
+BTC 19717.21 0.01 23909.69 x10
 
-STOP_LOSS 2.0
-TAKE_PROFIT 12.0
+STOP_LOSS -2.0
+TAKE_PROFIT 5.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/

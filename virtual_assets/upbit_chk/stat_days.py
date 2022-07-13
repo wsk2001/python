@@ -69,6 +69,14 @@ def get_ticker_list():
     return pyupbit.get_tickers(fiat="KRW")
 
 
+def usage(app):
+    print('')
+    print('usage:', app, '-c <days> -f <filename> -a [all symbol]')
+    print('ex) python', app, '-c 365 -f stat.txt')
+    print('')
+    sys.exit()
+
+
 def main(argv):
     cnt = 60
     lst = []
@@ -80,15 +88,11 @@ def main(argv):
                                        , ["help", "count=", "all=", "filename="])
 
     except getopt.GetoptError:
-        print('usage:', argv[0], '-c <days>')
-        print('ex) python', f'{argv[0]}', '-c 365')
-        sys.exit(2)
+        usage(argv[0])
+
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print('usage:', argv[0], '-c <days>')
-            print('ex) python', f'{argv[0]}', '-c 365')
-            print('')
-            sys.exit()
+            usage(argv[0])
 
         elif opt in ("-c", "--count"):  # count
             cnt = int(arg.strip())
