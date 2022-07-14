@@ -29,9 +29,9 @@
 ######################################################################
 
 # ticker, enter, count, pay_off, maginification
-BTC 19717.21 0.01 23909.69 x10
+BTC 20204.10 0.03 21157.04 x20
 
-STOP_LOSS -2.0
+STOP_LOSS -5.0
 TAKE_PROFIT 5.0
 
 # https://coinpriceforecast.com/
