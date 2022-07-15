@@ -24,7 +24,7 @@ chrome://version
 
 1) selenium 설치 pip코드
 
-  pip install seleum 
+  pip install selenium
 
  
 

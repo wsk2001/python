@@ -1,6 +1,6 @@
 #-*- coding:utf-8 -*-
 
-# ¿ö´¢¶ì Æ÷Áö¼Ç °¡Á® ¿À´Â ½ºÅ©¸³Æ®.
+# ì›Œë‡¨ë  í¬ì§€ì…˜ ê°€ì ¸ ì˜¤ëŠ” ìŠ¤í¬ë¦½íŠ¸.
 
 import sys
 import io
