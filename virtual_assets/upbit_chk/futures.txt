@@ -29,11 +29,12 @@
 ######################################################################
 
 # ticker, enter, count, pay_off, maginification
-# BTC 20204.10 0.03 21157.04 x20
-ETH 1182.03 0.20 1421.97 x10
+# XRP 0.35144 1000 0.310005 x20 # long win
+BTC 21158.11 0.10 20824.88 x100 # long
+
 
 STOP_LOSS -7.0
-TAKE_PROFIT 7.0
+TAKE_PROFIT 5.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/

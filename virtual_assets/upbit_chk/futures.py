@@ -52,14 +52,15 @@ def get_binance_btc_json(ticker, enter, count, pay_off, magn):
         cur_tot *= -1.0
         posi_short = True
 
+    posi_txt = ''
     if posi_short:
-        print(cur + f' {ticker}' + f' Short' + f' {count:6.4f}' + ', ' +
-              f'{enter:6.3f}' + ', ' + f'{close_price:6.3f}' + ', ' + f'{pay_off:6.3f}' + ', ' +
-              format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.3f}')
+        posi_txt = ' Short'
     else:
-        print(cur + f' {ticker}' + f' Long ' + f' {count:6.4f}' + ', ' +
-              f'{enter:6.3f}' + ', ' + f'{close_price:6.3f}' + ', ' + f'{pay_off:6.3f}' + ', ' +
-              format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.3f}')
+        posi_txt = ' Long '
+
+    print(cur + f' {ticker}' + posi_txt + f' {count:6.3f}' + ', ' +
+          f'{enter:6.3f}' + ', ' + f'{close_price:6.3f}' + ', ' + f'{pay_off:6.3f}' + ', ' +
+          format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.3f}')
 
     if cur_tot < stop_loss:
         toaster = ToastNotifier()
