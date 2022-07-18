@@ -45,6 +45,7 @@
 # https://github.com/search?l=Python&o=desc&q=Algorithm+Trading+for+Crypto&s=stars&type=Repositories
 # -- https://github.com/songv1/2019-Cryptocurrency-Trading-Algorithm
 # https://blog.naver.com/PostView.naver?blogId=pp8762&logNo=222439726692&categoryNo=16&parentCategoryNo=16&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
+# https://bloomingbit.io/news
 
 # 상승 가능성이 있는 종목 찾기.
 # https://superhky.tistory.com/282
@@ -68,12 +69,12 @@
 
 # WEMIX 23 일날 오전에 사서 25 일날 저녁에 팔것.
 # 2022-07-05 1MW 시드 충전. 2022-07-08: 1,043,747
-CASH 833595
+CASH 0
 
 # ticker, amount, count, stop loss, take profit
 # 7-09 cre 15% +
-MBL 5.70 1 -3000 5000 # 
-XRP  447 1 -3000 5000 #
+WEMIX 3122 128.95630287 -10000 10000 # 
+TT    7.03 38505.49831769  -10000 15000 # 
 	
 
 #07:09:56 ( 1.83,  -0.39 ) REP   :     10140.0000,     10240.0000,   0.99%,    4360.40, 446,505
