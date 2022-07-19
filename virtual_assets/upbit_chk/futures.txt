@@ -35,7 +35,7 @@
 # ETH 1452.42 0.80 1561.13 x10 # long loss (2022-07-18)
 # ETH 1487.85 1.00 1419.27 x20 # long win (2022-07-19, 07-02), position change, increment call option
 # ETH 1555.73 0.30 1100.54 x10 # long win (2022-07-19, 07-02), 
-ETH 1505.09 0.20 2208.09 x10 # short
+# ETH 1505.09 0.20 2208.09 x10 # short loss $-1.072
 
 
 STOP_LOSS -5.0
