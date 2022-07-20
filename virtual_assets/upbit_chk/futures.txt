@@ -35,11 +35,16 @@
 # ETH 1452.42 0.80 1561.13 x10 # long loss (2022-07-18)
 # ETH 1487.85 1.00 1419.27 x20 # long win (2022-07-19, 07-02), position change, increment call option
 # ETH 1555.73 0.30 1100.54 x10 # long win (2022-07-19, 07-02), 
-ETH 1505.09 0.20 2208.09 x10 # short loss $-1.072
+# ETH 1505.09 0.20 2208.09 x10 # short loss $-1.072
+# ETH 1579.73 0.40 1390.25 x10 # long loss (2022-07-20)
+# ETH 1571.49 0.40 1734 x100 # short win  (2022-07-20)
+# BTC 23403.06 0.01 33841.97 x10 # short loss (2022-07-20, -1.920)
+# BTC 23159.79 0.01 12931.58 x10 # long win
+BTC 23643.75 0.01 34337.44 x10 # short (15:35)
 
 
-STOP_LOSS -5.0
-TAKE_PROFIT 10.0
+STOP_LOSS -3.0
+TAKE_PROFIT 4.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
