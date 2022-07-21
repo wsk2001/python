@@ -40,11 +40,15 @@
 # ETH 1571.49 0.40 1734 x100 # short win  (2022-07-20)
 # BTC 23403.06 0.01 33841.97 x10 # short loss (2022-07-20, -1.920)
 # BTC 23159.79 0.01 12931.58 x10 # long win
-BTC 23643.75 0.01 34337.44 x10 # short (15:35)
+# BTC 23643.75 0.01 34337.44 x10 # short (15:35)
+# ETH 1538.56 0.20 1029.27 x10 # long loss (2022-07-21)
+# ETH 1511.14 0.20 1992.06 x10 # short  loss (2022-07-21)
+# BTC 23244.82 0.02 18787.66 x10 # long (2022-07-21)
+BTC 22778.98 0.03 25292.61 x10 # short
 
 
-STOP_LOSS -3.0
-TAKE_PROFIT 4.0
+STOP_LOSS -8.5
+TAKE_PROFIT 5.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
