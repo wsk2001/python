@@ -1,12 +1,10 @@
 import time
 import datetime
 import sys, getopt, signal
-import pyupbit
-from common.utils import get_binance_btc, get_fng
+from common.utils import get_fng
 from common.utils import upbit_get_usd_krw
-from common.dominance import get_dominance
+from common.dominance import aoa_position
 import requests
-import json
 from win10toast import ToastNotifier
 
 item_list = []
@@ -76,6 +74,7 @@ def main(argv):
     inv_amt = 0.0
     sleep_sec = 5
     view_binance = False
+    trader_posi = aoa_position()
 
     try:
         opts, etc_args = getopt.getopt(argv[1:], "hs:", ["sleep="])
@@ -125,6 +124,8 @@ def main(argv):
     file.close()
 
     i = 0
+    chg_posi = False
+    disp_cnt = 0
     while True:
         i = 0
         for itm in item_list:
@@ -133,6 +134,18 @@ def main(argv):
             time.sleep(0.1)
 
         time.sleep(sleep_sec)
+        tmp_posi = aoa_position()
+        if not tmp_posi.startswith(trader_posi):
+            trader_posi = tmp_posi
+            chg_posi = True
+
+        if 0 < chg_posi:
+            toaster = ToastNotifier()
+            toaster.show_toast("Position change:", trader_posi)
+            disp_cnt += 1
+            if 10 < disp_cnt:
+                chg_posi = False
+                disp_cnt = 0
 
         if 1 < i:
             print()

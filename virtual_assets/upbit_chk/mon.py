@@ -8,12 +8,13 @@ from common.utils import get_binance_btc, get_fng
 from common.utils import upbit_get_usd_krw
 from common.dominance import get_dominance
 import requests
-import json
+from common.dominance import aoa_position
 from win10toast import ToastNotifier
 
 symbols = []
 
 usd = 1270
+
 
 class item:
     def __init__(self, ticker, base, count, sl, tp):
@@ -198,15 +199,19 @@ def main(argv):
     usd = upbit_get_usd_krw()
 
     i = 0
+    chg_posi = False
+    disp_cnt = 0
+    trader_posi = aoa_position()
+
     while True:
         amt = 0.0
         mgn = 0.0
         btc_rate, _ = rate('KRW-BTC')
+
         for itm in symbols:
             if itm.ticker.startswith('BTC-'):
                 t_mgn, t_amt = check_btc_ticker(itm.ticker, btc_rate, itm.base, itm.count)
-                # get_binance_btc_json(itm.ticker[4:], btc_rate, itm.base, itm.count)
-            else :
+            else:
                 t_mgn, t_amt = check_krw_ticker(itm.ticker, btc_rate, itm.base, itm.count, itm.sl, itm.tp)
             mgn += t_mgn
             amt += t_amt
@@ -221,9 +226,6 @@ def main(argv):
             op_btc, price = get_binance_btc('BTC')
             chg24 = ((price / op_btc) - 1.0) * 100.0
 
-            # op_usdt, price_usdt = get_binance_btc('ETH')
-            # chg24_usdt = ((price_usdt / op_usdt) - 1.0) * 100.0
-
             i += 1
             if 1000 <= i:
                 i = 0
@@ -231,13 +233,25 @@ def main(argv):
         if view_binance:
             print(f'fng: {fng}, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
                   f' BTC: $' + format(price, ',.2f'), f'{chg24:.3f}', f'Domi {domi:.3f},',
-                  # f' ETH: $' + format(price_usdt, ',.2f'), f'{chg24_usdt:.3f}',
                   'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
         else:
             print(f'fng: {fng}, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
                   'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
 
         time.sleep(sleep_sec)
+        tmp_posi = aoa_position()
+        if not tmp_posi.startswith(trader_posi):
+            trader_posi = tmp_posi
+            chg_posi = True
+
+        if 0 < chg_posi:
+            toaster = ToastNotifier()
+            toaster.show_toast("Position change:", trader_posi)
+            disp_cnt += 1
+            if 10 < disp_cnt:
+                chg_posi = False
+                disp_cnt = 0
+
         print()
 
 

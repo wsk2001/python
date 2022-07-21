@@ -4,7 +4,7 @@ import time, sys, signal
 import requests
 import json
 from common.utils import get_binance_btc
-from common.dominance import get_dominance
+from common.dominance import get_dominance, aoa_position
 import ccxt, cbpro, datetime
 from tradingview_ta import TA_Handler, Interval, Exchange
 import io
@@ -110,28 +110,6 @@ def cb_index(bn_p):
     return cb_p, bn_p, cb_p - bn_p * ti, ti
     # return cb_p, bn_p, cb_p - bn_p, ((cb_p - bn_p) / bn_p) * 100
 
-# 워뇨띠 포지션
-def aoa_posi():
-    # sys.stdout = io.TextIOWrapper(sys.stdout.detach(), encoding='utf-8')
-    # sys.stderr = io.TextIOWrapper(sys.stderr.detach(), encoding='utf-8')
-
-    r = requests.get('https://www.bitsignal.me/indexw.php');
-
-    soup = BeautifulSoup(r.content.decode('utf-8', 'replace'), 'html.parser')
-    str0 = soup.prettify()
-    idx = str0.find('<td class="one">')
-    str1 = str0[idx:idx + 300]
-    strs = str1.splitlines()
-
-    str_out = ''
-    for s in strs:
-        if s.strip().startswith('<'):
-            continue
-        else:
-            str_out = str_out + ' ' + s.strip()
-
-    return str_out.strip()
-
 
 def main(argv):
     fng_today = fear_day(0)
@@ -157,7 +135,7 @@ def main(argv):
 
     print(f'바낸 비트 가격: $' + format(price, ',.2f'))
     print(f'바낸 비트 도미: {domi:.3f}')
-    print(aoa_posi() + ' (bitsignal)')
+    print(aoa_position() + ' (bitsignal)')
 
     # print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
     # print(f'테더 가격     : ' + format(ti, ',.5f'))
