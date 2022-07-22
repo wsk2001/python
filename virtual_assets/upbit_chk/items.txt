@@ -91,10 +91,7 @@
 
 # https://investing-world.com/kr/lee-jae-yong-investment/?lpkey=16c857d3591e87df19&offer=Bitcoin%20Buyer&uclick=usqd16xrbl&uclickhash=usqd16xrbl-usqd16xrbl-fna8-0-8p17-uslpi4-usgm6o-c8a726
 
-# buy 1240, sl 930, sell-1 1400, sell-2 1470, sell-3 1700
-# 2022-07-13: CPI (소비자 물가지수) 발표는 한국시간으로 금일 21:30 입니다
-# * +10.2% 나올 것이라는 괴담이 계속 돌고 있긴 함
-# 유럽 CPI 예상치 부합 에 Short 청산
+
 ###################################################################
 # https://github.com/AutomationPanda/playwright-python-tutorial
 ###################################################################
@@ -102,9 +99,9 @@
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
 
 
-CASH 331283
+CASH 332136
 
 # ticker, amount, count, stop loss, take profit
 # 7-09 cre 15% +
 # ETH 2023000 0.16714508  -15000 10000 #  loss (2022-07-21)
-WEMIX 3255 104.14516244   -15000 10000 # 
+SRM 1360 244.33933823    -10000 10000 # 
