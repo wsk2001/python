@@ -47,9 +47,10 @@
 # BTC 22778.98 0.03 25292.61 x10 # short loss
 # BTC 23173.45 0.01 14350.65 x10 # long Loss(2022-07-22 Fri)
 # BTC 23014.92 0.1 23813.98 x100 # short
-BTC 23033.57 0.01 15132.58 x10 # long
+# BTC 23033.57 0.01 15132.58 x10 # long win
+BTC 23673.75 0.01 15096.96 x10 # long (2022-07-23)
 
-STOP_LOSS -4.5
+STOP_LOSS -15.5
 TAKE_PROFIT 10.0
 
 # https://coinpriceforecast.com/
