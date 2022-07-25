@@ -46,6 +46,7 @@
 # -- https://github.com/songv1/2019-Cryptocurrency-Trading-Algorithm
 # https://blog.naver.com/PostView.naver?blogId=pp8762&logNo=222439726692&categoryNo=16&parentCategoryNo=16&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
 # https://bloomingbit.io/news
+# 코인 일정은 취미생활방 및 Coinmarketcal 제공
 
 # 상승 가능성이 있는 종목 찾기.
 # https://superhky.tistory.com/282
@@ -104,5 +105,5 @@ CASH 0
 # ticker, amount, count, stop loss, take profit
 # 7-09 cre 15% +
 # ETH 2023000 0.16714508  -15000 10000 #  loss (2022-07-21)
-ETH 2035000 0.12361288 -15000 10000 # (2022-07-23)
-WEMIX 3230 131.25066340 -15000 10000 # (2022-07-22)
+WEMIX 3230 131.25066340 -10000 10000 # (2022-07-22)
+ETH 2035000 0.12361288 -10000 10000 # (2022-07-23)
