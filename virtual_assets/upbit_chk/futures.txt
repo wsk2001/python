@@ -49,10 +49,11 @@
 # BTC 23014.92 0.1 23813.98 x100 # short
 # BTC 23033.57 0.01 15132.58 x10 # long win
 # BTC 23673.75 0.01 15096.96 x10 # long loss(2022-07-23)
-BTC 21867.37 0.10 21264.57 x10 # long 
+# BTC 21867.37 0.10 21264.57 x100 # long win (2022-07-25)
+BTC 22058.01 0.02 18026.88 x20 # long (2022-07-25)
 
-STOP_LOSS -15.5
-TAKE_PROFIT 20.0
+STOP_LOSS -2.5
+TAKE_PROFIT 5.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
