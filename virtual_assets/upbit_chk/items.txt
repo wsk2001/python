@@ -26,12 +26,17 @@
 # 블록미디어 https://www.blockmedia.co.kr/
 # 그레이 스케일 https://www.coinglass.com/Grayscale
 # https://www.coindalin.com/twitter/ardor/1320
+# https://md2biz.tistory.com/480
+# http://www.blockchaintoday.co.kr/news/articleView.html?idxno=20837
+# 코인데스크 (https://www.coindesk.com/)
+# 스팀잇(https://steemit.com/)
+# 뉴스 BTC(https://www.newsbtc.com/)
+# 코인마켓캡 (https://coinmarketcap.com/) 
+
 # 나스닥 종합: https://m.finance.daum.net/global/quotes
 #
 # 엘리엇 파동 이론 구현(Python): https://github.com/philippe-ostiguy/PyBacktesting
 #                         https://jeyinvest.tistory.com/33
-# https://md2biz.tistory.com/480
-# http://www.blockchaintoday.co.kr/news/articleView.html?idxno=20837
 
 
 # BTC 선물 옵션 만기일: 1/28, 2/25, 3/25, 4/29, 5/27, 6/24, 12/30
@@ -100,10 +105,12 @@
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
 
 
-CASH 670603
+CASH 499027
 
 # ticker, amount, count, stop loss, take profit
 # 7-09 cre 15% +
 # ETH 2023000 0.16714508  -15000 10000 #  loss (2022-07-21)
-WEMIX 3150 1 -10000 10000 # (2022-07-22)
+#WEMIX 3145 106.14761904 -10000 10000 # (2022-07-22)
+BORA 391 435.66368286 -10000 10000 # (2022-07-22)
+WEMIX 3145 1 -10000 10000 # (2022-07-22)
 ETH 2035000 1 -10000 10000 # (2022-07-23)

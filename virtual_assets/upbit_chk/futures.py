@@ -1,11 +1,12 @@
 import time
 import datetime
 import sys, getopt, signal
-from common.utils import get_fng
+from common.utils import get_binance_btc, get_fng
 from common.utils import upbit_get_usd_krw
 from common.dominance import aoa_position
 import requests
 from win10toast import ToastNotifier
+import pyupbit
 
 item_list = []
 
@@ -25,6 +26,13 @@ class Item:
 def exit_gracefully(signal, frame):
     sys.exit(0)
 
+
+def rate(v):
+    df = pyupbit.get_ohlcv(v, count=1)
+    open_price = df['open'][0]
+    close_price = df['close'][0]
+    res = ((close_price / open_price) - 1.0) * 100.0
+    return res, close_price
 
 def get_binance_btc_json(ticker, enter, count, pay_off, magn):
     ep = 'https://api.binance.com'
@@ -56,7 +64,9 @@ def get_binance_btc_json(ticker, enter, count, pay_off, magn):
     else:
         posi_txt = ' Long '
 
-    print(cur + f' {ticker}' + posi_txt + f' {count:6.3f}' + ', ' +
+    btc_rate, _ = rate('KRW-BTC')
+
+    print(cur + f' ({btc_rate:.3f}%) ' + f' {ticker}' + posi_txt + f' {count:6.3f}' + ', ' +
           f'{enter:6.3f}' + ', ' + f'{close_price:6.3f}' + ', ' + f'{pay_off:6.3f}' + ', ' +
           format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.3f}')
 
