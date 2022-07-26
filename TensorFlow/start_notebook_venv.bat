@@ -1,1 +1,0 @@
-Scripts\activate_notebook.bat
