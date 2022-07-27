@@ -63,8 +63,8 @@
 BTC 21392.70 0.02 25449.92 x10 # short (2022-07-27)
 
 
-STOP_LOSE -3.0
-TAKE_PROFIT 5.0
+STOP_LOSE 0.5
+TAKE_PROFIT 10.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
