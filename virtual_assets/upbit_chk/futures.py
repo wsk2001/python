@@ -102,10 +102,7 @@ def main(argv):
 
     file = open("futures.txt", "r")
     lines = file.readlines()
-    cash = 0.0
-    usd = upbit_get_usd_krw()
-    fng = get_fng()
-
+    ticker_count = 0
     for l in lines:
         line = l.strip()
         if not line:
@@ -117,7 +114,7 @@ def main(argv):
         if len(line) <= 0:
             continue
 
-        if line.upper().startswith("STOP_LOSS"):
+        if line.upper().startswith("STOP_LOSE"):
             s = line.split()
             stop_loss = float(s[1])
             continue
@@ -128,10 +125,15 @@ def main(argv):
             continue
 
         s = line.split()
-
         item_list.append(Item(s[0], float(s[1]), float(s[2]), float(s[3]), float(s[4][1:])))
+        ticker_count += 1
 
     file.close()
+
+    if ticker_count <= 0:
+        print('No tickers to monitoring.')
+        print('Check the futures.txt file.')
+        exit(0)
 
     i = 0
     chg_posi = False
