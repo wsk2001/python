@@ -66,9 +66,9 @@ async def get_data():
         if 5 <= len(list_up_count):
             ma = ma5()
             if ma < list_cnt[0]:
-                position = 'Up'
+                position = 'Long'
             elif list_cnt[0] < ma:
-                position = 'Down'
+                position = 'Short'
 
         # change of direction
         cur = datetime.datetime.now().strftime('%H:%M:%S')
