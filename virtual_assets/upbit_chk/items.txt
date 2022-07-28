@@ -103,6 +103,7 @@
 # https://github.com/AutomationPanda/playwright-python-tutorial
 ###################################################################
 
+# 바이비트: https://www.bybit.com/en-US/ mail // 끝()OP
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
 
 
