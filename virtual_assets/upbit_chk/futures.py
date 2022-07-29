@@ -62,13 +62,13 @@ def get_binance_btc_json(ticker, enter, count, pay_off, magn):
     if posi_short:
         posi_txt = ' Short'
     else:
-        posi_txt = ' Long '
+        posi_txt = ' Long'
 
     btc_rate, _ = rate('KRW-BTC')
 
-    print(cur + f' ({btc_rate:.3f}%) ' + f' {ticker}' + posi_txt + f' {count:6.3f}' + ', ' +
-          f'{enter:6.3f}' + ', ' + f'{close_price:6.3f}' + ', ' + f'{pay_off:6.3f}' + ', ' +
-          format(int(magn), ',d') + f' {cur_rate:4.2f}%' + ', ' + f'{cur_tot:4.3f}')
+    print(cur + f' ({btc_rate:.2f}%) ' + f' {ticker}' + posi_txt + f' x{int(magn)},  {count:6.3f}' + ', ' +
+          f'{enter:6.5f}' + ', ' + f'{close_price:6.5f}' + ', ' + f'SL {pay_off:6.5f}' + ', ' +
+          f'{cur_tot:4.3f}')
 
     if cur_tot < stop_loss:
         toaster = ToastNotifier()

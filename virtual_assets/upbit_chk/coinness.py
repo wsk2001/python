@@ -10,11 +10,14 @@ position = 'Neutral'
 old_posi = 'Neutral'
 list_up_count = []
 
+
 def exit_gracefully(signal, frame):
     sys.exit(0)
 
+
 def ma5():
     return int(np.average(list_up_count[-5:]))
+
 
 async def get_data():
     global old_posi
@@ -25,42 +28,42 @@ async def get_data():
         browser = await pw.chromium.launch()
         page = await browser.new_page()
         await page.goto('https://coinness.live/market/ticker')
-        time.sleep(6)
+        # time.sleep(6)
 
         html = await page.content()
         soup = bs(html, 'html.parser').prettify()
         lines = soup.splitlines()
 
         list_str = []
-        fflag = False
+        flag = False
 
         await browser.close()
 
-        for str in lines:
-            if fflag == False:
-                idx = str.find('<span class="sc-fWPcWZ cOaPDR">')
+        for field in lines:
+            if not flag:
+                idx = field.find('<span class="sc-fWPcWZ cOaPDR">')
                 if 0 < idx:
-                    list_str.append(str)
-                    fflag = True
+                    list_str.append(field)
+                    flag = True
                 else:
                     continue
             else:
-                list_str.append(str)
-                idx = str.find('</span>')
+                list_str.append(field)
+                idx = field.find('</span>')
                 if 0 < idx:
-                    fflag = False
+                    flag = False
 
         txt = ''
         list_cnt = []
-        for str in list_str:
-            if 0 <= str.find('</span>'):
+        for field in list_str:
+            if 0 <= field.find('</span>'):
                 list_cnt.append(int(txt))
                 txt = ''
             
-            if str.strip().startswith('<'):
+            if field.strip().startswith('<'):
                 continue
             else:
-                txt += str.strip()
+                txt += field.strip()
  
         old_posi = position
         if 5 <= len(list_up_count):
@@ -72,12 +75,14 @@ async def get_data():
 
         # change of direction
         cur = datetime.datetime.now().strftime('%H:%M:%S')
-        print(cur, ' Up:', list_cnt[0], ', Down:', list_cnt[1], ', Direction:', position)
+        # like sprintf
+        prt_str = "%s  Up: %d, Down: %d, Direction: %s" % (cur, list_cnt[0], list_cnt[1], position)
+        print(prt_str)
         list_up_count.append(list_cnt[0])
 
-        if old_posi.startswith(position) == False:
+        if not old_posi.startswith(position):
             toaster = ToastNotifier()
-            toaster.show_toast("Change of direction", old_posi + ' => ' + position)
+            toaster.show_toast("Change of direction", old_posi + ' => ' + position, threaded=True)
 
  
 async def main(argv):
@@ -103,7 +108,6 @@ async def main(argv):
 
         elif opt in ("-s", "--sleep"):
             count_min = int(arg.strip())
-
 
     while True:
         await get_data()
