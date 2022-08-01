@@ -67,10 +67,15 @@
 # BTC 23010.35 0.02 26789.54 x10 # short win (2022-07-28, $0.89)
 # LTC 63.20 12.0 63.67 x100 # short loss
 # ADA 0.515664 1000.00 0.497329 x20 # long win  (2022-07-29, start $26.0)
-ADA 0.529313 1000.00 0.556713 x20 # short  (2022-07-29, start $34.0)
+# ADA 0.529313 1000.00 0.556713 x20 # short  win (2022-07-29, start $34.0)
+# ADA 0.528854 1000.00 0.509547 x20 # long win
+# ADA 0.532988 1000.00 0.557073 x20 # long win
+# ETH 1677.16 0.10 1418.57 x10 # long win
+# BTC 23804.30 0.01 20775.43 x10 # long win (2022-07-30 sat)
+BTC 23898.74 0.01 20884.70 x10 # long (2022-07-30 sat)
 
-STOP_LOSE -3.0
-TAKE_PROFIT 20.0
+STOP_LOSE   -3.0
+TAKE_PROFIT 5.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/

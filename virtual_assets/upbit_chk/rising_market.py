@@ -45,22 +45,16 @@ def rising_market(ticker):
 
 
 def main(argv):
-    while True:
-        try:
-            tickers = pyupbit.get_tickers(fiat="KRW")
-            cur = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S:')
-            print(cur, "checking...")
+    tickers = pyupbit.get_tickers(fiat="KRW")
+    cur = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S:')
+    print(cur, "checking...")
 
-            for ticker in tickers:
-                rising_market(ticker)
-                time.sleep(0.2)
+    for ticker in tickers:
+        rising_market(ticker)
+        time.sleep(0.2)
 
-            time.sleep(300)
-
-        except Exception as e:
-
-            print(e)
-            time.sleep(1)
+    cur = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S:')
+    print(cur, "end of check.")
 
 if __name__ == "__main__":
     main(sys.argv)

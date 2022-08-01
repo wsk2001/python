@@ -98,15 +98,13 @@ def check_krw_ticker(v, btc_rate, base, cnt, sl=0.0, tp=0.0):
             toaster = ToastNotifier()
             toaster.show_toast("Toast Notifier",
                                f' {v[4:]:<6}' + ' Stop loss ' + f'{amt:7.2f}' + ' (' + f'{p:14.2f}' + ')',
-                               duration=5,
-                               threaded=True)
+                               duration=5)
 
         if tp != 0.0 and tp < amt:
             toaster = ToastNotifier()
             toaster.show_toast("Toast Notifier",
                                f' {v[4:]:<6}' + ' Take profit ' + f'{amt:7.2f}' + ' (' + f'{p:14.2f}' + ')',
-                               duration=5,
-                               threaded=True)
+                               duration=5)
 
         return amt, tot
 
