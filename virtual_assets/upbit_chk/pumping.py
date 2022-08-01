@@ -1,5 +1,6 @@
 import time, sys, getopt
 import pyupbit
+from datetime import datetime
 
 open_p = 0
 high_p = 1
@@ -7,87 +8,88 @@ low_p = 2
 close_p = 3
 
 
-def plus_count_close(v, earn, period):
-    p_count = 0
-    df = pyupbit.get_ohlcv(v, count=period)
+def check_rate(v, chk_date, r):
+    if v.upper().startswith('KRW-BTC'):
+        return
+    df = pyupbit.get_ohlcv(v, count=1, to=chk_date, period=1)
+    if df is None:
+        return
     values = df.values.tolist()
-
-    for i in range(len(values)):
-        rc = ((values[i][close_p] / values[i][open_p]) - 1) * 100.0
-        if earn <= rc:
-            p_count += 1
-
-    return v[4:], p_count
+    rc = ((values[0][high_p] / values[0][open_p]) - 1) * 100.0
+    if r <= rc:
+        print(v[4:] + ',', chk_date.strftime("%Y-%m-%d") + ',', str(values[0][open_p]) + ',',
+              str(values[0][close_p]) + ',', f'{rc:.3f}%')
 
 
-def plus_count_high(v, earn, period):
+def pumping_hi_30(v):
     p_count = 0
-    df = pyupbit.get_ohlcv(v, count=period)
+    df = pyupbit.get_ohlcv(v, count=10000, period=1)
     values = df.values.tolist()
-
+    indexs = df.index.tolist()
     for i in range(len(values)):
         rc = ((values[i][high_p] / values[i][open_p]) - 1) * 100.0
-        if earn <= rc:
+        if 30.0 <= rc:
+            chk_date = indexs[i].strftime("%Y-%m-%d")
+            print(v + ',',  chk_date + ',', str(values[i][open_p]) + ',', str(values[i][high_p]) + ',', f'{rc:.3f}%')
             p_count += 1
 
-    return v[4:], p_count
+
+def pumping_close_20(v):
+    p_count = 0
+    df = pyupbit.get_ohlcv(v, count=10000, period=1)
+    values = df.values.tolist()
+    indexs = df.index.tolist()
+    for i in range(len(values)):
+        rc = ((values[i][close_p] / values[i][open_p]) - 1) * 100.0
+        if 20.0 <= rc:
+            chk_date = indexs[i].strftime("%Y-%m-%d")
+            print(v[4:] + ',',  chk_date + ',', str(values[i][open_p]) + ',', str(values[i][close_p]) + ',', f'{rc:.3f}%')
 
 
-def main(argv):
-    period = 90
-    earn = 10.0
-    output_count = 30
-    worktype = "high"
+# It takes a long time to work. correlation analysis.
+# correlation_analysis('KRW-BTC', 3.0, 10.0)
+def correlation_analysis(v, chk_rate, rp):
+    df = pyupbit.get_ohlcv(v, count=10000, period=1)
+    values = df.values.tolist()
+    indexs = df.index.tolist()
+
+    date_lst = []
+    val_lst = []
+    date_lst.clear()
+    val_lst.clear()
+
+    print('symbol, date, open, high, rate')
+    for i in range(len(values)):
+        rate = ((values[i][high_p] / values[i][open_p]) - 1) * 100.0
+
+        if chk_rate <= rate:
+            date_lst.append(indexs[i])
+            val_lst.append(values[i])
+
+    for i in range(len(date_lst)):
+        lst = pyupbit.get_tickers(fiat="KRW")
+        rc = ((val_lst[i][high_p] / val_lst[i][open_p]) - 1) * 100.0
+        print('BTC' + ',', date_lst[i].strftime("%Y-%m-%d") + ',', str(val_lst[i][open_p]) + ',',
+              str(val_lst[i][high_p]) + ',', f'{rc:.3f}%')
+
+        for v in lst:
+            check_rate(v, date_lst[i], rp)
+            time.sleep(0.1)
+
+        print('')
+
+
+def pumping_analysis():
     lst = pyupbit.get_tickers(fiat="KRW")
-    pumping = [[]]
-    pumping.clear()
-
-    try:
-        opts, etc_args = getopt.getopt(argv[1:], "hco:p:e:"
-                                       , ["help", "output_count", "period", "earning"])
-
-    except getopt.GetoptError:
-        print(argv[0], '-p <period - days> -c (close price/high price) -o <output count> -e <earning percent>')
-        print('ex) python', f'{argv[0]}', '-p 100 -c -o 30 -e 10')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            print(argv[0], '-p <period - days> -c (close price/high price) -o <output count> -e <earning percent>')
-            print('ex) python', f'{argv[0]}', '-p 100 -c -o 30 -e 10')
-            sys.exit()
-
-        elif opt in ("-p", "--period"):
-            period = int(arg.strip())
-
-        elif opt in ("-o", "--output"):
-            output_count = int(arg.strip())
-
-        elif opt in ("-e", "--earning"):
-            earn = int(arg.strip())
-
-        elif opt in ("-c"):
-            worktype = "close"
 
     for v in lst:
         time.sleep(0.1)
-        if worktype.startswith("close"):
-            arr = plus_count_close(v, earn, period)
-        else:
-            arr = plus_count_high(v, earn, period)
+        pumping_close_20(v)
 
-        pumping.append(list(arr))
 
-    earns = sorted(pumping, key=lambda x : x[1], reverse=True)
-
-    print('based on', worktype, ',작성 기준 일자', time.strftime('%Y-%m-%d %H:%M:%S'))
-    print('ticker, pumping count')
-
-    i = 0
-    for e in earns:
-        print(f'{e[0]},', f'{e[1]}')
-        i += 1
-        if output_count < i:
-            break
+def main(argv):
+    pumping_analysis()
+    # correlation_analysis('KRW-BTC', 3.0, 10.0)
 
 
 if __name__ == "__main__":
