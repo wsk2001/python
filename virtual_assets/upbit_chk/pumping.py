@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import time, sys, getopt
 import pyupbit
 from datetime import datetime
@@ -46,6 +48,40 @@ def pumping_close_20(v):
             print(v[4:] + ',',  chk_date + ',', str(values[i][open_p]) + ',', str(values[i][close_p]) + ',', f'{rc:.3f}%')
 
 
+def up_down(v, rate):
+    p_count = 0
+    df = pyupbit.get_ohlcv(v, count=10000, period=1)
+    values = df.values.tolist()
+    indexs = df.index.tolist()
+
+    detect_flag = False
+    inc = 0
+    dec = 0
+    for i in range(len(values)):
+        rc = ((values[i][close_p] / values[i][open_p]) - 1) * 100.0
+        if detect_flag == True:
+            chk_date = indexs[i].strftime("%Y-%m-%d")
+            print(v[4:] + ',',  chk_date + ',', str(values[i][open_p]) + ',', str(values[i][close_p]) + ',', f'{rc:.3f}%')
+            if rate <= rc:
+                detect_flag = True
+            else:
+                detect_flag = False
+                print('')
+
+            if 0 < rc:
+                inc += 1
+            elif rc < 0:
+                dec += 1
+            continue
+
+        if rate <= rc:
+            chk_date = indexs[i].strftime("%Y-%m-%d")
+            print(v[4:] + ',',  chk_date + ',', str(values[i][open_p]) + ',', str(values[i][close_p]) + ',', f'{rc:.3f}%')
+            detect_flag = True
+
+    return inc, dec
+
+
 # It takes a long time to work. correlation analysis.
 # correlation_analysis('KRW-BTC', 3.0, 10.0)
 def correlation_analysis(v, chk_rate, rp):
@@ -87,8 +123,25 @@ def pumping_analysis():
         pumping_close_20(v)
 
 
+def updown_analysis():
+    lst = pyupbit.get_tickers(fiat="KRW")
+
+    inc = 0
+    dec = 0
+    tot_inc = 0
+    tot_dec = 0
+
+    for v in lst:
+        inc, dec = up_down(v, 20.0)
+        tot_inc += inc
+        tot_dec += dec
+        time.sleep(0.1)
+
+    print('total up =', str(tot_inc), ', total_down =', str(tot_dec))
+
 def main(argv):
-    pumping_analysis()
+    updown_analysis()
+    # pumping_analysis()
     # correlation_analysis('KRW-BTC', 3.0, 10.0)
 
 

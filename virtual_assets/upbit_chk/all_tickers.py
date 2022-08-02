@@ -3,12 +3,15 @@ import pyupbit
 
 
 def calc_earn(v):
-    df = pyupbit.get_ohlcv(v, count=1)
-    o = df['open'][0]
-    c = df['close'][0]
-    p = ((c / o) - 1.0) * 100.0
+    try:
+        df = pyupbit.get_ohlcv(v, count=1)
+        o = df['open'][0]
+        c = df['close'][0]
+        p = ((c / o) - 1.0) * 100.0
 
-    return v[4:], o, c, p
+        return v[4:], o, c, p
+    except:
+        return None, None, None, None
 
 
 def main(argv):
@@ -20,7 +23,8 @@ def main(argv):
     for v in lst:
         time.sleep(0.1)
         arr = calc_earn(v)
-        earns.append(list(arr))
+        if arr is not None:
+            earns.append(list(arr))
 
     earns = sorted(earns, key=lambda x : x[3], reverse=True)
 

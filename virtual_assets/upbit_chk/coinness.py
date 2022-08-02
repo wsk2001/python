@@ -55,6 +55,8 @@ async def get_data():
 
         txt = ''
         list_cnt = []
+        list_cnt.clear()
+
         for field in list_str:
             if 0 <= field.find('</span>'):
                 list_cnt.append(int(txt))
@@ -64,7 +66,10 @@ async def get_data():
                 continue
             else:
                 txt += field.strip()
- 
+
+        if len(list_cnt) <= 0:
+            return
+
         old_posi = position
         if 5 <= len(list_up_count):
             ma = ma5()
