@@ -108,13 +108,15 @@
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
 
 
-CASH 109798
+# python animation
+# from matplotlib.animation import FuncAnimation
+
+CASH 0
 
 # ticker, amount, count, stop loss, take profit
 # total 474,306 (2022-07-29)
 
 WEMIX 3260 56.82085889 -7000  15000 # 2022.08.02
-ATOM 14340 12.06624825 -16000  15000 # 2022.07.29
-STORJ 887  1 -7000  15000 # 2022.08.02
+ATOM 14340 12.06624825 -26000  15000 # 2022.07.29
 # MBL 6.30 18386.36904762 -5000 15000 # 2022.07.29 ~ 2022.08.02 loss 5%
 # SSX 31.60 4706.12794868 5000 15000 # 2022.07.30 ~ 2022.08.01 win 25% 
