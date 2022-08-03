@@ -72,10 +72,13 @@
 # ADA 0.532988 1000.00 0.557073 x20 # long win
 # ETH 1677.16 0.10 1418.57 x10 # long win
 # BTC 23804.30 0.01 20775.43 x10 # long win (2022-07-30 sat)
-BTC 23898.74 0.01 20884.70 x10 # long (2022-07-30 sat)
+# BTC 23898.74 0.01 20884.70 x10 # long (2022-07-30 sat)
 
-STOP_LOSE   -3.0
-TAKE_PROFIT 5.0
+# start aoa follow
+BTC 22795.15 0.01 30167.30 x10 # short (2022-08-02 $80.60)
+
+STOP_LOSE   -10.0
+TAKE_PROFIT 100.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
