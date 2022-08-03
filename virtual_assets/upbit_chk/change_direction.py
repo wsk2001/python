@@ -132,9 +132,13 @@ def cd_days(v, days):
 def main(argv):
     # check_direction()
 
-    for i in range(10):
-        cd_days('xrp', i+1)
+    lst = pyupbit.get_tickers(fiat="KRW")
 
+    print('symbol, 연속 하락 일, 총 하락 수, 연속 하락 후 상승 수, 상슬률%')
+    for v in lst:
+        for i in range(10):
+            cd_days(v[4:], i+1)
+            time.sleep(0.1)
 
 if __name__ == "__main__":
     main(sys.argv)
