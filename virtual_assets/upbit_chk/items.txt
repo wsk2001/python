@@ -34,6 +34,10 @@
 # 코인마켓캡 (https://coinmarketcap.com/) 
 # 코인달인 https://www.coindalin.com/bbs/register_form.php wonsool // 12~~~er
 
+# 사는시점: MACD 오실레이터 0선을 상향 돌파할 때
+# 파는시점: MACD 오실레이터 0선을 하향 돌파할 때
+
+
 # 나스닥 종합: https://m.finance.daum.net/global/quotes
 #
 # 엘리엇 파동 이론 구현(Python): https://github.com/philippe-ostiguy/PyBacktesting
@@ -111,12 +115,22 @@
 # python animation
 # from matplotlib.animation import FuncAnimation
 
-CASH 0
+CASH 219353
 
 # ticker, amount, count, stop loss, take profit
 # total 474,306 (2022-07-29)
 
-WEMIX 3260 56.82085889 -7000  15000 # 2022.08.02
 ATOM 14340 12.06624825 -26000  15000 # 2022.07.29
+WEMIX 3260 1 -5000  20000 # win 2022.08.02 ~ 2022.08.04 20%
+# WEMIX 3260 21.30782209 5000  20000 # win 2022.08.02 ~ 2022.08.04 20%
 # MBL 6.30 18386.36904762 -5000 15000 # 2022.07.29 ~ 2022.08.02 loss 5%
 # SSX 31.60 4706.12794868 5000 15000 # 2022.07.30 ~ 2022.08.01 win 25% 
+
+# 2022-08-04 08:....
+# 아래 종목중 계속 상승할 종목은 ? NEAR, VET 예상.
+# symbol, plus count (오늘 12 시쯤 확인)
+# KAVA, 3 , - (2735.0, 0.551%)
+# NEAR, 3 , + (2735.0, 4.498%)
+# VET, 3 , +  (39.6,  6.166%)
+
+
