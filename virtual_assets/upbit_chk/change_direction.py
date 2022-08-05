@@ -270,9 +270,9 @@ def main(argv):
     # lst = pyupbit.get_tickers(fiat="KRW")
     # lst.sort()
 
-    # seven_days()
+    seven_days()
 
-    check_shooting()
+    # check_shooting()
 
     # for v in lst:
     #     df = None

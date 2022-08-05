@@ -26,6 +26,9 @@ close_p = 3
 vol_p = 4
 
 
+def get_earning(start, end):
+    return ((end / start) - 1) * 100.0
+
 def what_day_is_it(date):
     days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     day = date.weekday()
@@ -35,62 +38,56 @@ def what_day_is_it(date):
 def analyze(ticker, cnt, interval='day'):
     if not ticker.startswith('KRW-'):
         ticker = 'KRW-' + ticker
-    df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, period=1)
-    # ohlcv
-    values = df.values.tolist()
 
-    # date
-    indexs = df.index.tolist()
+    df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, period=1)
+    vals = df.values.tolist()
+    idxs = df.index.tolist()
 
     st_o = 0.0
     en_c = 0.0
-    print('ticker symbol:', ticker[4:])
+    print('symbol:', ticker[4:])
     print('date , open, high, low, close, volume, high %, low %, close %')
-    for i in range(len(values)):
+
+    for indexs, values in zip(idxs, vals):
         if st_o == 0:
-            st_o = values[i][open_p]
-        en_c = values[i][close_p]
-        rc = ((values[i][close_p] / values[i][open_p]) - 1) * 100.0
-        rh = ((values[i][high_p] / values[i][open_p]) - 1) * 100.0
-        rl = ((values[i][low_p] / values[i][open_p]) - 1) * 100.0
+            st_o = values[open_p]
+        en_c = values[close_p]
+        rc = get_earning(values[open_p], values[close_p])
+        rh = get_earning(values[open_p], values[high_p])
+        rl = get_earning(values[open_p], values[low_p])
         if interval.startswith('day'):
-            chk_date = datetime.strptime(str(indexs[i])[:10], "%Y-%m-%d")
+
+            chk_date = datetime.strptime(str(indexs)[:10], "%Y-%m-%d")
+
             week_day = (what_day_is_it(chk_date))
-            print(str(i), str(indexs[i])[:10], week_day, ',', values[i][open_p], ',', values[i][high_p], ',',
-                  values[i][low_p], ',',  values[i][close_p], ',', values[i][vol_p], ',', f'{rh:.3f}%', ',',
+            print(str(indexs)[:10], week_day, ',', values[open_p], ',', values[high_p], ',',
+                  values[low_p], ',',  values[close_p], ',', values[vol_p], ',', f'{rh:.3f}%', ',',
                   f'{rl:.3f}%', ',', f'{rc:.3f}%')
             if hv.o == 0.0:
-                start_date = str(indexs[i])[:10]
-                hv.day = str(indexs[i])[:10]
-                hv.o = values[i][open_p]
-                hv.h = values[i][high_p]
-                hv.l = values[i][low_p]
-                hv.c = values[i][close_p]
+                start_date = str(indexs)[:10]
+                hv.day = str(indexs)[:10]
+                hv.o = values[open_p]
+                hv.h = values[high_p]
+                hv.l = values[low_p]
+                hv.c = values[close_p]
 
-            if lv.o == 0.0 or values[i][close_p] < lv.c:
-                lv.day = str(indexs[i])[:10]
-                lv.o = values[i][open_p]
-                lv.h = values[i][high_p]
-                lv.l = values[i][low_p]
-                lv.c = values[i][close_p]
+            if lv.o == 0.0 or values[close_p] < lv.c:
+                lv.day = str(indexs)[:10]
+                lv.o = values[open_p]
+                lv.h = values[high_p]
+                lv.l = values[low_p]
+                lv.c = values[close_p]
 
-            if hv.c < values[i][close_p]:
-                hv.day = str(indexs[i])[:10]
-                hv.o = values[i][open_p]
-                hv.h = values[i][high_p]
-                hv.l = values[i][low_p]
-                hv.c = values[i][close_p]
-
-            # if values[i][close_p] < lv.c:
-            #     lv.day = str(indexs[i])[:10]
-            #     lv.o = values[i][open_p]
-            #     lv.h = values[i][high_p]
-            #     lv.l = values[i][low_p]
-            #     lv.c = values[i][close_p]
+            if hv.c < values[close_p]:
+                hv.day = str(indexs)[:10]
+                hv.o = values[open_p]
+                hv.h = values[high_p]
+                hv.l = values[low_p]
+                hv.c = values[close_p]
 
         else:
-            print(indexs[i], ',', values[i][open_p], ',', values[i][high_p], ',', values[i][low_p], ',',
-                  values[i][close_p], ',',  values[i][vol_p], ',', f'{rh:.3f}%', ',', f'{rl:.3f}%', ',', f'{rc:.3f}%')
+            print(indexs, ',', values[open_p], ',', values[high_p], ',', values[low_p], ',',
+                  values[close_p], ',',  values[vol_p], ',', f'{rh:.3f}%', ',', f'{rl:.3f}%', ',', f'{rc:.3f}%')
 
     earn = ((en_c / st_o) - 1) * 100.0
 
