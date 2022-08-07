@@ -4,7 +4,7 @@
 주어진 기간동안 모든 종목의 실적을 조회 한다.
 """
 
-import time, sys, getopt
+import time, sys, getopt, datetime
 import pyupbit
 import numpy
 
@@ -43,12 +43,32 @@ def check_earning(v, cnt):
 
 
 def main(argv):
+    days = 28
     lst = pyupbit.get_tickers(fiat="KRW")
     lst.sort()
 
+    try:
+        opts, etc_args = getopt.getopt(argv[1:], "hd:", ["days="])
+
+    except getopt.GetoptError:
+        print(argv[0], '-d <days>')
+        sys.exit(2)
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print(argv[0], '-d <days>')
+            sys.exit()
+
+        elif opt in ("-d", "--days"):
+            days = int(arg.strip())
+
+    print()
+    print(str(days) + '일 동안 실적, 작업일', '(' + datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S') + ')')
+    print('일자는 옵션 -d 로 조정 가능')
+    print()
+
     print('심볼, 시가, 종가, 실적, 표준편차율')
     for v in lst:
-        start, end, earn, stdev = check_earning(v, 28)
+        start, end, earn, stdev = check_earning(v, days)
         print(v[4:]+',', f'{start}, {end}, {earn:.2f}%, {stdev:.2f}')
         time.sleep(0.1)
 

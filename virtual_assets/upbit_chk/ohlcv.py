@@ -46,7 +46,7 @@ def analyze(ticker, cnt, interval='day'):
     st_o = 0.0
     en_c = 0.0
     print('symbol:', ticker[4:])
-    print('date , open, high, low, close, volume, high %, low %, close %')
+    print('date , open, high, low, close, volume, high%, low%, close%')
 
     for indexs, values in zip(idxs, vals):
         if st_o == 0:

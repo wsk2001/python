@@ -21,29 +21,29 @@ async def get_data():
         list_str = []
         fflag = False
 
-        for str in lines:
+        for line in lines:
             if fflag == False:
-                idx = str.find('<tbody>')
+                idx = line.find('<tbody>')
                 if 0 < idx:
-                    list_str.append(str.strip())
+                    list_str.append(line.strip())
                     fflag = True
                 else:
                     continue
             else:
-                list_str.append(str.strip())
-                idx = str.find('</tbody>')
+                list_str.append(line.strip())
+                idx = line.find('</tbody>')
                 if 0 < idx:
                     break
 
         join_str = ''
         join_cnt = 0
-        for str in list_str:
-            if str.strip().startswith('<'):
+        for line in list_str:
+            if line.strip().startswith('<'):
                 continue
 
             join_cnt += 1
             if join_cnt <= 3:
-                join_str = join_str + ' ' + str
+                join_str = join_str + ' ' + line
             if 6 <= join_cnt:
                 print(join_str)
                 join_str = ''

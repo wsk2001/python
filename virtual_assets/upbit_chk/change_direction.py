@@ -186,15 +186,13 @@ def seven_days_plus(v):
 
     df = pyupbit.get_ohlcv(ticker, count=7, period=1)
 
-    values = df.values.tolist()
-
     cnt = 0
     op = '-'
-
     bef_rc = 0.0
 
-    for i in range(len(values)):
-        rc = ((values[i][close_p] / values[i][open_p]) - 1) * 100.0
+    for ind, row in df.iterrows():
+        # print(str(ind)[0:10]) # print date, time
+        rc = ((row["close"] / row["open"]) - 1.0) * 100.0
         if 0.0 < rc:
             if bef_rc < rc:
                 op = '+'
@@ -219,7 +217,7 @@ def seven_days():
     print('symbol, up count, 상승 추세')
     for v in lst:
         cnt, op = seven_days_plus(v)
-        if 2 <= cnt:
+        if 3 <= cnt:
             print(v[4:]+',', cnt, ',', op)
         time.sleep(0.1)
 

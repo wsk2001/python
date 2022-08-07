@@ -140,7 +140,7 @@ def main(argv):
     # print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
     # print(f'테더 가격     : ' + format(ti, ',.5f'))
     # print('')
-    # print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
+    print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
     # print('  산출 방법: 코베 - (바낸 * 테더)')
     # print('')
     #
