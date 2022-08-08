@@ -3,8 +3,14 @@ from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 from bs4 import BeautifulSoup
 import requests
+import pyupbit
+import requests
+from ast import literal_eval
+import requests
+import json
 
-THEMA_NFT = {
+
+THEME_NFT = {
     "SUPER": "슈퍼팜",
     "THETA": "쎄타토큰",
     "FLOW": "플로우",
@@ -39,7 +45,7 @@ THEMA_NFT = {
     "WEMIX": "위믹스"
 }
 
-THEMA_P2E = {
+THEME_P2E = {
     "POLIS": "스타아틀라스다오",
     "PYR": "벌컨 포지드",
     "MC": "메리트 서클",
@@ -68,10 +74,13 @@ THEMA_P2E = {
     "CTX": "씨투엑스",
     "LOKA": "리그오브킹덤즈",
     "WEMIX": "위믹스",
-    "ORBR": "오블러"
+    "ORBR": "오블러",
+    "HUNT": "헌트",
+    "MANA": "디센트럴랜드",
+    "FALA": "파라랜드"
 }
 
-THEMA_LAYER2 = {
+THEME_LAYER2 = {
     "NEAR": "니어프로토콜",
     "SKL": "스케일네트워크",
     "OMG": "오미세고",
@@ -84,10 +93,15 @@ THEMA_LAYER2 = {
     "INJ": "인젝티브프로토콜",
     "MATIC": "폴리곤",
     "BOBA": "보바코인",
-    "IMX": "이뮤터블X"
+    "IMX": "이뮤터블X",
+    "AVAX": "아발란체",
+    "BNT": "방코르",
+    "SNX": "신세틱스",
+    "RC": "루프링",
+    "INJ": "인젝티브 프로토콜",
 }
 
-THEMA_WEB3 = {
+THEME_WEB3 = {
     "THETA": "쎄타토큰",
     "FLOW": "플로우",
     "LPT": "라이브피어",
@@ -120,10 +134,11 @@ THEMA_WEB3 = {
     "GLM": "골렘",
     "BTT": "비트토렌트",
     "XTZ": "테조스",
-    "HIVE": "하이브"
+    "HIVE": "하이브",
+    "IQ": "에브리피디아",
 }
 
-THEMA_CHINA = {
+THEME_CHINA = {
     "NEO": "네오",
     "ONT": "온톨로지",
     "EOS": "이오스",
@@ -143,7 +158,8 @@ THEMA_CHINA = {
     "TRX": "트론"
 }
 
-THEMA_DID = {
+# DID 코인이란 Decentralized Identitifier의 약자로 한국어로 하자면 신원인증 코인
+THEME_DID = {
     "ONT": "온톨로지",
     "CVC": "시빅",
     "ICX": "아이콘",
@@ -154,7 +170,7 @@ THEMA_DID = {
     "MED": "메디블록"
 }
 
-THEMA_PAYMENT = {
+THEME_PAYMENT = {
     "CELO": "셀로",
     "POWR": "파워렛저",
     "XLM": "스텔라루멘",
@@ -168,7 +184,7 @@ THEMA_PAYMENT = {
     "MLK": "밀크"
 }
 
-THEMA_FAN = {
+THEME_FAN = {
     "ATM": "아틀레티코 마드리드 팬토큰",
     "OG": "OG 팬토큰",
     "ACM": "AC밀란 팬토큰",
@@ -184,7 +200,7 @@ THEMA_FAN = {
     "CHZ": "칠리즈"
 }
 
-THEMA_PLATFORM = {
+THEME_PLATFORM = {
     "NEAR": "니어프로토콜",
     "ETH": "이더리움",
     "ALGO": "알고랜드",
@@ -195,10 +211,18 @@ THEMA_PLATFORM = {
     "SOL": "솔라나",
     "ADA": "에이다",
     "AVAX": "아발란체",
-    "KLAY": "클레이튼"
+    "KLAY": "클레이튼",
+    "LSK": "리스크",
+    "TRX": "트론",
+    "NEO": "네오",
+    "ARK": "아크",
+    "XTZ": "테조스",
+    "ICX": "아이콘",
+    "ELF": "엘프",
+    "MATIC": "폴리곤",
 }
 
-THEMA_BITCOIN = {
+THEME_BITCOIN = {
     "XEC": "이캐시",
     "BTG": "비트코인골드",
     "STX": "스택스",
@@ -207,7 +231,7 @@ THEMA_BITCOIN = {
     "BCH": "비트코인캐시"
 }
 
-THEMA_STORAGE = {
+THEME_STORAGE = {
     "HOT": "홀로",
     "AR": "알위브",
     "STORJ": "스토리지",
@@ -217,7 +241,7 @@ THEMA_STORAGE = {
     "GLM": "골렘"
 }
 
-THEMA_DEX = {
+THEME_DEX = {
     "RUNE": "토르체인",
     "KNC": "카이버네트워크",
     "SNX": "신세틱스",
@@ -232,12 +256,26 @@ THEMA_DEX = {
     "RAY": "레이디움"
 }
 
-THEMA_MIM = {
+THEME_MIM = {
     "DOGE": "도지코인",
     "SHIB": "시바이누"
 }
 
-THEMA_DEFI = {
+THEME_DEFI = {
+    "AVAX": "아발란체",
+    "XTZ": "테조스",
+    "LRC": "루프링",
+    "BAT": "베이직어텐션토큰",
+    "ANKR": "앵커",
+    "SRM": "세럼",
+    "LINA": "리니어파이낸스",
+    "JST": "저스트",
+    "GRT": "그래프",
+    "OGN": "오리진프로토콜",
+    "ETH": "이더리움",
+    "ATOM": "코스모스",
+    "VET": "비체인",
+    "OMG": "오미세고",
     "CEL": "셀시우스",
     "AAVE": "에이브",
     "DYP": "디파이일드프로토콜",
@@ -249,7 +287,7 @@ THEMA_DEFI = {
     "QI": "벤키"
 }
 
-THEMA_DAO = {
+THEME_DAO = {
     "FLM": "플라밍고",
     "AAVE": "에이브",
     "BIT": "비트다오",
@@ -262,7 +300,8 @@ THEMA_DAO = {
     "YGG": "일드길드게임즈"
 }
 
-THEMA_BNB = {
+
+THEME_BNB = {
     "EPX": "일립시스",
     "CHESS": "트랜체스",
     "XVS": "비너스",
@@ -275,7 +314,7 @@ THEMA_BNB = {
     "CREAM": "크림파이낸스"
 }
 
-THEMA_KLAY = {
+THEME_KLAY = {
     "DKA": "디카르고",
     "MARO": "마로",
     "ORC": "오르빗체인",
@@ -290,7 +329,7 @@ THEMA_KLAY = {
     "WEMIX": "위믹스"
 }
 
-THEMA_TERA = {
+THEME_TERA = {
     "LUNA": "테라",
     "MIR": "미러 프로토콜",
     "ANC": "앵커 프로토콜",
@@ -298,7 +337,7 @@ THEMA_TERA = {
     "LUNC": "테라 클래식"
 }
 
-THEMA_SOL = {
+THEME_SOL = {
     "AUDIO": "오디우스",
     "SOL": "솔라나",
     "SRM": "세럼",
@@ -309,7 +348,7 @@ THEMA_SOL = {
     "RAY": "레이디움"
 }
 
-THEMA_MATIC = {
+THEME_MATIC = {
     "AAVE": "에이브",
     "CRV": "커브",
     "SUSHI": "스시",
@@ -319,7 +358,7 @@ THEMA_MATIC = {
     "BIFI": "비피 파이낸스"
 }
 
-THEMA_DOT = {
+THEME_DOT = {
     "DOT": "폴카닷",
     "CLV": "클로버네트워크",
     "POLS": "폴카스타터",
@@ -331,7 +370,7 @@ THEMA_DOT = {
     "IDV": "이다볼네트워크"
 }
 
-THEMA_FTM = {
+THEME_FTM = {
     "YFI": "와이언파이낸스",
     "FTM": "팬텀",
     "CRV": "커브",
@@ -339,7 +378,7 @@ THEMA_FTM = {
     "BIFI": "비피 파이낸스"
 }
 
-THEMA_AVAX = {
+THEME_AVAX = {
     "JOE": "조",
     "AAVE": "에이브",
     "TIME": "크로노테크",
@@ -348,6 +387,201 @@ THEMA_AVAX = {
     "QI": "벤키"
 }
 
-if __name__ == "__main__":
-    print(type(THEMA_AVAX))
+#####
+THEME_METABUS = {
+    "MOC": "모스코인",
+    "MANA": "디센트럴랜드",
+    "SAND": "샌드박스",
+    "AXS": "엑시인피니티",
+    "BORA": "보라",
+    "ENJ": "엔진코인",
+    "DV": "디비전 네트워크",
+    "WILD": "와일드 월드",
+    "GHST": "아베 고치",
+    "GALA": "갈라코인",
+}
 
+THEME_IPFS = {
+    "FILE": "파일코인",
+    "STORJ": "스토리지",
+    "SC": "시아코인",
+    "CRE": "캐리프로토콜",
+    "DCOIN": "디코인",
+}
+
+#########################################
+THEME_KAKAO = {
+    "DKA": "디카르고",
+    "BORA": "보라",
+    "HUM": "휴먼스케이프",
+    "MARO": "마로",
+}
+
+THEME_MAJOR = {
+    "BTC": "비트코인",
+    "ETH": "이더리움",
+    "ADA": "에이다",
+    "XRP": "리플",
+    "SOL": "솔라나",
+    "DOT": "폴카닷",
+    "DOGE": "도지코인",
+}
+
+THEME_SECURITY = {
+    "UPP": "센티넬프로토콜",
+}
+
+THEME_MEDICAL = {
+    "SOLVE": "솔브케어",
+    "MED": "메디블록",
+}
+
+
+THEME_BINANCE = {
+    "1INCH": "1인치네트워크",
+    "AAVE": "에이브",
+    "FOR": "포튜브",
+    "ANKR": "앵커",
+    "LINK": "체인링크",
+}
+#########################################
+
+themes = {"nft": THEME_NFT,
+          "p2e": THEME_P2E,
+          "layer2": THEME_LAYER2,
+          "web3": THEME_WEB3,
+          "china": THEME_CHINA,
+          "did": THEME_DID,
+          "payment": THEME_PAYMENT,
+          "fan": THEME_FAN,
+          "platform": THEME_PLATFORM,
+          "bitcoin": THEME_BITCOIN,
+          "storage": THEME_STORAGE,
+          "dex": THEME_DEX,
+          "mim": THEME_MIM,
+          "defi": THEME_DEFI,
+          "dao": THEME_DAO,
+          "bnb": THEME_BNB,
+          "klay": THEME_KLAY,
+          "tera": THEME_TERA,
+          "sol": THEME_SOL,
+          "matic": THEME_MATIC,
+          "dot": THEME_DOT,
+          "ftm": THEME_FTM,
+          "avax": THEME_AVAX,
+          "kakao": THEME_KAKAO,
+          "major": THEME_MAJOR,
+          "security": THEME_SECURITY,
+          "medical": THEME_MEDICAL,
+          "binance": THEME_BINANCE
+          }
+
+
+def get_themes(ticker):
+    list_theme = []
+    list_theme.clear()
+
+    for key in themes:
+        if ticker.upper() in themes[key]:
+            list_theme.append(key)
+
+    if len(list_theme) == 0:
+        list_theme.append('unclassified')
+
+    return ticker.upper(), list_theme
+
+
+def get_all_themes():
+    list_theme = []
+    list_theme.clear()
+
+    for key in themes:
+        list_theme.append(key)
+
+    return list_theme
+
+def get_theme_symbols(theme):
+    return themes[theme.lower()]
+
+
+# 마켓코드조회
+def market_code_all():
+    url = "https://api.upbit.com/v1/market/all"
+    querystring = {"isDetails": "false"}
+    response = requests.request("GET", url, params=querystring)
+
+    # 코인이름 - 마켓코드 매핑
+    r_str = response.text
+    r_str = r_str.lstrip('[')  # 첫 문자 제거
+    r_str = r_str.rstrip(']')  # 마지막 문자 제거
+    r_list = r_str.split("}")  # str를 }기준으로 쪼개어 리스트로 변환
+
+    # korean name to symbol
+    kts = {}
+
+    # symbol to korean name
+    stk = {}
+
+    kts.clear()
+    stk.clear()
+
+    for i in range(len(r_list) - 1):
+        r_list[i] += "}"
+        if i != 0:
+            r_list[i] = r_list[i].lstrip(',')
+        r_dict = literal_eval(r_list[i])  # element to dict
+
+        if r_dict["market"][0] == 'U':
+            temp_dict = {r_dict["market"][5:]: r_dict["korean_name"]}
+        else:
+            temp_dict = {r_dict["market"][4:]: r_dict["korean_name"]}
+        stk.update(temp_dict)  # 코드 - 코인이름 매핑
+
+        if r_dict["market"][0] == 'U':
+            temp_dict = {r_dict["korean_name"]: r_dict["market"][5:]}
+        else:
+            temp_dict = {r_dict["korean_name"]: r_dict["market"][4:]}
+
+        kts.update(temp_dict)  # 코인이름 - 코드 - 매핑
+
+    return stk, kts
+
+
+def kor_to_symbol(kts, v):
+    if v.upper() in kts:
+        return v, kts[v.upper()]
+    else:
+        return None, None
+
+
+if __name__ == "__main__":
+    # stk, kts = market_code_all()
+    #
+    # f = open("theme.txt", "r", encoding='utf-8')
+    # lines = f.readlines()
+    #
+    # for l in lines:
+    #     line = l.strip()
+    #
+    #     if line.startswith("["):
+    #         print()
+    #         print(line)
+    #         continue
+    #
+    #     if len(line) <= 0:
+    #         continue
+    #
+    #     ko_name, symbol = kor_to_symbol(kts, line)
+    #     if ko_name is not None:
+    #         print('"' + symbol + '":', '"' + ko_name + '",')
+    #
+    # print()
+
+    symbol, lst = get_themes('btt')
+    if len(lst):
+        print(symbol, lst)
+
+    theme = 'did'
+    print()
+    print('theme:', theme)
+    # t = get_theme_symbols(theme)

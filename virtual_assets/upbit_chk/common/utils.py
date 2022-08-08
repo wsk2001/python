@@ -38,6 +38,35 @@ def market_code():
             cl.append(r_dict["market"])  # 코드 리스트
     return cl, ntc, ctn
 
+# 마켓코드조회
+def market_code_all():
+    url = "https://api.upbit.com/v1/market/all"
+    querystring = {"isDetails": "false"}
+    response = requests.request("GET", url, params=querystring)
+
+    # 코인이름 - 마켓코드 매핑
+    r_str = response.text
+    r_str = r_str.lstrip('[')  # 첫 문자 제거
+    r_str = r_str.rstrip(']')  # 마지막 문자 제거
+    r_list = r_str.split("}")  # str를 }기준으로 쪼개어 리스트로 변환
+
+    # name to code
+    ntc = {}
+    # code to name
+    ctn = {}
+    # code list
+    cl = []
+
+    for i in range(len(r_list) - 1):
+        r_list[i] += "}"
+        if i != 0:
+            r_list[i] = r_list[i].lstrip(',')
+        r_dict = literal_eval(r_list[i])  # element to dict
+        temp_dict = {r_dict["market"]: r_dict["korean_name"]}
+        ctn.update(temp_dict)  # 코드 - 코인이름 매핑
+
+    return ctn
+
 
 def get_binance_btc(t):
     ep = 'https://api.binance.com'

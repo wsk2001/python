@@ -84,10 +84,11 @@
 # BTC 23220.20 0.01 31751.59 x10 # short loss(2022-08-06 $92.28)
 # BTC 23273.60 0.02 19548.81 x10 # long loss (2022-08-06 $88.46)
 # BTC 22998.34 0.04 24699 x20 # short loss (2022-08-06 $81.84)
-BTC 23018.26 0.02 19708.81 x10 # long (2022-08-06 $80.00)
+# BTC 23018.26 0.02 19708.81 x10 # long (2022-08-06 $80.00)
+BTC 23290.96 0.04 21609.07 x20 # long (2022-08-08 $82.00)
 
-STOP_LOSE   -5.0
-TAKE_PROFIT 20.0
+STOP_LOSE   -10.0
+TAKE_PROFIT 10.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
