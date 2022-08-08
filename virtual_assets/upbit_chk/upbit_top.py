@@ -22,7 +22,7 @@ def main(argv):
     earns = [[]]
     theme_dict = {}
     theme_dict.clear()
-    count = 20
+    count = 50
 
     try:
         opts, etc_args = getopt.getopt(argv[1:], "hc:"
