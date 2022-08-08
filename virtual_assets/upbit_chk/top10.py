@@ -22,7 +22,7 @@ def main(argv):
     earns = [[]]
     theme_dict = {}
     theme_dict.clear()
-    count = 20
+    count = 50
 
     themes = get_all_themes()
     for t in themes:
