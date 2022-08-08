@@ -24,6 +24,22 @@ def main(argv):
     theme_dict.clear()
     count = 20
 
+    try:
+        opts, etc_args = getopt.getopt(argv[1:], "hc:"
+                                       , ["help", "count="])
+
+    except getopt.GetoptError:
+        print(argv[0], '-c <count>')
+        print('ex) python', f'{argv[0]}', '-c 20  (default)')
+        sys.exit(2)
+
+    for opt, arg in opts:
+        if opt in ("-h", "--help"):
+            print('ex) python', f'{argv[0]}', '-c 20  (default)')
+            sys.exit(2)
+        elif opt in ("-c", "--count"):
+            count = int(arg.strip())
+
     themes = get_all_themes()
     for t in themes:
         theme_dict[t] = 0

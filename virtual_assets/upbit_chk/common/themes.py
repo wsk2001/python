@@ -9,7 +9,6 @@ from ast import literal_eval
 import requests
 import json
 
-
 THEME_NFT = {
     "SUPER": "슈퍼팜",
     "THETA": "쎄타토큰",
@@ -300,7 +299,6 @@ THEME_DAO = {
     "YGG": "일드길드게임즈"
 }
 
-
 THEME_BNB = {
     "EPX": "일립시스",
     "CHESS": "트랜체스",
@@ -436,7 +434,6 @@ THEME_MEDICAL = {
     "MED": "메디블록",
 }
 
-
 THEME_BINANCE = {
     "1INCH": "1인치네트워크",
     "AAVE": "에이브",
@@ -444,12 +441,45 @@ THEME_BINANCE = {
     "ANKR": "앵커",
     "LINK": "체인링크",
 }
+
+THEME_KIMCHI = {
+    "HUM": "휴먼스케이프",
+    "DKA": "디카르고",
+    "PXL": "픽셀",
+    "UPP": "센티넬프로토콜",
+    "BORA": "보라",
+    "AHT": "아하토큰",
+    "MOC": "모스코인",
+    "MBL": "무비블록",
+    "MARO": "마로",
+    "QTCON": "퀴즈톡",
+    "MED": "메디블록",
+    "META": "메타디움",
+    "MLK": "밀크",
+    "PLA": "플레이댑",
+    "MVL": "엠블",
+    "PCI": "페이코인",
+    "STPT": "에스티피",
+    "SSX": "썸씽",
+    "UPP": "센티넬프로토콜",
+    "CRE": "캐리프로토콜",
+    "FCT2": "피르마체인",
+    "CBK": "코박토큰",
+    "OBSR": "옵저버",
+    "TON": "톤",
+    "AERGO": "아르고",
+    "SAND": "샌드박스",
+    "AQT": "알파쿼크",
+    "ICX": "아이콘",
+    "KLAY": "클레이튼",
+}
 #########################################
 
 themes = {"nft": THEME_NFT,
           "p2e": THEME_P2E,
           "layer2": THEME_LAYER2,
           "web3": THEME_WEB3,
+          "kimchi": THEME_KIMCHI,
           "china": THEME_CHINA,
           "did": THEME_DID,
           "payment": THEME_PAYMENT,
@@ -473,7 +503,7 @@ themes = {"nft": THEME_NFT,
           "major": THEME_MAJOR,
           "security": THEME_SECURITY,
           "medical": THEME_MEDICAL,
-          "binance": THEME_BINANCE
+          "binance": THEME_BINANCE,
           }
 
 
@@ -499,6 +529,7 @@ def get_all_themes():
         list_theme.append(key)
 
     return list_theme
+
 
 def get_theme_symbols(theme):
     return themes[theme.lower()]
