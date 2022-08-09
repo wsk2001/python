@@ -8,33 +8,20 @@
 import time, sys, getopt
 import pyupbit
 from datetime import datetime
-from common.themes import get_theme_symbols
+from common.themes import get_theme_symbols, get_all_themes
 
 
 def main(argv):
-    theme = 'did'
-    try:
-        opts, etc_args = getopt.getopt(argv[1:], "ht:"
-                                       , ["help", "theme"])
+    themes = get_all_themes()
 
-    except getopt.GetoptError:
-        print(argv[0], '-t <theme>')
-        print('ex) python', f'{argv[0]}', '-t web3')
-        sys.exit(2)
+    for t in themes:
+        symbols = get_theme_symbols(t)
 
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            print(argv[0], '-t <theme>')
-            print('ex) python', f'{argv[0]}', '-t web3')
-            sys.exit(2)
+        print(f'[{t.upper()}]')
+        for key, val in symbols.items():
+            print(f'{key}, {val}')
 
-        elif opt in ("-t", "--theme"):
-            theme = arg
-
-    symbols = get_theme_symbols(theme)
-
-    for key, val in symbols.items():
-        print(f'{key}, {val}')
+        print()
 
 
 if __name__ == "__main__":

@@ -535,6 +535,9 @@ def get_theme_symbols(theme):
     return themes[theme.lower()]
 
 
+def get_theme_symbols_count(theme):
+    return len(themes[theme.lower()])
+
 # 마켓코드조회
 def market_code_all():
     url = "https://api.upbit.com/v1/market/all"

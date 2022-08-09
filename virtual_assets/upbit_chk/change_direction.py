@@ -8,7 +8,7 @@
 import time, sys, getopt
 import pyupbit
 from datetime import datetime
-from common.themes import get_themes
+from common.themes import get_themes, get_all_themes
 
 open_p = 0
 high_p = 1
@@ -211,21 +211,36 @@ def seven_days():
     lst = pyupbit.get_tickers(fiat="KRW")
     lst.sort()
 
+    theme_dict = {}
+    theme_dict.clear()
+
+    themes = get_all_themes()
+    for t in themes:
+        theme_dict[t] = 0
+
     print(datetime.now())
-    print('최근 1주일 중 마지막 일자 기준 3일 이상 상승 종목')
+    print('최근 1주일 중 마지막 일자 기준 연속 3일 이상 상승 종목')
     print('상승 추세는 마지막 일자의 상승률이 전일 상승률 보다 높을 경우 +, 아니면 -')
     print()
-    print('symbol, up count, 상승 추세')
+    print('symbol, up count, 상승 추세, [관련 테마]')
     for v in lst:
         cnt, op = seven_days_plus(v)
         if 3 <= cnt:
             _, tms = get_themes(v[4:])
             if len(tms):
-                print(v[4:]+',', cnt, ',', op, tms)
+                print(v[4:]+',', cnt, ',', op, ',', tms)
             else:
                 print(v[4:] + ',', cnt, ',', op)
+            for t in tms:
+                if not t.lower().startswith('unclassified'):
+                    theme_dict[t] += 1
+
         time.sleep(0.1)
 
+    print()
+    for key, val in theme_dict.items():
+        if 0 < val :
+            print(key+':', val)
 
 # rate 만큼 오른 다음날 또를 확률 계산.
 def shooting_next(v, rate):

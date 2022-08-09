@@ -72,7 +72,7 @@ def main(argv):
     print()
     for key, val in theme_dict.items():
         if 0 < val :
-            print( key+':', val)
+            print(key+':', val)
 
 
 if __name__ == "__main__":
