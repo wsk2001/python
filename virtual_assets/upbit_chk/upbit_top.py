@@ -2,7 +2,7 @@
 
 import time, sys, getopt
 import pyupbit
-from common.themes import get_themes, get_all_themes
+from common.themes import get_themes, get_all_themes, get_theme_symbols_count
 
 
 def calc_earn(v):
@@ -54,9 +54,10 @@ def main(argv):
 
     earns = sorted(earns, key=lambda x : x[3], reverse=True)
 
-    print(f'업비트 상위 {count} 개 종목이 속한 테마 ', time.strftime('%Y-%m-%d %H:%M:%S'))
+    print(f'업비트 금일 상승률 상위 {count} 개 종목이 속한 테마 ')
+    print(time.strftime('%Y-%m-%d %H:%M:%S'))
     print()
-    print('번호, 심볼, open, close, 실적, 테마')
+    print('번호, 심볼, open, close, 실적, [테마]')
 
     i = 0
     for e in earns:
@@ -65,14 +66,16 @@ def main(argv):
             if not t.lower().startswith('unclassified'):
                 theme_dict[t] += 1
         i += 1
-        print(str(i)+',', f'{e[0]},', f'{e[1]},', f'{e[2]},', f'{e[3]:.2f}%, ', tms)
+        tms_u = [x.upper() for x in tms]
+        print(str(i)+',', f'{e[0]},', f'{e[1]},', f'{e[2]},', f'{e[3]:.2f}%, ',tms_u)
         if count <= i:
             break
 
     print()
     for key, val in theme_dict.items():
         if 0 < val :
-            print(key+':', val)
+            per = val/get_theme_symbols_count(key) * 100
+            print(f'{key.upper():<10}: {val}/{get_theme_symbols_count(key)} ({per:.2f}%)')
 
 
 if __name__ == "__main__":
