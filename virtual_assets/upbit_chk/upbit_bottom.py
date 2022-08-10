@@ -52,9 +52,9 @@ def main(argv):
         if arr is not None:
             earns.append(list(arr))
 
-    earns = sorted(earns, key=lambda x : x[3], reverse=True)
+    earns = sorted(earns, key=lambda x : x[3], reverse=False)
 
-    print(f'업비트 금일 상승률 상위 {count} 개 종목이 속한 테마 ')
+    print(f'업비트 금일 상승률 하위 {count} 개 종목이 속한 테마 ')
     print(time.strftime('%Y-%m-%d %H:%M:%S'))
     print()
     print('순위, 심볼, open, close, 실적, [테마]')

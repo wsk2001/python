@@ -59,6 +59,15 @@
 # https://bloomingbit.io/news
 # 코인 일정은 취미생활방 및 Coinmarketcal 제공
 
+# 파사채널 : https://t.me/PASACREW
+#
+# 해브로채널 : https://t.me/havelaw
+# https://blog.naver.com/japhagulee
+#
+# Eastgooner 채널 : https://t.me/eastgoonercrypto
+# https://blog.naver.com/eastboy_12
+
+
 ##########################
 # https://kimsfamily.kr/
 ##########################
@@ -124,8 +133,9 @@ CASH 0
 # ticker, amount, count, stop loss, take profit
 # total 474,306 (2022-07-29)
 
-BORA 485.00  432.68762886 -3000 15000
-DOGE  92.70 2261.53374229 -3000 15000
+CBK 1450 140.85379310 -3000 15000
+BORA 485.00  432.68762886 -17000 15000
+#DOGE  92.70 2261.53374229 -13000 15000
 # XTZ 2440 93.62695701 -3000 15000 # 2022.08.06 (win 2490, 233015)
 # ATOM 14340 12.06624825 -3000  20000 # 2022.07.29
 
