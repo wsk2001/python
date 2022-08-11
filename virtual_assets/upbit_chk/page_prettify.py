@@ -5,11 +5,11 @@ import time
 import datetime
 import re
  
-async def get_data():
+async def get_data(site):
     async with async_playwright() as pw:
         browser = await pw.chromium.launch()
         page = await browser.new_page()
-        await page.goto('https://coinness.live/market/future/liquidations')
+        await page.goto(site)
         time.sleep(6)
 
         html = await page.content()
@@ -27,7 +27,9 @@ async def get_data():
  
 
 async def main():
-    await get_data()
+    #await get_data('https://upbit.com/trends')
+    await get_data('https://coinmarketcap.com/ko/exchanges/upbit/')
+
  
 if __name__ == '__main__':
     asyncio.run(main())

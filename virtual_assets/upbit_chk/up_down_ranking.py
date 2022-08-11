@@ -17,28 +17,43 @@ def calc_earn(v):
         return None, None, None, None
 
 
+def usage(app):
+    print(app, 'options -c <count>')
+    print('options')
+    print('\t-c, --count\t\tranking count')
+    print('\t-d         \t\tdown ranking')
+    print('\t-u         \t\tup ranking')
+    print('ex) python', app, '-u -c 20')
+    print('    python', app, '-d -c 30')
+    sys.exit(2)
+
+
 def main(argv):
     lst = pyupbit.get_tickers(fiat="KRW")
     earns = [[]]
     theme_dict = {}
     theme_dict.clear()
-    count = 50
+    count = 30
+
+    # option: Up
+    reverse_flag = True
 
     try:
-        opts, etc_args = getopt.getopt(argv[1:], "hc:"
-                                       , ["help", "count="])
+        opts, etc_args = getopt.getopt(argv[1:], "hc:ud"
+                                       , ["help", "count=", "up", "down"])
 
     except getopt.GetoptError:
-        print(argv[0], '-c <count>')
-        print('ex) python', f'{argv[0]}', '-c 20  (default)')
-        sys.exit(2)
+        usage(argv[0])
 
     for opt, arg in opts:
         if opt in ("-h", "--help"):
-            print('ex) python', f'{argv[0]}', '-c 20  (default)')
-            sys.exit(2)
+            usage(argv[0])
         elif opt in ("-c", "--count"):
             count = int(arg.strip())
+        elif opt in ("-d", "--down"):
+            reverse_flag = False
+        elif opt in ("-u", "--up"):
+            reverse_flag = True
 
     themes = get_all_themes()
     for t in themes:
@@ -52,9 +67,13 @@ def main(argv):
         if arr is not None:
             earns.append(list(arr))
 
-    earns = sorted(earns, key=lambda x : x[3], reverse=True)
+    earns = sorted(earns, key=lambda x : x[3], reverse=reverse_flag)
 
-    print(f'업비트 금일 상승률 상위 {count} 개 종목이 속한 테마 ')
+    if reverse_flag:
+        print(f'업비트 금일 상승률 하위 {count} 개 종목이 속한 테마 ')
+    else:
+        print(f'업비트 금일 하락률 하위 {count} 개 종목이 속한 테마 ')
+
     print(time.strftime('%Y-%m-%d %H:%M:%S'))
     print()
     print('순위, 심볼, open, close, 실적, [테마]')

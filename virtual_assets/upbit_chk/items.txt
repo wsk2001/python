@@ -128,16 +128,13 @@
 # python animation
 # from matplotlib.animation import FuncAnimation
 
-CASH 0
+CASH 417243
 
 # ticker, amount, count, stop loss, take profit
 # total 474,306 (2022-07-29)
 
-CBK 1450 140.85379310 -3000 15000
+# CBK 1450 1 -3000 15000
 BORA 485.00  432.68762886 -17000 15000
-#DOGE  92.70 2261.53374229 -13000 15000
-# XTZ 2440 93.62695701 -3000 15000 # 2022.08.06 (win 2490, 233015)
-# ATOM 14340 12.06624825 -3000  20000 # 2022.07.29
 
 # 바이낸스, OKX, 비트겟, FTX, 코인엑스, 데리비트, 비트파이넥스, dYdX, 비트멕스,
 # 바이비트, 후오비, 크라켄
