@@ -30,10 +30,10 @@
 
 # RESET (2022-08-11)
 # BTC 24337.91 0.04 21150.05 x10 # long win(2022-08-09 11.30)
-BTC 24617.58 0.04 28035.55 x10 # short(2022-08-09 11.30)
+BTC 24225.68 0.25 24603.56 x100 # short(2022-08-09 11.30)
 
-STOP_LOSE   -5.0
-TAKE_PROFIT 20.0
+STOP_LOSE   -10.0
+TAKE_PROFIT 60.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
