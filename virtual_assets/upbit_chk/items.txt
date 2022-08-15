@@ -67,6 +67,8 @@
 # Eastgooner 채널 : https://t.me/eastgoonercrypto
 # https://blog.naver.com/eastboy_12
 
+# https://www.coinmaster.tips/
+
 
 ##########################
 # https://kimsfamily.kr/
@@ -116,6 +118,9 @@
 
 # https://investing-world.com/kr/lee-jae-yong-investment/?lpkey=16c857d3591e87df19&offer=Bitcoin%20Buyer&uclick=usqd16xrbl&uclickhash=usqd16xrbl-usqd16xrbl-fna8-0-8p17-uslpi4-usgm6o-c8a726
 
+#EVEN : 보합
+#RISE : 상승
+#FALL : 하락
 
 ###################################################################
 # https://github.com/AutomationPanda/playwright-python-tutorial
@@ -128,13 +133,10 @@
 # python animation
 # from matplotlib.animation import FuncAnimation
 
-CASH 417243
 
 # ticker, amount, count, stop loss, take profit
-# total 474,306 (2022-07-29)
 
 # CBK 1450 1 -3000 15000
-BORA 485.00  432.68762886 -17000 15000
 
 # 바이낸스, OKX, 비트겟, FTX, 코인엑스, 데리비트, 비트파이넥스, dYdX, 비트멕스,
 # 바이비트, 후오비, 크라켄
@@ -148,4 +150,12 @@ BORA 485.00  432.68762886 -17000 15000
 
 # 롱숏 비율 : https://coinness.live/market/future/long-short
 # BTC 5분
+
+#####################################################################
+# Reset: 2022-08-15 total 1,009,154
+CASH 281016
+
+TRX 94.32 5808.46721841 -10000 15000
+XTZ 2437 189.05887028 -10000 15000
+######################################################################
 
