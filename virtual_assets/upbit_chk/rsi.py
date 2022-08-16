@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import requests
 from ast import literal_eval
 import numpy as np
@@ -9,7 +11,7 @@ import time, datetime, sys, getopt
 import json
 
 # RSI계산 함수
-def rsi_calculate(l, n, sample_number):  # l = price_list, n = rsi_number
+def rsi_calculate(l, n, sample_number):
 
     diff = []
     au = []
@@ -176,7 +178,7 @@ def main(argv):
     time_unit = "DAYS"
 
     try:
-        opts, etc_args = getopt.getopt(argv[1:], "hdwm:u:b:"
+        opts, etc_args = getopt.getopt(argv[1:], "hd:w:m:u:b:"
                                        , ["help", "days", "weeks", "minutes=", "up=", "down="])
 
     except getopt.GetoptError:
@@ -209,7 +211,7 @@ def main(argv):
         elif opt in ("-b", "--bottom"):  # count
             rsi_bottom = int(arg.strip())
 
-    print("Start\n")
+    print(f'Start time_unit={time_unit}, rsi_up={rsi_up}, rsi_bottom={rsi_bottom}\n')
     code_list, name_to_code, code_to_name = market_code()
     while 1:
         # 1, 3, 5, 10, 15, 30, 60, 240

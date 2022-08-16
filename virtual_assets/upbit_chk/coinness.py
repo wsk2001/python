@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from playwright.async_api import async_playwright
 import asyncio
 from bs4 import BeautifulSoup as bs
@@ -28,7 +30,7 @@ async def get_data():
         browser = await pw.chromium.launch()
         page = await browser.new_page()
         await page.goto('https://coinness.live/market/ticker')
-        # time.sleep(6)
+        time.sleep(6)
 
         html = await page.content()
         soup = bs(html, 'html.parser').prettify()
@@ -115,6 +117,7 @@ async def main(argv):
             count_min = int(arg.strip())
 
     while True:
+        print('파싱 않됨. 수정 필요.')
         await get_data()
         time.sleep(count_min * unit_min)
  
