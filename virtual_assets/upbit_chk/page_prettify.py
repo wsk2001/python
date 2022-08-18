@@ -28,7 +28,8 @@ async def get_data(site):
 
 async def main():
     #await get_data('https://upbit.com/trends')
-    await get_data('https://coinmarketcap.com/ko/exchanges/upbit/')
+    # await get_data('https://coinmarketcap.com/ko/exchanges/upbit/')
+    await get_data('https://www.tokenpost.kr/blockchain')
 
  
 if __name__ == '__main__':
