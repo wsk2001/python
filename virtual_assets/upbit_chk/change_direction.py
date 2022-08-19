@@ -5,10 +5,12 @@
 업비트 원화마켓 의 모든 코인이 기준입니다.
 """
 
-import time, sys, getopt
+import time
 import pyupbit
-from datetime import datetime
+from datetime import datetime, date
 from common.themes import get_themes, get_all_themes
+from common.utils import get_idx_values, get_tickers
+import argparse
 
 open_p = 0
 high_p = 1
@@ -228,7 +230,7 @@ def seven_days():
         if 3 <= cnt:
             _, tms = get_themes(v[4:])
             if len(tms):
-                print(v[4:]+',', cnt, ',', op, ',', tms)
+                print(v[4:] + ',', cnt, ',', op, ',', tms)
             else:
                 print(v[4:] + ',', cnt, ',', op)
             for t in tms:
@@ -239,11 +241,12 @@ def seven_days():
 
     print()
     for key, val in theme_dict.items():
-        if 0 < val :
-            print(key+':', val)
+        if 0 < val:
+            print(key + ':', val)
 
-# rate 만큼 오른 다음날 또를 확률 계산.
-def shooting_next(v, rate):
+
+# earning 만큼 오른 다음날 또를 확률 계산.
+def shooting_next(v, earning):
     ticker = v
     if not ticker.upper().startswith('KRW-'):
         ticker = 'KRW-' + v.upper()
@@ -265,30 +268,70 @@ def shooting_next(v, rate):
         else:
             flag = False
 
-        if rate <= rc:
+        if earning <= rc:
             shooting_count += 1
             flag = True
 
     return shooting_count, next_day_up
 
 
-def check_shooting():
+def check_shooting(earning=20):
     lst = pyupbit.get_tickers(fiat="KRW")
     lst.sort()
-    rate = 20.0
 
     for v in lst:
-        cnt, next_cnt = shooting_next(v, rate)
+        cnt, next_cnt = shooting_next(v, earning)
         if 0 < cnt:
             print(v[4:], cnt, next_cnt)
 
 
-def main(argv):
+def view_hlc_stat(count=30, symbol='all', fiat='KRW', interval='day'):
+    if symbol.startswith('all'):
+        lst = get_tickers(fiat)
+    else:
+        if symbol.upper() != 'KRW' and symbol.upper() != 'BTC' and symbol.upper() != 'USDT':
+            symbol = 'KRW-' + symbol.upper()
+        lst = [symbol]
+
+    for v in lst:
+        dt, values, _ = get_idx_values(v, cnt=count, interval=interval)
+        hv = 0.0
+        lv = 0.0
+        cv = 0.0
+        for i in range(len(values)):
+            hv += ((values[i][high_p] / values[i][open_p]) - 1) * 100.0
+            lv += ((values[i][low_p] / values[i][open_p]) - 1) * 100.0
+            cv += ((values[i][close_p] / values[i][open_p]) - 1) * 100.0
+        cnt = len(values)
+        if v.upper().startswith('USDT'):
+            print(f'{v[5:]:<6}, {hv / cnt:.3f}, {lv / cnt:.3f}, {cv / cnt:.3f}')
+        else:
+            print(f'{v[4:]:<6}, {hv / cnt:.3f}, {lv / cnt:.3f}, {cv / cnt:.3f}')
+        time.sleep(0.1)
+
+
+def main():
     # check_direction()
     # lst = pyupbit.get_tickers(fiat="KRW")
     # lst.sort()
 
-    seven_days()
+    parser = argparse.ArgumentParser(description='옵션 지정 방법')
+    parser.add_argument('--count', required=False, default=10000, help='수집 data 갯수 (default=10000)')
+    parser.add_argument('--symbol', required=False, default='all', help='심볼 (BTC, ETH, ADA, ..., default=all)')
+    parser.add_argument('--fiat', required=False, default='KRW', help='자산 종류 (KRW, BTC, USDT, default=KRW)')
+    parser.add_argument('--interval', required=False, default='day', help='candle 종류 (day, week, month, minute1, ...)')
+    parser.add_argument('--earning', required=False, default=0.0, help='실적 (5.1, -5.2, 단위 %, default=0.0)')
+
+    args = parser.parse_args()
+    count = int(args.count)
+    symbol = args.symbol
+    fiat = args.fiat
+    interval = args.interval
+    earning = float(args.earning)
+
+    view_hlc_stat(count, symbol, fiat, interval)
+    # print()
+    # seven_days()
 
     # check_shooting()
 
@@ -302,4 +345,4 @@ def main(argv):
 
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()

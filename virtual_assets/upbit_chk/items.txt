@@ -155,9 +155,38 @@
 # Reset: 2022-08-15 total 1,009,154
 CASH 0
 
-PLA 602 1467.87139631 -30000 15000 # 2022-08-18 825,514KRW
+# PLA 602 1467.87139631 -80000 15000 # 2022-08-18 825,514KRW
+ETC 52210 7.76207623 -35000 40000
+MVL 7.66 52958.63817438 -35000 40000
 ######################################################################
 
 # 아래 내용 코딩 볼것.
 # https://github.com/pythonlessons/RL-Bitcoin-trading-bot
 # https://pylessons.com/RL-BTC-BOT-indicators
+
+# 다음은 5 개 국내 거래소가 입출금 대상으로 지정한 해외 거래소 명단이다.
+# 
+# # 업비트
+# – 계좌 소유주 확인 서비스
+# Upbit Singapore, Upbit Indonesia, Upbit Thailand, OKX, FTX, Bybit, Binance, BitMEX, Haru Invest, Bitget, BITFRONT, Crypto.com
+# 
+# – 업비트 계좌로 입금만 가능. 위험평가 통과 해외 거래소
+# Okcoin, Coinbase, Coinbase Pro, Bitbank.cc, Kraken, Bittrex, FTX US
+# 
+# # 빗썸
+# 코인베이스, 크라켄, 라인 비트맥스, 코인체크, 비트플라이어, 바이비트, 제미니, 코인리스트프로, 비트뱅크, 비트프론트, FTX, 바이낸스, 후오비글로벌
+# 
+# # 코인원
+# – 해외 출금주소 등록(화이트리스팅) 가능 거래소
+# 바이낸스 (Binance), 에프티엑스 (FTX), 게이트아이오 (Gate.io), 바이비트 (Bybit), 비트겟 (Bitget), 오케이엑스 (OKX), 비트렉스 (Bittrex), 비트파이넥스 (Bitfinex), 크립토닷컴 (Crypto.com), 비트맥스 (BitMEX), 크라켄 (Kraken), 엘뱅크 (Lbank), 코인베이스 (Coinbase) 리퀴드 (Liquid), 인도닥스 (INDODAX), 비트스탬프 (Bitstamp), 제미니 (Gemini)
+# 
+# # 코빗
+# – 지갑등록 후 출금 가능 해외 거래소
+# Binance,Bybit,FTXBitget, OKX (OKEX), Gate.io, Coinbase, Bittrex, Crypto.com, Kraken, Bitstamp, LBank, Bitfinex, Gemini, Bitbank, Deribit, Bitkub, BitMEX, Bitflyer
+# 
+# # 고팍스
+# Binance, BingX, Bitfront, Bitget, BitMEX, Bybit, Crypto.com Singapore, FTX, FTX US, Haru Invest, Huobi Global, OKX, Phemex, Upbit Indonesia, Upbit Singapore, Upbit Thailand, WISEBITCOIN
+# AAX BTCC BTCEX Digifinex Pionex Zoomex(이상 6개사는 FIU 접속 차단 대상)
+# 
+# # FIU가 발표한 접속 차단 거래소 16개
+# ▲엠이엑스씨(MEXC·멕시) ▲쿠코인(KuCoin) ▲페멕스(Phemex) ▲엑스티닷컴(XT.com) ▲비트루(Bitrue) ▲지비닷컴(ZB.com) ▲비트글로벌(Bitglobal) ▲코인더블유(CoinW) ▲코인엑스(CoinEX) ▲에이에이엑스(AAX) ▲주멕스(ZoomEX) ▲폴로닉스(Poloniex) ▲비트엑스(BTCEX) ▲BTCC(구 BTC차이나) ▲디지파이넥스(DigiFinex) ▲파이넥스(Pionex)

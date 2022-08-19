@@ -4,6 +4,7 @@ import requests
 from ast import literal_eval
 import requests
 import json
+import pyupbit
 
 
 # 마켓코드조회
@@ -111,6 +112,31 @@ def get_interval(k):
 
 def get_profit(open_price, close_price):
     return ((close_price / open_price) - 1.0) * 100.0
+
+
+# 지정된 심볼의 ohlcv 를 가져 온다.
+# dfs 는 기존에 취득 했던 data 를 다시 분석 할때 재 사용 한다.
+def get_idx_values(symbol, cnt=10000, interval='day', dfs=None):
+    if dfs is None:
+        ticker = symbol
+        if not ticker.upper().startswith('KRW-'):
+            ticker = 'KRW-' + symbol.upper()
+
+        df = pyupbit.get_ohlcv(ticker, count=cnt, interval=interval, period=1)
+    else:
+        df = dfs
+
+    values = df.values.tolist()
+    idx = df.index.tolist()
+
+    return idx, values, df
+
+# 명목화폐 (KRW, BTC, USDT) 기준 모든 종목명을 리스트로 돌려준다.
+def get_tickers(fiat='KRW'):
+    lst = pyupbit.get_tickers(fiat=fiat)
+    lst.sort()
+
+    return lst
 
 
 if __name__ == "__main__":
