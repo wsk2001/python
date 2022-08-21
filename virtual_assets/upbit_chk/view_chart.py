@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import time
 import datetime
 import sys, getopt
@@ -7,6 +9,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 
 def view(v, cnt, itv, to_time=None, disp='yes', save='no'):
+    plt.rc('font', family='NanumGothic')  # For Windows
     plt.cla()
     plt.clf()
     plt.close()
@@ -25,26 +28,26 @@ def view(v, cnt, itv, to_time=None, disp='yes', save='no'):
 
     ###################################################
     fig = plt.figure(v + '_' + str(to_time)[0:10])
-    ax1 = fig.add_subplot(312)
+    # ax1 = fig.add_subplot(211)
     c_series = df['close']
     ax1.plot(c_series)
-    plt.title(v + ' close')
+    plt.title(v + ' 종가')
 
-    ax2 = fig.add_subplot(313)
-    v_series = df['volume']
-    ax2.plot(v_series, color='green')
-    plt.title(v + ' volume')
+    # ax2 = fig.add_subplot(212)
+    # v_series = df['volume']
+    # ax2.plot(v_series, color='green')
+    # plt.title(v + ' 볼륨')
 
-    ax3 = fig.add_subplot(311)
-    v_series = dfbtc['close']
-    ax3.plot(v_series, color='blue')
-    plt.title('BTC (' + itv + ')')
+    # ax3 = fig.add_subplot(311)
+    # v_series = dfbtc['close']
+    # ax3.plot(v_series, color='blue')
+    # plt.title('BTC (' + itv + ')')
 
     if save.lower().startswith('yes'):
         manager = plt.get_current_fig_manager()
         manager.full_screen_toggle()
 
-        plt.title(v + ' (' + itv + ')' + ' volume')
+        plt.title(v + ' (' + itv + ')' + ' 볼륨')
         plt.savefig('J:/charts/' + v + '_' + str(to_time)[0:10] + '.png')
 
     if disp.lower().startswith('yes'):
@@ -102,7 +105,7 @@ def main(argv):
     ticker = None
     itv = 'minute5'
     count = 288
-    lasttime = " 09:00:00"
+    lasttime = " 23:59:00"
     lastdate = datetime.datetime.now().strftime('%Y%m%d')
     pd.set_option('display.max_rows', 16000)
     try:

@@ -33,6 +33,9 @@
 # 뉴스 BTC(https://www.newsbtc.com/)
 # 코인마켓캡 (https://coinmarketcap.com/) 
 # 코인달인 https://www.coindalin.com/bbs/register_form.php wonsool // 12~~~er
+# 크립토퀀트 : https://cryptoquant.com/ko/asset/btc/summary : gmail // k******2
+# https://cryptoquant.com/ko/asset/btc/summary#overview
+
 
 # 사는시점: MACD 오실레이터 0선을 상향 돌파할 때
 # 파는시점: MACD 오실레이터 0선을 하향 돌파할 때
@@ -156,7 +159,7 @@
 CASH 0
 
 # PLA 602 1467.87139631 -80000 15000 # 2022-08-18 825,514KRW
-ETC 52210 7.76207623 -35000 40000
+#ETC 52210 7.76207623 -35000 40000
 MVL 7.66 52958.63817438 -35000 40000
 ######################################################################
 
@@ -190,3 +193,5 @@ MVL 7.66 52958.63817438 -35000 40000
 # 
 # # FIU가 발표한 접속 차단 거래소 16개
 # ▲엠이엑스씨(MEXC·멕시) ▲쿠코인(KuCoin) ▲페멕스(Phemex) ▲엑스티닷컴(XT.com) ▲비트루(Bitrue) ▲지비닷컴(ZB.com) ▲비트글로벌(Bitglobal) ▲코인더블유(CoinW) ▲코인엑스(CoinEX) ▲에이에이엑스(AAX) ▲주멕스(ZoomEX) ▲폴로닉스(Poloniex) ▲비트엑스(BTCEX) ▲BTCC(구 BTC차이나) ▲디지파이넥스(DigiFinex) ▲파이넥스(Pionex)
+
+# 참치 김치찌개 https://www.10000recipe.com/recipe/6865614
