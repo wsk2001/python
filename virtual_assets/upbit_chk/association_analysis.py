@@ -21,6 +21,11 @@ from dateutil.relativedelta import relativedelta
 
 database_name = './dbms/upbit_days.db'
 
+def wlog(v1, v2, v3, v4):
+    f = open("./dbms/association_analysys.txt", 'a')
+    data = v1 + v2 + v3 + v4 + '\n'
+    f.write(data)
+    f.close()
 
 def make_from_to(date_time_str, days=5):
     date_time_obj = datetime.strptime(date_time_str, '%Y-%m-%d')
@@ -91,14 +96,25 @@ def analysis(v, e, r, p):
                   " 	'{start}' <= dc.date " \
                   " and dc.date <= '{end}'" \
                   " and '{pick}' <= earn" \
-                  " group by symbol;".format(start=str_from, end=str_to, pick=p)
+                  " and '{ticker}' not like dc.symbol" \
+                  " group by symbol;"\
+                .format(start=str_from, end=str_to, pick=p, ticker=ticker[4:].upper())
             cur.execute(sql)
             rows = cur.fetchall()
-            # for ro in rows:
-            #     print(ro)
+            str_items = ''
+            i = 0
+            if 0 < len(rows):
+                for ro in rows:
+                    if i == 0:
+                        str_items = str_items + ro[0]
+                    else:
+                        str_items = str_items + ',' + ro[0]
+                    i += 1
 
-            print(v, base_date, rows)
-
+                print(v+',', str(round(rc,2))+'%,', base_date + ',', str_items)
+                wlog(v+',', str(round(rc,2))+'%,', base_date + ',', str_items)
+            else:
+                continue
     cur.close()
     conn.close()
 
@@ -118,7 +134,13 @@ def main():
     r = int(args.range)
     p = float(args.pick)
 
-    analysis(symbol, earning, r, p)
+    if symbol.upper().startswith('ALL'):
+        lst = get_tickers('KRW')
+        for v in lst:
+            analysis(v[4:], earning, r, p)
+    else:
+        ticker = symbol
+        analysis(ticker, earning, r, p)
 
 
 if __name__ == "__main__":
