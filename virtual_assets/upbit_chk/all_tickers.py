@@ -21,10 +21,10 @@ def main(argv):
     earns.clear()
 
     for v in lst:
-        time.sleep(0.1)
         arr = calc_earn(v)
         if arr is not None:
             earns.append(list(arr))
+        time.sleep(0.2)
 
     earns = sorted(earns, key=lambda x : x[3], reverse=True)
 
