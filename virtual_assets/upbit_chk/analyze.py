@@ -12,6 +12,9 @@ def earning(t):
     if not t.upper().startswith('KRW-'):
         t = 'KRW-' + t
     df = pyupbit.get_ohlcv(t, interval='day', count=1, period=1)
+    if df is None:
+        return 0
+
     # ohlcv
     v = df.values.tolist()
     if v[0][close_posi] < v[0][open_posi]:
@@ -68,7 +71,7 @@ def main(argv):
               ", 하락:" + str(minus_count),
               ", 종목수 : " + str(total_count))
 
-        sleep(sleep_min*60)
+        sleep(sleep_min * 60)
 
 
 if __name__ == "__main__":

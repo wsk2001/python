@@ -18,14 +18,15 @@ import sqlite3
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
-
 database_name = './dbms/upbit_days.db'
+
 
 def wlog(v1, v2, v3, v4):
     f = open("./dbms/association_analysys.txt", 'a')
     data = v1 + v2 + v3 + v4 + '\n'
     f.write(data)
     f.close()
+
 
 def make_from_to(date_time_str, days=5):
     date_time_obj = datetime.strptime(date_time_str, '%Y-%m-%d')
@@ -97,7 +98,7 @@ def analysis(v, e, r, p):
                   " and dc.date <= '{end}'" \
                   " and '{pick}' <= earn" \
                   " and '{ticker}' not like dc.symbol" \
-                  " group by symbol;"\
+                  " group by symbol;" \
                 .format(start=str_from, end=str_to, pick=p, ticker=ticker[4:].upper())
             cur.execute(sql)
             rows = cur.fetchall()
@@ -111,12 +112,115 @@ def analysis(v, e, r, p):
                         str_items = str_items + ',' + ro[0]
                     i += 1
 
-                print(v+',', str(round(rc,2))+'%,', base_date + ',', str_items)
-                wlog(v+',', str(round(rc,2))+'%,', base_date + ',', str_items)
+                print(v + ',', str(round(rc, 2)) + '%,', base_date + ',', str_items)
+                wlog(v + ',', str(round(rc, 2)) + '%,', base_date + ',', str_items)
             else:
                 continue
     cur.close()
     conn.close()
+
+
+def bond_strength(v, e, r, p):
+    ticker = v
+    if not ticker.upper().startswith('KRW-'):
+        ticker = 'KRW-' + v.upper()
+
+    conn = sqlite3.connect(database_name)
+    cur = conn.cursor()
+
+    dictionary = {}
+    dictionary.clear()
+    detect_count = 0
+    df = pyupbit.get_ohlcv(ticker, count=10000, period=1)
+    for ind, row in df.iterrows():
+        rc = ((row["close"] / row["open"]) - 1.0) * 100.0
+        if e <= rc:
+            base_date = ind.strftime('%Y-%m-%d')
+            str_from, str_to = make_from_to(base_date, r)
+            str_from = base_date
+
+            sql = "select symbol from DAY_CANDLE dc" \
+                  " WHERE" \
+                  " 	'{start}' <= dc.date " \
+                  " and dc.date <= '{end}'" \
+                  " and '{pick}' <= earn" \
+                  " and '{ticker}' not like dc.symbol" \
+                  " group by symbol;" \
+                .format(start=str_from, end=str_to, pick=p, ticker=ticker[4:].upper())
+            cur.execute(sql)
+            rows = cur.fetchall()
+
+            if 0 < len(rows):
+                detect_count += 1
+                for ro in rows:
+                    key = ro[0]
+                    value = dictionary.__contains__(key)
+                    if value:
+                        iv = dictionary[key]
+                        iv += 1
+                        dictionary[key] = iv
+                    else:
+                        value = 1
+                        dictionary[key] = value
+            else:
+                continue
+    print(ticker[4:], detect_count)
+
+    for k, val in dictionary.items():
+        if 2 <= val:
+            dval = round(val/detect_count, 4)*100.0
+            if 30.0 <= dval:
+                print(k+',', str(val)+',',f'{dval:4.2f}', '(%)')
+    print()
+
+    cur.close()
+    conn.close()
+
+
+# 거래소 table 의 data 를 동기화 한다.
+def sync_exchange_data(v, sync_date, cur):
+    ticker = v
+    if not ticker.upper().startswith('KRW-'):
+        ticker = 'KRW-' + v.upper()
+
+    df = pyupbit.get_ohlcv(ticker, count=1, to=sync_date, period=1)
+    rc = ov = hv = lv = cv = vv = 0.0
+
+    for ind, row in df.iterrows():
+        rc = ((row["close"] / row["open"]) - 1.0) * 100.0
+        ov = row["open"]
+        hv = row["high"]
+        lv = row["low"]
+        cv = row["close"]
+        vv = row["volume"]
+        break
+
+    cur.execute("UPDATE DAY_CANDLE    "
+                "SET open = ?,	      "
+                "        high = ?,    "
+                "        low = ?,     "
+                "        close = ?,   "
+                "        volume = ?,  "
+                "        earn = ?     "
+                "WHERE		          "
+                "        date = ?     "
+                "AND symbol = ?	      ", (ov, hv, lv, cv, vv, rc, sync_date, ticker[4:]))
+
+
+def sync_data(sync_date):
+    lst = get_tickers('KRW')
+
+    conn = sqlite3.connect(database_name)
+    cur = conn.cursor()
+
+    for v in lst:
+        ticker = v
+        sync_exchange_data(ticker, sync_date, cur)
+        time.sleep(0.3)
+
+    cur.close()
+    conn.close()
+
 
 def main():
     # create_table()
@@ -134,17 +238,20 @@ def main():
     r = int(args.range)
     p = float(args.pick)
 
+    # sync_data('2022-08-22')
+
     if symbol.upper().startswith('ALL'):
         lst = get_tickers('KRW')
         for v in lst:
-            analysis(v[4:], earning, r, p)
+            bond_strength(v[4:], earning, r, p)
+            # analysis(v[4:], earning, r, p)
     else:
         ticker = symbol
-        analysis(ticker, earning, r, p)
+        bond_strength(ticker, earning, r, p)
+        # analysis(ticker, earning, r, p)
 
 
 if __name__ == "__main__":
     main()
-
 
 # py association_analysis.py --symbol=PUNDIX --earning=20 --range=3 --pick=20
