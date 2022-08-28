@@ -75,6 +75,7 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
         response = requests.request("GET", url, params=querystring)
         request_time_list = np.append(request_time_list, time.time() - times)  # 요청 끝 시간
         r_str = response.text
+        print(r_str)
         r_str = r_str.lstrip('[')  # 첫 문자 제거
         r_str = r_str.rstrip(']')  # 마지막 문 제거
         r_list = r_str.split("}")  # str를 }기준으로 쪼개어 리스트로 변환

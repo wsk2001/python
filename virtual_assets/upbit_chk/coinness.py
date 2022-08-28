@@ -27,7 +27,8 @@ async def get_data():
     global list_up_count
 
     async with async_playwright() as pw:
-        browser = await pw.chromium.launch()
+        ## chromium, firefox, webkit
+        browser = await pw.webkit.launch()
         page = await browser.new_page()
         await page.goto('https://coinness.live/market/ticker')
         time.sleep(6)
@@ -37,61 +38,34 @@ async def get_data():
         lines = soup.splitlines()
 
         list_str = []
+
         flag = False
 
         await browser.close()
 
-        for field in lines:
-            if not flag:
-                idx = field.find('<span class="sc-fWPcWZ cOaPDR">')
-                if 0 < idx:
-                    list_str.append(field)
-                    flag = True
-                else:
-                    continue
-            else:
-                list_str.append(field)
-                idx = field.find('</span>')
-                if 0 < idx:
-                    flag = False
+        for line in lines:
+            line = line.strip()
 
-        txt = ''
-        list_cnt = []
-        list_cnt.clear()
+            if line.startswith('<'):
+                continue
+
+            if line.startswith('선물'):
+                flag = True
+                continue
+
+            if 30 < len(line):
+                continue
+
+            if flag:
+                list_str.append(line)
+
+            if line.startswith('코인이 하락중이네요!'):
+                flag = False
 
         for field in list_str:
-            if 0 <= field.find('</span>'):
-                list_cnt.append(int(txt))
-                txt = ''
-            
-            if field.strip().startswith('<'):
-                continue
-            else:
-                txt += field.strip()
+            print(field)
 
-        if len(list_cnt) <= 0:
-            return
 
-        old_posi = position
-        if 5 <= len(list_up_count):
-            ma = ma5()
-            if ma < list_cnt[0]:
-                position = 'Long'
-            elif list_cnt[0] < ma:
-                position = 'Short'
-
-        # change of direction
-        cur = datetime.datetime.now().strftime('%H:%M:%S')
-        # like sprintf
-        prt_str = "%s  Up: %d, Down: %d, Direction: %s" % (cur, list_cnt[0], list_cnt[1], position)
-        print(prt_str)
-        list_up_count.append(list_cnt[0])
-
-        if not old_posi.startswith(position):
-            toaster = ToastNotifier()
-            toaster.show_toast("Change of direction", old_posi + ' => ' + position, threaded=True)
-
- 
 async def main(argv):
     global position
     global list_up_count
@@ -107,7 +81,7 @@ async def main(argv):
     except getopt.GetoptError:
         print(argv[0], '-s <sleep mins>')
         sys.exit(2)
-    
+
     for opt, arg in opts:
         if opt in ("-h", "--help"):
             print(argv[0], '-s <sleep mins>')
@@ -117,11 +91,11 @@ async def main(argv):
             count_min = int(arg.strip())
 
     while True:
-        print('파싱 않됨. 수정 필요.')
         await get_data()
+        break
         time.sleep(count_min * unit_min)
- 
+
+
 if __name__ == '__main__':
     signal.signal(signal.SIGINT, exit_gracefully)
     asyncio.run(main(sys.argv))
-

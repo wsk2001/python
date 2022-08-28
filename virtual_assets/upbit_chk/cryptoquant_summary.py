@@ -5,7 +5,8 @@ import time
 
 async def cryptoquant_summary():
     async with async_playwright() as pw:
-        browser = await pw.chromium.launch()
+        ## chromium, firefox, webkit
+        browser = await pw.webkit.launch()
         page = await browser.new_page()
         await page.goto('https://cryptoquant.com/ko/asset/btc/summary#overview')
         # sleep 을 빼면 일부 data 만 올라와서 올바른 분석이 되지 않는다.

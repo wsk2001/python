@@ -12,8 +12,8 @@ from common.dominance import aoa_position
 from win10toast import ToastNotifier
 
 symbols = []
-
 usd = 1270
+noti = 'no'
 
 
 class item:
@@ -94,17 +94,18 @@ def check_krw_ticker(v, btc_rate, base, cnt, sl=0.0, tp=0.0):
               + f'{v[4:]:<6}' + ': ' + f'{base:14.4f}' + ', ' + f'{p:14.4f}' + ', ' \
               + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
-        if sl != 0.0 and amt < sl:
-            toaster = ToastNotifier()
-            toaster.show_toast("Toast Notifier",
-                               f' {v[4:]:<6}' + ' Stop loss ' + f'{amt:7.2f}' + ' (' + f'{p:14.2f}' + ')',
-                               duration=5)
+        if noti == 'yes':
+            if sl != 0.0 and amt < sl:
+                toaster = ToastNotifier()
+                toaster.show_toast("Toast Notifier",
+                                   f' {v[4:]:<6}' + ' Stop loss ' + f'{amt:7.2f}' + ' (' + f'{p:14.2f}' + ')',
+                                   duration=5)
 
-        if tp != 0.0 and tp < amt:
-            toaster = ToastNotifier()
-            toaster.show_toast("Toast Notifier",
-                               f' {v[4:]:<6}' + ' Take profit ' + f'{amt:7.2f}' + ' (' + f'{p:14.2f}' + ')',
-                               duration=5)
+            if tp != 0.0 and tp < amt:
+                toaster = ToastNotifier()
+                toaster.show_toast("Toast Notifier",
+                                   f' {v[4:]:<6}' + ' Take profit ' + f'{amt:7.2f}' + ' (' + f'{p:14.2f}' + ')',
+                                   duration=5)
 
         return amt, tot
 
@@ -142,13 +143,13 @@ def get_binance_btc_json(t, btc_rate, base, cnt):
 
 
 def main(argv):
-    global usd
+    global usd, noti
     inv_amt = 0.0
     sleep_sec = 5
     view_binance = False
 
     try:
-        opts, etc_args = getopt.getopt(argv[1:], "hs:b", ["sleep="])
+        opts, etc_args = getopt.getopt(argv[1:], "hs:bn", ["sleep="])
 
     except getopt.GetoptError:
         print(argv[0], '-s <sleep seconds> -b [vew binance]')
@@ -163,6 +164,9 @@ def main(argv):
 
         elif opt in "-b":
             view_binance = True
+
+        elif opt in "-n":
+            noti = 'yes'
 
     file = open("items.txt", "r", encoding='UTF8')
     lines = file.readlines()

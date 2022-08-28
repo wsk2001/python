@@ -18,7 +18,7 @@ import sqlite3
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 
-database_name = './dbms/upbit_days.db'
+database_name = './dbms/virtual_asset.db'
 
 
 def wlog(v1, v2, v3, v4):
@@ -46,7 +46,7 @@ def create_table():
     conn = sqlite3.connect(database_name)
     conn.execute(
         'CREATE TABLE DAY_CANDLE(id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, open REAL, high REAL, low REAL, '
-        'close REAL, volume REAL, earn REAL, symbol TEXT)')
+        'close REAL, volume REAL, hearn REAL, learn REAL, earn REAL, symbol TEXT)')
     conn.close()
 
 
@@ -61,13 +61,16 @@ def insert_db():
         ticker = v
         if not ticker.upper().startswith('KRW-'):
             ticker = 'KRW-' + v.upper()
+        print(ticker)
 
         df = pyupbit.get_ohlcv(ticker, count=10000, period=1)
         for ind, row in df.iterrows():
-            rc = ((row["close"] / row["open"]) - 1.0) * 100.0
-            cur.execute("INSERT INTO DAY_CANDLE VALUES(?,?,?,?,?,?,?,?,?);",
+            earn = ((row["close"] / row["open"]) - 1.0) * 100.0
+            high = ((row["high"] / row["open"]) - 1.0) * 100.0
+            low = ((row["low"] / row["open"]) - 1.0) * 100.0
+            cur.execute("INSERT INTO DAY_CANDLE VALUES(?,?,?,?,?,?,?,?,?,?,?);",
                         (id, ind.strftime('%Y-%m-%d'), row["open"], row["high"], row["low"],
-                         row["close"], row["volume"], rc, v[4:]))
+                         row["close"], row["volume"], high, low, earn, v[4:]))
             id += 1
 
         time.sleep(0.2)
@@ -184,10 +187,12 @@ def sync_exchange_data(v, sync_date, cur):
         ticker = 'KRW-' + v.upper()
 
     df = pyupbit.get_ohlcv(ticker, count=1, to=sync_date, period=1)
-    rc = ov = hv = lv = cv = vv = 0.0
+    earn = hearn = learn =ov = hv = lv = cv = vv = 0.0
 
     for ind, row in df.iterrows():
-        rc = ((row["close"] / row["open"]) - 1.0) * 100.0
+        earn = ((row["close"] / row["open"]) - 1.0) * 100.0
+        hearn = ((row["high"] / row["open"]) - 1.0) * 100.0
+        learn = ((row["low"] / row["open"]) - 1.0) * 100.0
         ov = row["open"]
         hv = row["high"]
         lv = row["low"]
@@ -201,10 +206,13 @@ def sync_exchange_data(v, sync_date, cur):
                 "        low = ?,     "
                 "        close = ?,   "
                 "        volume = ?,  "
+                "        hearn = ?,   "
+                "        learn = ?,   "
                 "        earn = ?     "
                 "WHERE		          "
                 "        date = ?     "
-                "AND symbol = ?	      ", (ov, hv, lv, cv, vv, rc, sync_date, ticker[4:]))
+                "AND symbol = ?	      ",
+                (ov, hv, lv, cv, vv, hearn, learn, earn, sync_date, ticker[4:]))
 
 
 def sync_data(sync_date):
@@ -229,7 +237,7 @@ def main():
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('--symbol', required=True, help='심볼 (BTC, ETH, ADA, ...)')
     parser.add_argument('--earning', required=False, default=10.0, help='실적 (5.1, 단위 %, default=10)')
-    parser.add_argument('--range', required=False, default=5, help='비교 범위 기간(default=7, 앞/뒤로 7일)')
+    parser.add_argument('--range', required=False, default=7, help='비교 범위 기간(default=7, 7일 이내)')
     parser.add_argument('--pick', required=False, default=5, help='비교 범위 (default=5, 5% 이상 상승 종목)')
 
     args = parser.parse_args()
