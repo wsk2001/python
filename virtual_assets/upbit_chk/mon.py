@@ -36,10 +36,9 @@ def exit_gracefully(signal, frame):
     sys.exit(0)
 
 
-def check_btc_ticker(v, btc_rate, base, cnt):
+def check_btc_ticker(v, btc_rate, btc_price, base, cnt):
     df = pyupbit.get_ohlcv(v, count=1)
-    _, price = get_binance_btc('BTC')
-    p = df['close'][0] * usd * price
+    p = df['close'][0] * btc_price
     cur_rate = ((df['close'][0] / df['open'][0]) - 1.0) * 100.0
     mgn = p - base
     amt = mgn * cnt
@@ -192,7 +191,6 @@ def main(argv):
 
     file.close()
 
-    usd = upbit_get_usd_krw()
 
     i = 0
     chg_posi = False
@@ -202,11 +200,12 @@ def main(argv):
     while True:
         amt = 0.0
         mgn = 0.0
-        btc_rate, _ = rate('KRW-BTC')
+        usd = upbit_get_usd_krw()
+        btc_rate, btc_price = rate('KRW-BTC')
 
         for itm in symbols:
             if itm.ticker.startswith('BTC-'):
-                t_mgn, t_amt = check_btc_ticker(itm.ticker, btc_rate, itm.base, itm.count)
+                t_mgn, t_amt = check_btc_ticker(itm.ticker, btc_rate, btc_price, itm.base, itm.count)
             else:
                 t_mgn, t_amt = check_krw_ticker(itm.ticker, btc_rate, itm.base, itm.count, itm.sl, itm.tp)
             mgn += t_mgn
