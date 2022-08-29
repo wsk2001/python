@@ -10,6 +10,7 @@ from common.dominance import get_dominance
 import requests
 from common.dominance import aoa_position
 from win10toast import ToastNotifier
+import argparse
 
 symbols = []
 usd = 1270
@@ -148,25 +149,18 @@ def main(argv):
     sleep_sec = 5
     view_binance = False
 
-    try:
-        opts, etc_args = getopt.getopt(argv[1:], "hs:bn", ["sleep="])
+    parser = argparse.ArgumentParser(description='옵션 지정 방법')
+    parser.add_argument('--sleep', required=False, default=10, help='sleep sec (default=10)')
+    parser.add_argument('--binance', required=False, default='yes', help='binance 지수 확인 (yes/no, default=yes)')
+    parser.add_argument('--noti', required=False, default='no', help='over limit noti (yes/no default=no)')
 
-    except getopt.GetoptError:
-        print(argv[0], '-s <sleep seconds> -b [vew binance]')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            print(argv[0], '-s <sleep seconds> -b [vew binance]')
-            sys.exit()
-
-        elif opt in ("-s", "--sleep"):
-            sleep_sec = int(arg.strip())
-
-        elif opt in "-b":
-            view_binance = True
-
-        elif opt in "-n":
-            noti = 'yes'
+    args = parser.parse_args()
+    sleep_sec = int(args.sleep)
+    noti = args.noti
+    if args.binance.startswith('yes'):
+        view_binance = True
+    else:
+        view_binance = False
 
     file = open("items.txt", "r", encoding='UTF8')
     lines = file.readlines()

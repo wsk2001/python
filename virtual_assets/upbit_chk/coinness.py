@@ -43,6 +43,10 @@ async def get_data():
 
         await browser.close()
 
+        str_up = ''
+        str_down = ''
+        flag_up = False
+
         for line in lines:
             line = line.strip()
 
@@ -57,20 +61,24 @@ async def get_data():
                 continue
 
             if flag:
-                list_str.append(line)
+                if flag_up == False:
+                    if line.startswith('코인이 상승중이네요!'):
+                        flag_up = True
+                        continue
+                    str_up += line
+                elif flag_up == True:
+                    if line.startswith('코인이 하락중이네요!'):
+                        break
+                    str_down += line
 
-            if line.startswith('코인이 하락중이네요!'):
-                flag = False
-
-        for field in list_str:
-            print(field)
-
+        cur = datetime.datetime.now().strftime('%H:%M:%S')
+        print(f'{cur} up={str_up}, down={str_down}')
 
 async def main(argv):
     global position
     global list_up_count
 
-    count_min = 1
+    count_min = 5
     unit_min = 60
 
     list_up_count.clear()
@@ -92,7 +100,6 @@ async def main(argv):
 
     while True:
         await get_data()
-        break
         time.sleep(count_min * unit_min)
 
 

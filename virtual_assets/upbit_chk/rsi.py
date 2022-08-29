@@ -6,9 +6,9 @@ import numpy as np
 import pandas as pd
 import operator
 from common.utils import market_code
-
 import time, datetime, sys, getopt
 import json
+import argparse
 
 # RSI계산 함수
 def rsi_calculate(l, n, sample_number):
@@ -40,13 +40,13 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
 
     start = time.time()
 
-    if time_unit.upper().startswith('MINUTES'):
-        url = "https://api.upbit.com/v1/candles/" + time_unit + "/" + str(unit)  # 1, 3, 5, 10, 15, 30, 60, 240
-    elif time_unit.upper().startswith('DAYS'):
+    if time_unit.upper().startswith('MINUTE'):
+        url = "https://api.upbit.com/v1/candles/minutes/" + str(unit)  # 1, 3, 5, 10, 15, 30, 60, 240
+    elif time_unit.upper().startswith('DAY'):
         url = "https://api.upbit.com/v1/candles/days"
-    elif time_unit.upper().startswith('WEEKS'):
+    elif time_unit.upper().startswith('WEEK'):
         url = "https://api.upbit.com/v1/candles/weeks"
-    elif time_unit.upper().startswith('MONTHS'):
+    elif time_unit.upper().startswith('MONTH'):
         url = "https://api.upbit.com/v1/candles/months"
     else:
         url = "https://api.upbit.com/v1/candles/days"
@@ -75,7 +75,6 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
         response = requests.request("GET", url, params=querystring)
         request_time_list = np.append(request_time_list, time.time() - times)  # 요청 끝 시간
         r_str = response.text
-        print(r_str)
         r_str = r_str.lstrip('[')  # 첫 문자 제거
         r_str = r_str.rstrip(']')  # 마지막 문 제거
         r_list = r_str.split("}")  # str를 }기준으로 쪼개어 리스트로 변환
@@ -101,127 +100,70 @@ def RSI_analysis(code_list, code_to_name, time_unit, unit, target_up=70, target_
 
     target_dict = {}
 
-    if option == "multi":
+    btc_code = code_to_name[code_list[0]]
+    btc_rsi = rsi_list[0]
 
-        for i in range(len(rsi_list)):
-            if (target_down > rsi_list[i] >= 0) or i == 0:  # 비트코인 포함, rsi가 음수인 빈리스트 제외
-                target_dict.update({code_to_name[code_list[i]]: rsi_list[i]})
-                # target_dict.update({name_to_code[code_list[i]]: rsi_list[i]})
-        if len(target_dict) <= 1:
-            pass
-        else:
-            print("\n## RSI " + str(target_down) + "미만 " + time_unit + " " + str(unit))
-            target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
-
-            for i in target_dict:
-                print(i[0], f'{i[1]:.2f}')
-
-        target_dict = {}
-
-        for i in range(len(rsi_list)):
-            if (rsi_list[i] > target_up) or i == 0:
-                target_dict.update({code_to_name[code_list[i]]: rsi_list[i]})
-                # target_dict.update({name_to_code[code_list[i]]: rsi_list[i]})
-        if len(target_dict) <= 1:
-            pass
-        else:
-            print("\n## RSI " + str(target_up) + "이상 " + time_unit + " " + str(unit))
-
-            target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
-            for i in target_dict:
-                print(i[0], f'{i[1]:.2f}')
-            end = time.time()
-            print("\nRunning time : ", end - start)
-            print("현재시간 : " + time.strftime('%c', time.localtime(time.time())) + "\n")
-
-    elif option == "up":
-
-        for i in range(len(rsi_list)):
-            if (rsi_list[i] > target_up) or i == 0:
-                target_dict.update({code_to_name[code_list[i]]: rsi_list[i]})
-                # target_dict.update({name_to_code[code_list[i]]: rsi_list[i]})
-        if len(target_dict) <= 1:
-            pass
-        else:
-            print("\n## RSI " + str(target_up) + "이상 " + time_unit + " " + str(unit))
-
-            target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
-            for i in target_dict:
-                print(i[0], f'{i[1]:.2f}')
-            end = time.time()
-            print("\nRunning time : ", end - start)
-            print("현재시간 : " + time.strftime('%c', time.localtime(time.time())) + "\n")
+    for i in range(len(rsi_list)):
+        if target_down > rsi_list[i] >= 0:
+            target_dict.update({code_to_name[code_list[i]]: rsi_list[i]})
+    if len(target_dict) <= 1:
+        pass
     else:
-        for i in range(len(rsi_list)):
-            if (target_down > rsi_list[i] >= 0) or i == 0:
-                target_dict.update({code_to_name[code_list[i]]: rsi_list[i]})
-                # target_dict.update({name_to_code[code_list[i]]: rsi_list[i]})
-        if len(target_dict) <= 1:
-            pass
+        if time_unit in ("DAY", "WEEK", "MONTH"):
+            print("\n## RSI " + str(target_down) + " 미만 ")
         else:
-            print("\n## RSI " + str(target_down) + "미만 " + time_unit + " " + str(unit))
+            print("\n## RSI " + str(target_down) + " 미만 " + time_unit + " " + str(unit))
 
-            target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
+        target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
 
-            for i in target_dict:
-                print(i[0], f'{i[1]:.3f}')
-            end = time.time()
-            print("\nRunning time : ", end - start)
-            print("현재시간 : " + time.strftime('%c', time.localtime(time.time())) + "\n")
+        for i in target_dict:
+            print(i[0], f'{i[1]:.2f}')
+
+    target_dict = {}
+
+    for i in range(len(rsi_list)):
+        if rsi_list[i] > target_up:
+            target_dict.update({code_to_name[code_list[i]]: rsi_list[i]})
+    if len(target_dict) <= 1:
+        pass
+    else:
+        if time_unit in ("DAY", "WEEK", "MONTH"):
+            print("\n## RSI " + str(target_up) + " 이상 ")
+        else:
+            print("\n## RSI " + str(target_up) + " 이상 " + time_unit + " " + str(unit))
+
+        target_dict = sorted(target_dict.items(), key=operator.itemgetter(1))
+        for i in target_dict:
+            print(i[0], f'{i[1]:.2f}')
+        end = time.time()
+        # print("\nRunning time : ", end - start)
+        print(f'\n## {btc_code} {btc_rsi:.2f}')
+        print("Data 추출 시각 : " + time.strftime('%c', time.localtime(time.time())) + "\n")
 
 
 # Main function
 def main(argv):
+    parser = argparse.ArgumentParser(description='옵션 지정 방법')
+    parser.add_argument('--interval', required=False, default='DAY', help='interval(DAY, WEEK, MONTH, MINUTE)')
+    parser.add_argument('--unit', required=False, default=240, help='unit of interval (default:240)')
+    parser.add_argument('--up', required=False, default=70, help='check upper limit (default=70)')
+    parser.add_argument('--down', required=False, default=30, help='check lower limit (default=30)')
 
-    rsi_up = 70
-    rsi_bottom = 30
-    unit = 1
-    time_unit = "DAYS"
+    args = parser.parse_args()
+    time_unit = args.interval
+    unit = int(args.unit)
+    rsi_up = float(args.up)
+    rsi_down = float(args.down)
+
+    print(f'Start time_unit={time_unit}, rsi_up={rsi_up}, rsi_bottom={rsi_down}\n')
+    code_list, name_to_code, code_to_name = market_code()
 
     try:
-        opts, etc_args = getopt.getopt(argv[1:], "hd:w:m:u:b:"
-                                       , ["help", "days", "weeks", "minutes=", "up=", "down="])
-
-    except getopt.GetoptError:
-        print(argv[0], '-m <minute> -u <rsi up level>  -b <rsi bottom level>')
-        print('\t\t-d \t\t일자 기준 RSI')
-        print('\t\t-w \t\t주 기준 RSI')
-        print('ex) python', f'{argv[0]}', '-m 240 -u 70  -d 30')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            print(argv[0], '-m <minute> -u <rsi up level>  -b <rsi bottom level>')
-            print('\t\t-d \t\t일자 기준 RSI')
-            print('\t\t-w \t\t주 기준 RSI')
-            print('ex) python', f'{argv[0]}', '-m 240 -u 70  -d 30')
-            sys.exit()
-
-        elif opt in ("-d", "--days"):  # ticker symbol
-            time_unit = "DAYS"
-
-        elif opt in ("-w", "--weeks"):  # ticker symbol
-            time_unit = "WEEKS"
-
-        elif opt in ("-m", "--minutes"):  # ticker symbol
-            unit = int(arg.strip())
-            time_unit = "MINUTES"
-
-        elif opt in ("-u", "--up"):  # count
-            rsi_up = int(arg.strip())
-
-        elif opt in ("-b", "--bottom"):  # count
-            rsi_bottom = int(arg.strip())
-
-    print(f'Start time_unit={time_unit}, rsi_up={rsi_up}, rsi_bottom={rsi_bottom}\n')
-    code_list, name_to_code, code_to_name = market_code()
-    while 1:
-        # 1, 3, 5, 10, 15, 30, 60, 240
-        try:
-            RSI_analysis(code_list, code_to_name, time_unit, unit, rsi_up, rsi_bottom)
-        except Exception as e:
-            print(e)
-            exit(0)
-
+        RSI_analysis(code_list, code_to_name, time_unit, unit, rsi_up, rsi_down)
+    except Exception as e:
+        print(e)
 
 if __name__ == "__main__":
     main(sys.argv)
+
+# py rsi.py --interval=DAY --up=60 --down=35
