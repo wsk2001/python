@@ -29,15 +29,27 @@ vol_p = 4
 def get_earning(start, end):
     return ((end / start) - 1) * 100.0
 
+
 def what_day_is_it(date):
     days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     day = date.weekday()
     return days[day]
 
 
+def krw_btc_price():
+    df = pyupbit.get_ohlcv('KRW-BTC', count=1)
+    return df['close'][0]
+
+
 def analyze(ticker, cnt, interval='day'):
-    if not ticker.startswith('KRW-'):
+
+    if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
         ticker = 'KRW-' + ticker
+
+    if not ticker.startswith('KRW-'):
+        r = krw_btc_price()
+    else:
+        r = 1
 
     df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, period=1)
     vals = df.values.tolist()
@@ -60,9 +72,9 @@ def analyze(ticker, cnt, interval='day'):
             chk_date = datetime.strptime(str(indexs)[:10], "%Y-%m-%d")
 
             week_day = (what_day_is_it(chk_date))
-            print(str(indexs)[:10], week_day, ',', values[open_p], ',', values[high_p], ',',
-                  values[low_p], ',',  values[close_p], ',', values[vol_p], ',', f'{rh:.3f}%', ',',
-                  f'{rl:.3f}%', ',', f'{rc:.3f}%')
+            print(str(indexs)[:10], week_day, ',', f'{values[open_p]*r:.3f}, {values[high_p]*r:.3f},',
+                  f'{values[low_p] * r:.3f}, {values[close_p] * r:.3f}, {values[vol_p]:.3f}, {rh:.3f}%', ',',
+                  f'{rl:.3f}%, {rc:.3f}%')
             if hv.o == 0.0:
                 start_date = str(indexs)[:10]
                 hv.day = str(indexs)[:10]
@@ -86,8 +98,9 @@ def analyze(ticker, cnt, interval='day'):
                 hv.c = values[close_p]
 
         else:
-            print(indexs, ',', values[open_p], ',', values[high_p], ',', values[low_p], ',',
-                  values[close_p], ',',  values[vol_p], ',', f'{rh:.3f}%', ',', f'{rl:.3f}%', ',', f'{rc:.3f}%')
+            print(f'{indexs}, {values[open_p]*r:.3f}, {values[high_p]*r:.3f},',
+                  f'{values[low_p] * r:.3f}, {values[close_p] * r:.3f}, {values[vol_p]:.3f}, {rh:.3f}%', ',',
+                  f'{rl:.3f}%, {rc:.3f}%')
 
     earn = ((en_c / st_o) - 1) * 100.0
 
@@ -96,8 +109,8 @@ def analyze(ticker, cnt, interval='day'):
     if interval.startswith('day'):
         print(f'earning(count = {cnt} days): {earn:.3f}%')
         print(f'start :  {start_date} , Open, High, Low, Close')
-        print('top   : ', hv.day, ',', hv.o, ',', hv.h, ',', hv.l, ',', hv.c)
-        print('bottom: ', lv.day, ',', lv.o, ',', lv.h, ',', lv.l, ',', lv.c)
+        print('top   : ', hv.day, ',', f'{hv.o * r:.3f} , {hv.h*r:.3f}, {hv.l*r:.3f}, {hv.c*r:.3f}')
+        print('bottom: ', lv.day, ',', f'{lv.o * r:.3f} , {lv.h*r:.3f}, {lv.l*r:.3f}, {lv.c*r:.3f}')
     else:
         print(f'earning: {earn:.3f}%')
 
@@ -152,4 +165,5 @@ if __name__ == "__main__":
 
 # run: python get_ohlcv.py -c 7 -t kava -i d
 # 일단위 data 수집시, 최고가 일자 _data, 최저가 일자 _data print 하도록 수정 필요.
+# BTC market 가격 반영
 

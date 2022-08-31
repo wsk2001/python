@@ -45,7 +45,7 @@ def create_table():
 
     conn = sqlite3.connect(database_name)
     conn.execute(
-        'CREATE TABLE DAY_CANDLE(id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT, open REAL, high REAL, low REAL, '
+        'CREATE TABLE day_candle(date TEXT, open REAL, high REAL, low REAL, '
         'close REAL, volume REAL, hearn REAL, learn REAL, earn REAL, symbol TEXT)')
     conn.close()
 
@@ -55,7 +55,6 @@ def insert_db():
 
     conn = sqlite3.connect(database_name)
     cur = conn.cursor()
-    id = 1
 
     for v in lst:
         ticker = v
@@ -68,10 +67,9 @@ def insert_db():
             earn = ((row["close"] / row["open"]) - 1.0) * 100.0
             high = ((row["high"] / row["open"]) - 1.0) * 100.0
             low = ((row["low"] / row["open"]) - 1.0) * 100.0
-            cur.execute("INSERT INTO DAY_CANDLE VALUES(?,?,?,?,?,?,?,?,?,?,?);",
-                        (id, ind.strftime('%Y-%m-%d'), row["open"], row["high"], row["low"],
+            cur.execute("INSERT INTO day_candle VALUES(?,?,?,?,?,?,?,?,?,?);",
+                        (ind.strftime('%Y-%m-%d'), row["open"], row["high"], row["low"],
                          row["close"], row["volume"], high, low, earn, v[4:]))
-            id += 1
 
         time.sleep(0.2)
 
@@ -95,7 +93,7 @@ def analysis(v, e, r, p):
             str_from, str_to = make_from_to(base_date, r)
             # print(str_from, str_to)
 
-            sql = "select symbol from DAY_CANDLE dc" \
+            sql = "select symbol from day_candle dc" \
                   " WHERE" \
                   " 	'{start}' <= dc.date " \
                   " and dc.date <= '{end}'" \
@@ -142,7 +140,7 @@ def bond_strength(v, e, r, p):
             str_from, str_to = make_from_to(base_date, r)
             str_from = base_date
 
-            sql = "select symbol from DAY_CANDLE dc" \
+            sql = "select symbol from day_candle dc" \
                   " WHERE" \
                   " 	'{start}' <= dc.date " \
                   " and dc.date <= '{end}'" \
@@ -200,7 +198,7 @@ def sync_exchange_data(v, sync_date, cur):
         vv = row["volume"]
         break
 
-    cur.execute("UPDATE DAY_CANDLE    "
+    cur.execute("UPDATE day_candle    "
                 "SET open = ?,	      "
                 "        high = ?,    "
                 "        low = ?,     "

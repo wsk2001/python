@@ -62,12 +62,12 @@ def main(argv):
     earns.clear()
 
     for v in lst:
-        time.sleep(0.1)
+        time.sleep(0.2)
         arr = calc_earn(v)
         if arr is not None:
             earns.append(list(arr))
 
-    earns = sorted(earns, key=lambda x : x[3], reverse=reverse_flag)
+    earns = sorted(earns, key=lambda x: x[3], reverse=reverse_flag)
 
     if reverse_flag:
         print(f'업비트 금일 상승률 하위 {count} 개 종목이 속한 테마 ')
