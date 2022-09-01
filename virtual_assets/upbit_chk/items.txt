@@ -289,3 +289,6 @@ GMT        919 356.75360897  -10000 10000
 
 # recommend tickers are (stocastic, 2022-09-01)
 # BTC, XRP, XEM, ARK, GRS, GAS, ANKR, MED, TON, DOGE, STX, GMT
+
+# recommend 5-3-3
+# XEM GRS ANKR DOGE
