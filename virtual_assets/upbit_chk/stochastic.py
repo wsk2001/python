@@ -41,19 +41,26 @@ def krw_btc_price():
     return df['close'][0]
 
 
-#def AddStochastic(priceData, period=15, screen_window=5, slow_window=3):
-def AddStochastic(priceData, period=14, screen_window=3, slow_window=3):
+##############################################################################
+# 스토캐스틱 (Stochastic)지표로 매매하는 법
+# 주로 횡보장이나 박스권에서 많이 씁니다.
+# 5-3-3, 10-6-6, 20-12-12 숫자가 적어질수록 단기적인 움직임을 보기 용이하며
+# 긴 흐름을 가져 가실 때는 20 12 12 로 보시면 됩니다.
+##############################################################################
+# 매수 신호 = %K선이 과매도 영역 에서 아래 에서 %D선을 교차 합니다.
+# 매도 신호 = %K선이 과매수 영역 에서 위에서 %D선을 교차 합니다.
+##############################################################################
+def AddStochastic(priceData, period=5, screen_window=3, slow_window=3):
     ndayhigh = priceData['high'].rolling(window=period, min_periods=1).max()
     ndaylow = priceData['low'].rolling(window=period, min_periods=1).min()
     fast_k = (priceData['close'] - ndaylow) / (ndayhigh - ndaylow) * 100
     fast_d = fast_k.rolling(window=screen_window).mean()
     slow_k = fast_k.rolling(window=slow_window).mean()
     slow_d = fast_d.rolling(window=slow_window).mean()
-    return priceData.assign(slow_d=slow_d).dropna().copy()
-    # return priceData.assign(slow_k=slow_k, slow_d=slow_d).dropna().copy()
+    return priceData.assign(slow_k=slow_k, slow_d=slow_d).dropna().copy()
 
 
-def analyze(ticker, cnt, interval='day'):
+def stocastic_list(ticker, cnt, interval='day'):
     if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
         ticker = 'KRW-' + ticker
 
@@ -63,27 +70,66 @@ def analyze(ticker, cnt, interval='day'):
         r = 1
 
     df = pyupbit.get_ohlcv(ticker, count=cnt, period=1)
-    #df = AddStochastic(df, 15, 5, 3)
-    #df = AddStochastic(df, 5, 3, 3)
     df = AddStochastic(df, 10, 6, 6)
-    #df = AddStochastic(df, 20, 12, 12)
 
     vals = df.values.tolist()
     idxs = df.index.tolist()
 
-    st_o = 0.0
-    en_c = 0.0
+    last = len(idxs) - 1
+
+
     print('stochastic, symbol:', ticker[4:])
-    print('일자 , 종가, SLOW D%')
+    print('일자 , 종가, SLOW K%, SLOW D%')
+
 
     for indexs, v in zip(idxs, vals):
-        print(str(indexs)[:10], f'{v[3]:.2f}, {v[6]:.2f}')
+        print(str(indexs)[:10], f'{v[3]:.2f}, {v[6]:.2f}, {v[7]:.2f}')
+
+    print()
+    print(str(idxs[last])[:10], f'{vals[last][3]:.2f}, {vals[last][6]:.2f}, {vals[last][7]:.2f}')
+
+
+def stocastic(ticker, cnt, interval='day'):
+    if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
+        ticker = 'KRW-' + ticker
+
+    df = pyupbit.get_ohlcv(ticker, count=cnt, period=1)
+
+    dft = df
+    df5 = AddStochastic(dft, 5, 3, 3)
+
+    dft = df
+    df10 = AddStochastic(dft, 10, 6, 6)
+
+    dft = df
+    df20 = AddStochastic(dft, 20, 12, 12)
+
+    vals = df5.values.tolist()
+    idxs = df5.index.tolist()
+    last = len(idxs) - 1
+    df5_k = vals[last][6]
+    df5_d = vals[last][7]
+
+    vals = df10.values.tolist()
+    idxs = df10.index.tolist()
+    last = len(idxs) - 1
+    df10_k = vals[last][6]
+    df10_d = vals[last][7]
+
+    vals = df20.values.tolist()
+    idxs = df20.index.tolist()
+    last = len(idxs) - 1
+    df20_k = vals[last][6]
+    df20_d = vals[last][7]
+
+    return ticker[4:], df5_k, df5_d, df10_k, df10_d, df20_k, df10_d
 
 
 def main(argv):
     ticker = None
-    cnt = 100
+    cnt = 60
     all_flag = None
+    recommend = []
 
     try:
         opts, etc_args = getopt.getopt(argv[1:], "hc:t:a"
@@ -109,14 +155,30 @@ def main(argv):
         elif opt in ("-a", "--all"):  # count
             all_flag = True
 
+    if ticker is None:
+        all_flag = True
+
     if all_flag is None:
-        analyze(ticker, cnt)
+        v, k5, d5, k10, d10, k20, d20 = stocastic(ticker, cnt)
+        print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}, {k20:.2f}, {d20:.2f}')
     else:
         code_list, _, _ = market_code()
+        recommend.clear()
+        print('Stochastic Oscillator')
+        print('symbol, 5:3:3k, 5:3:3d, 10:6:6k, 10:6:6:d, 20:12:12k, 20:12:12d')
         for t in code_list:
-            analyze(t, cnt)
-            print('')
+            v, k5, d5, k10, d10, k20, d20 = stocastic(t, cnt)
+
+            if d5 < 20 and d5 < k5:
+                recommend.append(v)
+
+            print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}, {k20:.2f}, {d20:.2f}')
             time.sleep(0.3)
+
+        print()
+        print('recommend tickers are')
+        for ticker in recommend:
+            print(ticker)
 
 
 if __name__ == "__main__":
