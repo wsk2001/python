@@ -129,7 +129,9 @@ def main(argv):
     ticker = None
     cnt = 60
     all_flag = None
-    recommend = []
+    recommend5 = []
+    recommend10 = []
+    recommend20 = []
 
     try:
         opts, etc_args = getopt.getopt(argv[1:], "hc:t:a"
@@ -163,21 +165,39 @@ def main(argv):
         print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}, {k20:.2f}, {d20:.2f}')
     else:
         code_list, _, _ = market_code()
-        recommend.clear()
+        recommend5.clear()
+        recommend10.clear()
+        recommend10.clear()
         print('Stochastic Oscillator')
-        print('symbol, 5:3:3k, 5:3:3d, 10:6:6k, 10:6:6:d, 20:12:12k, 20:12:12d')
+        print('symbol, 5-3-3_K, 5-3-3_D, 10-6-6_K, 10-6-6_D, 20-12-12_K, 20-12-12_D')
         for t in code_list:
             v, k5, d5, k10, d10, k20, d20 = stocastic(t, cnt)
 
             if d5 < 20 and d5 < k5:
-                recommend.append(v)
+                recommend5.append(v)
+
+            if d10 < 20 and d10 < k10:
+                recommend10.append(v)
+
+            if d20 < 20 and d20 < k20:
+                recommend10.append(v)
 
             print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}, {k20:.2f}, {d20:.2f}')
             time.sleep(0.3)
 
         print()
-        print('recommend tickers are')
-        for ticker in recommend:
+        print('recommend 5-3-3')
+        for ticker in recommend5:
+            print(ticker)
+
+        print()
+        print('recommend 10-6-6')
+        for ticker in recommend10:
+            print(ticker)
+
+        print()
+        print('recommend 20-12-12')
+        for ticker in recommend20:
             print(ticker)
 
 
