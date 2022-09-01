@@ -77,10 +77,8 @@ def stocastic_list(ticker, cnt, interval='day'):
 
     last = len(idxs) - 1
 
-
     print('stochastic, symbol:', ticker[4:])
     print('일자 , 종가, SLOW K%, SLOW D%')
-
 
     for indexs, v in zip(idxs, vals):
         print(str(indexs)[:10], f'{v[3]:.2f}, {v[6]:.2f}, {v[7]:.2f}')
@@ -93,7 +91,7 @@ def stocastic(ticker, cnt, interval='day'):
     if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
         ticker = 'KRW-' + ticker
 
-    df = pyupbit.get_ohlcv(ticker, count=cnt, period=1)
+    df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, period=1)
 
     dft = df
     df5 = AddStochastic(dft, 5, 3, 3)
@@ -129,9 +127,20 @@ def main(argv):
     ticker = None
     cnt = 60
     all_flag = None
+
     recommend5 = []
     recommend10 = []
     recommend20 = []
+    recommend5sell = []
+    recommend10sell = []
+    recommend20sell = []
+
+    recommend5.clear()
+    recommend10.clear()
+    recommend20.clear()
+    recommend5sell.clear()
+    recommend10sell.clear()
+    recommend20sell.clear()
 
     try:
         opts, etc_args = getopt.getopt(argv[1:], "hc:t:a"
@@ -165,14 +174,13 @@ def main(argv):
         print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}, {k20:.2f}, {d20:.2f}')
     else:
         code_list, _, _ = market_code()
-        recommend5.clear()
-        recommend10.clear()
-        recommend10.clear()
         print('Stochastic Oscillator')
         print('symbol, 5-3-3_K, 5-3-3_D, 10-6-6_K, 10-6-6_D, 20-12-12_K, 20-12-12_D')
+        code_list.sort()
         for t in code_list:
             v, k5, d5, k10, d10, k20, d20 = stocastic(t, cnt)
 
+            # buy signal
             if d5 < 20 and d5 < k5:
                 recommend5.append(v)
 
@@ -180,25 +188,78 @@ def main(argv):
                 recommend10.append(v)
 
             if d20 < 20 and d20 < k20:
-                recommend10.append(v)
+                recommend20.append(v)
+
+            # sell signal
+            if 80 < d5 and k5 < d5:
+                recommend5sell.append(v)
+
+            if 80 < d10 and k10 < d10:
+                recommend10sell.append(v)
+
+            if 80 < d20 and k20 < d20:
+                recommend20sell.append(v)
 
             print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}, {k20:.2f}, {d20:.2f}')
             time.sleep(0.3)
 
         print()
-        print('recommend 5-3-3')
+        print('recommend buy')
+        print(f'5-3-3 ({str(len(recommend5))})')
+        ts = ''
         for ticker in recommend5:
-            print(ticker)
+            if 0 < len(ts):
+                ts += ',' + ticker
+            else:
+                ts += ticker
+        print(ts)
 
-        print()
-        print('recommend 10-6-6')
+        print(f'\n10-6-6 ({str(len(recommend10))})')
+        ts = ''
         for ticker in recommend10:
-            print(ticker)
+            if 0 < len(ts):
+                ts += ',' + ticker
+            else:
+                ts += ticker
+        print(ts)
+
+        print(f'\n20-12-12 ({str(len(recommend20))})')
+        ts = ''
+        for ticker in recommend20:
+            if 0 < len(ts):
+                ts += ',' + ticker
+            else:
+                ts += ticker
+        print(ts)
 
         print()
-        print('recommend 20-12-12')
-        for ticker in recommend20:
-            print(ticker)
+        print('recommend sell')
+        print(f'5-3-3 ({str(len(recommend5sell))})')
+        ts = ''
+        for ticker in recommend5sell:
+            if 0 < len(ts):
+                ts += ',' + ticker
+            else:
+                ts += ticker
+        print(ts)
+
+        print(f'\n10-6-6 ({str(len(recommend10sell))})')
+        ts = ''
+        for ticker in recommend10sell:
+            if 0 < len(ts):
+                ts += ',' + ticker
+            else:
+                ts += ticker
+        print(ts)
+
+        print(f'\n20-12-12 ({str(len(recommend20sell))})')
+        ts = ''
+        for ticker in recommend20sell:
+            if 0 < len(ts):
+                ts += ',' + ticker
+            else:
+                ts += ticker
+        print(ts)
 
 
 if __name__ == "__main__":
