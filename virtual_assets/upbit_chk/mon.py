@@ -210,6 +210,7 @@ def main(argv):
                 t_mgn, t_amt = check_krw_ticker(itm.ticker, btc_rate, itm.base, itm.count, itm.sl, itm.tp)
             mgn += t_mgn
             amt += t_amt
+            time.sleep(0.2)
 
         pcnt = (mgn / (amt + cash)) * 100.0
 
