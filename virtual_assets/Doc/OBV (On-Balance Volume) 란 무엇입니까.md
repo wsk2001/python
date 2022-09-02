@@ -529,3 +529,324 @@ plt.ylabel('USD Price ($)')
 지금까지 설명해 드린 방법으로 자신만의 거래 전략을 만들어 보세요! 하나의 차트에 대해서 한가지 지표만으로 매수 또는 매도 타이밍을 잡는 것보다는 다양한 지표를 살펴보고, 여러 지표들이 어떤 방향성을 갖는지 비교/확인하면서 자신만의 거래 전략을 세워보는 것을 권장합니다.
 
 참고) 이 글은 randerson112358의 Stock Market Technical Indicators를 각색하여 한글로 번역한 글입을 밝힙니다. 원문은 [링크](https://randerson112358.medium.com/stock-market-technical-indicators-5ffd179a30f9)를 통해서 확인하실 수 있습니다.
+
+
+
+---
+
+[자금 흐름 지표를 이용한 알고리즘 투자 전략 (feat. 파이썬)](https://skyeong.net/282)
+
+[데이터 사이언스/데이터 분석 실습](https://skyeong.net/category/데이터 사이언스/데이터 분석 실습) 2020. 12. 25. 18:32
+
+> 이 글은 교육적인 목적으로 작성되었습니다. 투자 조언으로 받아 들여서는 안되며, 투자는 본인의 재량에 따라 하십시오.
+
+이번 글에서는 자금 흐름 지표(Money Flow Index, MFI)라는 거래 전략을 설명드리고 파이썬으로 코딩하는 방법을 알려드리겠습니다. MFI는 거래량 가중 [상대적 강도 지수](https://brunch.co.kr/@skyeong/16/write)(Relative Strength Index, RSI)라고도 하며, 자산 중에서 과매수 또는 과매도 신호를 식별하기 위해 가격 및 거래량 데이터를 이용해 계산합니다. 
+
+MFI 값이 80 이상이면 과매수(매도 타이밍)로 간주되고, 20 미만이면 과매도(매수 타이밍)로 간주됩니다. 또한 MFI값이 90 또는 10인 경우를 임계값 이라고 합니다.
+
+> 매도 신호: MFI > 80
+> 매수 신호: MFI < 20
+
+ 
+
+## **화폐 흐름 지수 계산**
+
+MFI를 계산하기 전에 대표 주가(typical price)를 먼저 계산하려고 합니다. 대표 주가는 주식 일봉 차트에서 3개의 값을 평균낸 가격을 나타냅니다. 즉, 최고가, 최저가, 그리고 종가의 평균 값을 의미합니다. 
+
+> Typical price = (high + low + close)/3
+
+다음으로, 대표 주가가 시간이 지남에 따라서 하락하면 음수가 되고, 반대로 시간이 지남에 따라서 상승하면 양수가 되도록 자금 흐름 지수(MFI)를 계산해 보겠습니다. MFI는 대표 주가에 볼륨을 곱하해서 구할 수 있습니다.
+
+> Money flow (MF) = typical price X volume
+
+위의 계산을 통해서 주어진 기간 내에 양의 자금 흐름과 음의 자금 흐름을 알 수 있습니다. 현재 대표 주가가 전날 대표 주가 보다 높은 모든 날은 전날 자금 흐름(money flow)을 양의 자금에 추가하고, 현재 대표 주가가 전날 대표 주가 보다 낮은 날은 자금 흐름(money flow)을 음의 자금 흐름에 추가합니다. 현재 대표 주가와 전날 대표주가가 동일(대표 주가에 변동이 없음)하다면, 해당 날짜의 양의 자금 흐름(money flow)과 음의 자금흐름을 모두 0으로 표시합니다.
+
+> Money flow ratio (MFI) = positive money flow / negative money flow
+
+마지막으로 자금 흐름 지수를 계산해 보겠습니다. 우리가 알고 싶은 것은 돈의 흐름에 대한 긍정적 또는 부정적 방향성 입니다. 아래에서 Money Flow Index (MFI)를 계산하는 두 가지 공식을 소개해 드리겠습니다.
+
+> Equation 1: MFI = 100 - ( 100 / (1 + MFI) )
+> Equation 2: 100 x (positive_money_flow / (positive_MF + negative_MF))
+
+ 
+
+## **계산과정 요약**
+
+1. 대표 주가(typical price)를 계산 
+2. 돈의 흐름(money flow)을 계산 
+3. 돈 흐름을 양수와 음수 흐름으로 나눕니다. 
+4. 선택적으로 화폐 비율을 계산합니다. 
+5. 자금 흐름 지수(money flow index)를 계산합니다.
+
+
+
+![img](https://blog.kakaocdn.net/dn/bI70KC/btqRlInyfEA/zAktomMnkUCUjDxIMozMB1/img.png)MFI 계산공식 (출처: investopedia.com)
+
+
+
+## **파이썬을 이용한 기술지표 계산**
+
+파이썬을 이용해서 위에서 설명한 4가지 기술지표를 계산해 보겠습니다. 우선 분석이 필요한 라이브러리를 Import 하겠습니다.
+
+```
+import pandas as pd
+import matplotlib.pyplot as plt
+plt.style.use('fivethirtyeight')
+```
+
+이제 예시 데이터를 야후에서 다운로드 받오겠습니다. 2021년은 그린에너지의 해가 될 것으로 기대되고 있기 때문에, 전기차 배터리의 핵심 원료인 리튬을 생산하는 리튬아메리카(NYSE: LAC)의 최근 1년 데이터를 예제로 사용하겠습니다. 야후 파이낸스를 통해 데이터를 가져오겠습니다. 혹시 관련 라이브러리가 없는 분은 아래 명령어로 라이브러리를 설치해 주시기 바랍니다.
+
+```
+! pip install yfinance
+```
+
+### **주식 데이터 가져오기**
+
+```
+import yfinance as yf
+df = yf.download('LAC', start="2019-12-01", end="2020-11-30")
+df['Date'] = df.index
+df.head()
+```
+
+
+
+![img](https://blog.kakaocdn.net/dn/es9MZI/btqRpsYlpUW/hAvHdXrkOxqTtxkkfwsBR1/img.png)
+
+
+
+ 
+
+### **주식 차트 시각화**
+
+```
+plt.figure(figsize=(12.2, 4.5)) # width = 12.2in, height = 4.5
+plt.plot( df['Close'],  label='Close Price')
+plt.title('Close Price History')
+plt.xlabel('Date',fontsize=18)
+plt.ylabel('Close Price USD ($)',fontsize=18)
+plt.legend(df.columns.values, loc='upper left')
+plt.show()
+```
+
+
+
+![img](https://blog.kakaocdn.net/dn/uPP1m/btqRpuV9UQY/OkrgFQtu2zfvcafkKx0bj0/img.png)
+
+
+
+ 
+
+### **대표 주가(typical price) 계산**
+
+```
+typical_price = (df['Close'] + df['High'] + df['Low']) / 3
+typical_price
+```
+
+
+
+![img](https://blog.kakaocdn.net/dn/cbNPoj/btqRpuhyws9/GKzvdxx4UCPYnoaAXFX2wK/img.png)
+
+
+
+### **자금 흐름(money flow) 계산**
+
+```
+money_flow = typical_price * df['Volume']
+money_flow
+```
+
+
+
+![img](https://blog.kakaocdn.net/dn/cn0eGZ/btqRlIHUFUX/r48KwNfcod7kal4EmdS8Jk/img.png)
+
+
+
+ 
+
+### **양의 자금 흐름과 음의 자금 흐름 계산**
+
+```
+positive_flow =[] 
+negative_flow = [] 
+for i in range(1, len(typical_price)):
+  # 현재 대표 주가가 어제 대표주가보다 높을때
+  if typical_price[i] > typical_price[i-1]: 
+    positive_flow.append(money_flow[i-1]) 
+    negative_flow.append(0)  # Append 0 to the negative flow list
+  # 현재 대표 주가가 어제 대표주가보다 낮을때
+  elif typical_price[i] < typical_price[i-1]:
+    negative_flow.append(money_flow[i-1]) 
+    positive_flow.append(0)  # Append 0 to the positive flow list
+  # 대표 주가의 변동이 없을때
+  else: 
+    positive_flow.append(0)
+    negative_flow.append(0)
+```
+
+ 
+
+### **지정된 기간 내 양의 자금 흐름과 음의 자금 흐름 계산**
+
+```
+period = 14
+
+positive_mf =[]
+negative_mf = [] 
+
+# 기간내 모든 양의 자금흐름
+for i in range(period-1, len(positive_flow)):
+  positive_mf.append(sum(positive_flow[i+1-period : i+1]))
+
+# 기간내 모든 음의 자금흐름 
+for i in range(period-1, len(negative_flow)):
+  negative_mf.append(sum(negative_flow[i+1-period : i+1]))
+```
+
+ 
+
+### **자금 흐름 지수(MFI) 계산**
+
+```
+mfi = 100 * (np.array(positive_mf) / (np.array(positive_mf)  + np.array(negative_mf) ))
+mfi
+```
+
+
+
+![img](https://blog.kakaocdn.net/dn/PH5VI/btqRgiJ9TN6/RbDSwxk7qHQIanCOFh3Hak/img.png)
+
+
+
+ 
+
+### **자금 흐름 지수(MFI) 시각화**
+
+```
+df2 = pd.DataFrame()
+df2['MFI'] = mfi
+# Create and plot the graph
+plt.figure(figsize=(12.2,4.5)) 
+plt.plot( df2['MFI'],  label='MFI')
+plt.axhline(10, linestyle='--', color = 'orange')  # Over Sold line (매수)
+plt.axhline(20, linestyle='--',color = 'blue')     # Over Sold Line (매수)
+plt.axhline(80, linestyle='--', color = 'blue')    # Over Bought line (매도)
+plt.axhline(90, linestyle='--', color = 'orange')  # Over Bought line (매도)
+plt.title('MFI')
+plt.ylabel('MFI Values',fontsize=18)
+plt.legend(df2.columns.values, loc='upper left')
+plt.show()
+```
+
+
+
+![img](https://blog.kakaocdn.net/dn/bWdQs5/btqRoQFaChf/gmVPbgMFYJcP9miA5Ktz1K/img.png)
+
+
+
+ 
+
+###  **MFI 값을 DataFrame에 추가하기**
+
+```
+#Create a new data frame
+new_df = pd.DataFrame()
+new_df = df[period:]
+new_df['MFI'] = mfi
+new_df.tail()
+```
+
+
+
+![img](https://blog.kakaocdn.net/dn/bWkIGV/btqRjgEP5VD/TBC37rWcF2gzwenDuOZ6i1/img.png)
+
+
+
+ 
+
+### **MFI를 이용해서 매수/매도 타이밍 찾는 함수 생성**
+
+- 매도 타이밍: MFI > 80
+- 매수 타이밍: MFI < 20
+
+```
+def get_signal(data, high, low):
+  buy_signal = [] 
+  sell_signal = [] 
+  for i in range(len(data['MFI'])):
+      if data['MFI'][i] > high: # 매도 타이밍 
+        buy_signal.append(np.nan)
+        sell_signal.append(data['Close'][i])
+      elif data['MFI'][i] < low: # 매수 타이밍
+        buy_signal.append(data['Close'][i])
+        sell_signal.append(np.nan)
+      else:
+        buy_signal.append(np.nan)
+        sell_signal.append(np.nan)
+  return (buy_signal, sell_signal)
+```
+
+ 
+
+### **매수/매도 시점을 DataFrame에 추가하기**
+
+```
+buy_signal, sell_signal = get_signal(new_df, 80, 20)
+new_df['Buy'] = buy_signal
+new_df['Sell'] = sell_signal
+
+# 결과 출력 (매수 또는 매도 신호에 NULL이 아닌 값이 있는 경우만 출력)
+new_df.loc[new_df.Buy.notnull() | new_df.Sell.notnull()].head(10)
+```
+
+
+
+![img](https://blog.kakaocdn.net/dn/bX4wKh/btqRePIeKwZ/jnqyAKn6LyHcEIPgypUozK/img.png)
+
+
+
+ 
+
+### **주식 데이터와 매수/매도 타이밍을 모두 시각화**
+
+```
+# plot the close price history
+plt.figure(figsize=(12.2,4.5))
+plt.plot(new_df.index, new_df['Close'],alpha = 0.5, label='Close Price')
+plt.scatter(new_df.index, new_df['Buy'], color = 'green',
+                    label='Oversold/ Buy Signal', marker = '^', alpha = 1)
+plt.scatter(new_df.index, new_df['Sell'], color = 'red',
+                    label='Overbought/ Sell Signal', marker = 'v', alpha = 1)
+plt.title('Close Price')
+plt.xlabel('Date',fontsize=18)
+plt.xticks(rotation = 45)
+plt.ylabel('Close Price USD ($)',fontsize=18)
+plt.legend( loc='upper left')
+plt.show()
+
+# plot the corresponding MFI values and significant levels
+plt.figure(figsize=(12.4,3.5))
+plt.title('MFI Plot')
+plt.plot(new_df.index, new_df['MFI'])
+plt.axhline(10, linestyle='--',color = 'orange') #Buy
+plt.axhline(20, linestyle='--', color = 'blue') #Sell
+plt.axhline(80, linestyle='--', color = 'blue') #Sell
+plt.axhline(90, linestyle='--', color = 'orange') #Sell
+plt.xlabel('Date',fontsize=18)
+plt.xticks(rotation = 45)
+plt.ylabel('MFI Values (0 - 100)',fontsize=18)
+plt.show()
+```
+
+
+
+![img](https://blog.kakaocdn.net/dn/ceL7yj/btqRePIeKu2/1mnUo3yQTB2EmBjeSCSLs0/img.png)
+
+![img](https://blog.kakaocdn.net/dn/yWsBL/btqRjgdOM7J/YN8EmhO9zKE5BPCVkTAWlk/img.png)
+
+
+
+위의 차트를 보면 빨간색으로 표시된 매도 신호와 녹색으로 표시된 매수 신호를 확인할 수 있습니다. 자금 흐름 지표에 따르면 2020년 3월 정도에 리튬아메키라 주식을 평균 주당 3-4달러 정도에 매수 해야 할것처럼 보입니다. 이후에 2020년 10월에 주당 평균 약 15달러에 매도 신호가 잡혔습니다. 그리고 이후에 2020년 11월에는 주당 약 10달러 정도에서 매수 타이밍 신호가 잡혔네요. MFI와 다른 지표들을 잘 활용해서 좋은 성과를 내시길 바랍니다.
+
+참고) 이 글은 randerson112358의 Algorithmic Trading Strategy Using Money Flow Index (MFI) and Python를 각색하여 한글로 번역한 글입을 밝힙니다. 원문은 [링크](https://randerson112358.medium.com/algorithmic-trading-strategy-using-money-flow-index-mfi-python-aa46461a5ea5)를 통해서 확인하실 수 있습니다.
