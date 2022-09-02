@@ -95,32 +95,21 @@ def stocastic(ticker, cnt, interval='day'):
 
     dft = df
     df5 = AddStochastic(dft, 5, 3, 3)
-
-    dft = df
-    df10 = AddStochastic(dft, 10, 6, 6)
-
-    dft = df
-    df20 = AddStochastic(dft, 20, 12, 12)
-
     vals = df5.values.tolist()
     idxs = df5.index.tolist()
     last = len(idxs) - 1
     df5_k = vals[last][6]
     df5_d = vals[last][7]
 
+    dft = df
+    df10 = AddStochastic(dft, 9, 3, 3)
     vals = df10.values.tolist()
     idxs = df10.index.tolist()
     last = len(idxs) - 1
     df10_k = vals[last][6]
     df10_d = vals[last][7]
 
-    vals = df20.values.tolist()
-    idxs = df20.index.tolist()
-    last = len(idxs) - 1
-    df20_k = vals[last][6]
-    df20_d = vals[last][7]
-
-    return ticker[4:], df5_k, df5_d, df10_k, df10_d, df20_k, df10_d
+    return ticker[4:], df5_k, df5_d, df10_k, df10_d
 
 
 def main(argv):
@@ -130,17 +119,13 @@ def main(argv):
 
     recommend5 = []
     recommend10 = []
-    recommend20 = []
     recommend5sell = []
     recommend10sell = []
-    recommend20sell = []
 
     recommend5.clear()
     recommend10.clear()
-    recommend20.clear()
     recommend5sell.clear()
     recommend10sell.clear()
-    recommend20sell.clear()
 
     try:
         opts, etc_args = getopt.getopt(argv[1:], "hc:t:a"
@@ -170,15 +155,15 @@ def main(argv):
         all_flag = True
 
     if all_flag is None:
-        v, k5, d5, k10, d10, k20, d20 = stocastic(ticker, cnt)
-        print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}, {k20:.2f}, {d20:.2f}')
+        v, k5, d5, k10, d10 = stocastic(ticker, cnt)
+        print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}')
     else:
         code_list, _, _ = market_code()
         print('Stochastic Oscillator')
-        print('symbol, 5-3-3_K, 5-3-3_D, 10-6-6_K, 10-6-6_D, 20-12-12_K, 20-12-12_D')
+        print('symbol, 5-3-3%K, 5-3-3%D, 9-3-3%K, 9-3-3%D')
         code_list.sort()
         for t in code_list:
-            v, k5, d5, k10, d10, k20, d20 = stocastic(t, cnt)
+            v, k5, d5, k10, d10 = stocastic(t, cnt)
 
             # buy signal
             if d5 < 20 and d5 < k5:
@@ -187,9 +172,6 @@ def main(argv):
             if d10 < 20 and d10 < k10:
                 recommend10.append(v)
 
-            if d20 < 20 and d20 < k20:
-                recommend20.append(v)
-
             # sell signal
             if 80 < d5 and k5 < d5:
                 recommend5sell.append(v)
@@ -197,15 +179,12 @@ def main(argv):
             if 80 < d10 and k10 < d10:
                 recommend10sell.append(v)
 
-            if 80 < d20 and k20 < d20:
-                recommend20sell.append(v)
-
-            print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}, {k20:.2f}, {d20:.2f}')
+            print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}')
             time.sleep(0.3)
 
         print()
         print('recommend buy')
-        print(f'5-3-3 ({str(len(recommend5))})')
+        print(f'5-3-3 ({str(len(recommend5))}): ', end=' ')
         ts = ''
         for ticker in recommend5:
             if 0 < len(ts):
@@ -214,7 +193,7 @@ def main(argv):
                 ts += ticker
         print(ts)
 
-        print(f'\n10-6-6 ({str(len(recommend10))})')
+        print(f'9-3-3 ({str(len(recommend10))}): ', end=' ')
         ts = ''
         for ticker in recommend10:
             if 0 < len(ts):
@@ -223,18 +202,9 @@ def main(argv):
                 ts += ticker
         print(ts)
 
-        print(f'\n20-12-12 ({str(len(recommend20))})')
-        ts = ''
-        for ticker in recommend20:
-            if 0 < len(ts):
-                ts += ',' + ticker
-            else:
-                ts += ticker
-        print(ts)
-
         print()
         print('recommend sell')
-        print(f'5-3-3 ({str(len(recommend5sell))})')
+        print(f'5-3-3 ({str(len(recommend5sell))}): ', end=' ')
         ts = ''
         for ticker in recommend5sell:
             if 0 < len(ts):
@@ -243,18 +213,9 @@ def main(argv):
                 ts += ticker
         print(ts)
 
-        print(f'\n10-6-6 ({str(len(recommend10sell))})')
+        print(f'9-3-3 ({str(len(recommend10sell))}): ', end=' ')
         ts = ''
         for ticker in recommend10sell:
-            if 0 < len(ts):
-                ts += ',' + ticker
-            else:
-                ts += ticker
-        print(ts)
-
-        print(f'\n20-12-12 ({str(len(recommend20sell))})')
-        ts = ''
-        for ticker in recommend20sell:
             if 0 < len(ts):
                 ts += ',' + ticker
             else:

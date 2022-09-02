@@ -266,31 +266,17 @@
 
 CASH 0 # 535,253
 
-BTC   27463448 0.01835504 -10000 10000
-TT        8.18 42052.35650418 -10000 10000
-GMT        919 356.75360897  -10000 10000
+BTC   27449615 0.02109656       -10000 10000
+GMT        919 356.75360897     -10000 10000
+TRX       87.0 3172.36783906	-10000 10000
+GRS        426 643.40834277     -10000 10000
+XEM       60.5 1 -10000 10000
+#ANKR     47.40 5767.68577736    win
+#TT        8.07 35220.32193682   loss (트위터, 상장, Ku....)
 
-#SAND 1318 417.34644473	-5000 30000 # win 1365
-#MTL 1600 68.45639680 -5000 30000 # win
-#PLA 511 420.28571428 -20000   10000
-#HIVE 762 172.43963254 -20000  10000
-#KAVA 2525 51.96257425 -2000 10000
-#PUNDIX 744 307.17405913 5000 20000
-#XTZ 2185 93.00331807       0 3000
+# recommend buy (2022-09-02)
+# 5-3-3 (5):  ANKR,DOGE,EOS,GRS,XEM
+# 9-3-3 (9):  ARK,BTC,GMT,GRS,HUM,TON,WAVES,XEM,XRP
+# 중복 GRS(choice),XEM
 
-# https://www.mexc.com/ko-KR/register?inviteCode=mexc-Kimpga
-# 현재 금융위가 불법 영업으로 간주한 외국거래소는 △MEXC △쿠코인 △페멕스 △엑스티닷컴 
-# △비트루 △지비닷컴 △비트글로벌 △코인더블유 △코인엑스 △에이에이엑스 △주멕스 △폴로닉스 
-# △비트엑스 △BTCC △디지파이넥스 △파이넥스 등 총 16개다.
-# https://www.youtube.com/watch?v=ej27eMR8Wk0&t=611s
-
-# 크립토뉴스는 비트코인이 2만달러를 돌파할 경우 다음 저항선은 2만500달러며 이 레벨을 넘어서면 회복 흐름이 시작될 가능성도 있다고 분석했다.
-# 비트코인의 하방향 지지선은 1만9620달러, 다음 지지선은 1만9500달러로 제시됐다.
-
-# recommend tickers are (stocastic, 2022-09-01)
-# BTC, XRP, XEM, ARK, GRS, GAS, ANKR, MED, TON, DOGE, STX, GMT
-
-# recommend 5-3-3
-# XEM GRS ANKR DOGE
-
-# https://dataplay.tistory.com/15?category=852156
+# bitcoin Recommendation Algorithm
