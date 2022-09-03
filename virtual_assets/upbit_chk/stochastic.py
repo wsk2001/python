@@ -50,7 +50,7 @@ def krw_btc_price():
 # 매수 신호 = %K선이 과매도 영역 에서 아래 에서 %D선을 교차 합니다.
 # 매도 신호 = %K선이 과매수 영역 에서 위에서 %D선을 교차 합니다.
 ##############################################################################
-def AddStochastic(priceData, period=5, screen_window=3, slow_window=3):
+def AddStochastic(priceData, period=9, screen_window=3, slow_window=3):
     ndayhigh = priceData['high'].rolling(window=period, min_periods=1).max()
     ndaylow = priceData['low'].rolling(window=period, min_periods=1).min()
     fast_k = (priceData['close'] - ndaylow) / (ndayhigh - ndaylow) * 100
@@ -64,13 +64,8 @@ def stocastic_list(ticker, cnt, interval='day'):
     if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
         ticker = 'KRW-' + ticker
 
-    if not ticker.startswith('KRW-'):
-        r = krw_btc_price()
-    else:
-        r = 1
-
     df = pyupbit.get_ohlcv(ticker, count=cnt, period=1)
-    df = AddStochastic(df, 10, 6, 6)
+    df = AddStochastic(df, 9, 3, 3)
 
     vals = df.values.tolist()
     idxs = df.index.tolist()
@@ -94,22 +89,14 @@ def stocastic(ticker, cnt, interval='day'):
     df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, period=1)
 
     dft = df
-    df5 = AddStochastic(dft, 5, 3, 3)
-    vals = df5.values.tolist()
-    idxs = df5.index.tolist()
-    last = len(idxs) - 1
-    df5_k = vals[last][6]
-    df5_d = vals[last][7]
-
-    dft = df
     df10 = AddStochastic(dft, 9, 3, 3)
     vals = df10.values.tolist()
     idxs = df10.index.tolist()
     last = len(idxs) - 1
-    df10_k = vals[last][6]
-    df10_d = vals[last][7]
+    k = vals[last][6]
+    d = vals[last][7]
 
-    return ticker[4:], df5_k, df5_d, df10_k, df10_d
+    return ticker[4:], k, d
 
 
 def main(argv):
@@ -117,15 +104,11 @@ def main(argv):
     cnt = 60
     all_flag = None
 
-    recommend5 = []
-    recommend10 = []
-    recommend5sell = []
-    recommend10sell = []
+    recommend_buy = []
+    recommend_sell = []
 
-    recommend5.clear()
-    recommend10.clear()
-    recommend5sell.clear()
-    recommend10sell.clear()
+    recommend_buy.clear()
+    recommend_sell.clear()
 
     try:
         opts, etc_args = getopt.getopt(argv[1:], "hc:t:a"
@@ -155,72 +138,49 @@ def main(argv):
         all_flag = True
 
     if all_flag is None:
-        v, k5, d5, k10, d10 = stocastic(ticker, cnt)
+        v, k, d = stocastic(ticker, cnt)
         print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}')
     else:
         code_list, _, _ = market_code()
         print('Stochastic Oscillator')
-        print('symbol, 5-3-3%K, 5-3-3%D, 9-3-3%K, 9-3-3%D')
+        print('symbol, %K, %D')
         code_list.sort()
         for t in code_list:
-            v, k5, d5, k10, d10 = stocastic(t, cnt)
+            v, k, d = stocastic(t, cnt)
 
             # buy signal
-            if d5 < 20 and d5 < k5:
-                recommend5.append(v)
-
-            if d10 < 20 and d10 < k10:
-                recommend10.append(v)
+            if d < 25 and d < k:
+                recommend_buy.append(v)
+                print(f'{v}, {k:.2f}, {d:.2f}, buy')
 
             # sell signal
-            if 80 < d5 and k5 < d5:
-                recommend5sell.append(v)
+            if 75 < d and k < d:
+                recommend_sell.append(v)
+                print(f'{v}, {k:.2f}, {d:.2f}, sell')
 
-            if 80 < d10 and k10 < d10:
-                recommend10sell.append(v)
-
-            print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}')
             time.sleep(0.3)
 
         print()
-        print('recommend buy')
-        print(f'5-3-3 ({str(len(recommend5))}): ', end=' ')
-        ts = ''
-        for ticker in recommend5:
-            if 0 < len(ts):
-                ts += ',' + ticker
-            else:
-                ts += ticker
-        print(ts)
 
-        print(f'9-3-3 ({str(len(recommend10))}): ', end=' ')
-        ts = ''
-        for ticker in recommend10:
-            if 0 < len(ts):
-                ts += ',' + ticker
-            else:
-                ts += ticker
-        print(ts)
+        if 0 < len(recommend_buy):
+            print(f'recommend buy ({str(len(recommend_buy))}): ', end=' ')
+            ts = ''
+            for ticker in recommend_buy:
+                if 0 < len(ts):
+                    ts += ',' + ticker
+                else:
+                    ts += ticker
+            print(ts)
 
-        print()
-        print('recommend sell')
-        print(f'5-3-3 ({str(len(recommend5sell))}): ', end=' ')
-        ts = ''
-        for ticker in recommend5sell:
-            if 0 < len(ts):
-                ts += ',' + ticker
-            else:
-                ts += ticker
-        print(ts)
-
-        print(f'9-3-3 ({str(len(recommend10sell))}): ', end=' ')
-        ts = ''
-        for ticker in recommend10sell:
-            if 0 < len(ts):
-                ts += ',' + ticker
-            else:
-                ts += ticker
-        print(ts)
+        if 0 < len(recommend_sell):
+            print(f'recommend sell ({str(len(recommend_sell))}): ', end=' ')
+            ts = ''
+            for ticker in recommend_sell:
+                if 0 < len(ts):
+                    ts += ',' + ticker
+                else:
+                    ts += ticker
+            print(ts)
 
 
 if __name__ == "__main__":

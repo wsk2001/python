@@ -266,17 +266,26 @@
 
 CASH 0 # 535,253
 
-BTC   27449615 0.02109656       -10000 10000
-GMT        919 356.75360897     -10000 10000
-TRX       87.0 3172.36783906	-10000 10000
-GRS        426 643.40834277     -10000 10000
-XEM       60.5 1 -10000 10000
-#ANKR     47.40 5767.68577736    win
+BTC   27449615 0.02109656       -10000 10000 # stocastic
+GMT        919 356.75360897     -10000 10000 # stocastic
+TRX       87.0 3172.36783906	-10000 10000 # news
+GRS        426 643.40834277     -10000 10000 # stocastic
+
+#ANKR     47.40 5767.68577736    win # stocastic
 #TT        8.07 35220.32193682   loss (트위터, 상장, Ku....)
 
-# recommend buy (2022-09-02)
-# 5-3-3 (5):  ANKR,DOGE,EOS,GRS,XEM
-# 9-3-3 (9):  ARK,BTC,GMT,GRS,HUM,TON,WAVES,XEM,XRP
-# 중복 GRS(choice),XEM
+# 쌍 도지 (2022-09-03)
+# AERGO,ARK,BTT,GRS,HUM,ICX,IOST,LOOM,MANA,NU,OMG,ORBS,SOL,T,UPP,VET,XEM,ZRX
 
-# bitcoin Recommendation Algorithm
+# ATR, True Range
+
+
+# Recommendation Algorithm
+#Bollinger Bands(BB)
+#가격이 20일 이동평균선 중심으로 표준편차(약 96.5%) 범위 안에서 (밴드 안에서) 움직이는 지표
+#
+#밴드폭이 좁아지거나 넓어지면 가격 변동이 일어남
+#1시간봉 볼린저밴드 과매수 터치일 경우 매도
+#매수: 볼린저밴드 하단부 돌파 동시에 매도량 감소
+#매도: 볼린저밴드 상단부 돌파 동시에 매수량 감소
+

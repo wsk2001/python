@@ -19,24 +19,32 @@ def mfi(symbol, count):
 
     df = pyupbit.get_ohlcv(symbol, count=count, period=1)
     rl = ta.MFI(high=df['high'], low=df['low'], close=df['close'], volume=df['volume'], timeperiod=14)
-    print('MFI - Money Flow Index')
-    print(rl)
+    return rl[-1]
 
 
 # Main function
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('--symbol', required=False, default='BTC', help='symbol, default=BTC')
     parser.add_argument('--count', required=False, default=90, help='data gettering size (default=90)')
+    parser.add_argument('--buy', required=False, default=20, help='buy signal (default=20)')
+    parser.add_argument('--sell', required=False, default=80, help='sell signal (default=80)')
 
     args = parser.parse_args()
-    symbol = args.symbol
     count = int(args.count)
-
-    #code_list, name_to_code, code_to_name = market_code()
+    sell_signal = float(args.sell)
+    buy_signal = float(args.buy)
 
     try:
-        mfi(symbol, count)
+        code_list, _, _ = market_code()
+        code_list.sort()
+        for t in code_list:
+            value = mfi(t, count)
+            if sell_signal <= value:
+                print(f'{t[4:]}, {value:.2f}, sell signal')
+            elif value <= buy_signal:
+                print(f'{t[4:]}, {value:.2f}, buy signal')
+
+            time.sleep(0.3)
     except Exception as e:
         print(e)
 

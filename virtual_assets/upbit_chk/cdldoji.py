@@ -12,11 +12,11 @@ import pyupbit
 import argparse
 import talib as ta
 from common.utils import get_tickers
-
+import sys, time
 
 def main():
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('--symbol', required=False, default='GRS', help='심볼 (BTC, ETH, ADA, ...)')
+    parser.add_argument('--symbol', required=False, default='ALL', help='심볼 (default:ALL)')
     parser.add_argument('--interval', required=False, default='day', help='interval(day,minute60, ..., default=day)')
     parser.add_argument('--count', required=False, default=200, help='count of candle')
 
@@ -24,9 +24,6 @@ def main():
     symbol = args.symbol
     interval = args.interval
     count = int(args.count)
-
-    if not symbol.startswith('KRW-') and not symbol.startswith('BTC-') and not symbol.startswith('USDT-'):
-        symbol = 'KRW-' + symbol
 
     if symbol.upper().startswith('ALL'):
         lst = get_tickers('KRW')
@@ -37,18 +34,41 @@ def main():
             vals = doji.values.tolist()
             idxs = doji.index.tolist()
 
-            for indexs, values in zip(idxs, vals):
-                print(str(indexs)[:10], values)
+            v_cnt = 0
 
+            if 0 < vals[-2]:
+                v_cnt += 1
+            if 0 < vals[-3]:
+                v_cnt += 1
+
+            if 1 < v_cnt:
+                print(f'{v[4:]}, {v_cnt}')
+            # for indexs, values in zip(idxs, vals):
+            #     print(str(indexs)[:10], values)
+
+            time.sleep(0.3)
     else:
+        if not symbol.startswith('KRW-') and not symbol.startswith('BTC-') and not symbol.startswith('USDT-'):
+            symbol = 'KRW-' + symbol
+
         df = pyupbit.get_ohlcv(symbol, interval=interval, count=count, period=1)
         doji = ta.CDLDOJI(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
 
         vals = doji.values.tolist()
         idxs = doji.index.tolist()
 
-        for indexs, values in zip(idxs, vals):
-            print(str(indexs)[:10], values)
+        v_cnt = 0
+
+        if 0 < vals[-2]:
+            v_cnt += 1
+        if 0 < vals[-3]:
+            v_cnt += 1
+
+        if 1 < v_cnt:
+            print(f'{v[4:]}, {v_cnt}')
+
+        # for indexs, values in zip(idxs, vals):
+        #     print(str(indexs)[:10], values)
 
 
 if __name__ == "__main__":
