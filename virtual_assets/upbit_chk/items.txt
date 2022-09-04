@@ -244,6 +244,8 @@
 
 # 롱숏 비율 : https://coinness.live/market/future/long-short
 # BTC 5분
+# 크립토퀀트: https://cryptoquant.com/ko/asset/btc/summary 
+# gmail // k**********P
 
 #####################################################################
 # Reset: 2022-08-15 total 1,009,154
@@ -264,15 +266,15 @@
 # and 10.0 < earn
 # group by symbol;
 
-CASH 0 # 535,253
+CASH 611990 # 535,253
 
 BTC   27449615 0.02109656       -10000 10000 # stocastic
-GMT        919 356.75360897     -10000 10000 # stocastic
-TRX       87.0 3172.36783906	-10000 10000 # news
 GRS        426 643.40834277     -10000 10000 # stocastic
 
-#ANKR     47.40 5767.68577736    win # stocastic
-#TT        8.07 35220.32193682   loss (트위터, 상장, Ku....)
+# TRX       87.0 3172.36783906	# win 87.30 good news, 소각
+# GMT        919 356.75360897   # win 940 stocastic
+# ANKR     47.40 5767.68577736    win # stocastic
+# TT        8.07 35220.32193682   loss (트위터, 상장, Ku....)
 
 # 쌍 도지 (2022-09-03)
 # AERGO,ARK,BTT,GRS,HUM,ICX,IOST,LOOM,MANA,NU,OMG,ORBS,SOL,T,UPP,VET,XEM,ZRX
