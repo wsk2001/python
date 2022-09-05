@@ -99,88 +99,148 @@ def stocastic(ticker, cnt, interval='day'):
     return ticker[4:], k, d
 
 
+def buy(index, total_amt, close_amt):
+    count = total_amt / close_amt
+
+    print(f'{index}, buy, {close_amt:2f}, {count:.2f}, {total_amt:.2f}')
+    return count
+
+
+def sell(index, count, close_amt):
+    end_amt = count * close_amt
+
+    print(f'{index}, sell, {close_amt:.2f}, {count:.2f}, {end_amt:.2f}')
+    return end_amt
+
+
+def stocastic_backtesting(ticker, cnt, interval='day'):
+    start_cash = 10000000
+    end_cash = 10000000
+    buy_flag = False
+    count = 0
+
+    if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
+        ticker = 'KRW-' + ticker
+
+    df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, period=1)
+
+    dft = df
+    df10 = AddStochastic(dft, 9, 3, 3)
+    vals = df10.values.tolist()
+    idxs = df10.index.tolist()
+
+    for indexs, v in zip(idxs, vals):
+        index = str(indexs)[:10]
+        close_amt = v[3]
+        k = v[6]
+        d = v[7]
+
+        if buy_flag is False:
+            if d < k and d <= 25:
+                buy_flag = True
+                count = buy(index, end_cash, close_amt)
+        elif buy_flag is True:
+            if k < d and 75 <= d:
+                buy_flag = False
+                end_cash = sell(index, count, close_amt)
+            else:
+                cur_cash = count * close_amt
+                cur_rate = ((cur_cash / end_cash) - 1.0) * 100.0
+                if cur_rate <= -5.0 or 5.0 < cur_rate:
+                    buy_flag = False
+                    end_cash = sell(index, count, close_amt)
+
+    last_rate = ((end_cash / start_cash) - 1.0) * 100.0
+
+    return ticker, start_cash, end_cash, last_rate
+
 def main(argv):
-    ticker = None
-    cnt = 60
-    all_flag = None
+    v, start_cash, end_cash, rate = stocastic_backtesting('AHT', 280)
+    print(f'{v}, {start_cash:.2f}, {end_cash:.2f}, {rate:.2f}%')
 
-    recommend_buy = []
-    recommend_sell = []
 
-    recommend_buy.clear()
-    recommend_sell.clear()
 
-    try:
-        opts, etc_args = getopt.getopt(argv[1:], "hc:t:a"
-                                       , ["help", "count=", "ticker=", "all"])
-
-    except getopt.GetoptError:
-        print(argv[0], '-c <count> -t <ticker symbol>')
-        print('ex) python', f'{argv[0]}', '-c 100 -t bat')
-        sys.exit(2)
-
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            print(argv[0], '-c <count> -t <ticker symbol>')
-            print('ex) python', f'{argv[0]}', '-c 100 -t bat')
-            sys.exit()
-
-        elif opt in ("-t", "--ticker"):  # ticker symbol
-            ticker = arg
-
-        elif opt in ("-c", "--count"):  # count
-            cnt = int(arg.strip())
-
-        elif opt in ("-a", "--all"):  # count
-            all_flag = True
-
-    if ticker is None:
-        all_flag = True
-
-    if all_flag is None:
-        v, k, d = stocastic(ticker, cnt)
-        print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}')
-    else:
-        code_list, _, _ = market_code()
-        print('Stochastic Oscillator')
-        print('symbol, %K, %D')
-        code_list.sort()
-        for t in code_list:
-            v, k, d = stocastic(t, cnt)
-
-            # buy signal
-            if d < 25 and d < k:
-                recommend_buy.append(v)
-                print(f'{v}, {k:.2f}, {d:.2f}, buy')
-
-            # sell signal
-            if 75 < d and k < d:
-                recommend_sell.append(v)
-                print(f'{v}, {k:.2f}, {d:.2f}, sell')
-
-            time.sleep(0.3)
-
-        print()
-
-        if 0 < len(recommend_buy):
-            print(f'recommend buy ({str(len(recommend_buy))}): ', end=' ')
-            ts = ''
-            for ticker in recommend_buy:
-                if 0 < len(ts):
-                    ts += ',' + ticker
-                else:
-                    ts += ticker
-            print(ts)
-
-        if 0 < len(recommend_sell):
-            print(f'recommend sell ({str(len(recommend_sell))}): ', end=' ')
-            ts = ''
-            for ticker in recommend_sell:
-                if 0 < len(ts):
-                    ts += ',' + ticker
-                else:
-                    ts += ticker
-            print(ts)
+    # ticker = None
+    # cnt = 60
+    # all_flag = None
+    #
+    # recommend_buy = []
+    # recommend_sell = []
+    #
+    # recommend_buy.clear()
+    # recommend_sell.clear()
+    #
+    # try:
+    #     opts, etc_args = getopt.getopt(argv[1:], "hc:t:a"
+    #                                    , ["help", "count=", "ticker=", "all"])
+    #
+    # except getopt.GetoptError:
+    #     print(argv[0], '-c <count> -t <ticker symbol>')
+    #     print('ex) python', f'{argv[0]}', '-c 100 -t bat')
+    #     sys.exit(2)
+    #
+    # for opt, arg in opts:
+    #     if opt in ("-h", "--help"):
+    #         print(argv[0], '-c <count> -t <ticker symbol>')
+    #         print('ex) python', f'{argv[0]}', '-c 100 -t bat')
+    #         sys.exit()
+    #
+    #     elif opt in ("-t", "--ticker"):  # ticker symbol
+    #         ticker = arg
+    #
+    #     elif opt in ("-c", "--count"):  # count
+    #         cnt = int(arg.strip())
+    #
+    #     elif opt in ("-a", "--all"):  # count
+    #         all_flag = True
+    #
+    # if ticker is None:
+    #     all_flag = True
+    #
+    # if all_flag is None:
+    #     v, k, d = stocastic(ticker, cnt)
+    #     print(f'{v}, {k5:.2f}, {d5:.2f}, {k10:.2f}, {d10:.2f}')
+    # else:
+    #     code_list, _, _ = market_code()
+    #     print('Stochastic Oscillator')
+    #     print('symbol, %K, %D')
+    #     code_list.sort()
+    #     for t in code_list:
+    #         v, k, d = stocastic(t, cnt)
+    #
+    #         # buy signal
+    #         if d < 25 and d < k:
+    #             recommend_buy.append(v)
+    #             print(f'{v}, {k:.2f}, {d:.2f}, buy')
+    #
+    #         # sell signal
+    #         if 75 < d and k < d:
+    #             recommend_sell.append(v)
+    #             print(f'{v}, {k:.2f}, {d:.2f}, sell')
+    #
+    #         time.sleep(0.3)
+    #
+    #     print()
+    #
+    #     if 0 < len(recommend_buy):
+    #         print(f'recommend buy ({str(len(recommend_buy))}): ', end=' ')
+    #         ts = ''
+    #         for ticker in recommend_buy:
+    #             if 0 < len(ts):
+    #                 ts += ',' + ticker
+    #             else:
+    #                 ts += ticker
+    #         print(ts)
+    #
+    #     if 0 < len(recommend_sell):
+    #         print(f'recommend sell ({str(len(recommend_sell))}): ', end=' ')
+    #         ts = ''
+    #         for ticker in recommend_sell:
+    #             if 0 < len(ts):
+    #                 ts += ',' + ticker
+    #             else:
+    #                 ts += ticker
+    #         print(ts)
 
 
 if __name__ == "__main__":

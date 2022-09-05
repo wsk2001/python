@@ -17,6 +17,8 @@ import argparse
 import sqlite3
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+import requests
+from ast import literal_eval
 
 database_name = './dbms/virtual_asset.db'
 
@@ -59,10 +61,85 @@ def sync_data(sync_date):
     conn.close()
 
 
+# 마켓코드조회
+def market_code():
+    url = "https://api.upbit.com/v1/market/all"
+    querystring = {"isDetails": "false"}
+    response = requests.request("GET", url, params=querystring)
+
+    # 코인이름 - 마켓코드 매핑
+    r_str = response.text
+    r_str = r_str.lstrip('[')  # 첫 문자 제거
+    r_str = r_str.rstrip(']')  # 마지막 문자 제거
+    r_list = r_str.split("}")  # str를 }기준으로 쪼개어 리스트로 변환
+
+    # name to code
+    ntc = {}
+    # code to name
+    ctn = {}
+    # code list
+    cl = []
+
+    for i in range(len(r_list) - 1):
+        r_list[i] += "}"
+        if i != 0:
+            r_list[i] = r_list[i].lstrip(',')
+        r_dict = literal_eval(r_list[i])  # element to dict
+
+        temp_dict = {r_dict["market"]: r_dict["korean_name"]}
+        ctn.update(temp_dict)  # 코드 - 코인이름 매핑
+        temp_dict = {r_dict["korean_name"]: r_dict["market"]}
+        ntc.update(temp_dict)  # 코인이름 - 코드 매핑
+        cl.append(r_dict["market"])  # 코드 리스트
+
+    return cl, ntc, ctn
+
+
+def create_table():
+    global database_name
+
+    conn = sqlite3.connect(database_name)
+    conn.execute(
+        'CREATE TABLE market_value(no INTEGER, symbol TEXT, ko TEXT, mv REAL)')
+    conn.close()
+
+
+def make_market_value():
+    _, nct, _ = market_code()
+
+    file = open("market_value.csv", "r", encoding='UTF8')
+    lines = file.readlines()
+
+    create_table()
+
+    conn = sqlite3.connect(database_name)
+    cur = conn.cursor()
+
+    for l in lines:
+        if len(l.strip()) <= 0:
+            continue
+        no, ko, price = l.strip().split(',')
+        ticker = nct[ko]
+        if ticker.startswith('BTC-'):
+            ticker = ticker[4:]
+        if ticker.startswith('KRW-'):
+            ticker = ticker[4:]
+        if ticker.startswith('USDT-'):
+            ticker = ticker[5:]
+        print( no, ticker, ko, price)
+
+        cur.execute("INSERT INTO market_value VALUES(?,?,?,?);",
+                    (no, ticker, ko, price))
+        conn.commit()
+
+    conn.close()
+
+
 def main():
     theme_updata('USDT')
     theme_updata('BTC')
     theme_updata('KRW')
+
 
 
 if __name__ == "__main__":

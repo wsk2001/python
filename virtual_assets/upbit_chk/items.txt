@@ -266,10 +266,11 @@
 # and 10.0 < earn
 # group by symbol;
 
-CASH 611990 # 535,253
+CASH 0 #1,460,690
 
-BTC   27449615 0.02109656       -10000 10000 # stocastic
-GRS        426 643.40834277     -10000 10000 # stocastic
+GRS        424 1902.80993762     -10000 10000 # stocastic
+SOL		 44001 11.04443976     -10000 10000 # theme
+HBAR     85.30 1964.92379835 -10000 10000 # jirasi
 
 # TRX       87.0 3172.36783906	# win 87.30 good news, 소각
 # GMT        919 356.75360897   # win 940 stocastic
@@ -291,3 +292,19 @@ GRS        426 643.40834277     -10000 10000 # stocastic
 #매수: 볼린저밴드 하단부 돌파 동시에 매도량 감소
 #매도: 볼린저밴드 상단부 돌파 동시에 매수량 감소
 
+# 저가 매수의 기술
+# 저자 오버솔드(oversold)는 사업체를 운영하며 주식투자를 병행하는 투자자. 
+# 저자의 닉네임 오버솔드Oversold는 과매도권에 진입한 종목을 분할매수해 
+# 묵직하게 수익을 내는 저자의 투자기법을 의미한다.
+# envelope
+
+## Finding day of year
+#from datetime import datetime, date
+ 
+# Current date
+#day_of_year = datetime.now().timetuple().tm_yday
+#print("\nDay of year: ", day_of_year, "\n")
+ 
+# Specific date
+#day_of_year = date(2021, 1, 7).timetuple().tm_yday
+#print("Day of year: ", day_of_year, "\n")
