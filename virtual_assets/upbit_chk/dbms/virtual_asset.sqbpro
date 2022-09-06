@@ -1,63 +1,27 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1025"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">
-/**
-select date, symbol, earn from day_candle
-WHERE '2017-10-02' &lt;= date
-and date &lt;= '2017-10-06'
-order by symbol, date;
-/**/
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1133"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="68"/><column index="2" value="61"/><column index="3" value="119"/><column index="4" value="87"/><column index="5" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">--select * from coin_theme
+--where KOR = '1인치네트워크'
 
-/**
-select date, symbol, earn from day_candle
-WHERE '2018-09-23' &lt;= date
-and date &lt;= '2018-09-26'
-order by symbol, date;
-/**/
+--update coin_theme
+--set desc = '업비트 상장 ERC-20 계열'
+--where KOR = '베이직어텐션토큰';
 
-/**
-select date, symbol, earn from day_candle
-WHERE '2019-09-12' &lt;= date
-and date &lt;= '2019-09-14'
-order by symbol, date;
-/**/
+--select * from coin_theme
+--where desc = '업비트 상장 ERC-20 계열'
 
-/**
-select date, symbol, earn from day_candle
-WHERE '2020-09-30' &lt;= date
-and date &lt;= '2020-10-02'
-order by symbol, date;
-/**/
+--select date, open, high, low, close, volume from day_candle
+--where symbol = 'AHT'
+--order by date;
 
-/**
-select date, symbol, earn from day_candle
-WHERE '2021-09-20' &lt;= date
-and date &lt;= '2021-09-22'
-order by symbol, date;
-/**/
-
---insert into news values(&quot;2022-09-07&quot;, &quot;엑시인피니티(AXS)&quot;, &quot;9월7일~10일 AxieCon Barcelona(엑시콘 바르셀로나)&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-07&quot;, &quot;트론DAO &quot;, &quot;9월7일 23시(KST) 텔레그램에서 AMA 예정&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-08&quot;, &quot;카바11 메인넷&quot;, &quot;9월8일 카바11 메인넷 및 유동성 스테이킹 출시&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-09&quot;, &quot;샌드박스게임&quot;, &quot;GameOn, 9월9일 '샌드박스게임 Movers &amp; Shakers After Party' 개최&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-10&quot;, &quot;파이네트워크&quot;, &quot;파이네트워크(PiNetwork) TRADE FAIR, 9월10일 나이지리아 라고스에서 진행 예정&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-10&quot;, &quot;BNB Chain&quot;, &quot;BNB Chain, 9월10일~11일 조지아 트빌리시에서 Definition 해커톤 대회 시작&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-11&quot;, &quot;니어프로토콜(NEAR)&quot;, &quot;9월11일~14일 리스본에서 'NEARCON 2022' 개최&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-13&quot;, &quot;플레이댑(PLA)&quot;, &quot;, 9월13일 신규 게임 출시 예정&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-14&quot;, &quot;이캐시(XEC)&quot;, &quot; 설립자, 9월14일 아발란체 포스트 컨센서스에서 메인넷 출시 예고&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-14&quot;, &quot;아이오에스티(IOST)&quot;, &quot;9월14일 IOST 메인넷 Olympus v3.9.1 공식 출시&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-15&quot;, &quot;이더리움(ETH)&quot;, &quot;9월15일 메인넷 머지&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-15&quot;, &quot;하이브(HIVE)&quot;, &quot;9월15일~18일 암스테르담에서 'Hivefest(하이브페스티벌)' 예정&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-17&quot;, &quot;NFT Show Europe(NFTSE2022)&quot;, &quot;9월17일~18일 바르셀로나에서 개최&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-21&quot;, &quot;리플 에이브 셀로 폴리곤&quot;, &quot;9월21일~23일 뉴욕에서 메인넷 2022 컨퍼런스 개최..리플 에이브 셀로 폴리곤등 참여&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-21&quot;, &quot;칠리즈(CHZ)&amp;아발란체(AVAX)&quot;, &quot;9월21일 일본 최초의 거래소 DMM비트코인 거래소 상장&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-22&quot;, &quot;두나무&quot;, &quot;9월 22~23일 ‘업비트 개발자 컨퍼런스 2022’ 개최&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-27&quot;, &quot;코스모스&quot;, &quot;9월27일~28일 콜롬비아 COSMOVERSE 컨퍼런스 개최&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-27&quot;, &quot;니어프로토콜&quot;, &quot;공동설립자, 9월27~30일 Converge22 참여&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-27&quot;, &quot;에이브 솔라나 유니스왑&quot;, &quot;9월27일~30일 샌프란시스코에서 Converge22 컨퍼런스 예정..에이브 솔라나 유니스왑등 참여&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-28&quot;, &quot;체인링크&quot;, &quot;체인링크 CEO Sergey Nazarov, 9월28일~29일뉴욕에서 SmartCon 2022 온라인 컨퍼런스 예정&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-28&quot;, &quot;알고랜드&quot;, &quot;알고랜드 개발자 그린하우스 9월28일~29일 'Hack Shack Singapore' 개최&quot;,&quot;cyfren.com&quot;);
---insert into news values(&quot;2022-09-29&quot;, &quot;폴리곤&quot;, &quot;9월29일 CRYPTO FEST 2022 개최..폴리곤 사업개발자 참여&quot;,&quot;cyfren.com&quot;);
+--select date, open, high, low, close, volume from day_candle
+--where symbol = 'ZRX'
+--and date = '2022-01-25'
 
-select * from market_value
-where symbol in ('GRS','SOL');
+select max(date) from day_candle;
+
+--delete from day_candle
+--where date = '2022-08-24';
+
+
+
 
 </sql><current_tab id="0"/></tab_sql></sqlb_project>

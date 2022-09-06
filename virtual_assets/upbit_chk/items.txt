@@ -266,12 +266,13 @@
 # and 10.0 < earn
 # group by symbol;
 
-CASH 0 #1,460,690
+CASH 650351 #1,460,690
 
-GRS        424 1902.80993762     -10000 10000 # stocastic
-SOL		 44001 11.04443976     -10000 10000 # theme
+GRS        424 951.40496881     -10000 10000 # stocastic
+AVAX     27400 9.05958029     -10000 10000 # THEME
 HBAR     85.30 1964.92379835 -10000 10000 # jirasi
 
+# SOL		 44001 11.04443976  # win 44980   -10000 10000 # theme
 # TRX       87.0 3172.36783906	# win 87.30 good news, 소각
 # GMT        919 356.75360897   # win 940 stocastic
 # ANKR     47.40 5767.68577736    win # stocastic
@@ -298,13 +299,19 @@ HBAR     85.30 1964.92379835 -10000 10000 # jirasi
 # 묵직하게 수익을 내는 저자의 투자기법을 의미한다.
 # envelope
 
-## Finding day of year
-#from datetime import datetime, date
- 
-# Current date
-#day_of_year = datetime.now().timetuple().tm_yday
-#print("\nDay of year: ", day_of_year, "\n")
- 
-# Specific date
-#day_of_year = date(2021, 1, 7).timetuple().tm_yday
-#print("Day of year: ", day_of_year, "\n")
+# 두나무 공포 탐욕 지수
+# https://datavalue.dunamu.com/feargreedindex
+
+# https://www.tokenpost.kr/
+
+# import pandas as pd
+# import sqlite3
+
+# # Read sqlite query results into a pandas DataFrame
+# con = sqlite3.connect("data/portal_mammals.sqlite")
+# df = pd.read_sql_query("SELECT * from surveys", con)
+
+# # Verify that result of SQL query is stored in the dataframe
+# print(df.head())
+
+# con.close()

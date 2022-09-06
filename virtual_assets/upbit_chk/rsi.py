@@ -24,8 +24,7 @@ def RSI_analysis(code_list, code_to_name, target_up=70, target_down=30):
     for i in range(len(code_list)):
         df = pyupbit.get_ohlcv(code_list[i], count=60, period=1)
         rsi_s = ta.RSI(df['close'], timeperiod=14)
-        posi = len(rsi_s) - 1
-        rsi = rsi_s[posi]
+        rsi = rsi_s[-1]
 
         if target_up <= rsi:
             up_dict[code_list[i][4:]] = rsi

@@ -70,7 +70,7 @@ def main(argv):
     earns = sorted(earns, key=lambda x: x[3], reverse=reverse_flag)
 
     if reverse_flag:
-        print(f'업비트 금일 상승률 하위 {count} 개 종목이 속한 테마 ')
+        print(f'업비트 금일 상승률 상위 {count} 개 종목이 속한 테마 ')
     else:
         print(f'업비트 금일 하락률 하위 {count} 개 종목이 속한 테마 ')
 

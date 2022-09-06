@@ -135,10 +135,44 @@ def make_market_value():
     conn.close()
 
 
+
+def insert_db(start_date):
+    lst = get_tickers('KRW')
+
+    conn = sqlite3.connect(database_name)
+    cur = conn.cursor()
+
+    for v in lst:
+        ticker = v
+        if not ticker.upper().startswith('KRW-'):
+            ticker = 'KRW-' + v.upper()
+        print(ticker)
+
+        df = pyupbit.get_ohlcv(ticker, count=100, period=1)
+        for ind, row in df.iterrows():
+            rdate = ind.strftime('%Y-%m-%d')
+            if rdate < start_date:
+                continue
+            earn = ((row["close"] / row["open"]) - 1.0) * 100.0
+            high = ((row["high"] / row["open"]) - 1.0) * 100.0
+            low = ((row["low"] / row["open"]) - 1.0) * 100.0
+
+            cur.execute("INSERT INTO day_candle VALUES(?,?,?,?,?,?,?,?,?,?);",
+                        (rdate, row["open"], row["high"], row["low"],
+                         row["close"], row["volume"], high, low, earn, v[4:]))
+
+        time.sleep(0.2)
+
+    conn.commit()
+    conn.close()
+
+
+
 def main():
-    theme_updata('USDT')
-    theme_updata('BTC')
-    theme_updata('KRW')
+    insert_db('2022-08-24')
+    # theme_updata('USDT')
+    # theme_updata('BTC')
+    # theme_updata('KRW')
 
 
 
