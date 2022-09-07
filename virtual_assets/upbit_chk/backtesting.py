@@ -500,22 +500,35 @@ def AddRSI(priceData, timeperiod=14):
 
 
 # buy: RSI < 30, sell: 70 < RSI
-def rsi_backtesting(ticker, from_date='2022-01-01', to_date='2022-09-07'):
+def rsi_backtesting(ticker, from_date='2022-01-01', to_date='2022-09-07', online='no'):
     start_cash = 10000000
     end_cash = 10000000
     buy_flag = False
+    online_flag = False
 
-    query = "select date, open, high, low, close, volume from day_candle " \
-            "where symbol = '" + ticker[4:] + "' " \
-            "and date >= '" + from_date + "' " \
-            "and date <= '" + to_date + "' " \
-            "order by date;"
+    print(ticker)
+    if online.lower().startswith('no'):
+        query = "select date, open, high, low, close, volume from day_candle " \
+                "where symbol = '" + ticker[4:] + "' " \
+                "and date >= '" + from_date + "' " \
+                "and date <= '" + to_date + "' " \
+                "order by date;"
 
-    con = sqlite3.connect('./dbms/virtual_asset.db')
-    df = pd.read_sql_query(query, con)
-    if len(df) < 1:
-        con.close()
-        return ticker, 1, 1, 0
+        con = sqlite3.connect('./dbms/virtual_asset.db')
+        df = pd.read_sql_query(query, con)
+        if len(df) < 1:
+            con.close()
+            return ticker, 1, 1, 0
+
+        open_p = 1
+        close_p = 4
+        rsi_p = 6
+    else:
+        online_flag = True
+        df = pyupbit.get_ohlcv(ticker, interval='day', count=250, period=1)
+        open_p = 0
+        close_p = 3
+        rsi_p = 5
 
     dft = AddRSI(df, 14)
     vals = dft.values.tolist()
@@ -526,7 +539,6 @@ def rsi_backtesting(ticker, from_date='2022-01-01', to_date='2022-09-07'):
     # 5 가 적당함
     upper_rate = 5.0
 
-
     # 0: date,  1: open,   2: high,      3: low
     # 4: close, 5: volume, 6: rsi
 
@@ -534,19 +546,19 @@ def rsi_backtesting(ticker, from_date='2022-01-01', to_date='2022-09-07'):
 
     # vals[0][1] 의 위치는 14일 이후 의 data 부터 시작 한다.
     # rsi 의 timeperiod 의 값이 14로 설정되어 그 이전 값은 AddRSI(df, 14) 에서 NaN 이므로 제거됨.
-    open_price = vals[0][1]
-    close_price = vals[-1][4]
+    open_price = vals[0][open_p]
+    close_price = vals[-1][close_p]
 
     for i in range(len(vals)):
         # db 에 있는 data 는 date column 이 index 가 아니라서 위치가 하나 더 늘어 난다.
-        cur_rsi = vals[i][6]
-        close_amt = vals[i][4]
-        index = vals[i][0]
+        cur_rsi = vals[i][rsi_p]
+        close_amt = vals[i][close_p]
+        index = 'date'
 
         # 양봉
-        if vals[i][1] < vals[i][4]:
+        if vals[i][open_p] < vals[i][close_p]:
             plus_count += 1
-        elif vals[i][4] < vals[i][1]:
+        elif vals[i][close_p] < vals[i][open_p]:
             plus_count = 0
 
         if buy_flag is False:
@@ -566,12 +578,13 @@ def rsi_backtesting(ticker, from_date='2022-01-01', to_date='2022-09-07'):
 
     last_rate = ((end_cash / start_cash) - 1.0) * 100.0
 
-    con.close()
+    if online_flag == False:
+        con.close()
 
     return ticker, start_cash, end_cash, last_rate, open_price, close_price
 
 
-def backtest_rsi(symbol='ALL'):
+def backtest_rsi(symbol='ALL', online='no'):
     if symbol.startswith('ALL'):
         code_list, _, _ = market_code()
         code_list.sort()
@@ -584,7 +597,7 @@ def backtest_rsi(symbol='ALL'):
     str_to = '2022-09-07'
     print(f'RSI 백테스팅: {str_from} ~ {str_to}')
     for v in code_list:
-        v, start_cash, end_cash, rate, open_price, close_price = rsi_backtesting(v, from_date=str_from, to_date=str_to)
+        v, start_cash, end_cash, rate, open_price, close_price = rsi_backtesting(v, from_date=str_from, to_date=str_to, online=online)
         if rate < 0:
             minus_count += 1
         elif 0 < rate:
@@ -593,7 +606,9 @@ def backtest_rsi(symbol='ALL'):
         earn = ((close_price / open_price) - 1.0) * 100.0
         # print(f'{v[4:]}, 시작: {start_cash:.2f}, 종료: {end_cash:.2f}, 실적: {rate:.2f}%')
         print(f'{v[4:]}, 실적:{rate:.2f}%, 시가:{open_price:.2f}, 종가:{close_price:.2f}, 등락:{earn:.2f}%')
-        # time.sleep(0.2)
+
+        if not online.lower().startswith('no'):
+            time.sleep(0.2)
 
     print(f'수익종목수:{plus_count}, 손실종목수:{minus_count},  승률:{plus_count / (plus_count + minus_count) * 100:.2f}%')
 ##############################################################################
@@ -629,12 +644,15 @@ def main(argv):
         count = datetime.now().timetuple().tm_yday
 
     if backtest.upper().startswith('YES'):
-        if  work_type.lower().startswith('rsi'):
-            backtest_rsi(symbol)
+        if work_type.lower().startswith('rsi'):
+            backtest_rsi(symbol, 'no')
         elif work_type.lower().startswith('bband'):
             backtest_bbands(symbol)
         elif  work_type.lower().startswith('stocastic'):
             backtest_stocastic(symbol, count, period, periodk, periodd, lower, upper, earnlow, earnhigh)
+    else:
+        if work_type.lower().startswith('rsi'):
+            backtest_rsi(symbol, 'yes')
 
 if __name__ == "__main__":
     main(sys.argv)
