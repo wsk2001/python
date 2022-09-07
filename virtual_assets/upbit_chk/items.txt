@@ -266,11 +266,13 @@
 # and 10.0 < earn
 # group by symbol;
 
-CASH 650351 #1,460,690
+CASH 1253486 #1,460,690
 
-GRS        424 951.40496881     -10000 10000 # stocastic
-AVAX     27400 9.05958029     -10000 10000 # THEME
-HBAR     85.30 1964.92379835 -10000 10000 # jirasi
+PUNDIX 660 271.18030303 -10000 50000 # MBM
+# BTC 26339000 0.05430699 -10000 50000 # win, after down beam 
+# GRS        424 951.40496881     -10000 10000 # (loss down beam 411) stocastic
+# AVAX     27400 9.05958029     -10000 10000 # (loss down beam 25500)THEME
+# HBAR     85.30 1964.92379835 -10000 10000 # (loss down beam 81.00) jirasi
 
 # SOL		 44001 11.04443976  # win 44980   -10000 10000 # theme
 # TRX       87.0 3172.36783906	# win 87.30 good news, 소각
@@ -315,3 +317,8 @@ HBAR     85.30 1964.92379835 -10000 10000 # jirasi
 # print(df.head())
 
 # con.close()
+
+# https://wikidocs.net/book/4652
+
+# backtest 반드시 볼것
+# https://lunadaddy.tistory.com/114
