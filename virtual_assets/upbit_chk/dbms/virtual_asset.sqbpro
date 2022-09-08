@@ -27,12 +27,12 @@
 --and date &lt;= '2022-09-07'
 --order by date;
 
-
+
 -- RSI 는 timeperiod=14 를 적용하여 15일 data 부터 사용됨.
-select * from day_candle
-where date &gt;= '2022-01-01'
-and date &lt;= '2022-09-07'
-and symbol = 'ADA'
+select date, symbol, hearn as high, learn as low, earn as close,  hearn-learn as variable from day_candle
+where date in ('2021-03-11', '2021-06-10', '2021-09-09', '2021-12-09', '2022-03-10', '2022-06-09')
+order by symbol, date;
+
 
 
 </sql><current_tab id="0"/></tab_sql></sqlb_project>
