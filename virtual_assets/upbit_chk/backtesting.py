@@ -8,10 +8,9 @@ import argparse
 import sqlite3
 import pandas as pd
 
+
 # 2 가 최적임
 min_plus = 2
-database_name = './dbms/virtual_asset.db'
-
 
 def buy(index, total_amt, close_amt):
     count = total_amt / close_amt
@@ -140,9 +139,10 @@ def stocastic_backtesting_kd_cross_(ticker, cnt, interval='day'):
     return ticker, start_cash, end_cash, last_rate
 
 
+
 # 스토캐스트 %K 가 %D 를 돌파 할때
 def stocastic_backtesting_kd_cross(ticker, cnt, periodn=5, periodk=3, periodd=3, lower_limit=20, upper_limit=80,
-                                   lower_rate=-5, upper_rate=5):
+                                      lower_rate=-5, upper_rate=5):
     start_cash = 10000000
     end_cash = 10000000
     buy_flag = False
@@ -154,12 +154,12 @@ def stocastic_backtesting_kd_cross(ticker, cnt, periodn=5, periodk=3, periodd=3,
 
     query = "select date, open, high, low, close, volume from day_candle " \
             "where symbol = '" + ticker[4:] + "' " \
-                                              "order by date;"
+            "order by date;"
 
     # "and date >= '2022-01-01' " \
     # "and date <= '2022-09-07' " \
 
-    con = sqlite3.connect(database_name)
+    con = sqlite3.connect('./dbms/virtual_asset.db')
     df = pd.read_sql_query(query, con)
     if len(df) < 1:
         con.close()
@@ -229,12 +229,12 @@ def stocastic_backtesting_limit_cross(ticker, cnt, periodn=5, periodk=3, periodd
 
     query = "select date, open, high, low, close, volume from day_candle " \
             "where symbol = '" + ticker[4:] + "' " \
-                                              "order by date;"
+            "order by date;"
 
     # "and date >= '2022-01-01' " \
     # "and date <= '2021-09-07' " \
 
-    con = sqlite3.connect(database_name)
+    con = sqlite3.connect('./dbms/virtual_asset.db')
     df = pd.read_sql_query(query, con)
     if len(df) < 1:
         con.close()
@@ -291,8 +291,7 @@ def stocastic_backtesting_limit_cross(ticker, cnt, periodn=5, periodk=3, periodd
     return ticker, start_cash, end_cash, last_rate
 
 
-def backtest_stocastic(symbol='ALL', count=0, period=5, periodk=3, periodd=3, lower=20, upper=80, earnlow=-20,
-                       earnhigh=20):
+def backtest_stocastic(symbol='ALL', count=0, period=5, periodk=3, periodd=3, lower=20, upper=80, earnlow=-20, earnhigh=20):
     if symbol.startswith('ALL'):
         code_list, _, _ = market_code()
         code_list.sort()
@@ -310,7 +309,7 @@ def backtest_stocastic(symbol='ALL', count=0, period=5, periodk=3, periodd=3, lo
         # v, start_cash, end_cash, rate = stocastic_backtesting_limit_cross(v, count, period, periodk, periodd, lower,
         #                                                                   upper, earnlow, earnhigh)
         v, start_cash, end_cash, rate = stocastic_backtesting_kd_cross(v, count, period, periodk, periodd, lower,
-                                                                       upper, earnlow, earnhigh)
+                                                                          upper, earnlow, earnhigh)
 
         if rate < 0:
             minus_count += 1
@@ -328,7 +327,7 @@ def backtest_stocastic(symbol='ALL', count=0, period=5, periodk=3, periodd=3, lo
 
 # 스토캐스트 %K 가 %D 를 돌파 할때
 def stocastic_backtesting_kd_cross(ticker, cnt, periodn=5, periodk=3, periodd=3, lower_limit=20, upper_limit=80,
-                                   lower_rate=-5, upper_rate=5):
+                                      lower_rate=-5, upper_rate=5):
     start_cash = 10000000
     end_cash = 10000000
     buy_flag = False
@@ -340,11 +339,11 @@ def stocastic_backtesting_kd_cross(ticker, cnt, periodn=5, periodk=3, periodd=3,
 
     query = "select date, open, high, low, close, volume from day_candle " \
             "where symbol = '" + ticker[4:] + "' " \
-                                              "order by date;"
+            "order by date;"
 
     # "and date >= '2022-01-01' " \
     # "and date <= '2022-09-07' " \
-    con = sqlite3.connect(database_name)
+    con = sqlite3.connect('./dbms/virtual_asset.db')
     df = pd.read_sql_query(query, con)
     if len(df) < 1:
         con.close()
@@ -391,8 +390,6 @@ def stocastic_backtesting_kd_cross(ticker, cnt, periodn=5, periodk=3, periodd=3,
     con.close()
 
     return ticker, start_cash, end_cash, last_rate
-
-
 ##############################################################################
 
 ##############################################################################
@@ -411,11 +408,11 @@ def bband_backtesting(ticker, start_date=None):
 
     query = "select date, open, high, low, close, volume from day_candle " \
             "where symbol = '" + ticker[4:] + "' " \
-                                              "order by date;"
+            "order by date;"
 
     # "and date >= '2022-01-01' " \
     # "and date <= '2022-09-07' " \
-    con = sqlite3.connect(database_name)
+    con = sqlite3.connect('./dbms/virtual_asset.db')
     df = pd.read_sql_query(query, con)
     if len(df) < 1:
         con.close()
@@ -439,7 +436,7 @@ def bband_backtesting(ticker, start_date=None):
         index = vals[i][0]
         close_amt = vals[i][4]
 
-        if u_price is None or l_price is None or index is None or close_amt is None:
+        if u_price is None or l_price is None  or index is None or close_amt is None:
             continue
 
         # 양봉
@@ -449,7 +446,7 @@ def bband_backtesting(ticker, start_date=None):
             plus_count = 0
 
         if buy_flag is False:
-            if close_amt <= l_price + ((l_price / 100) * 2) and min_plus <= plus_count:
+            if close_amt <= l_price + ((l_price/100)*2) and min_plus <= plus_count:
                 buy_flag = True
                 count = buy(index, end_cash, close_amt)
         elif buy_flag is True:
@@ -491,8 +488,6 @@ def backtest_bbands(symbol='ALL'):
         # time.sleep(0.2)
 
     print(plus_count, minus_count, f'{plus_count / (plus_count + minus_count) * 100:.2f}%')
-
-
 ##############################################################################
 
 
@@ -511,56 +506,29 @@ def rsi_backtesting(ticker, from_date='2022-01-01', to_date='2022-09-07', online
     buy_flag = False
     online_flag = False
 
-    open_p = 1
-    close_p = 4
-    rsi_p = 6
-
+    print(ticker)
     if online.lower().startswith('no'):
-        # print('offline:' + ticker)
         query = "select date, open, high, low, close, volume from day_candle " \
                 "where symbol = '" + ticker[4:] + "' " \
                 "and date >= '" + from_date + "' " \
                 "and date <= '" + to_date + "' " \
                 "order by date;"
 
-        con = sqlite3.connect(database_name)
+        con = sqlite3.connect('./dbms/virtual_asset.db')
         df = pd.read_sql_query(query, con)
         if len(df) < 1:
             con.close()
             return ticker, 1, 1, 0
 
+        open_p = 1
+        close_p = 4
+        rsi_p = 6
     else:
-        # DataFrame 을 재 구성 한다.
-        dfr = pyupbit.get_ohlcv(ticker, interval='day', count=datetime.now().timetuple().tm_yday - 1, period=1)
-        if len(dfr) < 1:
-            return ticker, 1, 1, 0
-
-        d_l = []
-        o_l = []
-        h_l = []
-        l_l = []
-        c_l = []
-        v_l = []
-
-        d_l.clear()
-        o_l.clear()
-        h_l.clear()
-        l_l.clear()
-        c_l.clear()
-        v_l.clear()
-
-        for ind, row in dfr.iterrows():
-            d_l.append(ind.strftime('%Y-%m-%d'))
-            o_l.append(row["open"])
-            h_l.append(row["high"])
-            l_l.append(row["low"])
-            c_l.append(row["close"])
-            v_l.append(row["volume"])
-
-        zipped = list(zip(d_l, o_l, h_l, l_l, c_l, v_l))
-        df = pd.DataFrame(zipped, columns=['date', 'open', 'high', 'low', 'close', 'volume'])
-
         online_flag = True
+        df = pyupbit.get_ohlcv(ticker, interval='day', count=250, period=1)
+        open_p = 0
+        close_p = 3
+        rsi_p = 5
 
     dft = AddRSI(df, 14)
     vals = dft.values.tolist()
@@ -629,8 +597,7 @@ def backtest_rsi(symbol='ALL', online='no'):
     str_to = '2022-09-07'
     print(f'RSI 백테스팅: {str_from} ~ {str_to}')
     for v in code_list:
-        v, start_cash, end_cash, rate, open_price, close_price = rsi_backtesting(v, from_date=str_from, to_date=str_to,
-                                                                                 online=online)
+        v, start_cash, end_cash, rate, open_price, close_price = rsi_backtesting(v, from_date=str_from, to_date=str_to, online=online)
         if rate < 0:
             minus_count += 1
         elif 0 < rate:
@@ -644,71 +611,6 @@ def backtest_rsi(symbol='ALL', online='no'):
             time.sleep(0.2)
 
     print(f'수익종목수:{plus_count}, 손실종목수:{minus_count},  승률:{plus_count / (plus_count + minus_count) * 100:.2f}%')
-
-
-def check_rsi(v):
-    dfr = pyupbit.get_ohlcv(v, count=30, period=1)
-    if len(dfr) < 1:
-        return
-
-    d_l = []
-    o_l = []
-    h_l = []
-    l_l = []
-    c_l = []
-    v_l = []
-
-    d_l.clear()
-    o_l.clear()
-    h_l.clear()
-    l_l.clear()
-    c_l.clear()
-    v_l.clear()
-
-    for ind, row in dfr.iterrows():
-        d_l.append(ind.strftime('%Y-%m-%d'))
-        o_l.append(row["open"])
-        h_l.append(row["high"])
-        l_l.append(row["low"])
-        c_l.append(row["close"])
-        v_l.append(row["volume"])
-
-    zipped = list(zip(d_l, o_l, h_l, l_l, c_l, v_l))
-    df = pd.DataFrame(zipped, columns=['date', 'open', 'high', 'low', 'close', 'volume'])
-
-    dft = AddRSI(df, 14)
-
-    vals = dft.values.tolist()
-
-    open_p = 1
-    close_p = 4
-    rsi_p = 6
-
-    cur_rsi = vals[-1][rsi_p]
-    close_amt = vals[-1][close_p]
-
-    plus_count = 0
-    # 양봉
-    if vals[-1][open_p] < vals[-1][close_p]:
-        plus_count += 1
-    if vals[-2][open_p] < vals[-2][close_p]:
-        plus_count += 1
-
-    if 2 <= plus_count and cur_rsi <= 30:
-        print(f'{v[4:]} buy, rsi={cur_rsi:.2f}, price={close_amt:.2f}')
-
-    if 80 <= cur_rsi:
-        print(f'{v[4:]} sell, rsi={cur_rsi:.2f}, price={close_amt:.2f}')
-
-
-def recommend_rsi():
-    code_list, _, _ = market_code()
-    code_list.sort()
-
-    for v in code_list:
-        check_rsi(v)
-        time.sleep(0.3)
-
 ##############################################################################
 
 def main(argv):
@@ -738,9 +640,6 @@ def main(argv):
     earnhigh = int(args.earnhigh)
     work_type = args.type
 
-    recommend_rsi()
-    return
-
     if count is None:
         count = datetime.now().timetuple().tm_yday
 
@@ -749,12 +648,11 @@ def main(argv):
             backtest_rsi(symbol, 'no')
         elif work_type.lower().startswith('bband'):
             backtest_bbands(symbol)
-        elif work_type.lower().startswith('stocastic'):
+        elif  work_type.lower().startswith('stocastic'):
             backtest_stocastic(symbol, count, period, periodk, periodd, lower, upper, earnlow, earnhigh)
     else:
         if work_type.lower().startswith('rsi'):
             backtest_rsi(symbol, 'yes')
-
 
 if __name__ == "__main__":
     main(sys.argv)
