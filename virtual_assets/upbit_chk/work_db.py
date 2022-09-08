@@ -19,6 +19,7 @@ from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
 import requests
 from ast import literal_eval
+import pandas as pd
 
 database_name = './dbms/virtual_asset.db'
 
@@ -135,6 +136,24 @@ def make_market_value():
     conn.close()
 
 
+def Quadruple_Witching_Day():
+    query = \
+        "select date, symbol, hearn as high, learn as low, earn as close,  hearn-learn as variable from day_candle " \
+        "where date in ('2021-03-11', '2021-06-10', '2021-09-09', '2021-12-09', '2022-03-10', '2022-06-09') " \
+        "order by symbol, date; "
+
+    con = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, con)
+    vals = df.values.tolist()
+    idxs = df.index.tolist()
+
+    print(f'종목, 일자, 고가%, 저가%, 종가%, 변동률%')
+
+    for indexs, v in zip(idxs, vals):
+        print(f'{v[1]}, {v[0]}, {v[2]:.2f}%, {v[3]:.2f}%, {v[4]:.2f}%, {v[5]:.2f}%')
+
+    con.close()
+
 
 def insert_db(start_date):
     lst = get_tickers('KRW')
@@ -169,7 +188,8 @@ def insert_db(start_date):
 
 
 def main():
-    insert_db('2022-08-24')
+    Quadruple_Witching_Day()
+    #insert_db('2022-08-24')
     # theme_updata('USDT')
     # theme_updata('BTC')
     # theme_updata('KRW')

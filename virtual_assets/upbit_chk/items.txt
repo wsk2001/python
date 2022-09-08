@@ -266,9 +266,12 @@
 # and 10.0 < earn
 # group by symbol;
 
-CASH 1253486 #1,460,690
+CASH 234470 #939057
 
-PUNDIX 660 271.18030303 -10000 50000 # MBM
+GRS 423.5 1106.19083301 -10000 50000 # know ticker
+SAND 1265 185.44426877  -10000 50000 # RSI Recommand: buy, rsi=28.44, price=1265
+
+# PUNDIX 660 271.18030303 -10000 50000 # MBM
 # BTC 26339000 0.05430699 -10000 50000 # win, after down beam 
 # GRS        424 951.40496881     -10000 10000 # (loss down beam 411) stocastic
 # AVAX     27400 9.05958029     -10000 10000 # (loss down beam 25500)THEME
@@ -322,3 +325,13 @@ PUNDIX 660 271.18030303 -10000 50000 # MBM
 
 # backtest 반드시 볼것
 # https://lunadaddy.tistory.com/114
+
+#KOR 2021-2022
+#3/11, 6/10, 9/9, 12/9
+#3/10, 6/9, 9/8, 12/8
+
+
+
+#USA 2021-2022
+#3/19, 6/18, 9/17, 12/17
+#3/18, 6/17, 9/16, 12/16
