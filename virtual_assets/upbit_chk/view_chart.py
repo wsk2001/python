@@ -28,7 +28,7 @@ def view(v, cnt, itv, to_time=None, disp='yes', save='no'):
 
     ###################################################
     fig = plt.figure(v + '_' + str(to_time)[0:10])
-    # ax1 = fig.add_subplot(211)
+    ax1 = fig.add_subplot(211)
     c_series = df['close']
     ax1.plot(c_series)
     plt.title(v + ' 종가')
@@ -48,7 +48,7 @@ def view(v, cnt, itv, to_time=None, disp='yes', save='no'):
         manager.full_screen_toggle()
 
         plt.title(v + ' (' + itv + ')' + ' 볼륨')
-        plt.savefig('J:/charts/' + v + '_' + str(to_time)[0:10] + '.png')
+        plt.savefig('charts/' + v + '_' + str(to_time)[0:10] + '.png')
 
     if disp.lower().startswith('yes'):
         plt.show()

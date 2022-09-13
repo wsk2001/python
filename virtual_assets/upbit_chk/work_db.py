@@ -186,7 +186,6 @@ def insert_db(start_date):
     conn.close()
 
 
-
 def main():
     Quadruple_Witching_Day()
     #insert_db('2022-08-24')
@@ -195,8 +194,10 @@ def main():
     # theme_updata('KRW')
 
 
-
 if __name__ == "__main__":
     main()
+
+# command line 에서 sqlite3 script 호출 하는 방법
+# $ sqlite3.exe auction.db < work_script.sql
 
 # py association_analysis.py --symbol=PUNDIX --earning=20 --range=3 --pick=20

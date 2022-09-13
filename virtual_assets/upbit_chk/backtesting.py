@@ -84,61 +84,47 @@ def stocastic(ticker, cnt, interval='day'):
     return ticker[4:], k, d
 
 
-# 스토캐스트 %K 가 %D 를 돌파 할때
-def stocastic_backtesting_kd_cross_(ticker, cnt, interval='day'):
-    start_cash = 10000000
-    end_cash = 10000000
-    buy_flag = False
-    count = 0
-
+# 스토캐스트 %K 가 %D 를 돌파 할때 Check
+def stocastic_recommand(ticker, count, buy_amount=0, interval='day'):
     if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
         ticker = 'KRW-' + ticker
 
-    df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, period=1)
+    count = 60
+    df = pyupbit.get_ohlcv(ticker, count=count, period=1)
+    print(ticker)
+    if df is None:
+        return
 
-    dft = df
-    df10 = AddStochastic(dft, 14, 3, 3)
-    vals = df10.values.tolist()
-    idxs = df10.index.tolist()
-
-    # print('스토캐스틱 백테스트 심볼:', ticker[4:], ', 범위:',  str(idxs[0])[:10],'~', str(idxs[-1])[:10])
-    # print('일자, 구분, 단가, 수량, 금액')
+    # 9,3,3 or 14,3,3
+    dft = AddStochastic(df, 9, 3, 3)
+    vals = dft.values.tolist()
+    idxs = dft.index.tolist()
 
     i = 0
     lower_limit = 20
     upper_limit = 80
     lower_rate = -5.0
     upper_rate = 5.0
-    for indexs, v in zip(idxs, vals):
-        index = str(indexs)[:10]
-        close_amt = v[3]
-        k = v[6]
-        d = v[7]
-        i += 1
 
-        if i < 9:
-            continue
+    index = str(idxs[-2])[:10]
+    close_amt = vals[-2][3]
+    k = vals[-2][6]
+    d = vals[-2][7]
 
-        if buy_flag is False:
-            if d < k and d <= lower_limit:
-                buy_flag = True
-                count = buy(index, end_cash, close_amt)
-        elif buy_flag is True:
-            if k < d and upper_limit <= d:
+    if buy_amount == 0:
+        if d < k and d <= lower_limit:
+            buy_flag = True
+            print(ticker, index, f'buy k={k:.2f}, d={d:.2f},  price={close_amt:.2f}')
+
+    else:
+        if k < d and upper_limit <= d:
+            buy_flag = False
+            print(ticker, index, f'sell k={k:.2f}, d={d:.2f},  price={close_amt:.2f}')
+        else:
+            cur_rate = ((close_amt / buy_amount) - 1.0) * 100.0
+            if cur_rate <= lower_rate or upper_rate < cur_rate:
+                print(ticker, index, f'sell k={k:.2f}, d={d:.2f},  price={close_amt:.2f}')
                 buy_flag = False
-                end_cash = sell(index, count, close_amt)
-            else:
-                cur_cash = count * close_amt
-                cur_rate = ((cur_cash / end_cash) - 1.0) * 100.0
-                if cur_rate <= lower_rate or upper_rate < cur_rate:
-                    buy_flag = False
-                    end_cash = sell(index, count, close_amt)
-
-    last_rate = ((end_cash / start_cash) - 1.0) * 100.0
-
-    return ticker, start_cash, end_cash, last_rate
-
-
 
 # 스토캐스트 %K 가 %D 를 돌파 할때
 def stocastic_backtesting_kd_cross(ticker, cnt, periodn=5, periodk=3, periodd=3, lower_limit=20, upper_limit=80,
@@ -613,6 +599,18 @@ def backtest_rsi(symbol='ALL', online='no'):
     print(f'수익종목수:{plus_count}, 손실종목수:{minus_count},  승률:{plus_count / (plus_count + minus_count) * 100:.2f}%')
 ##############################################################################
 
+
+def stocastic_online(symbol='ALL', count=0):
+    if symbol.startswith('ALL'):
+        code_list, _, _ = market_code()
+        code_list.sort()
+    else:
+        code_list = [symbol]
+
+    for ticker in code_list:
+        stocastic_recommand(ticker, count)
+        time.sleep(0.3)
+
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('--type', required=False, default='rsi', help='worktype rsi, bband, stocastic, default=rsi')
@@ -653,6 +651,8 @@ def main(argv):
     else:
         if work_type.lower().startswith('rsi'):
             backtest_rsi(symbol, 'yes')
+        elif work_type.lower().startswith('stocastic'):
+            stocastic_online(symbol, count)
 
 if __name__ == "__main__":
     main(sys.argv)
