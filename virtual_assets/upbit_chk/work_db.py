@@ -187,8 +187,9 @@ def insert_db(start_date):
 
 
 def main():
-    Quadruple_Witching_Day()
-    #insert_db('2022-08-24')
+    # Quadruple_Witching_Day()
+    # 2022-09-13 부터 다시 update 해야함.
+    insert_db('2022-09-06')
     # theme_updata('USDT')
     # theme_updata('BTC')
     # theme_updata('KRW')
