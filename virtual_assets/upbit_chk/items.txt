@@ -1,95 +1,20 @@
 # Featured coin for may 2022.
 # D:\GitHub\python\virtual_assets\upbit_chk
 
-# Coin association analysis method.
-# Rising Coin Association Analysis Method.
-# 
-# conn = sqlite3.connect("employee.db")
-# 
-# cur = conn.cursor()
-# 
-# conn.execute('CREATE TABLE employee_data(id INTEGER, name TEXT, nickname TEXT, department TEXT, employment_date TEXT)')
-# 
-# insert into user (name) values ('devkuma');
-# 출처: https://araikuma.tistory.com/690 [프로그램 개발 지식 공유:티스토리]
-# 
-# cur.executemany(
-#     'INSERT INTO employee_data VALUES (?, ?, ?, ?, ?)',
-#     [(1001, 'Donghyun', 'SOMJANG', 'Development', '2020-04-01 00:00:00.000'),
-#      (2001, 'Sol', 'Fairy', 'Marketing', '2020-04-01 00:00:00.000'),
-#      (2002, 'Jiyoung', 'Magician', 'Marketing', '2020-04-01 00:00:00.000'),
-#      (1002, 'Hyeona', 'Theif', 'Development', '2020-04-01 00:00:00.000'),
-#      (1003, 'Soyoung', 'Chief', 'Development', '2020-04-01 00:00:00.000')
-#     ]
-# )
-# 
-# conn.commit()
-# conn.close()
-# 
-# ---
-# conn = sqlite3.connect("employee.db")
-# 
-# cur = conn.cursor()
-# 
-# conn.execute('CREATE TABLE employee_data(id INTEGER, name TEXT, nickname TEXT, department TEXT, employment_date TEXT)')
-# 
-# cur.executemany(
-#     'INSERT INTO employee_data VALUES (?, ?, ?, ?, ?)',
-#     [(1001, 'Donghyun', 'SOMJANG', 'Development', '2020-04-01 00:00:00.000'),
-#      (2001, 'Sol', 'Fairy', 'Marketing', '2020-04-01 00:00:00.000'),
-#      (2002, 'Jiyoung', 'Magician', 'Marketing', '2020-04-01 00:00:00.000'),
-#      (1002, 'Hyeona', 'Theif', 'Development', '2020-04-01 00:00:00.000'),
-#      (1003, 'Soyoung', 'Chief', 'Development', '2020-04-01 00:00:00.000')
-#     ]
-# )
-# 
-# conn.commit()
-# conn.close()
-# ---
-# cur.execute("SELECT name, department FROM employee_data WHERE employee_data.id > 2000")
-# ---
-# 
-# 모든 데이터를 가져와서 DataFrame형태로 출력하기
-# --- 
-# import pandas as pd
-# 
-# conn = sqlite3.connect("employee.db")
-# 
-# cur = conn.cursor()
-# 
-# cur.execute("SELECT * FROM employee_data")
-# 
-# rows = cur.fetchall()
-# 
-# cols = [column[0] for column in cur.description]
-# 
-# data_df = pd.DataFrame.from_records(data=rows, columns=cols)
-# 
-# conn.close()
-# 
-# data_df
-# ---
-# Table 삭제하기
-# ---
-# conn = sqlite3.connect("employee.db")
-# 
-# cur = conn.cursor()
-# 
-# conn.execute('DROP TABLE employee_data2')
-# 
-# conn.close()
-# ---
-# CREATE TABLE 테이블명 (컬럼명 INTEGER PRIMARY KEY AUTOINCREMENT ...);
-# ---
-# 
-# select symbol from DAY_CANDLE dc
-# WHERE 
-# 	'2022-05-05' <= dc.date 
-# and dc.date <= '2022-05-10'
-# and 10.0 < earn
-# group by symbol;
-# 
-
+# symbol, ma5, ma20, ma60
+# AERGO, 218.00, 181.50, 180.35
+# ANKR, 50.46, 49.48, 48.15
+# ATOM, 20812.00, 18102.00, 15720.33
+# EOS, 2237.00, 2127.50, 1869.00
+# ETC, 52834.00, 48704.00, 46899.33
+# GLM, 421.80, 359.70, 355.65
+# HIVE, 787.00, 760.60, 752.82
+# KNC, 2710.00, 2474.50, 2244.58
+# LOOM, 80.30, 70.11, 67.88
+# MFT, 8.52, 8.15, 7.20
+# RFR, 9.69, 9.36, 9.13
+# TT, 7.84, 7.72, 7.70
+# XEC, 0.06, 0.06, 0.06
 
 
 # 초보들이 저지르기 쉬운 최대 실수는 다른 트레이더들은 미래를 예측할 수 있다고 믿는 것. 사실은 그 누구도 모름. 
@@ -270,10 +195,11 @@
 
 CASH 0 #939057
 
-CHZ 271 2167.65786848 -20000 50000 # stocastic
-HBAR 92.20 3199.25178409 -20000 50000 # coinbase 상장 지연 으로 인한 하락 소식 후 매수.
-TT 7.80 37240.61046399  -20000 50000 # BIG Anaounce
-#SNT 40.90 7126.63228288 -20000 50000 # BIG Anaounce
+CHZ 270 1498.67414321 -20000 50000 # stocastic
+TT 7.72 37152.40044094  -20000 50000 # BIG Anaounce
+THETA 1565 181.24484083  -20000 50000 # 호재 하드포크 9/28
+# SNT 40.90 7126.63228288 -20000 50000 # loss BIG Anaounce
+# HBAR 92.20 3199.25178409 -20000 50000 # loss coinbase 상장 지연 으로 인한 하락 소식 후 매수.
 
 #HBAR 95.01 9321.53847986 -10000 50000 # coinbase 상장 지연 으로 인한 하락 소식 후 매수.
 #ZIL 51.08 6266.18346518 -10000 50000 # 싸이프랜닷컴 호재소식 AMA

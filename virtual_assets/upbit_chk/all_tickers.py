@@ -26,7 +26,7 @@ def main(argv):
             earns.append(list(arr))
         time.sleep(0.2)
 
-    earns = sorted(earns, key=lambda x : x[3], reverse=True)
+    earns = sorted(earns, key=lambda x: x[3], reverse=True)
 
     print(time.strftime('%Y-%m-%d %H:%M:%S'))
     print('ticker, open, close, earning')

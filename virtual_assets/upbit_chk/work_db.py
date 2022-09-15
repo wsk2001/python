@@ -186,10 +186,25 @@ def insert_db(start_date):
     conn.close()
 
 
+def delete_db(start_date):
+    lst = get_tickers('KRW')
+
+    conn = sqlite3.connect(database_name)
+    cur = conn.cursor()
+
+    sql = "DELETE FROM day_candle WHERE date=" + "'" + str(start_date) + "';"
+    cur.execute(sql)
+
+    conn.commit()
+    conn.close()
+
+
 def main():
     # Quadruple_Witching_Day()
     # 2022-09-13 부터 다시 update 해야함.
-    insert_db('2022-09-06')
+    work_date = '2022-09-13'
+    delete_db(work_date)
+    insert_db(work_date)
     # theme_updata('USDT')
     # theme_updata('BTC')
     # theme_updata('KRW')
