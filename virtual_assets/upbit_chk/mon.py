@@ -47,7 +47,7 @@ def check_btc_ticker(v, btc_rate, btc_price, base, cnt):
     cur = datetime.datetime.now().strftime('%H:%M:%S')
 
     print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
-          + f'{v[4:]:<6}' + ': ' + f'{base:14.4f}' + ', ' + f'{p:14.4f}' + ', ' \
+          + f'{v[4:]:<6}' + ': ' + f'{base:12.2f}' + ', ' + f'{p:12.2f}' + ', ' \
           + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
     return amt, tot
@@ -65,7 +65,7 @@ def check_usdt_ticker(v, btc_rate, base, cnt):
     cur = datetime.datetime.now().strftime('%H:%M:%S')
 
     print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
-          + f'{v[4:]:<6}' + ': ' + f'{base:14.4f}' + ', ' + f'{p:14.4f}' + ', ' \
+          + f'{v[4:]:<6}' + ': ' + f'{base:12.2f}' + ', ' + f'{p:12.2f}' + ', ' \
           + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
     return amt, tot
@@ -73,6 +73,8 @@ def check_usdt_ticker(v, btc_rate, base, cnt):
 
 def check_krw_ticker(v, btc_rate, base, cnt, sl=0.0, tp=0.0):
     df = pyupbit.get_ohlcv(v, count=1)
+    if df is None:
+        return None, None
     p = df['close'][0]
     cur_rate = ((df['close'][0] / df['open'][0]) - 1.0) * 100.0
     mgn = p - base
@@ -85,26 +87,26 @@ def check_krw_ticker(v, btc_rate, base, cnt, sl=0.0, tp=0.0):
     if cnt == 1:
         tot = 0.0
         print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
-              + f'{v[4:]:<6}' + ': ' + f'{base:14.4f}' + ', ' + f'{p:14.4f}' + ', ' \
+              + f'{v[4:]:<6}' + ': ' + f'{base:12.2f}' + ', ' + f'{p:12.2f}' + ', ' \
               + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
         return 0, 0
     else:
         print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
-              + f'{v[4:]:<6}' + ': ' + f'{base:14.4f}' + ', ' + f'{p:14.4f}' + ', ' \
+              + f'{v[4:]:<6}' + ': ' + f'{base:12.2f}' + ', ' + f'{p:12.2f}' + ', ' \
               + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
         if noti == 'yes':
             if sl != 0.0 and amt < sl:
                 toaster = ToastNotifier()
                 toaster.show_toast("Toast Notifier",
-                                   f' {v[4:]:<6}' + ' Stop loss ' + f'{amt:7.2f}' + ' (' + f'{p:14.2f}' + ')',
+                                   f' {v[4:]:<6}' + ' Stop loss ' + f'{amt:7.2f}' + ' (' + f'{p:12.2f}' + ')',
                                    duration=5)
 
             if tp != 0.0 and tp < amt:
                 toaster = ToastNotifier()
                 toaster.show_toast("Toast Notifier",
-                                   f' {v[4:]:<6}' + ' Take profit ' + f'{amt:7.2f}' + ' (' + f'{p:14.2f}' + ')',
+                                   f' {v[4:]:<6}' + ' Take profit ' + f'{amt:7.2f}' + ' (' + f'{p:12.2f}' + ')',
                                    duration=5)
 
         return amt, tot
@@ -138,7 +140,7 @@ def get_binance_btc_json(t, btc_rate, base, cnt):
 
     cur_rate = ((close_price / open_price) - 1.0) * 100.0
     print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
-          + f'{v[4:]:<6}' + ': ' + f'{base:14.4f}' + ', ' + f'{p:14.4f}' + ', ' \
+          + f'{v[4:]:<6}' + ': ' + f'{base:12.2f}' + ', ' + f'{p:12.2f}' + ', ' \
           + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
 
@@ -208,6 +210,10 @@ def main(argv):
                 t_mgn, t_amt = check_btc_ticker(itm.ticker, btc_rate, btc_price, itm.base, itm.count)
             else:
                 t_mgn, t_amt = check_krw_ticker(itm.ticker, btc_rate, itm.base, itm.count, itm.sl, itm.tp)
+
+            if t_mgn is None or t_amt is None:
+                continue
+
             mgn += t_mgn
             amt += t_amt
             time.sleep(0.2)

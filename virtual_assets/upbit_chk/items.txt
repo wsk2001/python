@@ -1,22 +1,3 @@
-# Featured coin for may 2022.
-# D:\GitHub\python\virtual_assets\upbit_chk
-
-# symbol, ma5, ma20, ma60
-# AERGO, 218.00, 181.50, 180.35
-# ANKR, 50.46, 49.48, 48.15
-# ATOM, 20812.00, 18102.00, 15720.33
-# EOS, 2237.00, 2127.50, 1869.00
-# ETC, 52834.00, 48704.00, 46899.33
-# GLM, 421.80, 359.70, 355.65
-# HIVE, 787.00, 760.60, 752.82
-# KNC, 2710.00, 2474.50, 2244.58
-# LOOM, 80.30, 70.11, 67.88
-# MFT, 8.52, 8.15, 7.20
-# RFR, 9.69, 9.36, 9.13
-# TT, 7.84, 7.72, 7.70
-# XEC, 0.06, 0.06, 0.06
-
-
 # 초보들이 저지르기 쉬운 최대 실수는 다른 트레이더들은 미래를 예측할 수 있다고 믿는 것. 사실은 그 누구도 모름. 
 
 # - 자신만의 시스템/시그널 활용 (자신의 원칙을 만들것)
@@ -25,14 +6,6 @@
 # - 틀렸음이 명백한 지점을 식별해놓을 것(손절가 지정)
 # - 틀렸을 때 가차없이 손절하는 절제력을 기를 것(필요시 예약 매도)
 
-# - 선물은 자신이 Control 할 수 없는 시간에는 거래를 하지 말것.
-# - 아침 거래는 3대 지수 확인 후 들어 갈것.
-
-################################
-# 코인판 https://coinpan.com 
-################################
-# 워뇨띠 포지션 https://www.bitsignal.me/indexw.php
-#          https://btctools.io/stats/leaderboard
 # 데일리 호들 https://dailyhodl.com
 # 코인니스 https://coinness.live/
 # 코인코드 https://coincode.kr/
@@ -53,16 +26,6 @@
 # https://cryptoquant.com/ko/asset/btc/summary#overview
 
 
-# 사는시점: MACD 오실레이터 0선을 상향 돌파할 때
-# 파는시점: MACD 오실레이터 0선을 하향 돌파할 때
-
-
-# 나스닥 종합: https://m.finance.daum.net/global/quotes
-#
-# 엘리엇 파동 이론 구현(Python): https://github.com/philippe-ostiguy/PyBacktesting
-#                         https://jeyinvest.tistory.com/33
-
-
 # BTC 선물 옵션 만기일: 1/28, 2/25, 3/25, 4/29, 5/27, 6/24, 12/30
 # 2022 FOMC 2일간, 1/25 3/15 5/3 6/14 7/26 9/20 11/1 12/13 (미국시간)
 # cme는 런던 시간(GMT) 기준으로 매월 마지막주 금요일 오후(PM 4시) 이고, 한국시간(GMT+9) 토요일 새벽(AM 1시)
@@ -76,16 +39,6 @@
 # -- https://github.com/songv1/2019-Cryptocurrency-Trading-Algorithm
 # https://blog.naver.com/PostView.naver?blogId=pp8762&logNo=222439726692&categoryNo=16&parentCategoryNo=16&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
 # https://bloomingbit.io/news
-# 코인 일정은 취미생활방 및 Coinmarketcal 제공
-
-# 파사채널 : https://t.me/PASACREW
-#
-# 해브로채널 : https://t.me/havelaw
-# https://blog.naver.com/japhagulee
-#
-# Eastgooner 채널 : https://t.me/eastgoonercrypto
-# https://blog.naver.com/eastboy_12
-
 # https://www.coinmaster.tips/
 
 
@@ -117,10 +70,6 @@
 # 2022-07-05 1MW 시드 충전. 2022-07-08: 1,043,747
 
 # 분석 글 : https://twitter.com/mignoletkr/status/1533332058000371712
-# futures 
-# 상승 할 때는 펀딩비 나가는 시간 에도 오른다. (펀딩비를 감당 할 수 있는 수준 까지 올랐기 때문으로 판단 된다).
-# 하락장 에도 펀딩비 나가는 시간 에도 오른다. ( 반대로 지급 되므로 오르는것 으로 판단됨)
-# 코인베이스 프리미엄, SOPR, MVRV 비율, 미실현 순수익(NUPL), 
 # 
 
 # 예상/분석/심리 관련 글.
@@ -129,17 +78,11 @@
 # 스캘핑 기법
 # 출처: https://chobocoinguide.com/56
 
-# 시간대별 분석
-# 
 
 # price predicting 
 # https://pythoninoffice.com/predicting-bitcoin-price-stock-to-flow-python/
 
 # https://investing-world.com/kr/lee-jae-yong-investment/?lpkey=16c857d3591e87df19&offer=Bitcoin%20Buyer&uclick=usqd16xrbl&uclickhash=usqd16xrbl-usqd16xrbl-fna8-0-8p17-uslpi4-usgm6o-c8a726
-
-#EVEN : 보합
-#RISE : 상승
-#FALL : 하락
 
 ###################################################################
 # https://github.com/AutomationPanda/playwright-python-tutorial
@@ -148,144 +91,21 @@
 # 바이비트: https://www.bybit.com/en-US/ mail // 끝()OP
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
 
-
 # python animation
 # from matplotlib.animation import FuncAnimation
-
-
-# ticker, amount, count, stop loss, take profit
-
-# CBK 1450 1 -3000 15000
-
-# 바이낸스, OKX, 비트겟, FTX, 코인엑스, 데리비트, 비트파이넥스, dYdX, 비트멕스,
-# 바이비트, 후오비, 크라켄
-# 강제 청산 비율 : https://coinness.live/market/future/liquidations
-# 지난 24시간 동안
-# 48,459명이 강제청산 되었네요
-# 전체 1시간 
 
 # 코인론 프리미엄.
 # https://contents.premium.naver.com/coinlearn/cointhink
 
 # 롱숏 비율 : https://coinness.live/market/future/long-short
-# BTC 5분
 # 크립토퀀트: https://cryptoquant.com/ko/asset/btc/summary 
 # gmail // k**********P
-
-#####################################################################
-# Reset: 2022-08-15 total 1,009,154
-
-######################################################################
-
-# 아래 내용 코딩 볼것.
-# https://github.com/pythonlessons/RL-Bitcoin-trading-bot
-# https://pylessons.com/RL-BTC-BOT-indicators
-
-# 연관분석: association_analysis
-
-
-# select symbol from DAY_CANDLE dc
-# WHERE 
-#	'2022-05-05' <= dc.date 
-# and dc.date <= '2022-05-10'
-# and 10.0 < earn
-# group by symbol;
 
 # 익절 3,5,7%
 
 CASH 0 #939057
 
-CHZ 270 1498.67414321 -20000 50000 # stocastic
-TT 7.72 37152.40044094  -20000 50000 # BIG Anaounce
-THETA 1565 181.24484083  -20000 50000 # 호재 하드포크 9/28
-# SNT 40.90 7126.63228288 -20000 50000 # loss BIG Anaounce
-# HBAR 92.20 3199.25178409 -20000 50000 # loss coinbase 상장 지연 으로 인한 하락 소식 후 매수.
-
-#HBAR 95.01 9321.53847986 -10000 50000 # coinbase 상장 지연 으로 인한 하락 소식 후 매수.
-#ZIL 51.08 6266.18346518 -10000 50000 # 싸이프랜닷컴 호재소식 AMA
-# UPP 94.60 1188.82135306 -10000 50000  # 약 loss 가지수 정리, stocastic
-
-# LOOM 85.20 2583.12745036 -10000 50000 # win
-# GLM 443 944.52999234 -10000 50000 # win, 시장 상황 보고 진입.
-	
-
-# LOOM  84.40 1447.23193128 -5000 20000 # win kimp
-#BORA 396 757.83964646 -5000 10000 # stocastic & 저가.
-#MATIC 1225 242.35474099  -5000 10000 # 김프
-#STEEM 308 768.60795454 -5000 10000 # stocastic
-#LOOM  65.50 2032.32061068 -5000 10000 # 역프 -6%
-# LSK 1455 122.00601374 -50000 10000 # win, stocastic
-#GRS 423.5 1106.19083301 -10000 50000 # know ticker
-#SAND 1265 185.44426877  -10000 50000 # RSI Recommand: buy, rsi=28.44, price=1265
-# PUNDIX 660 271.18030303 -10000 50000 # MBM
-# BTC 26339000 0.05430699 -10000 50000 # win, after down beam 
-# GRS        424 951.40496881     -10000 10000 # (loss down beam 411) stocastic
-# AVAX     27400 9.05958029     -10000 10000 # (loss down beam 25500)THEME
-# HBAR     85.30 1964.92379835 -10000 10000 # (loss down beam 81.00) jirasi
-
-# SOL		 44001 11.04443976  # win 44980   -10000 10000 # theme
-# TRX       87.0 3172.36783906	# win 87.30 good news, 소각
-# GMT        919 356.75360897   # win 940 stocastic
-# ANKR     47.40 5767.68577736    win # stocastic
-# TT        8.07 35220.32193682   loss (트위터, 상장, Ku....)
-
-# 쌍 도지 (2022-09-03)
-# AERGO,ARK,BTT,GRS,HUM,ICX,IOST,LOOM,MANA,NU,OMG,ORBS,SOL,T,UPP,VET,XEM,ZRX
-
-# ATR, True Range
-
-
-# Recommendation Algorithm
-#Bollinger Bands(BB)
-#가격이 20일 이동평균선 중심으로 표준편차(약 96.5%) 범위 안에서 (밴드 안에서) 움직이는 지표
-#
-#밴드폭이 좁아지거나 넓어지면 가격 변동이 일어남
-#1시간봉 볼린저밴드 과매수 터치일 경우 매도
-#매수: 볼린저밴드 하단부 돌파 동시에 매도량 감소
-#매도: 볼린저밴드 상단부 돌파 동시에 매수량 감소
-
-# 저가 매수의 기술
-# 저자 오버솔드(oversold)는 사업체를 운영하며 주식투자를 병행하는 투자자. 
-# 저자의 닉네임 오버솔드Oversold는 과매도권에 진입한 종목을 분할매수해 
-# 묵직하게 수익을 내는 저자의 투자기법을 의미한다.
-# envelope
-
-# 두나무 공포 탐욕 지수
-# https://datavalue.dunamu.com/feargreedindex
-
-# https://www.tokenpost.kr/
-
-# import pandas as pd
-# import sqlite3
-
-# # Read sqlite query results into a pandas DataFrame
-# con = sqlite3.connect("data/portal_mammals.sqlite")
-# df = pd.read_sql_query("SELECT * from surveys", con)
-
-# # Verify that result of SQL query is stored in the dataframe
-# print(df.head())
-
-# con.close()
-
-# https://wikidocs.net/book/4652
-
-# backtest 반드시 볼것
-# https://lunadaddy.tistory.com/114
-
-#KOR 2021-2022
-#3/11, 6/10, 9/9, 12/9
-#3/10, 6/9, 9/8, 12/8
-
-
-
-#USA 2021-2022
-#3/19, 6/18, 9/17, 12/17
-#3/18, 6/17, 9/16, 12/16
-
-# MA: 5, 20, 60, 120
-# 이동평균선을 이용한 실전매매 첫번째는 장기선의 저항을 지속적으로 뚫지 못하는 종목을 걸러내는 것 입니다! 
-
-# 캐리어리 탈퇴
-# https://post.naver.com/viewer/postView.nhn?volumeNo=26750198&memberNo=856655
-
-# py stocastic.py --interval=minute60
+THETA 1545 218.75631067  -20000 50000 # 호재 하드포크 9/28
+TT 7.64 37083.86508670  -20000 50000 # BIG Anaounce
+LINK 10550 16.00995260 -20000 50000 # BIG Anaounce
+ADA 663 254.50321596 -20000 50000 # BIG Anaounce
