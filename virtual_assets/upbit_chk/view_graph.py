@@ -7,15 +7,24 @@ import matplotlib.pyplot as plt
 from matplotlib.pyplot import figure
 import argparse
 
+# 한글 폰트 사용을 위해서 세팅 (아래 4줄)
+from matplotlib import font_manager, rc
+font_path = "C:/Windows/Fonts/NGULIM.TTF"
+font = font_manager.FontProperties(fname=font_path).get_name()
+rc('font', family=font)
 
-def view(v, cnt, interval=None, to=None, disp='no', save='yes'):
+def view(v, cnt, interval=None, to=None, disp='yes', save='yes'):
     if v.capitalize().startswith('KRW-'):
         df = pyupbit.get_ohlcv(v, count=cnt)
     else:
         df = pyupbit.get_ohlcv('KRW-' + v, interval=interval, to=to, count=cnt)
     dfs = df['close']
+    hds = df['high']
     ax = plt.gca()
-    dfs.plot(kind='line', x='name', y='currency', ax=ax)
+    dfs.plot(kind='line', x='name', y='currency', label='close', ax=ax)
+    hds.plot(kind='line', x='name', y='currency', label='high', ax=ax)
+    plt.legend()
+
     plt.title(v + ' (' + str(to)[:10] + ')')
     plt.grid(True)
     #figure(figsize=(8, 6))

@@ -83,13 +83,16 @@ def check_stocastic(symbol='ALL', interval='day', count=0, period=9, periodk=3, 
     print('symbol, %K, %D')
     for v in code_list:
         ticker, k, d = stocastic(v, interval, count, period, periodk, periodd)
-        if k <= 20 or 80 <= k:
+
+        if d <= 20:
             if d < k:
-                print(f'{ticker}, {k:.2f}, {d:.2f} ****')
-            else:
-                print(f'{ticker}, {k:.2f}, {d:.2f} **')
-        else:
-            print(f'{ticker}, {k:.2f}, {d:.2f}')
+                print(f'{ticker}, {k:.2f}, {d:.2f} buy')
+        elif 80 <= d:
+            if d > k:
+                print(f'{ticker}, {k:.2f}, {d:.2f} sell')
+
+        # else:
+        #     print(f'{ticker}, {k:.2f}, {d:.2f}')
         time.sleep(0.3)
 
 def main(argv):
