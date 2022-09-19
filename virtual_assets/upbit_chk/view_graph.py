@@ -19,22 +19,26 @@ def view(v, cnt, interval=None, to=None, disp='yes', save='yes'):
     else:
         df = pyupbit.get_ohlcv('KRW-' + v, interval=interval, to=to, count=cnt)
     dfs = df['close']
-    hds = df['high']
+    #hds = df['high']
     ax = plt.gca()
     dfs.plot(kind='line', x='name', y='currency', label='close', ax=ax)
-    hds.plot(kind='line', x='name', y='currency', label='high', ax=ax)
+    #hds.plot(kind='line', x='name', y='currency', label='high', ax=ax)
     plt.legend()
 
-    plt.title(v + ' (' + str(to)[:10] + ')')
+    if interval == None:
+        plt.title(f'{v} ({str(to)[:10]})')
+    else:
+        plt.title(f'{v}, interval={interval} ({str(to)[:10]})')
+
     plt.grid(True)
     #figure(figsize=(8, 6))
 
     # Image 가 작게 저장됨.
+
     if save.lower().startswith('yes'):
-        manager = plt.get_current_fig_manager()
-        #manager.full_screen_toggle()
-        #manager.frame.Maximize(True)
-        manager.window.state('zoomed')
+        # manager = plt.get_current_fig_manager()
+        # manager.frame.Maximize(True) # AttributeError: 'FigureManagerTk' object has no attribute 'frame'
+        # manager.window.state('zoomed')
         plt.savefig('charts/' + v + '_' + str(to)[:10] + '.png')
 
     if disp.lower().startswith('yes'):
@@ -97,4 +101,4 @@ def main(argv):
 if __name__ == "__main__":
     main(sys.argv)
 
-# py view_graph.py --count=1440 --interval=minute1 --symbol=eth --enddate=2022-09-14
+# py view_graph.py --count=1440 --interval=minute1 --symbol=bora --enddate=2022-09-19 --endtime=15:44:00

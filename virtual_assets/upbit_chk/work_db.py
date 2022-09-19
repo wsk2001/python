@@ -192,7 +192,7 @@ def delete_db(start_date):
     conn = sqlite3.connect(database_name)
     cur = conn.cursor()
 
-    sql = "DELETE FROM day_candle WHERE date=" + "'" + str(start_date) + "';"
+    sql = "DELETE FROM day_candle WHERE date" + ">= '" + str(start_date) + "';"
     cur.execute(sql)
 
     conn.commit()
