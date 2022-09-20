@@ -202,7 +202,7 @@ def delete_db(start_date):
 def main():
     # Quadruple_Witching_Day()
     # 2022-09-13 부터 다시 update 해야함.
-    work_date = '2022-09-13'
+    work_date = '2022-09-18'
     delete_db(work_date)
     insert_db(work_date)
     # theme_updata('USDT')
