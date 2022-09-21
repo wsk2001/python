@@ -1,60 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1025"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="54"/><column index="3" value="103"/><column index="4" value="74"/><column index="5" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">select symbol AS 심볼, date AS 일자,  close AS 종가, round(earn,2) AS 등락율, round(hearn-learn,2) 변동율 from day_candle
-where symbol in ('BTC', 'ETH')
-and date 
-in ('2022-01-25','2022-01-26','2022-01-27',
-'2022-03-15','2022-03-16','2022-03-17',
-'2022-05-03','2022-05-04','2022-05-05',
-'2022-06-14','2022-06-15','2022-06-16',
-'2022-07-26','2022-07-27','2022-07-28',
-'2022-09-20','2022-09-21','2022-09-22',
-'2022-11-01','2022-11-02','2022-11-03',
-'2022-12-13','2022-12-14','2022-12-15',
-			               
-'2021-01-26','2021-01-27','2021-01-28',
-'2021-03-16','2021-03-17','2021-03-18',
-'2021-04-27','2021-04-28','2021-04-29',
-'2021-06-15','2021-06-16','2021-06-17',
-'2021-07-27','2021-07-28','2021-07-29',
-'2021-09-21','2021-09-22','2021-09-23',
-'2021-11-02','2021-11-03','2021-11-04',
-'2021-12-14','2021-12-15','2021-12-16',
-			               
-			               
-'2020-01-28','2020-01-29','2020-01-30',
-'2020-03-17','2020-03-18','2020-03-19',
-'2020-04-28','2020-04-29','2020-04-30',
-'2020-06-09','2020-06-10','2020-06-11',
-'2020-07-28','2020-07-29','2020-07-30',
-'2020-09-15','2020-09-16','2020-09-17',
-'2020-11-04','2020-11-05','2020-11-06',
-'2020-12-15','2020-12-16','2020-12-17',
-		               
-			               
-'2019-01-29','2019-01-30','2019-01-31',
-'2019-03-19','2019-03-20','2019-03-21',
-'2019-04-30','2019-05-01','2019-05-02',
-'2019-06-18','2019-06-19','2019-06-20',
-'2019-07-30','2019-07-31','2019-08-01',
-'2019-09-17','2019-09-18','2019-09-19',
-'2019-10-29','2019-10-30','2019-10-31',
-'2019-12-10','2019-12-11','2019-12-12',
-			               
-			               
-'2018-01-30','2018-01-31','2018-02-01',
-'2018-03-20','2018-03-21','2018-03-22',
-'2018-05-01','2018-05-02','2018-05-03',
-'2018-06-12','2018-06-13','2018-06-14',
-'2018-07-31','2018-08-01','2018-08-02',
-'2018-09-25','2018-09-26','2018-09-27',
-'2018-11-07','2018-11-08','2018-11-09',
-'2018-12-18','2018-12-19','2018-12-20',
-			               
-'2017-01-31','2017-02-01','2017-02-02',
-'2017-03-14','2017-03-15','2017-03-16',
-'2017-05-02','2017-05-03','2017-05-04',
-'2017-06-13','2017-06-14','2017-06-15',
-'2017-07-25','2017-07-26','2017-07-27',
-'2017-09-19','2017-07-20','2017-07-21',
-'2017-10-31','2017-11-01','2017-11-02',
-'2017-12-12','2017-12-13','2017-12-14')
-order by symbol, date, date desc;</sql><current_tab id="0"/></tab_sql></sqlb_project>
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1025"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="54"/><column index="3" value="103"/><column index="4" value="74"/><column index="5" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">select A.symbol, A.open, B.close, round((((B.close/A.open)-1)*100),2) as earning from day_candle A, day_candle B
+where 1=1
+and A.date = '2022-01-01'
+and B.date ='2022-09-20'
+and A.symbol = B.symbol
+order by earning
+
+
+--select symbol, min(close), max(close), round((( max(close)/ min(close))*100),2) as earning from day_candle
+--where date &gt;= '2022-01-01'
+--group by symbol
+--order by earning desc
+
+
+--select symbol, min(close), max(close), round(((( max(close)/ min(close))-1)*100),2) as earning, round(((( min(close)/ max(close))-1)*100),2) as earning2 from day_candle
+--where date &gt;= '2022-01-01'
+--group by symbol
+--order by earning desc
+
+--select * from day_candle
+--where 1=1
+--and date in( '2022-01-01','2022-09-20' )
+--and symbol = '1INCH'
+
+-- 2935, 844</sql><current_tab id="0"/></tab_sql></sqlb_project>
