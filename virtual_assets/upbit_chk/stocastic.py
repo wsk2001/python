@@ -84,7 +84,7 @@ def check_stocastic(symbol='ALL', interval='day', count=0, period=9, periodk=3, 
     for v in code_list:
         ticker, k, d = stocastic(v, interval, count, period, periodk, periodd)
 
-        if d <= 20 and 20 < k:
+        if d <= 10 and 10 < k:
             if d < k:
                 print(f'{ticker}, {k:.2f}, {d:.2f} buy')
         elif 80 <= d:
