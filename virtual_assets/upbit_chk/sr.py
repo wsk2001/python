@@ -27,6 +27,7 @@ def save_ticker(v, cnt=60, interval='day'):
         df = pyupbit.get_ohlcv('KRW-' + v, interval=interval, count=cnt, to=to_time, period=1)
 
     tickers = df.values.tolist()
+    indexs = df.index.tolist()
 
     f = open('data/' + v + '.mst', 'w')
     print('<TICKER>,<DTYYYYMMDD>,<OPEN>,<HIGH>,<LOW>,<CLOSE>,<VOL>', file=f)
@@ -34,7 +35,7 @@ def save_ticker(v, cnt=60, interval='day'):
     i = 0
 
     for t in tickers:
-        print(f'{v},{i},{t[0]},{t[1]},{t[2]},{t[3]},{t[4]}', file=f)
+        print(f'{v},{str(indexs[i])[:10]},{t[0]},{t[1]},{t[2]},{t[3]},{t[4]}', file=f)
         i += 1
 
     f.close()

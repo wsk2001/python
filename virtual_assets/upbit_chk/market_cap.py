@@ -26,6 +26,21 @@ def get_binance_usdt_tickers():
     usdt_tickers.sort()
 
 
+def get_bithumb_tickers():
+    bithumb_tickers = []
+    bithumb = ccxt.bithumb()
+    markets = bithumb.fetch_tickers()
+
+    for ticker in markets.keys():
+        bithumb_tickers.append(ticker[:-4])
+
+    bithumb_tickers.sort()
+
+    #print(bithumb_tickers)
+    ohlcv = bithumb.fetchOHLCV('ARW'+'/KRW', timeframe='1d', limit=1)
+    print(ohlcv)
+
+
 def binance_cap():
     get_binance_usdt_tickers()
 
@@ -33,18 +48,11 @@ def binance_cap():
     markets_page1 = cg.get_coins_markets(vs_currency="usd", per_page=250, page=1)
     markets_page2 = cg.get_coins_markets(vs_currency="usd", per_page=250, page=2)
     markets_page3 = cg.get_coins_markets(vs_currency="usd", per_page=250, page=3)
-    # markets_page4 = cg.get_coins_markets(vs_currency="usd", per_page=250, page=4)
-    # markets_page5 = cg.get_coins_markets(vs_currency="usd", per_page=250, page=5)
-    # markets_page6 = cg.get_coins_markets(vs_currency="usd", per_page=250, page=6)
-    # markets_page7 = cg.get_coins_markets(vs_currency="usd", per_page=250, page=7)
+
     df1 = pd.DataFrame(markets_page1)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
     df2 = pd.DataFrame(markets_page2)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
     df3 = pd.DataFrame(markets_page3)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    # df4 = pd.DataFrame(markets_page4)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    # df5 = pd.DataFrame(markets_page5)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    # df6 = pd.DataFrame(markets_page6)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    # df7 = pd.DataFrame(markets_page7)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    # df = pd.concat([df1, df2, df3, df4, df5, df6, df7])
+
     df = pd.concat([df1, df2, df3])
 
     vals = df.values.tolist()
@@ -66,21 +74,17 @@ def binance_cap():
 def upbit_cap():
     code_list, _, _ = market_code()
     cg = CoinGeckoAPI()
-    markets_page1 = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=1)
-    markets_page2 = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=2)
-    markets_page3 = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=3)
-    markets_page4 = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=4)
-    markets_page5 = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=5)
-    markets_page6 = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=6)
-    markets_page7 = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=7)
-    df1 = pd.DataFrame(markets_page1)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    df2 = pd.DataFrame(markets_page2)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    df3 = pd.DataFrame(markets_page3)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    df4 = pd.DataFrame(markets_page4)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    df5 = pd.DataFrame(markets_page5)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    df6 = pd.DataFrame(markets_page6)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    df7 = pd.DataFrame(markets_page7)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
-    df = pd.concat([df1, df2, df3, df4, df5, df6, df7])
+
+    markets_page = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=1)
+    df = pd.DataFrame(markets_page)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
+
+    for i in range(2,10):
+        mp = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=i)
+        dft = pd.DataFrame(mp)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
+        df = pd.concat([df, dft])
+        time.sleep(0.3)
+
+    # df = pd.concat([df1, df2, df3, df4, df5, df6, df7])
 
     vals = df.values.tolist()
     idxs = df.index.tolist()
@@ -108,6 +112,8 @@ def main(argv):
 
     if market.startswith('upbit'):
         upbit_cap()
+    elif market.startswith('bithumb'):
+        get_bithumb_tickers()
     else:
         binance_cap()
 
