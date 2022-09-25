@@ -100,15 +100,37 @@
 # 롱숏 비율 : https://coinness.live/market/future/long-short
 # 크립토퀀트: https://cryptoquant.com/ko/asset/btc/summary 
 # gmail // k**********P
+# API 키는 Professional/Premium 가입자에게 제공됩니다. 
+
 
 # 익절 3,5,7%
 # 현대: 642,712 원
 
 CASH 0 #939057
 
-KNC 1772.5 241.59325445 -10000 10000 # stocastic
+KNC 1730 118.93186355 -10000 10000 # stocastic
+BTC 27229000 0.00751287 -10000 10000 #
 
 # 펀디 2일 오르면 무조건 매입.
 # Sklearn SVM crypto
 # sqlite 요일 구하기 select strftime('%w', date);
+
+# 요일별 집계 Query
+# select A.symbol, sum(A.en1), A.wd from
+# (select symbol, 
+# case 
+# when earn > 0.0 then 1
+# when earn < 0.0 then -1
+# else 0
+# end as en1,
+# strftime('%w', date) as wd 
+# from day_candle
+# where 1=1
+# and date > '2022-07-01'
+# and symbol in ('PUNDIX','KNC')
+# ) A
+# group by A.symbol, A.wd
+
+# 통계: seanorn
+
 

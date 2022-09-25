@@ -39,9 +39,9 @@ def view(v, cnt, interval=None, to=None, disp='yes', save='yes'):
     plt.legend()
 
     if to is not None:
-        plt.title('Stocastic Indicators: ' + v + ' (' + str(to)[:10] + ')')
+        plt.title(f'스토캐스틱: {v} ({str(to)[:10]}) interval={interval}')
     else:
-        plt.title('Stocastic Indicators: ' + v + ' (' + str(datetime.datetime.now())[:10] + ')')
+        plt.title(f'스토캐스틱: {v} ({str(datetime.datetime.now())[:10]}) interval={interval}')
 
     plt.grid(True)
 
