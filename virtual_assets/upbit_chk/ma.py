@@ -24,9 +24,9 @@ import pandas as pd
 # 스토캐스틱 선들의 방향과 봉우리 모양
 ##############################################################################
 def add_moving_average(df, period=9, screen_window=3, slow_window=3):
-    ma5 = ta.stream_MA(df['close'], 5)
-    ma20 = ta.stream_MA(df['close'], 20)
-    ma60 = ta.stream_MA(df['close'], 60)
+    ma5 = ta.stream_MA(df['volume'], 5)
+    ma20 = ta.stream_MA(df['volume'], 20)
+    ma60 = ta.stream_MA(df['volume'], 60)
 
     return df.assign(ma5=ma5, ma20=ma20, ma60=ma60).dropna().copy()
 
@@ -62,7 +62,7 @@ def moving_average(ticker, interval='day', count=120, period=9, perk=3, perd=3):
     return ticker[4:], m5, m20, m60
 
 
-def check_ma(symbol='ALL', interval='day', count=120):
+def check_ma(symbol='ALL', interval='day', count=365):
     if symbol.startswith('ALL'):
         code_list, _, _ = market_code()
         code_list.sort()
@@ -71,15 +71,27 @@ def check_ma(symbol='ALL', interval='day', count=120):
     if count == 0:
         count = datetime.now().timetuple().tm_yday - 1
 
+    lst = []
+    lst.clear()
     print('symbol, ma5, ma20, ma60')
     for v in code_list:
         ticker, ma5, ma20, ma60 = moving_average(v, interval, count)
         if ma60 < ma20 < ma5:
             print(f'{ticker}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f} **정배열**')
+            # like sprintf
+            fmt = f'{ticker}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f}'
+            lst.append(fmt)
         else:
             print(f'{ticker}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f}')
 
         time.sleep(0.3)
+
+    print()
+    print('이평선 정배열 종목')
+    print('symbol, ma5, ma20, ma60')
+    for s in lst:
+        print(s)
+
 
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
