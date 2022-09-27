@@ -19,7 +19,7 @@ def mfi(symbol, count):
 
     df = pyupbit.get_ohlcv(symbol, count=count, period=1)
     rl = ta.MFI(high=df['high'], low=df['low'], close=df['close'], volume=df['volume'], timeperiod=14)
-    return rl[-1]
+    return rl[-2], rl[-1]
 
 
 # Main function
@@ -34,15 +34,19 @@ def main(argv):
     sell_signal = float(args.sell)
     buy_signal = float(args.buy)
 
+    print(f'심볼, 당일지수, 전일지수, 시그널')
+
     try:
         code_list, _, _ = market_code()
         code_list.sort()
         for t in code_list:
-            value = mfi(t, count)
-            if sell_signal <= value:
-                print(f'{t[4:]}, {value:.2f}, sell signal')
-            elif value <= buy_signal:
-                print(f'{t[4:]}, {value:.2f}, buy signal')
+            v2, v1 = mfi(t, count)
+            if sell_signal <= v2:
+                if v2 > v1:
+                    print(f'{t[4:]}, {v1:.2f}, {v2:.2f}, sell')
+            elif v2 <= buy_signal:
+                if v1 > v2:
+                    print(f'{t[4:]}, {v1:.2f}, {v2:.2f}, buy')
 
             time.sleep(0.3)
     except Exception as e:

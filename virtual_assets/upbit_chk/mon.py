@@ -193,7 +193,6 @@ def main(argv):
 
     file.close()
 
-
     i = 0
     chg_posi = False
     disp_cnt = 0
