@@ -33,10 +33,10 @@
 # bitget : 010 ~ k******2
 ######################################################################
 
-MATIC 0.8309 200 0.8136 x50 # 2022-08-19
+BTC 18694.59 0.01 27404.75 x10 # 2022-09-28
 
-STOP_LOSE   -1.5
-TAKE_PROFIT 5.0
+STOP_LOSE   -3.0
+TAKE_PROFIT 10.0
 
 # https://coinpriceforecast.com/
 # https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/

@@ -154,7 +154,6 @@ def Quadruple_Witching_Day():
 
     con.close()
 
-
 def insert_db(start_date):
     lst = get_tickers('KRW')
 
@@ -202,9 +201,11 @@ def delete_db(start_date):
 def main():
     # Quadruple_Witching_Day()
     # 2022-09-13 부터 다시 update 해야함.
-    work_date = '2022-09-18'
+
+    work_date = '2022-09-25'
     delete_db(work_date)
     insert_db(work_date)
+
     # theme_updata('USDT')
     # theme_updata('BTC')
     # theme_updata('KRW')

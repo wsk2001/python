@@ -22,18 +22,69 @@
 --and date in( '2022-01-01','2022-09-20' )
 --and symbol = '1INCH'
 
--- 2935, 844
+-- 2935, 844
+
+--select strftime('%w', date), round(avg(earn),2)
+--from day_candle
+--where symbol = 'BTC'
+--and date &gt;= '2022-08-01'
+--and date &lt;= '2022-08-31'
+--group by strftime('%w', date) 
+
+--select symbol, min(close) as lp, max(close) as hp from day_candle
+--where 1=1
+--and '2022-01-01' &lt;= date
+--group by symbol
 
---select strftime('%w', date), round(avg(earn),2)
---from day_candle
---where symbol = 'BTC'
---and date &gt;= '2022-08-01'
---and date &lt;= '2022-08-31'
---group by strftime('%w', date) 
 
-select symbol, min(close) as lp, max(close) as hp from day_candle
-where 1=1
-and '2022-01-01' &lt;= date
-group by symbol
+select A.symbol, round(A.v1_3, 2) as a, round(B.v4_6, 2) as b, round(C.v7_9, 2) as c, 
+	round(D.v10_12, 2) as d, round(E.v13_15, 2) as e, round(F.v16_18, 2) as f, 
+	round(G.v19_21, 2) as g, round(H.v22_24, 2) as h, round(I.v25_27, 2) as i, round(J.v28_31, 2) as j 
+FROM 
+(select dc.symbol AS symbol, sum(dc.earn) as v1_3 from day_candle dc, tmp_t tt
+where (dc.date like '%01' or dc.date like '%02' or dc.date like '%03' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) A,
+(select dc.symbol AS symbol, sum(dc.earn) as v4_6 from day_candle dc, tmp_t tt
+where (dc.date like '%04' or dc.date like '%05' or dc.date like '%06' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) B,
+(select dc.symbol AS symbol, sum(dc.earn) as v7_9 from day_candle dc, tmp_t tt
+where (dc.date like '%07' or dc.date like '%08' or dc.date like '%09' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) C,
+(select dc.symbol AS symbol, sum(dc.earn) as v10_12 from day_candle dc, tmp_t tt
+where (dc.date like '%10' or dc.date like '%11' or dc.date like '%12' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) D,
+(select dc.symbol AS symbol, sum(dc.earn) as v13_15 from day_candle dc, tmp_t tt
+where (dc.date like '%13' or dc.date like '%14' or dc.date like '%15' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) E,
+(select dc.symbol AS symbol, sum(dc.earn) as v16_18 from day_candle dc, tmp_t tt
+where (dc.date like '%16' or dc.date like '%17' or dc.date like '%18' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) F,
+(select dc.symbol AS symbol, sum(dc.earn) as v19_21 from day_candle dc, tmp_t tt
+where (dc.date like '%19' or dc.date like '%20' or dc.date like '%21' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) G,
+(select dc.symbol AS symbol, sum(dc.earn) as v22_24 from day_candle dc, tmp_t tt
+where (dc.date like '%22' or dc.date like '%23' or dc.date like '%24' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) H,
+(select dc.symbol AS symbol, sum(dc.earn) as v25_27 from day_candle dc, tmp_t tt
+where (dc.date like '%25' or dc.date like '%26' or dc.date like '%27' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) I,
+(select dc.symbol AS symbol, sum(dc.earn) as v28_31 from day_candle dc, tmp_t tt
+where (dc.date like '%28' or dc.date like '%29' or dc.date like '%30' or dc.date like '%31' )
+and dc.symbol = tt.symbol
+and dc.date like tt.remark) J;
+</sql><sql name="SQL 1 (1)">/**/
+update tmp_t
+set symbol = 'AVAX';
+/**/
 
+-- commit;
 </sql><current_tab id="0"/></tab_sql></sqlb_project>
