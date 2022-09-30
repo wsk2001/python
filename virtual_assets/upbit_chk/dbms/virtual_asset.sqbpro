@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1025"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="54"/><column index="3" value="103"/><column index="4" value="74"/><column index="5" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1025"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="54"/><column index="3" value="103"/><column index="4" value="74"/><column index="5" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">/*
 select A.symbol, round(A.v1_3, 2) as a, round(B.v4_6, 2) as b, round(C.v7_9, 2) as c, 
 	round(D.v10_12, 2) as d, round(E.v13_15, 2) as e, round(F.v16_18, 2) as f, 
 	round(G.v19_21, 2) as g, round(H.v22_24, 2) as h, round(I.v25_27, 2) as i, round(J.v28_31, 2) as j 
@@ -43,79 +43,86 @@ and dc.date like tt.remark) I,
 where (dc.date like '%28' or dc.date like '%29' or dc.date like '%30' or dc.date like '%31' )
 and dc.symbol = tt.symbol
 and dc.date like tt.remark) J;
-</sql><sql name="SQL 1 (1)">/**/
-update tmp_t
-set symbol = 'IOST';
-/**/
+*/
 
-/*
+select 	* 
+from 	day_candle
+where 	date = '2022-09-30'
+order by open desc</sql><sql name="SQL 1 (1)">/**
+update tmp_t
+set remark = '2021%';
+/**/
 
-
-
-IOTA
-IQ
-JST
-KAVA
-KNC
-LINK
-LOOM
-LSK
-MANA
-MATIC
-MBL
-MED
-META
-MFT
-MLK
-MOC
-MTL
-MVL
-NEAR
-NEO
-NU
-OMG
-ONG
-ONT
-ORBS
-PLA
-POLY
-POWR
-PUNDIX
-QKC
-QTUM
-REP
-RFR
-SAND
-SBD
-SC
-SNT
-SOL
-SRM
-SSX
-STEEM
-STMX
-STORJ
-STPT
-STRAX
-STRK
-STX
-SXP
-T
-TFUEL
-THETA
-TON
-TRX
-TT
-UPP
-VET
-WAVES
-WAXP
-WEMIX
-XEC
-XEM
-XLM
-XRP
-XTZ
-ZIL
-ZRX
-*/</sql><current_tab id="0"/></tab_sql></sqlb_project>
+select * from tmp_t;
+
+/*
+
+
+
+IOTA
+IQ
+JST
+KAVA
+KNC
+LINK
+LOOM
+LSK
+MANA
+MATIC
+MBL
+MED
+META
+MFT
+MLK
+MOC
+MTL
+MVL
+NEAR
+NEO
+NU
+OMG
+ONG
+ONT
+ORBS
+PLA
+POLY
+POWR
+PUNDIX
+QKC
+QTUM
+REP
+RFR
+SAND
+SBD
+SC
+SNT
+SOL
+SRM
+SSX
+STEEM
+STMX
+STORJ
+STPT
+STRAX
+STRK
+STX
+SXP
+T
+TFUEL
+THETA
+TON
+TRX
+TT
+UPP
+VET
+WAVES
+WAXP
+WEMIX
+XEC
+XEM
+XLM
+XRP
+XTZ
+ZIL
+ZRX
+*/</sql><current_tab id="1"/></tab_sql></sqlb_project>
