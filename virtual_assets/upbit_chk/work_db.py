@@ -287,9 +287,9 @@ def main():
     #        select_statistics(t[4:])
     #######################################
 
-    work_date = '2022-09-29'
-    delete_db(work_date)
-    insert_db(work_date)
+    #work_date = '2022-09-29'
+    #delete_db(work_date)
+    #insert_db(work_date)
 
     # theme_updata('USDT')
     # theme_updata('BTC')

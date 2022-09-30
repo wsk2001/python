@@ -48,12 +48,14 @@ and dc.date like tt.remark) J;
 select 	* 
 from 	day_candle
 where 	date = '2022-09-30'
-order by open desc</sql><sql name="SQL 1 (1)">/**
-update tmp_t
-set remark = '2021%';
+order by open desc</sql><sql name="SQL 1 (1)">/**/
+--update tmp_t
+--set remark = '2017%';
 /**/
-
-select * from tmp_t;
+
+commit
+
+--select * from tmp_t;
 
 /*
 
