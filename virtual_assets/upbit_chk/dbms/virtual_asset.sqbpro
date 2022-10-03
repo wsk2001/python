@@ -1,130 +1,109 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="100"/><column_width id="3" width="1025"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="54"/><column index="3" value="103"/><column index="4" value="74"/><column index="5" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">/*
-select A.symbol, round(A.v1_3, 2) as a, round(B.v4_6, 2) as b, round(C.v7_9, 2) as c, 
-	round(D.v10_12, 2) as d, round(E.v13_15, 2) as e, round(F.v16_18, 2) as f, 
-	round(G.v19_21, 2) as g, round(H.v22_24, 2) as h, round(I.v25_27, 2) as i, round(J.v28_31, 2) as j 
-FROM 
-(select dc.symbol AS symbol, sum(dc.earn) as v1_3 from day_candle dc, tmp_t tt
-where (dc.date like '%01' or dc.date like '%02' or dc.date like '%03' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) A,
-(select dc.symbol AS symbol, sum(dc.earn) as v4_6 from day_candle dc, tmp_t tt
-where (dc.date like '%04' or dc.date like '%05' or dc.date like '%06' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) B,
-(select dc.symbol AS symbol, sum(dc.earn) as v7_9 from day_candle dc, tmp_t tt
-where (dc.date like '%07' or dc.date like '%08' or dc.date like '%09' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) C,
-(select dc.symbol AS symbol, sum(dc.earn) as v10_12 from day_candle dc, tmp_t tt
-where (dc.date like '%10' or dc.date like '%11' or dc.date like '%12' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) D,
-(select dc.symbol AS symbol, sum(dc.earn) as v13_15 from day_candle dc, tmp_t tt
-where (dc.date like '%13' or dc.date like '%14' or dc.date like '%15' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) E,
-(select dc.symbol AS symbol, sum(dc.earn) as v16_18 from day_candle dc, tmp_t tt
-where (dc.date like '%16' or dc.date like '%17' or dc.date like '%18' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) F,
-(select dc.symbol AS symbol, sum(dc.earn) as v19_21 from day_candle dc, tmp_t tt
-where (dc.date like '%19' or dc.date like '%20' or dc.date like '%21' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) G,
-(select dc.symbol AS symbol, sum(dc.earn) as v22_24 from day_candle dc, tmp_t tt
-where (dc.date like '%22' or dc.date like '%23' or dc.date like '%24' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) H,
-(select dc.symbol AS symbol, sum(dc.earn) as v25_27 from day_candle dc, tmp_t tt
-where (dc.date like '%25' or dc.date like '%26' or dc.date like '%27' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) I,
-(select dc.symbol AS symbol, sum(dc.earn) as v28_31 from day_candle dc, tmp_t tt
-where (dc.date like '%28' or dc.date like '%29' or dc.date like '%30' or dc.date like '%31' )
-and dc.symbol = tt.symbol
-and dc.date like tt.remark) J;
-*/
-
-select 	* 
-from 	day_candle
-where 	date = '2022-09-30'
-order by open desc</sql><sql name="SQL 1 (1)">/**/
---update tmp_t
---set remark = '2017%';
-/**/
-
-commit
-
---select * from tmp_t;
-
-/*
-
-
-
-IOTA
-IQ
-JST
-KAVA
-KNC
-LINK
-LOOM
-LSK
-MANA
-MATIC
-MBL
-MED
-META
-MFT
-MLK
-MOC
-MTL
-MVL
-NEAR
-NEO
-NU
-OMG
-ONG
-ONT
-ORBS
-PLA
-POLY
-POWR
-PUNDIX
-QKC
-QTUM
-REP
-RFR
-SAND
-SBD
-SC
-SNT
-SOL
-SRM
-SSX
-STEEM
-STMX
-STORJ
-STPT
-STRAX
-STRK
-STX
-SXP
-T
-TFUEL
-THETA
-TON
-TRX
-TT
-UPP
-VET
-WAVES
-WAXP
-WEMIX
-XEC
-XEM
-XLM
-XRP
-XTZ
-ZIL
-ZRX
-*/</sql><current_tab id="1"/></tab_sql></sqlb_project>
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1133"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="68"/><column index="2" value="61"/><column index="3" value="119"/><column index="4" value="87"/><column index="5" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">
+SELECT A.symbol, A.l as Low, B.close as Close, A.h as High  from
+(
+select symbol, min(low) as l, max(high) as h 
+from day_candle
+where date like '2022%'
+group by symbol
+order by symbol
+) A,
+(
+select symbol, close 
+from day_candle
+where date = '2022-09-30'
+group by symbol
+) B
+where A.symbol = B.symbol
+</sql><sql name="SQL 3">select A.symbol as '심볼', 
+	round(A.v1_3/3, 2)     as '1~3일', 
+	round(B.v4_6/3, 2)     as  '4~6일', 
+	round(C.v7_9/3, 2)     as  '7~9일',                      
+	round(D.v10_12/3, 2)   as  '10~12일', 
+	round(E.v13_15/3, 2)   as  '13~15일', 
+	round(F.v16_18/3, 2)   as  '16~18일', 			    
+	round(G.v19_21/3, 2)   as  '19~21일', 
+	round(H.v22_24/3, 2)   as  '22~24일', 
+	round(I.v25_27/3, 2)   as  '25~27일', 
+	round(J.v28_31/3.5, 2) as  '28~21일'  
+FROM 													    
+(
+	select symbol, sum(earn) as v1_3 
+	from day_candle				    
+	where (date like '%01' or date like '%02' or date like '%03' )				    
+	and date like '2017%'
+	group by symbol
+) A,				
+(
+	select symbol, sum(earn) as v4_6 
+	from day_candle				    
+	where (date like '%04' or date like '%05' or date like '%06' )				    
+	and date like '2017%'
+	group by symbol
+) B,				
+(
+	select symbol, sum(earn) as v7_9 
+	from day_candle				    
+	where (date like '%07' or date like '%08' or date like '%09' )				    
+	and date like '2017%'
+	group by symbol
+) C,				
+(
+	select symbol, sum(earn) as v10_12 
+	from day_candle				    
+	where (date like '%10' or date like '%11' or date like '%12' )				    
+	and date like '2017%'
+	group by symbol
+) D,				
+(
+	select symbol, sum(earn) as v13_15 
+	from day_candle				    
+	where (date like '%13' or date like '%14' or date like '%15' )				    
+	and date like '2017%'
+	group by symbol
+) E,				
+(
+	select symbol, sum(earn) as v16_18 
+	from day_candle				    
+	where (date like '%16' or date like '%17' or date like '%18' )				    
+	and date like '2017%'
+	group by symbol
+) F,				
+(
+	select symbol, sum(earn) as v19_21 
+	from day_candle				    
+	where (date like '%19' or date like '%20' or date like '%21' )				    
+	and date like '2017%'
+	group by symbol
+) G,				
+(
+	select symbol, sum(earn) as v22_24 
+	from day_candle				    
+	where (date like '%22' or date like '%23' or date like '%24' )				    
+	and date like '2017%'
+	group by symbol
+) H,				
+(
+	select symbol, sum(earn) as v25_27 
+	from day_candle				    
+	where (date like '%25' or date like '%26' or date like '%27' )				    
+	and date like '2017%'
+	group by symbol
+) I,				
+(
+	select symbol, sum(earn) as v28_31 
+	from day_candle				    
+	where (date like '%28' or date like '%29' or date like '%30' or date like '%31' )				    
+	and date like '2017%'
+	group by symbol
+) J				
+WHERE 1=1
+AND A.symbol = B.symbol
+AND B.symbol = C.symbol
+AND C.symbol = D.symbol
+AND D.symbol = E.symbol
+AND E.symbol = F.symbol
+AND F.symbol = G.symbol
+AND G.symbol = H.symbol
+AND H.symbol = I.symbol
+AND I.symbol = J.symbol
+</sql><current_tab id="1"/></tab_sql></sqlb_project>

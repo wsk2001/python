@@ -168,69 +168,6 @@ def symbol_updata(symbol):
     conn.close()
 
 
-def select_statistics(symbol):
-    symbol_updata(symbol)
-
-    query = \
-        f"select A.symbol, round(A.v1_3, 2) as a, round(B.v4_6, 2) as b, round(C.v7_9, 2) as c,                      " \
-    "	round(D.v10_12, 2) as d, round(E.v13_15, 2) as e, round(F.v16_18, 2) as f, 			    " \
-    "	round(G.v19_21, 2) as g, round(H.v22_24, 2) as h, round(I.v25_27, 2) as i, round(J.v28_31, 2) as j  " \
-    "FROM 													    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v1_3 from day_candle dc, tmp_t tt				    " \
-    "where (dc.date like \'%01\' or dc.date like \'%02\' or dc.date like \'%03\' )				    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) A,										    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v4_6 from day_candle dc, tmp_t tt				    " \
-    "where (dc.date like \'%04\' or dc.date like \'%05\' or dc.date like \'%06\' )				    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) B,										    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v7_9 from day_candle dc, tmp_t tt				    " \
-    "where (dc.date like \'%07\' or dc.date like \'%08\' or dc.date like \'%09\' )				    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) C,										    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v10_12 from day_candle dc, tmp_t tt			    " \
-    "where (dc.date like \'%10\' or dc.date like \'%11\' or dc.date like \'%12\' )				    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) D,										    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v13_15 from day_candle dc, tmp_t tt			    " \
-    "where (dc.date like \'%13\' or dc.date like \'%14\' or dc.date like \'%15\' )				    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) E,										    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v16_18 from day_candle dc, tmp_t tt			    " \
-    "where (dc.date like \'%16\' or dc.date like \'%17\' or dc.date like \'%18\' )				    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) F,										    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v19_21 from day_candle dc, tmp_t tt			    " \
-    "where (dc.date like \'%19\' or dc.date like \'%20\' or dc.date like \'%21\' )				    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) G,										    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v22_24 from day_candle dc, tmp_t tt			    " \
-    "where (dc.date like \'%22\' or dc.date like \'%23\' or dc.date like \'%24\' )				    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) H,										    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v25_27 from day_candle dc, tmp_t tt			    " \
-    "where (dc.date like \'%25\' or dc.date like \'%26\' or dc.date like \'%27\' )				    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) I,										    " \
-    "(select dc.symbol AS symbol, sum(dc.earn) as v28_31 from day_candle dc, tmp_t tt			    " \
-    "where (dc.date like \'%28\' or dc.date like \'%29\' or dc.date like \'%30\' or dc.date like \'%31\' )	    " \
-    "and dc.symbol = tt.symbol										    " \
-    "and dc.date like tt.remark) J;										    "
-
-    con = sqlite3.connect(database_name)
-    df = pd.read_sql_query(query, con)
-    vals = df.values.tolist()
-    idxs = df.index.tolist()
-
-
-    try:
-        for indexs, v in zip(idxs, vals):
-            print(f'{v[0]}, {v[1]/3:.2f}, {v[2]/3:.2f}, {v[3]/3:.2f}, {v[4]/3:.2f}, {v[5]/3:.2f}, {v[6]/3:.2f}, {v[7]/3:.2f}, {v[8]/3:.2f}, {v[9]/3:.2f}, {v[10]/3.5:.2f}')
-    except:
-        pass
-    finally:
-        con.close()
-
 def insert_db(start_date):
     lst = get_tickers('KRW')
 
@@ -278,18 +215,9 @@ def delete_db(start_date):
 def main():
     # Quadruple_Witching_Day()
 
-    #######################################
-    #tickers, nct, _ = market_code()
-    #tickers.sort()
-
-    #for t in tickers:
-    #    if t.startswith('KRW-'):
-    #        select_statistics(t[4:])
-    #######################################
-
-    #work_date = '2022-09-29'
-    #delete_db(work_date)
-    #insert_db(work_date)
+    work_date = '2022-09-28'
+    delete_db(work_date)
+    insert_db(work_date)
 
     # theme_updata('USDT')
     # theme_updata('BTC')

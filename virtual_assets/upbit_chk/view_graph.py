@@ -82,7 +82,7 @@ def main(argv):
         to = datetime.datetime.now()
 
     if enddate is not None and endtime is None:
-        to = enddate + ' ' + '08:59:00'
+        to = enddate + ' ' + '17:59:00'
 
     if enddate is not None and endtime is not None:
         to = enddate + ' ' + endtime
