@@ -22,26 +22,43 @@ def macd_func(symbol, count):
     return macd, macdsignal, macdhist
 
 
+def check_golden_cross(macd, macd_signal):
+    if macd[-5] < macd_signal[-5] and macd[-4] < macd_signal[-4] and macd[-3] < macd_signal[-3] and \
+            macd[-2] < macd_signal[-2] and macd[-1] > macd_signal[-1]:
+        return True
+    else:
+        return False
+
+
+def check_death_cross(macd, macd_signal):
+    if macd[-5] > macd_signal[-5] and macd[-4] > macd_signal[-4] and macd[-3] > macd_signal[-3] and \
+            macd[-2] > macd_signal[-2] and macd[-1] < macd_signal[-1]:
+        return True
+    else:
+        return False
+
+
 # Main function
+# macd 가 macdsignal 을 상향 돌파 하는지 확인.
+
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('--count', required=False, default=90, help='data gettering size (default=90)')
-    parser.add_argument('--buy', required=False, default=20, help='buy signal (default=20)')
-    parser.add_argument('--sell', required=False, default=80, help='sell signal (default=80)')
 
     args = parser.parse_args()
     count = int(args.count)
-    sell_signal = float(args.sell)
-    buy_signal = float(args.buy)
 
+    print('symbol, macd, signal, remark')
     try:
         code_list, _, _ = market_code()
         code_list.sort()
         for t in code_list:
             macd, macdsignal, macdhist = macd_func(t, count)
-            print(macdsignal)
+            if check_golden_cross(macd, macdsignal):
+                print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, Golden Cross')
+            elif check_death_cross(macd, macdsignal):
+                print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, Death Cross')
             time.sleep(0.3)
-            break
     except Exception as e:
         print(e)
 
