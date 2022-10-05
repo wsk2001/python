@@ -13,11 +13,11 @@ import talib as ta
 import pyupbit
 
 
-def macd_func(symbol, count):
+def macd_func(symbol, count, interval='day'):
     if not symbol.startswith('KRW-') and not symbol.startswith('BTC-') and not symbol.startswith('USDT-'):
         symbol = 'KRW-' + symbol
 
-    df = pyupbit.get_ohlcv(symbol, count=count, period=1)
+    df = pyupbit.get_ohlcv(symbol, count=count, interval=interval, period=1)
     macd, macdsignal, macdhist = ta.MACD(df['close'], fastperiod=12, slowperiod=26, signalperiod=9)
     return macd, macdsignal, macdhist
 
@@ -44,16 +44,19 @@ def check_death_cross(macd, macd_signal):
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('--count', required=False, default=90, help='data gettering size (default=90)')
+    parser.add_argument('--interval', required=False, default='day',
+                        help='candle 종류 (day, week, month, minute1, ...)')
 
     args = parser.parse_args()
     count = int(args.count)
+    interval = args.interval
 
     print('symbol, macd, signal, remark')
     try:
         code_list, _, _ = market_code()
         code_list.sort()
         for t in code_list:
-            macd, macdsignal, macdhist = macd_func(t, count)
+            macd, macdsignal, macdhist = macd_func(t, count, interval)
             if check_golden_cross(macd, macdsignal):
                 print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, Golden Cross')
             elif check_death_cross(macd, macdsignal):
