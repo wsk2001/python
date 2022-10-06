@@ -189,7 +189,12 @@ def main(argv):
         if not strings[0].startswith('BTC-'):
             strings[0] = 'KRW-' + strings[0]
 
-        symbols.append(item(strings[0], float(strings[1]), float(strings[2]), float(strings[3]), float(strings[4])))
+        # low_limit = float(strings[3])
+        # upper_limit = float(strings[4])
+        low_limit = -10000.0
+        upper_limit = 10000.0
+
+        symbols.append(item(strings[0], float(strings[1]), float(strings[2]), low_limit, upper_limit))
 
     file.close()
 

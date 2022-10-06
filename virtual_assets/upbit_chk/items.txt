@@ -119,12 +119,24 @@
 # 익절 3,5,7%
 # 현대: 642,712 원
 
-CASH 140513 #939057
+CASH 0 #939057
+BTC 28712067 0.02617809 # flow
+EOS 1700 196.54870082 # MACD Golden Cross
+NEAR 5265 36.80056980 # Good news
 
-BTC 28709018 0.02237360 -10000 10000 # ..
-EOS 1708 178.71571531 -10000 10000 # MACD Golden Cross
-ARK 555 353.27657657 -10000 10000 # MACD Golden Cross
+# Summary (2022-10-06 07:48:51)
+# ATOM 		 0.11 %
+# BCH 		 0.98 %
+# EOS 		-2.05 %
+# MFT 		-1.00 %
+# PUNDIX 	 4.49 %
+# SRM 		-0.89 %
+# XEM 		 0.34 %
 
-# py rising_market.py
-# 2022-10-04 13:18:27: KRW-POLY 365.0 379.0       3.84% expected to rise
-# 2022-10-04 13:18:50: KRW-MATIC 1150.0 1175.0       2.17% expected to rise
+# 보합: -1.0% < price < 1.0%
+# OVB, VR, AD
+# VR = {상승일의 거래량합계 + 보합일의 거래량절반) / (하락일의 거래량합계 + 보합일의 거래량절반)} x100
+# 20일 기준
+
+# https://plotly.com/python/ohlc-charts/
+

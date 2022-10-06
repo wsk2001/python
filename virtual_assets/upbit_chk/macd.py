@@ -57,10 +57,11 @@ def main(argv):
         code_list.sort()
         for t in code_list:
             macd, macdsignal, macdhist = macd_func(t, count, interval)
+            price = round(pyupbit.get_current_price(t),4)
             if check_golden_cross(macd, macdsignal):
-                print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, Golden Cross')
+                print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, price={price}, Golden Cross')
             elif check_death_cross(macd, macdsignal):
-                print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, Death Cross')
+                print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, price={price}, Death Cross')
             time.sleep(0.3)
     except Exception as e:
         print(e)
