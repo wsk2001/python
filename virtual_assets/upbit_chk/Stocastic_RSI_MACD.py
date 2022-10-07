@@ -27,27 +27,27 @@ def buy_check(coin_name, rsi_val, MACD_diff_val, MACD_signal_val, stochast_k, st
     score = 0
 
     if rsi_val.iloc[-1] <= 70 and rsi_val.iloc[-2] < rsi_val.iloc[-1] and rsi_val.iloc[-3] < rsi_val.iloc[-2]:
-        # print('')
-        # print('CASE 1: RSI OVER 50')
         score += 1
 
-    if MACD_diff_val.iloc[-1] >= MACD_signal_val.iloc[-1]:
-        # print('CASE 2: MACD_D > MACD_S')
+    if MACD_diff_val.iloc[-2] >= MACD_signal_val.iloc[-2] and MACD_diff_val.iloc[-1] >= MACD_signal_val.iloc[-1]:
         score += 1
 
-    if 20 <= stochast_k.iloc[-1] <= 80 and 20 <= stochast_d.iloc[-1] <= 80:
-        # print('CASE 3: STOCHASTIC < 80')
+    if 20 <= stochast_k.iloc[-1] <= 80 and 20 <= stochast_d.iloc[-1] <= 80 and \
+            stochast_k.iloc[-1] > stochast_d.iloc[-1]:
         score += 1
 
     if ichimoku_cloud:
         # print('CASE 4: ICHIMOKU GREEN')
         score += 1
 
-    earning = ((df['close'][-1] / df['open'][-1]) - 1.0) * 100.0
-    if 0.0 < earning:
+    if df['open'][-2] < df['close'][-2] and df['open'][-1] < df['close'][-1]:
         score += 1
 
-    if 4 <= score:
+    earning = ((df['close'][-1] / df['open'][-1]) - 1.0) * 100.0
+    if 0.0 <= earning:
+        score += 1
+
+    if 5 <= score:
         return True, score, earning
     else:
         return False, score, earning
@@ -88,7 +88,7 @@ def main(argv):
         bought, score, earning = buy_check(t, rsi_val, MACD_diff_val,
                            MACD_signal_val, stochast_k, stochast_d, ichimoku_cloud, df)
         if bought:
-            print(t[4:] + f', score={score}, score max=5,', dt.now().strftime('%Y-%m-%d %H:%M:%S'))
+            print(t[4:] + f', score={score}, score max=6,', dt.now().strftime('%Y-%m-%d %H:%M:%S'))
             print('Stochast_K : ' + str(round(stochast_k.iloc[-1],2)))
             print('Stochast_D : ' + str(round(stochast_d.iloc[-1],2)))
             print('RSI        : ' + str(round(rsi_val.iloc[-1],2)))
