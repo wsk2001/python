@@ -26,7 +26,7 @@ def buy_check(coin_name, rsi_val, MACD_diff_val, MACD_signal_val, stochast_k, st
     # entry signal
     score = 0
 
-    if rsi_val.iloc[-1] >= 50:
+    if rsi_val.iloc[-1] <= 70 and rsi_val.iloc[-2] < rsi_val.iloc[-1] and rsi_val.iloc[-3] < rsi_val.iloc[-2]:
         # print('')
         # print('CASE 1: RSI OVER 50')
         score += 1
@@ -43,18 +43,20 @@ def buy_check(coin_name, rsi_val, MACD_diff_val, MACD_signal_val, stochast_k, st
         # print('CASE 4: ICHIMOKU GREEN')
         score += 1
 
-    if 3 <= score:
-        return True, score
+    earning = ((df['close'][-1] / df['open'][-1]) - 1.0) * 100.0
+    if 0.0 < earning:
+        score += 1
+
+    if 4 <= score:
+        return True, score, earning
     else:
-        return False, score
+        return False, score, earning
 
 
 def main(argv):
 
     code_list, _, _ = market_code()
     code_list.sort()
-    recommand_list = []
-    recommand_list.clear()
     for t in code_list:
         df = pyupbit.get_ohlcv(t, count=200, interval='day', period=1)
 
@@ -83,30 +85,21 @@ def main(argv):
         if count == 5:
             ichimoku_cloud = True
 
-        bought, score = buy_check(t, rsi_val, MACD_diff_val,
+        bought, score, earning = buy_check(t, rsi_val, MACD_diff_val,
                            MACD_signal_val, stochast_k, stochast_d, ichimoku_cloud, df)
         if bought:
-            print(t[4:] + f', score={score}, score max=4,', dt.now().strftime('%Y-%m-%d %H:%M:%S'))
+            print(t[4:] + f', score={score}, score max=5,', dt.now().strftime('%Y-%m-%d %H:%M:%S'))
             print('Stochast_K : ' + str(round(stochast_k.iloc[-1],2)))
             print('Stochast_D : ' + str(round(stochast_d.iloc[-1],2)))
             print('RSI        : ' + str(round(rsi_val.iloc[-1],2)))
             print('MACD_Diff  : ' + str(round(MACD_diff_val.iloc[-1],2)))
             print('MACD_Signal: ' + str(round(MACD_signal_val.iloc[-1],2)))
             print('Ichimoku   : ' + str(ichimoku_cloud) + f', count={count}')
+            print('Earning    : ' + str(round(earning, 2)) + '%')
+            print('Last Price : ' + str(round(df['close'][-1], 2)))
             print('')
-            recommand_list.append(t[4:])
 
         time.sleep(0.3)
-
-    print('Summary (' + dt.now().strftime('%Y-%m-%d %H:%M:%S') + ')')
-    for ticker in recommand_list:
-        dfi = pyupbit.get_ohlcv('KRW-' + ticker, count=2, interval='day', period=1)
-        open_price = dfi['open'][-1]
-        close_price = dfi['close'][-1]
-        earning = ((close_price / open_price) - 1.0) * 100.0
-        print(ticker, round(earning, 2), '%')
-        time.sleep(0.3)
-
 
 
 if __name__ == "__main__":

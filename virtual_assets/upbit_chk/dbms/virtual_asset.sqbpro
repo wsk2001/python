@@ -1,26 +1,16 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="0"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1000"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="54"/><column index="3" value="103"/><column index="4" value="74"/><column index="5" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">
-SELECT A.symbol, A.l as Low, B.close as Close, A.h as High  from
-(
-select symbol, min(low) as l, max(high) as h 
-from day_candle
-where date like '2022%'
-group by symbol
-order by symbol
-) A,
-(
-select symbol, close 
-from day_candle
-where date = '2022-09-30'
-group by symbol
-) B
-where A.symbol = B.symbol
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1000"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="54"/><column index="3" value="103"/><column index="4" value="74"/><column index="5" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">--SELECT symbol, substr(date,9), round(sum(earn),2)  from day_candle
+--where 1=1
+--and date &gt; '2021-12-31'
+--group by substr(date,9), symbol
+--order by symbol
+
 </sql><sql name="SQL 3">--CREATE TABLE weekday_t AS
 --  SELECT date as dt, symbol, earn, strftime('%w', date) as wd
 --  FROM day_candle
 --  WHERE date like '2022%';
 
 -- commit;
-
+
 /*
 select symbol as '심볼', 
 		case wd
@@ -38,8 +28,8 @@ select symbol as '심볼',
 		round(sum(earn),2) as '등락률(합계)' from weekday_t
 where dt &gt; '2022-07-31'
 group by symbol, wd
-*/
-
-VACUUM;
+*/
+
+VACUUM;
 
 --drop table weekday_t;</sql><current_tab id="0"/></tab_sql></sqlb_project>

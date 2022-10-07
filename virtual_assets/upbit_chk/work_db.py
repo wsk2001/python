@@ -185,13 +185,13 @@ def insert_db(start_date):
             rdate = ind.strftime('%Y-%m-%d')
             if rdate < start_date:
                 continue
-            earn = ((row["close"] / row["open"]) - 1.0) * 100.0
-            high = ((row["high"] / row["open"]) - 1.0) * 100.0
-            low = ((row["low"] / row["open"]) - 1.0) * 100.0
+            earn = round(((row["close"] / row["open"]) - 1.0) * 100.0,2)
+            high = round(((row["high"] / row["open"]) - 1.0) * 100.0,2)
+            low = round(((row["low"] / row["open"]) - 1.0) * 100.0,2)
 
             cur.execute("INSERT INTO day_candle VALUES(?,?,?,?,?,?,?,?,?,?);",
                         (rdate, row["open"], row["high"], row["low"],
-                         row["close"], row["volume"], high, low, earn, v[4:]))
+                         row["close"], round(row["volume"], 2), high, low, earn, v[4:]))
 
         time.sleep(0.2)
 
@@ -215,7 +215,7 @@ def delete_db(start_date):
 def main():
     # Quadruple_Witching_Day()
 
-    work_date = '2022-09-28'
+    work_date = '2022-10-05'
     delete_db(work_date)
     insert_db(work_date)
 
