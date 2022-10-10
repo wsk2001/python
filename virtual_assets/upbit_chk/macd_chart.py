@@ -23,13 +23,13 @@ def view(v, cnt, interval=None, to=None):
 
     macd, macdsignal, macdhist = ta.MACD(close, fastperiod=12, slowperiod=26, signalperiod=9)
 
-    plt.plot(macd,label='macd')
-    plt.plot(macdsignal,label='macd-signal')
-    plt.bar(macdhist.index,macdhist ,label='macd-hist')
+    plt.plot(macd,label='MACD')
+    plt.plot(macdsignal,label='MACD Signal')
+    plt.bar(macdhist.index,macdhist ,label='MACD Oscillator')
     plt.xlabel('date')
     plt.ylabel('indicator value')
     plt.legend()
-    plt.title(f'MACD Chart: {v}, interval={interval}')
+    plt.title(f'{v.upper()} MACD, interval={interval}, count={cnt}')
     plt.show()
 
 

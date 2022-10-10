@@ -57,6 +57,8 @@ def main(argv):
 
     code_list, _, _ = market_code()
     code_list.sort()
+    recommand_list = []
+    recommand_list.clear()
     for t in code_list:
         df = pyupbit.get_ohlcv(t, count=200, interval='day', period=1)
 
@@ -98,9 +100,15 @@ def main(argv):
             print('Earning    : ' + str(round(earning, 2)) + '%')
             print('Last Price : ' + str(round(df['close'][-1], 2)))
             print('')
+            if 0 < count:
+                recommand_list.append(['* ' + t[4:], str(round(earning, 2))])
+            else:
+                recommand_list.append([t[4:], str(round(earning, 2))])
 
         time.sleep(0.3)
 
+    for n in recommand_list:
+        print(n[0], n[1])
 
 if __name__ == "__main__":
     main(sys.argv)

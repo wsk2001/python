@@ -119,20 +119,15 @@
 # 익절 3,5,7%
 # 현대: 642,712 원
 
-CASH 0 #939057
-MFT 7.07 92345.35626307
-XTZ 2040 121.05466874
-JST 36.50 6772.56164383
-AERGO 197 579.09137055
+CASH 345772 #rebuild 10-10 07:30
 
-# Summary (2022-10-06 07:48:51)
-# ATOM 		 0.11 %
-# BCH 		 0.98 %
-# EOS 		-2.05 %
-# MFT 		-1.00 %
-# PUNDIX 	 4.49 %
-# SRM 		-0.89 %
-# XEM 		 0.34 %
+# LOOM 74.90 4259.69626168 # 자체 추천 시스템 win 78
+MATIC 1170 229.73983093 # Good News : 이더리움 레이어 2 폴리곤은 10일중 ZK기술을 공개하겠다고 밝혔다.
+SNT  40.50 5907.37037037 # 자체 추천 시스템
+# STX  479 374.54384133	# 거래량, price 상승중. loaa
+PUNDIX 711 378.43178621
+EOS 1610 104.13788819
+
 
 # 보합: -1.0% < price < 1.0%
 # OVB, VR, AD
@@ -140,4 +135,10 @@ AERGO 197 579.09137055
 # 20일 기준
 
 # https://plotly.com/python/ohlc-charts/
+# https://layhope.tistory.com/242
+# https://www.coingazua.com/b/chart-3?page=4
+# https://pypi.org/project/stocktrends/
+
+
+
 
