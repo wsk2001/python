@@ -101,9 +101,34 @@ def create_table():
 
     conn = sqlite3.connect(database_name)
     conn.execute(
-        'CREATE TABLE market_value(no INTEGER, symbol TEXT, ko TEXT, mv REAL)')
+        'CREATE TABLE month_candle(ym TEXT, symbol TEXT, o REAL, h REAL, l REAL, c REAL, v REAL)')
     conn.close()
 
+
+def make_month_table():
+    lst = get_tickers('KRW')
+
+    conn = sqlite3.connect(database_name)
+    cur = conn.cursor()
+
+    for v in lst:
+        ticker = v
+        if not ticker.upper().startswith('KRW-'):
+            ticker = 'KRW-' + v.upper()
+        print(ticker)
+
+        df = pyupbit.get_ohlcv(ticker, count=200, interval='month', period=1)
+        for ind, row in df.iterrows():
+            rdate = ind.strftime('%Y-%m-%d')
+
+            cur.execute("INSERT INTO month_candle VALUES(?,?,?,?,?,?,?);",
+                        (rdate[:7], v[4:], row["open"], row["high"], row["low"],
+                         row["close"], round(row["volume"], 2)))
+
+        time.sleep(0.2)
+
+    conn.commit()
+    conn.close()
 
 def make_market_value():
     _, nct, _ = market_code()
@@ -212,12 +237,87 @@ def delete_db(start_date):
     conn.close()
 
 
+
+def statistics():
+    query = \
+        "select date, symbol, earn from day_candle " \
+        "where symbol = 'BTC'; "
+
+    con = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, con)
+    vals = df.values.tolist()
+    idxs = df.index.tolist()
+
+    lst = []
+    lst.clear()
+
+    start_date = ''
+    end_date = ''
+    flag = 0
+    count = 0
+
+    for indexs, v in zip(idxs, vals):
+        fearn = float(v[2])
+        if count == 0:
+            if 0.0 < fearn:
+                flag = 1
+            elif fearn < 0.0:
+                flag = -1
+            count += 1
+            start_date = v[0]
+            end_date = v[0]
+            continue
+        else:
+            if flag == 1:
+                if 0.0 < fearn:
+                    count += 1
+                    end_date = v[0]
+                    continue
+                elif fearn < 0.0:
+                    lst.append([start_date, end_date, count])
+                    count = 1
+                    flag = -1
+                    start_date = v[0]
+                    end_date = v[0]
+            elif flag == -1:
+                if 0.0 < fearn:
+                    lst.append([start_date, end_date, -1 * count])
+                    count = 1
+                    flag = 1
+                    start_date = v[0]
+                    end_date = v[0]
+                elif fearn < 0.0:
+                    count += 1
+                    end_date = v[0]
+                    continue
+            else:
+                end_date = v[0]
+                continue
+
+    if flag == -1:
+        lst.append([start_date, end_date, -1 * count])
+    else:
+        lst.append([start_date, end_date, count])
+
+
+    for l in lst:
+        print(f'{l[0]} ~ {l[1]}, {l[2]}')
+
+
+    con.close()
+
+
 def main():
     # Quadruple_Witching_Day()
 
-    work_date = '2022-10-05'
+    #create_table()
+    #make_month_table()
+
+    work_date = '2022-10-10'
     delete_db(work_date)
     insert_db(work_date)
+
+    # statistics()
 
     # theme_updata('USDT')
     # theme_updata('BTC')

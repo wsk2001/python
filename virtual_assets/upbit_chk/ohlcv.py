@@ -2,9 +2,9 @@ import calendar
 import getopt
 import sys, time
 import pyupbit
-from common.utils import market_code, get_interval
+from common.utils import market_code
 from datetime import datetime
-
+import argparse
 
 class ohlc:
     def __init__(self):
@@ -46,11 +46,6 @@ def analyze(ticker, cnt, interval='day'):
     if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
         ticker = 'KRW-' + ticker
 
-    if not ticker.startswith('KRW-'):
-        r = krw_btc_price()
-    else:
-        r = 1
-
     df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, period=1)
     vals = df.values.tolist()
     idxs = df.index.tolist()
@@ -58,7 +53,10 @@ def analyze(ticker, cnt, interval='day'):
     st_o = 0.0
     en_c = 0.0
     print('symbol:', ticker[4:])
-    print('date , open, high, low, close, volume, high%, low%, close%')
+    if interval.startswith('month'):
+        print('month , open, close, earning%')
+    else:
+        print('date , open, high, low, close, volume, high%, low%, close%')
 
     for indexs, values in zip(idxs, vals):
         if st_o == 0:
@@ -72,8 +70,8 @@ def analyze(ticker, cnt, interval='day'):
             chk_date = datetime.strptime(str(indexs)[:10], "%Y-%m-%d")
 
             week_day = (what_day_is_it(chk_date))
-            print(str(indexs)[:10], week_day, ',', f'{values[open_p]*r:.3f}, {values[high_p]*r:.3f},',
-                  f'{values[low_p] * r:.3f}, {values[close_p] * r:.3f}, {values[vol_p]:.3f}, {rh:.3f}%', ',',
+            print(str(indexs)[:10], week_day, ',', f'{values[open_p]:.3f}, {values[high_p]:.3f},',
+                  f'{values[low_p]:.3f}, {values[close_p]:.3f}, {values[vol_p]:.3f}, {rh:.3f}%', ',',
                   f'{rl:.3f}%, {rc:.3f}%')
             if hv.o == 0.0:
                 start_date = str(indexs)[:10]
@@ -98,9 +96,12 @@ def analyze(ticker, cnt, interval='day'):
                 hv.c = values[close_p]
 
         else:
-            print(f'{indexs}, {values[open_p]*r:.3f}, {values[high_p]*r:.3f},',
-                  f'{values[low_p] * r:.3f}, {values[close_p] * r:.3f}, {values[vol_p]:.3f}, {rh:.3f}%', ',',
-                  f'{rl:.3f}%, {rc:.3f}%')
+            if interval.startswith('month'):
+                print(f'{str(indexs)[:7]}, {values[open_p]:.2f}, {values[close_p]:.2f}, {rc:.2f}')
+            else:
+                print(f'{indexs}, {values[open_p]:.3f}, {values[high_p]:.3f},',
+                      f'{values[low_p]:.3f}, {values[close_p]:.3f}, {values[vol_p]:.3f}, {rh:.3f}%', ',',
+                      f'{rl:.3f}%, {rc:.3f}%')
 
     earn = ((en_c / st_o) - 1) * 100.0
 
@@ -109,55 +110,25 @@ def analyze(ticker, cnt, interval='day'):
     if interval.startswith('day'):
         print(f'earning(count = {cnt} days): {earn:.3f}%')
         print(f'start :  {start_date} , Open, High, Low, Close')
-        print('top   : ', hv.day, ',', f'{hv.o * r:.3f} , {hv.h*r:.3f}, {hv.l*r:.3f}, {hv.c*r:.3f}')
-        print('bottom: ', lv.day, ',', f'{lv.o * r:.3f} , {lv.h*r:.3f}, {lv.l*r:.3f}, {lv.c*r:.3f}')
+        print('top   : ', hv.day, ',', f'{hv.o:.3f} , {hv.h:.3f}, {hv.l:.3f}, {hv.c:.3f}')
+        print('bottom: ', lv.day, ',', f'{lv.o:.3f} , {lv.h:.3f}, {lv.l:.3f}, {lv.c:.3f}')
     else:
         print(f'earning: {earn:.3f}%')
 
 
 def main(argv):
-    ticker = None
-    cnt = 14
-    all_flag = None
-    interval = 'day'
+    parser = argparse.ArgumentParser(description='옵션 지정 방법')
+    parser.add_argument('--count', required=False, default=1440, help='수집 data 갯수 (default=10000)')
+    parser.add_argument('--symbol', required=False, default='btc', help='심볼 (BTC, ETH, ADA, ..., default=all)')
+    parser.add_argument('--interval', required=False, default='day',
+                        help='candle 종류 (day, week, month, minute1, ...)')
 
-    try:
-        opts, etc_args = getopt.getopt(argv[1:], "hc:t:i:a"
-                                       , ["help", "count=", "ticker=", "interval", "all"])
+    args = parser.parse_args()
+    count = int(args.count)
+    symbol = args.symbol
+    interval = args.interval
 
-    except getopt.GetoptError:
-        print(argv[0], '-c <count> -t <ticker symbol> -i <interval> -a')
-        print('ex) python', f'{argv[0]}', '-c 7 -t bat')
-        sys.exit(2)
-
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            print(argv[0], '-c <count> -t <ticker symbol> -i <interval>')
-            print('ex) python', f'{argv[0]}', '-c 7 -t bat -i d')
-            print('ex) python', f'{argv[0]}', '-c 7 -t bat -i m15')
-            sys.exit()
-
-        elif opt in ("-t", "--ticker"):  # ticker symbol
-            ticker = arg
-
-        elif opt in ("-c", "--count"):  # count
-            cnt = int(arg.strip())
-
-        elif opt in ("-i", "--interval"):  # interval
-            iv = arg.strip()
-            interval = get_interval(iv)
-
-        elif opt in ("-a", "--all"):  # count
-            all_flag = True
-
-    if all_flag is None:
-        analyze(ticker, cnt, interval)
-    else:
-        code_list, _, _ = market_code()
-        for t in code_list:
-            analyze(t, cnt, interval)
-            print('')
-            time.sleep(0.3)
+    analyze(symbol, count, interval)
 
 
 if __name__ == "__main__":
