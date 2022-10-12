@@ -118,7 +118,7 @@ def analyze(ticker, cnt, interval='day'):
 
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('--count', required=False, default=1440, help='수집 data 갯수 (default=10000)')
+    parser.add_argument('--count', required=False, default=21, help='수집 data 갯수 (default=10000)')
     parser.add_argument('--symbol', required=False, default='btc', help='심볼 (BTC, ETH, ADA, ..., default=all)')
     parser.add_argument('--interval', required=False, default='day',
                         help='candle 종류 (day, week, month, minute1, ...)')

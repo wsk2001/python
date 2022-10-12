@@ -3,12 +3,14 @@ import asyncio
 from bs4 import BeautifulSoup as bs
 import time
 
+
 async def cryptoquant_summary():
     async with async_playwright() as pw:
         ## chromium, firefox, webkit
+        ticker = 'btc'
         browser = await pw.webkit.launch()
         page = await browser.new_page()
-        await page.goto('https://cryptoquant.com/ko/asset/btc/summary#overview')
+        await page.goto(f'https://cryptoquant.com/ko/asset/{ticker}/summary#overview')
         # sleep 을 빼면 일부 data 만 올라와서 올바른 분석이 되지 않는다.
         time.sleep(6)
 
@@ -64,11 +66,15 @@ async def cryptoquant_summary():
                             or line.startswith('스토캐스틱') \
                             or (line.startswith('채굴자') and (len(line) == len('채굴자'))):                        print()
 
+                    if line.startswith('Comment by CryptoQuant'):
+                        break
+
                     print(line)
 
 
 async def main():
     await cryptoquant_summary()
- 
+
+
 if __name__ == '__main__':
     asyncio.run(main())

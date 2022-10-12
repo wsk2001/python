@@ -1,138 +1,50 @@
-# Necessary Packages
-import matplotlib.pyplot as plt
+import sys
+from autots import AutoTS
+import sqlite3
 import pandas as pd
-from matplotlib import pyplot
-from pandas import DataFrame
-from pandas import read_csv
-
-datafile = 'data_files/bitcoin.csv'
-
-# Bitcoin data
-data1 = pd.read_csv(datafile, header=0)
-# visualize the data frame, first 10 elements
-print(data1.head(4150))
-
-# graphical representation
-data1.plot()
-plt.show()
-
-# read data again
-series = read_csv(datafile, header=3370, index_col=0)
-from statsmodels.graphics.tsaplots import plot_acf, plot_pacf
-
-pyplot.figure()
-
-pyplot.subplot(211)
-plot_acf(series, ax=pyplot.gca(), lags=30)
-
-pyplot.subplot(212)
-plot_pacf(series, ax=pyplot.gca(), lags=30)
-
-pyplot.show()
-# returns or first difference of the time series
-returns = series.diff()
-returns.plot()
-plt.show()
-
-from statsmodels.tsa.arima.model import ARIMA
-import pmdarima as pm
-
-model = pm.auto_arima(series, start_p=1, start_q=1, test='adf', max_p=6, max_q=6, m=1, d=None, seasonal=False,
-                      start_P=0, D=0,
-                      trace=True, error_action='ignore', suppress_warnings=True, stepwise=True)
-print(model.summary())
-# fit an ARIMA model for the series
-model = ARIMA(series, order=(1, 1, 1))
-model_fit = model.fit(disp=0)
-print(model_fit.summary())
-# plot residual errors
-residuals = DataFrame(model_fit.resid)
-fig, ax = plt.subplots(1, 2)
-residuals.plot(title="Residuals", ax=ax[0])
-residuals.plot(kind='kde', title='Density', ax=ax[1])
-plt.show()
-print(residuals.describe())
-print(model_fit.aic)
+import argparse
+import datetime
 
 
-# Actual vs Fitted
-def forecast_accuracy(forecast, actual):
-    mape = np.mean(np.abs(forecast - actual) / np.abs(actual))  # MAPE
-    me = np.mean(forecast - actual)  # ME
-    mae = np.mean(np.abs(forecast - actual))  # MAE
-    mpe = np.mean((forecast - actual) / actual)  # MPE
-    rmse = np.mean((forecast - actual) ** 2) ** .5  # RMSE
-    corr = np.corrcoef(forecast, actual)[0, 1]  # corr
-    mins = np.amin(np.hstack([forecast[:, None], actual[:, None]]), axis=1)
-    maxs = np.amax(np.hstack([forecast[:, None], actual[:, None]]), axis=1)
-    minmax = 1 - np.mean(mins / maxs)  # minmax
-    # acf1 = acf(fc-test)[1] # ACF1
-    return ({'mape': mape, 'me': me, 'mae': mae, 'mpe': mpe, 'rmse': rmse, 'corr': corr, 'minmax': minmax})
+database_name = './dbms/virtual_asset.db'
+
+def price_prediction(symbol, start_date):
+
+    query = f"select date, open, high, low, close, volume from day_candle " \
+            f"where symbol = '{symbol.upper()}' and " \
+            f"date >= '{start_date}' order by Date;"
+
+    con = sqlite3.connect(database_name)
+    data = pd.read_sql_query(query, con)
+    data["Date"] = pd.to_datetime(data.date)
+
+    model = AutoTS(forecast_length=30, frequency='infer', ensemble='simple')
+    model = model.fit(data, date_col='Date', value_col='close', id_col=None)
+    prediction = model.predict()
+    forecast = prediction.forecast
+
+    con.close()
+
+    return forecast
 
 
-yy = model_fit.predict(652)
-xx = series.iloc[652:781, 0]
-tt = forecast_accuracy(yy, xx)
-print('forecast accuracy', tt)
-pyplot.figure()
-plt.scatter(xx, yy, marker='o')
-pyplot.show()
-pyplot.figure()
-model_fit.plot_predict(652, 781)
-model_fit.plot_predict(dynamic=False)
-pyplot.show()
-# separate data in training and test data (95% and 5%)
-forecast3, stderr, conf_int = model_fit.forecast(10)
-print(forecast3)
-pyplot.plot(forecast3, color='green')
-pyplot.show()
-pyplot.figure()
-model_fit.plot_predict(752, 791)
-pyplot.show()
-from math import sqrt
-from sklearn.metrics import mean_squared_error
+def main(argv):
+    parser = argparse.ArgumentParser(description='옵션 지정 방법')
+    parser.add_argument('--symbol', required=False, default=21, help='수집 data 갯수 (default=10000)')
+    parser.add_argument('--start', required=False, default='2022-01-01', help='시작 일자 (yyyy-mm-dd)')
 
-rms = sqrt(mean_squared_error(yy, xx))
-print('RMSE', rms)
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
-from matplotlib import pyplot
+    args = parser.parse_args()
+    symbol = args.symbol
+    start = args.start
 
-# Bitcoin data
-data = pd.read_csv(datafile)
-# divide into train and validation set
-train = data[:int(0.835 * (len(data)))]
-valid = data[int(0.835 * (len(data))):]
-# preprocessing (since arima takes univariate series as input)
-train.drop('Date', axis=1, inplace=True)
-valid.drop('Date', axis=1, inplace=True)
-# plotting the data
-train['bprice'].plot()
-valid['bprice'].plot()
-# building the model
-from pmdarima import auto_arima
-
-model = auto_arima(train, suppress_warnings=True)
-model.fit(train)
-trace = True,
-error_action = 'ignore',
-forecast = model.predict(n_periods=len(valid))
-forecast = pd.DataFrame(forecast, index=valid.index, columns=['Prediction'])
-# plot the predictions for validation set
-pyplot.figure()
-plt.figure(figsize=(10, 6))
-plt.plot(train, label='Train')
-plt.plot(valid, label='Valid')
-plt.plot(forecast, label='Prediction')
-plt.show()
+    start_dt = datetime.datetime.now()
+    forecast = price_prediction(symbol, start)
+    end_dt = datetime.datetime.now()
+    print(forecast)
+    print('symbol: ', symbol, ' start: ', start_dt, ' end: ', end_dt)
 
 
-# calculate rmse
-from math import sqrt
-from sklearn.metrics import mean_squared_error
-from sklearn.metrics import mean_absolute_error
 
-rms1 = sqrt(mean_squared_error(valid, forecast))
-print('RMSE', rms1)
-print('MAE', mean_absolute_error(valid, forecast))
+if __name__ == "__main__":
+    main(sys.argv)
+
