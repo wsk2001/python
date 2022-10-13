@@ -115,14 +115,12 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-# AERGO, ETC, MFT (2022-10-07) 추천 App (Stocastic_RSI_MACD.py)
-# 익절 3,5,7%
-# 현대: 642,712 원
+CASH 678970 # reset 10-11 07:18
 
-CASH 0 # reset 10-11 07:18
+REP 9845 14.23846452
+THETA 1463 1
+CHZ 276 1
 
-THETA 1463 478.45396300 # chart
-EOS   1505 94.53837209  # chart
 
 # 보합: -1.0% < price < 1.0%
 # OVB, VR, AD
