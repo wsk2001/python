@@ -6,11 +6,17 @@
 
 --select * from day_candle
 --where date in ('2018-01-01', '2018-12-31', '2022-01-01', '2022-10-11')
---and symbol = 'BTC';
+--and symbol = 'BTC';
+
+-- month candle
+--select *, round((round(c/o,2)-1)*100,2) as earn  from month_candle
+--where symbol = 'BTC'
 
--- month candle
---select *, round((round(c/o,2)-1)*100,2) as earn  from month_candle
---where symbol = 'BTC'</sql><sql name="SQL 3">--CREATE TABLE weekday_t AS
+select date as '일자', open as '시가', close as '종가', earn as '등락률' from day_candle
+where 1=1
+and symbol='BTC'
+and date in ('2022-01-13','2022-02-11','2022-03-11','2022-04-13','2022-05-12','2022-06-11','2022-07-14','2022-08-11','2022-09-14')
+</sql><sql name="SQL 3">--CREATE TABLE weekday_t AS
 --  SELECT date as dt, symbol, earn, strftime('%w', date) as wd
 --  FROM day_candle
 --  WHERE date like '2022%';
