@@ -127,10 +127,11 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 216037 # reset 10-11 07:18
+CASH 318783 # reset 10-11 07:18
 
-REP 9665 41.97073734
-QKC 15.60 13855.48076923
+REP 9525 22.32692913
+VET 33.30 3191.56156156
+BTC-BFC 86.45 1529.76357827
 
 # 보합: -1.0% < price < 1.0%
 # OVB, VR, AD
@@ -142,6 +143,13 @@ QKC 15.60 13855.48076923
 # https://www.coingazua.com/b/chart-3?page=4
 # https://pypi.org/project/stocktrends/
 
+# 김프가
+# https://kimpga.com/statistics/longshort
 
+
+# BORA 7.21
+# HUNT 0.4
+# STORJ 0.51
+# WAXP 2.63
 
 
