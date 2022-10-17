@@ -45,7 +45,7 @@ async def main():
              'https://www.binance.com/en/markets/coinInfo-ETF',
              'https://www.binance.com/en/markets/coinInfo-Infrastructure']
 
-    lnk = 'https://www.nanumtrading.com/fx-%EB%B0%B0%EC%9A%B0%EA%B8%B0/%EC%B0%A8%ED%8A%B8-%EB%B3%B4%EC%A1%B0%EC%A7%80%ED%91%9C-%EC%9D%B4%ED%95%B4/02-macd-2/'
+    lnk = 'https://kimpga.com/statistics/longshort'
     await get_data(lnk)
     # await get_data(pages[0])
     # await get_data('https://coinmarketcap.com/ko/exchanges/upbit/')

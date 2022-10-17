@@ -127,11 +127,11 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 318783 # reset 10-11 07:18
+CASH 217076 # reset 10-11 07:18
 
+PUNDIX 665 326.59097744
 REP 9525 22.32692913
-VET 33.30 3191.56156156
-BTC-BFC 86.45 1529.76357827
+AVAX 22670 8.77304808
 
 # 보합: -1.0% < price < 1.0%
 # OVB, VR, AD
@@ -145,11 +145,5 @@ BTC-BFC 86.45 1529.76357827
 
 # 김프가
 # https://kimpga.com/statistics/longshort
-
-
-# BORA 7.21
-# HUNT 0.4
-# STORJ 0.51
-# WAXP 2.63
 
 

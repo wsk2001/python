@@ -14,10 +14,14 @@ font = font_manager.FontProperties(fname=font_path).get_name()
 rc('font', family=font)
 
 def view(v, cnt, interval=None, to=None, disp='yes', save='yes'):
-    if v.capitalize().startswith('KRW-'):
-        df = pyupbit.get_ohlcv(v, count=cnt)
+    ticker = v
+    if v.upper().startswith('KRW-') or  v.upper().startswith('BTC-'):
+        ticker = v
     else:
-        df = pyupbit.get_ohlcv('KRW-' + v, interval=interval, to=to, count=cnt)
+        ticker = 'KRW-' + v
+
+    df = pyupbit.get_ohlcv(ticker, interval=interval, to=to, count=cnt)
+
     dfs = df['close']
     #hds = df['high']
     ax = plt.gca()
@@ -26,9 +30,9 @@ def view(v, cnt, interval=None, to=None, disp='yes', save='yes'):
     plt.legend()
 
     if interval == None:
-        plt.title(f'{v} ({str(to)[:10]})')
+        plt.title(f'{ticker.upper()[4:]} ({str(to)[:10]})')
     else:
-        plt.title(f'{v}, interval={interval} ({str(to)[:10]})')
+        plt.title(f'{ticker.upper()[4:]}, interval={interval} ({str(to)[:10]})')
 
     plt.grid(True)
     #figure(figsize=(8, 6))
@@ -78,8 +82,8 @@ def main(argv):
     endtime = args.endtime
     to = None
 
-    if enddate is None and endtime is None:
-        to = datetime.datetime.now()
+    if enddate is None:
+        enddate = datetime.datetime.now().strftime('%Y-%m-%d')
 
     if enddate is not None and endtime is None:
         to = enddate + ' ' + '17:59:00'
