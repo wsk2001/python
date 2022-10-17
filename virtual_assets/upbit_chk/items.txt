@@ -127,11 +127,9 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 217076 # reset 10-11 07:18
+CASH 640297 # reset 10-11 07:18
 
-PUNDIX 665 326.59097744
 REP 9525 22.32692913
-AVAX 22670 8.77304808
 
 # 보합: -1.0% < price < 1.0%
 # OVB, VR, AD
