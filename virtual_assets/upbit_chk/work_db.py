@@ -313,7 +313,7 @@ def main():
     #create_table()
     #make_month_table()
 
-    work_date = '2022-10-10'
+    work_date = '2022-10-16'
     delete_db(work_date)
     insert_db(work_date)
 

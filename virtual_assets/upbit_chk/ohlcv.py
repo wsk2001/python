@@ -41,12 +41,11 @@ def krw_btc_price():
     return df['close'][0]
 
 
-def analyze(ticker, cnt, interval='day'):
-
+def analyze(ticker, cnt, interval='day', to=None):
     if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
         ticker = 'KRW-' + ticker
 
-    df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, period=1)
+    df = pyupbit.get_ohlcv(ticker, interval=interval, count=cnt, to=to, period=1)
     vals = df.values.tolist()
     idxs = df.index.tolist()
 
@@ -120,6 +119,8 @@ def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('--count', required=False, default=21, help='수집 data 갯수 (default=10000)')
     parser.add_argument('--symbol', required=False, default='btc', help='심볼 (BTC, ETH, ADA, ..., default=all)')
+    parser.add_argument('--enddate', required=False, default=None, help='종료 일자(yyyy-mm-dd, default=현재 일자)')
+    parser.add_argument('--endtime', required=False, default=None, help='종료 시각(hh:mm:ss, default=현재 시각)')
     parser.add_argument('--interval', required=False, default='day',
                         help='candle 종류 (day, week, month, minute1, ...)')
 
@@ -127,8 +128,17 @@ def main(argv):
     count = int(args.count)
     symbol = args.symbol
     interval = args.interval
+    enddate = args.enddate
+    endtime = args.endtime
+    to = None
 
-    analyze(symbol, count, interval)
+    if enddate is not None and endtime is None:
+        to = enddate + ' ' + '09:00:00'
+
+    if enddate is not None and endtime is not None:
+        to = enddate + ' ' + endtime
+
+    analyze(symbol, count, interval, to)
 
 
 if __name__ == "__main__":

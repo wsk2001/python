@@ -21,11 +21,95 @@ async def get_data(site):
         await browser.close()
 
         list_str = []
+        list_str.clear()
         fflag = False
+        icount = 0
 
         for line in lines:
+            line = line.strip()
+            if line.startswith('<'):
+                continue
             print(line)
 
+async def get_kimpga_liquidation(site):
+    async with async_playwright() as pw:
+        # browser = await pw.chromium.launch()
+        browser = await pw.webkit.launch()
+        page = await browser.new_page()
+        await page.goto(site)
+        time.sleep(6)
+
+        html = await page.content()
+        soup = bs(html, 'html.parser').prettify()
+        lines = soup.splitlines()
+
+        await browser.close()
+
+        list_str = []
+        list_str.clear()
+        fflag = False
+        icount = 0
+
+        for line in lines:
+            line = line.strip()
+            if line.startswith('<'):
+                continue
+            if line.startswith('전체 (24H)'):
+                fflag = True
+                print('청산 비율 24H, 출처: 김프가')
+                print('구분, 롱, 숏')
+                list_str.append('전체')
+                icount += 1
+                continue
+            if line.startswith('XRP'):
+                break
+            if fflag is False:
+                continue
+            list_str.append(line)
+            icount += 1
+            if 3 <= icount:
+                print(f'{list_str[0]}, {list_str[1]}, {list_str[2]}')
+                list_str.clear()
+                icount = 0
+
+
+async def get_coinness_schedule(site):
+    async with async_playwright() as pw:
+        # browser = await pw.chromium.launch()
+        browser = await pw.webkit.launch()
+        page = await browser.new_page()
+        await page.goto(site)
+        time.sleep(6)
+
+        html = await page.content()
+        soup = bs(html, 'html.parser').prettify()
+        lines = soup.splitlines()
+
+        await browser.close()
+
+        list_str = []
+        list_str.clear()
+        fflag = False
+        icount = 0
+
+        for line in lines:
+            line = line.strip()
+            if line.startswith('<'):
+                continue
+            if line.startswith('가장빠르고'):
+                break
+            if line.count('년') and line.count('월'):
+                fflag = True
+                print(line, '일정, 출처: coinness')
+                continue
+            if fflag is False:
+                continue
+            list_str.append(line)
+            icount += 1
+            if 5 <= icount:
+                print(list_str[0], list_str[1], list_str[2])
+                icount = 0
+                list_str.clear()
 
 async def main():
     pages = ['https://www.binance.com/en/markets/coinInfo-Metaverse',
@@ -45,12 +129,11 @@ async def main():
              'https://www.binance.com/en/markets/coinInfo-ETF',
              'https://www.binance.com/en/markets/coinInfo-Infrastructure']
 
-    lnk = 'https://kimpga.com/statistics/longshort'
-    await get_data(lnk)
-    # await get_data(pages[0])
-    # await get_data('https://coinmarketcap.com/ko/exchanges/upbit/')
-    # await get_data('https://upbit.com/exchange?code=CRIX.UPBIT.KRW-AERGO')
+    coinness_schedule = 'https://coinness.live/market/schedule'
+    await get_coinness_schedule(coinness_schedule)
 
+    #kimpga_liquidation = 'https://kimpga.com/statistics/liquidation'
+    #await get_kimpga_liquidation(kimpga_liquidation)
 
 if __name__ == '__main__':
     asyncio.run(main())

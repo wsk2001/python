@@ -127,21 +127,26 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 640297 # reset 10-11 07:18
+CASH 642182
 
-REP 9525 22.32692913
+REP 9710 22.04902162
 
-# 보합: -1.0% < price < 1.0%
-# OVB, VR, AD
-# VR = {상승일의 거래량합계 + 보합일의 거래량절반) / (하락일의 거래량합계 + 보합일의 거래량절반)} x100
-# 20일 기준
+# BTC 19575 short 
 
 # https://plotly.com/python/ohlc-charts/
 # https://layhope.tistory.com/242
 # https://www.coingazua.com/b/chart-3?page=4
 # https://pypi.org/project/stocktrends/
 
-# 김프가
-# https://kimpga.com/statistics/longshort
+# 롱숏    : https://kimpga.com/statistics/longshort
+# 청산 24H: https://kimpga.com/statistics/liquidation
+# 시총    : https://kimpga.com/statistics/marketcap
+# 일정    : https://coinness.live/market/schedule
+ 
 
-
+# APT 상장 2022-10-19 17:00 예정
+## short 및 줍줍 대기.
+# OKX - 오늘(18일) 오후 3시
+# 후오비 - 오늘(18일) 오후11시
+# 바낸,FTX - 내일(19일) 오전 10시
+# 업비트 - 내일(19일) 오후 5시
