@@ -127,9 +127,9 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 642182
+CASH 428018
 
-REP 9710 22.04902162
+BTC 27986700 0.01530126 
 
 # BTC 19575 short 
 
