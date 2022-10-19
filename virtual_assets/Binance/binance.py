@@ -4,6 +4,7 @@ import datetime
 import ccxt
 import pandas as pd
 import argparse
+import time
 
 # 한글 폰트 사용을 위해서 세팅 (아래 4줄)
 from matplotlib import font_manager, rc
@@ -75,15 +76,17 @@ def main():
     else:
         since = int((pd.to_datetime(startdate).timestamp()*1000))
 
-    df = get_binance_ohlcv(symbol.upper(), count, timeframe, since)
-    # df = get_binance_ohlcv(symbol.upper(),count,timeframe )
+    while 1:
+        df = get_binance_ohlcv(symbol.upper(), count, timeframe, since)
+        # df = get_binance_ohlcv(symbol.upper(),count,timeframe )
 
-    vals = df.values.tolist()
-    idxs = df.index.tolist()
+        vals = df.values.tolist()
+        idxs = df.index.tolist()
 
-    for indexs, values in zip(idxs, vals):
-        print(indexs, values[3])
+        for indexs, values in zip(idxs, vals):
+            print(indexs, values[0], values[1], values[2], values[3])
 
+        time.sleep(5)
 
 if __name__ == "__main__":
     main()

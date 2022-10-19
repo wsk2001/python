@@ -130,8 +130,11 @@
 CASH 853232
 
 BTC 27751000 1
+PUNDIX 674 1
+APT 10935.278 1
 
-# BTC 19278.27 short 
+
+# BTC 19283.21 short 
 
 # https://plotly.com/python/ohlc-charts/
 # https://layhope.tistory.com/242
@@ -150,3 +153,6 @@ BTC 27751000 1
 # 후오비 - 오늘(18일) 오후11시
 # 바낸,FTX - 내일(19일) 오전 10시
 # 업비트 - 내일(19일) 오후 5시
+# APTOS 선물 바이낸스 오픈
+# https://www.binance.com/en/futures/APTUSDT
+

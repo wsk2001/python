@@ -12,28 +12,11 @@
 --select *, round((round(c/o,2)-1)*100,2) as earn  from month_candle
 --where symbol = 'BTC'
 
-/*
-select symbol as '심볼', 
-		case wd
-	    WHEN '0' THEN '일'
-	    WHEN '1' THEN '월'
-	    WHEN '2' THEN '화'
-	    WHEN '3' THEN '수'
-	    WHEN '4' THEN '목'
-	    WHEN '5' THEN '금'
-	    WHEN '6' THEN '토'
-	    ELSE '값없음'
-	    END
-		AS '요일'
-		,
-		round(sum(earn),2) as '등락률(합계)' from weekday_t
-where dt &gt; '2022-08-31'
-and symbol = 'BTC'
-group by symbol, wd
-*/
 
-
-select symbol, earn from day_candle where symbol='DOGE' and date = '2021-02-24'</sql><sql name="SQL 3">--CREATE TABLE weekday_t AS
+select symbol, date, hearn, learn, earn from day_candle 
+where symbol='CBK' 
+and date = '2020-12-24'
+</sql><sql name="SQL 3">--CREATE TABLE weekday_t AS
 --  SELECT date as dt, symbol, earn, strftime('%w', date) as wd
 --  FROM day_candle
 --  WHERE date like '2022%';
