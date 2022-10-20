@@ -13,9 +13,10 @@
 --where symbol = 'BTC'
 
 
-select symbol, date, hearn, learn, earn from day_candle 
-where symbol='CBK' 
-and date = '2020-12-24'
+select * from day_candle 
+where symbol='WEMIX' 
+and date &gt;= '2022-01-11'
+limit 10
 </sql><sql name="SQL 3">--CREATE TABLE weekday_t AS
 --  SELECT date as dt, symbol, earn, strftime('%w', date) as wd
 --  FROM day_candle

@@ -13,7 +13,7 @@ font_path = "C:/Windows/Fonts/NGULIM.TTF"
 font = font_manager.FontProperties(fname=font_path).get_name()
 rc('font', family=font)
 
-def view(v, cnt, interval=None, to=None, disp='yes', save='yes'):
+def view(v, cnt, interval=None, to=None, disp='yes', save='no'):
     ticker = v
     if v.upper().startswith('KRW-') or  v.upper().startswith('BTC-'):
         ticker = v

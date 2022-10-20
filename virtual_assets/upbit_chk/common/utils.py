@@ -75,7 +75,7 @@ def get_binance_btc(t):
     ticker24h = '/api/v1/ticker/24hr'
 
     params = {'symbol': t + 'USDT'}
-    r1 = requests.get(ep + ping)
+    # r1 = requests.get(ep + ping)
     r2 = requests.get(ep + ticker24h, params=params)
 
     return float(r2.json()['openPrice']), float(r2.json()['lastPrice'])

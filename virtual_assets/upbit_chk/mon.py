@@ -198,11 +198,6 @@ def main(argv):
 
     file.close()
 
-    i = 0
-    chg_posi = False
-    disp_cnt = 0
-    trader_posi = aoa_position()
-
     while True:
         amt = 0.0
         mgn = 0.0
@@ -230,35 +225,19 @@ def main(argv):
                 _, _, _, domi = get_dominance()
 
             op_btc, price = get_binance_btc('BTC')
-            chg24 = ((price / op_btc) - 1.0) * 100.0
-
-            i += 1
-            if 1000 <= i:
-                i = 0
+            op_eth, eth_price = get_binance_btc('ETH')
 
         if view_binance:
-            print(f'fng: {fng}, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
-                  f' BTC: $' + format(price, ',.2f'), f'{chg24:.3f}', f'Domi {domi:.3f},',
+            print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',
+                  f' BTC: $' + format(price, ',.2f') + ',', f'Domi {domi:.2f},', f'ETH: $' + format(eth_price, ',.2f'),
                   'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
         else:
-            print(f'fng: {fng}, earning: {mgn:.0f},', f'{pcnt:.2f}%,',
+            print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',
                   'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
 
-        time.sleep(sleep_sec)
-        tmp_posi = aoa_position()
-        if not tmp_posi.startswith(trader_posi):
-            trader_posi = tmp_posi
-            chg_posi = True
-
-        if 0 < chg_posi:
-            toaster = ToastNotifier()
-            toaster.show_toast("Position change:", trader_posi)
-            disp_cnt += 1
-            if 10 < disp_cnt:
-                chg_posi = False
-                disp_cnt = 0
-
         print()
+        time.sleep(sleep_sec)
+
 
 
 if __name__ == "__main__":

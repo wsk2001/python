@@ -127,14 +127,14 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 853232
+CASH 857568
 
 BTC 27751000 1
-PUNDIX 674 1
-APT 10935.278 1
-
+ETH  1859000 1
+PUNDIX 676 1
 
 # BTC 19283.21 short 
+# ETH  1284.19 short 
 
 # https://plotly.com/python/ohlc-charts/
 # https://layhope.tistory.com/242
