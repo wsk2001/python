@@ -219,6 +219,7 @@ def main(argv):
 
         pcnt = (mgn / (amt + cash)) * 100.0
 
+        i = 0
         if view_binance:
             mod = i % 100
             if mod == 0:
@@ -226,6 +227,8 @@ def main(argv):
 
             op_btc, price = get_binance_btc('BTC')
             op_eth, eth_price = get_binance_btc('ETH')
+        if i <= 100:
+            i = 0
 
         if view_binance:
             print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',

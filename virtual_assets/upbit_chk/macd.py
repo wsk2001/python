@@ -17,6 +17,7 @@ def macd_func(symbol, count, interval='day'):
     if not symbol.startswith('KRW-') and not symbol.startswith('BTC-') and not symbol.startswith('USDT-'):
         symbol = 'KRW-' + symbol
 
+    print(symbol)
     df = pyupbit.get_ohlcv(symbol, count=count, interval=interval, period=1)
     macd, macdsignal, macdhist = ta.MACD(df['close'], fastperiod=12, slowperiod=26, signalperiod=9)
     return macd, macdsignal, macdhist
@@ -57,6 +58,8 @@ def main(argv):
         code_list.sort()
         for t in code_list:
             macd, macdsignal, macdhist = macd_func(t, count, interval)
+            if macd == None and macdsignal == None and macdhist == None:
+                continue
             price = round(pyupbit.get_current_price(t),4)
             if check_golden_cross(macd, macdsignal):
                 print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, price={price}, Golden Cross')

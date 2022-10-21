@@ -20,16 +20,17 @@ def ich(ticker, count):
     data = response.json()
     
     df = pd.DataFrame(data)
+    if len(df) < 50:
+        return
     
-    df=df.iloc[::-1]
-    
-    
+    df = df.iloc[::-1]
+
     high_prices = df['high_price']
     close_prices = df['trade_price']
     low_prices = df['low_price']
     dates = df.index
     
-    nine_period_high =  df['high_price'].rolling(window=9).max()
+    nine_period_high = df['high_price'].rolling(window=9).max()
     nine_period_low = df['low_price'].rolling(window=9).min()
     df['tenkan_sen'] = (nine_period_high + nine_period_low) /2
     

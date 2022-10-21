@@ -62,6 +62,9 @@ def main(argv):
     for t in code_list:
         df = pyupbit.get_ohlcv(t, count=200, interval='day', period=1)
 
+        if len(df) < 100:
+            continue
+
         rsi_indicator = RSIIndicator(df['close'])
         rsi_val = rsi_indicator.rsi()
 

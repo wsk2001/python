@@ -38,6 +38,7 @@ def stocastic_list(ticker, cnt, interval='day'):
         ticker = 'KRW-' + ticker
 
     df = pyupbit.get_ohlcv(ticker, count=cnt, period=1)
+
     df = AddStochastic(df, 9, 3, 3)
 
     vals = df.values.tolist()
@@ -60,6 +61,8 @@ def stocastic(ticker, interval='day', count=60, period=9, perk=3, perd=3):
         ticker = 'KRW-' + ticker
 
     df = pyupbit.get_ohlcv(ticker, interval=interval, count=count, period=1)
+    if len(df) < 20:
+        return ticker[4:], 1, 1
 
     dft = AddStochastic(df, period, perk, perd)
     vals = dft.values.tolist()
