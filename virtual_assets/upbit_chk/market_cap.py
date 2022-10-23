@@ -67,8 +67,8 @@ def binance_cap():
         if 0 < count:
             cnt += 1
             print(f'{cnt}, {index}, {value[0].upper()}, ' + format(int(value[2]/1000), ',d'))
-            if 200 <= cnt:
-                break
+            # if 200 <= cnt:
+            #     break
 
 
 def upbit_cap():
