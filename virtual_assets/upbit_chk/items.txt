@@ -127,13 +127,25 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 732978
+CASH 600513
 
-PUNDIX 669 1
-GRS 419 1
+UPP 86.50 1601.93641618
+#ORBS 45.90 1 
+#PUNDIX 669 1
+#GRS 419 1
+
+#UPP, score=5, score max=6, 2022-10-24 20:37:48
+#Stochast_K : 56.48
+#Stochast_D : 51.54
+#RSI        : 47.03
+#MACD_Diff  : 0.25
+#MACD_Signal: -1.2
+#Ichimoku   : False, count=0
+#Earning    : 0.47%
+#Last Price : 86.2
 
 
-# BTC 19461.51 long 
+# BTC 19368.77 short 
 
 # https://plotly.com/python/ohlc-charts/
 # https://layhope.tistory.com/242
