@@ -127,15 +127,13 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 0
+CASH 732978
 
-PUNDIX 668 527.42776945
-MATIC 1205 222.25982444
-GRS 419 251.98975691
+PUNDIX 669 1
+GRS 419 1
 
 
-# BTC 19283.21 short 
-# ETH  1284.19 short 
+# BTC 19461.51 long 
 
 # https://plotly.com/python/ohlc-charts/
 # https://layhope.tistory.com/242
@@ -147,13 +145,3 @@ GRS 419 251.98975691
 # 시총    : https://kimpga.com/statistics/marketcap
 # 일정    : https://coinness.live/market/schedule
  
-
-# APT 상장 2022-10-19 17:00 예정
-## short 및 줍줍 대기.
-# OKX - 오늘(18일) 오후 3시
-# 후오비 - 오늘(18일) 오후11시
-# 바낸,FTX - 내일(19일) 오전 10시
-# 업비트 - 내일(19일) 오후 5시
-# APTOS 선물 바이낸스 오픈
-# https://www.binance.com/en/futures/APTUSDT
-
