@@ -39,7 +39,6 @@ def get_binance_usdt_tickers():
 def get_binance_ohlcv(symbol, limit=1000, timeframe='1d', since=None):
     binance = ccxt.binance()
     tickers = binance.fetch_ohlcv(symbol=symbol+'/USDT', timeframe=timeframe, since=since, limit=limit)
-
     df = pd.DataFrame(tickers, columns=['datetime', 'open', 'high', 'low', 'close', 'volume'])
     df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
     df.set_index('datetime', inplace=True)

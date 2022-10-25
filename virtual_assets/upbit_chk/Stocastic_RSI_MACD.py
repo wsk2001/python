@@ -44,10 +44,8 @@ def buy_check(coin_name, rsi_val, MACD_diff_val, MACD_signal_val, stochast_k, st
         score += 1
 
     earning = ((df['close'][-1] / df['open'][-1]) - 1.0) * 100.0
-    if 0.0 <= earning:
-        score += 1
 
-    if 5 <= score:
+    if 4 <= score:
         return True, score, earning
     else:
         return False, score, earning
@@ -93,7 +91,7 @@ def main(argv):
         bought, score, earning = buy_check(t, rsi_val, MACD_diff_val,
                            MACD_signal_val, stochast_k, stochast_d, ichimoku_cloud, df)
         if bought:
-            print(t[4:] + f', score={score}, score max=6,', dt.now().strftime('%Y-%m-%d %H:%M:%S'))
+            print(t[4:] + f', score={score}, score max=5,', dt.now().strftime('%Y-%m-%d %H:%M:%S'))
             print('Stochast_K : ' + str(round(stochast_k.iloc[-1],2)))
             print('Stochast_D : ' + str(round(stochast_d.iloc[-1],2)))
             print('RSI        : ' + str(round(rsi_val.iloc[-1],2)))

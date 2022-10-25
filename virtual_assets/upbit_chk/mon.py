@@ -8,7 +8,7 @@ from common.utils import get_binance_btc, get_fng
 from common.utils import upbit_get_usd_krw
 from common.dominance import get_dominance
 import requests
-from common.dominance import aoa_position
+import ccxt
 from win10toast import ToastNotifier
 import argparse
 
@@ -158,10 +158,6 @@ def main(argv):
     args = parser.parse_args()
     sleep_sec = int(args.sleep)
     noti = args.noti
-    if args.binance.startswith('yes'):
-        view_binance = True
-    else:
-        view_binance = False
 
     file = open("items.txt", "r", encoding='UTF8')
     lines = file.readlines()
@@ -198,6 +194,12 @@ def main(argv):
 
     file.close()
 
+    binance = ccxt.binance()
+    parameters = {
+        'start': '1',
+        'limit': '1',
+        'convert': 'USD'
+    }
     while True:
         amt = 0.0
         mgn = 0.0
@@ -219,24 +221,12 @@ def main(argv):
 
         pcnt = (mgn / (amt + cash)) * 100.0
 
-        i = 0
-        if view_binance:
-            mod = i % 100
-            if mod == 0:
-                _, _, _, domi = get_dominance()
+        btc_price = binance.fetch_ohlcv('BTC/USDT', timeframe='1d', limit=1)[0][4]
+        eth_price = binance.fetch_ohlcv('ETC/USDT', timeframe='1d', limit=1)[0][4]
 
-            op_btc, price = get_binance_btc('BTC')
-            op_eth, eth_price = get_binance_btc('ETH')
-        if i <= 100:
-            i = 0
-
-        if view_binance:
-            print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',
-                  f' BTC: $' + format(price, ',.2f') + ',', f'Domi {domi:.2f},', f'ETH: $' + format(eth_price, ',.2f'),
-                  'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
-        else:
-            print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',
-                  'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
+        print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',
+            f' BTC: $' + format(btc_price, ',.2f') + ',', f'ETH: $' + format(eth_price, ',.2f'),
+            'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
 
         print()
         time.sleep(sleep_sec)

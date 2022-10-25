@@ -127,11 +127,13 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 600513
+CASH 0
 
+ALGO 452 663.62168141
 UPP 86.50 1601.93641618
+PUNDIX 679 442.20324005
+
 #ORBS 45.90 1 
-#PUNDIX 669 1
 #GRS 419 1
 
 #UPP, score=5, score max=6, 2022-10-24 20:37:48
@@ -157,3 +159,4 @@ UPP 86.50 1601.93641618
 # 시총    : https://kimpga.com/statistics/marketcap
 # 일정    : https://coinness.live/market/schedule
  
+
