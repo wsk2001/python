@@ -7,8 +7,6 @@ from common.utils import get_binance_btc
 from common.dominance import get_dominance, aoa_position
 import ccxt, cbpro, datetime
 from tradingview_ta import TA_Handler, Interval, Exchange
-import io
-from bs4 import BeautifulSoup
 
 url = "https://api.alternative.me/fng/?limit="
 
@@ -122,6 +120,8 @@ def main(argv):
 
     fng_week = fear_week()
     fng_month = fear_month()
+
+    print()
     print('공포/탐욕 지수', '(' + datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S') + ')')
     print('일간:', fng_sixdayago, '->', fng_fivedayago, '->', fng_fourdayago, '->',
           fng_threedayago, '->', fng_twodayago, '->', fng_yesterday, '->', fng_today)
@@ -129,18 +129,18 @@ def main(argv):
     print('월간:', f'{fng_month:.2f}')
     print('')
 
-    _, _, _, domi = get_dominance()
+    domi = get_dominance()
     _, price = get_binance_btc('BTC')
     cb_p, bn_p, cb_idx, ti = cb_index(price)
 
     print(f'바낸 비트 가격: $' + format(price, ',.2f'))
-    print(f'바낸 비트 도미: {domi:.3f}')
-    print(aoa_position() + ' (bitsignal)')
+    print(f'비트  도미넌스: {domi}')
+    # print(aoa_position() + ' (bitsignal)')
 
     # print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
     # print(f'테더 가격     : ' + format(ti, ',.5f'))
     # print('')
-    print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
+    # print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
     # print('  산출 방법: 코베 - (바낸 * 테더)')
     # print('')
     #

@@ -127,36 +127,68 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 0
+CASH 782402
 
-ALGO 452 663.62168141
-UPP 86.50 1601.93641618
-PUNDIX 679 442.20324005
-
-#ORBS 45.90 1 
-#GRS 419 1
-
-#UPP, score=5, score max=6, 2022-10-24 20:37:48
-#Stochast_K : 56.48
-#Stochast_D : 51.54
-#RSI        : 47.03
-#MACD_Diff  : 0.25
-#MACD_Signal: -1.2
-#Ichimoku   : False, count=0
-#Earning    : 0.47%
-#Last Price : 86.2
+KAVA 2250  1
+ATOM 17060 1
+LINK 10050 1
 
 
-# BTC 19368.77 short 
+#PUNDIX 679 442.20324005 +
+#UPP 87.86 3347.62665187 # stocastic +
+
+
+
 
 # https://plotly.com/python/ohlc-charts/
 # https://layhope.tistory.com/242
 # https://www.coingazua.com/b/chart-3?page=4
 # https://pypi.org/project/stocktrends/
 
+# 도미넌스: https://btctools.io/kr/stats/dominance
+# 시총: https://btctools.io/kr/stats/market-cap
 # 롱숏    : https://kimpga.com/statistics/longshort
 # 청산 24H: https://kimpga.com/statistics/liquidation
 # 시총    : https://kimpga.com/statistics/marketcap
 # 일정    : https://coinness.live/market/schedule
  
+
+# ADA 0.18
+# * ATOM 0.24
+# CRO 1.31
+# ETC 0.37
+# KNC 0.4
+# * LINK 0.1
+# LOOM 0.58
+# MFT 1.34
+# MLK 7.61
+# PLA 0.24
+# POWR 0.73
+# PUNDIX 1.59
+# SOL 0.66
+# SXP 0.22
+# TT 1.35
+# VET 0.62
+# XTZ 0.25
+# ZRX 0.56
+# 
+# ATOM, score=5, score max=5, 2022-10-26 09:44:50
+# Stochast_K : 58.31
+# Stochast_D : 54.72
+# RSI        : 45.67
+# MACD_Diff  : 67.63
+# MACD_Signal: -446.78
+# Ichimoku   : True, count=5
+# Earning    : 0.24%
+# Last Price : 17050.0
+# 
+# LINK, score=5, score max=5, 2022-10-26 09:45:06
+# Stochast_K : 61.76
+# Stochast_D : 58.43
+# RSI        : 46.31
+# MACD_Diff  : 31.17
+# MACD_Signal: -198.95
+# Ichimoku   : True, count=5
+# Earning    : 0.1%
+# Last Price : 10030.0
 

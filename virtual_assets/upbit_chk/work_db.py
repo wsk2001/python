@@ -307,13 +307,47 @@ def statistics():
     con.close()
 
 
+def create_minute_table():
+    global database_name
+
+    conn = sqlite3.connect(database_name)
+    conn.execute(
+        'CREATE TABLE minute_candle(ymd TEXT, hms TEXT, symbol TEXT, o REAL, c REAL, earn REAL)')
+    conn.close()
+
+
+def get_date(symbol, count, interval):
+    ticker = symbol
+    if not ticker.upper().startswith('KRW-'):
+        ticker = 'KRW-' + symbol.upper()
+
+    conn = sqlite3.connect(database_name)
+    cur = conn.cursor()
+
+    df = pyupbit.get_ohlcv(ticker, count=count, interval=interval, period=1)
+    for ind, row in df.iterrows():
+        ymd = ind.strftime('%Y-%m-%d')
+        hms = ind.strftime('%H:%M:%S')
+        earn = round(((row["close"] / row["open"]) - 1.0) * 100.0, 2)
+        print(ticker[4:], ymd, hms, row["open"], row["close"], earn )
+
+        cur.execute("INSERT INTO minute_candle VALUES(?,?,?,?,?,?);",
+                        (ymd, hms, ticker[4:], row["open"], row["close"], 0.0))
+
+    conn.commit()
+    conn.close()
+
+
 def main():
     # Quadruple_Witching_Day()
 
     #create_table()
     #make_month_table()
 
-    work_date = '2022-10-22'
+    ##create_minute_table()
+    ##get_date('BTC', 20000, 'minute5')
+
+    work_date = '2022-10-26'
     delete_db(work_date)
     insert_db(work_date)
 

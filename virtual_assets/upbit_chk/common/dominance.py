@@ -3,39 +3,56 @@ from requests.exceptions import ConnectionError, Timeout, TooManyRedirects
 import json
 from bs4 import BeautifulSoup
 import requests
+from playwright.sync_api import sync_playwright
+import asyncio
+from bs4 import BeautifulSoup as bs
+import time
 
 
-url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
-parameters = {
-    'start': '1',
-    'limit': '1',
-    'convert': 'USD'
-}
-headers = {
-    'Accepts': 'application/json',
-    'X-CMC_PRO_API_KEY': '8fd0b0e4-a44e-4311-8468-ecaf68a810db',
-}
+# 2022-10-26 sync 로 바꿈.
+def btctools_get_dominance(site):
+    with sync_playwright() as pw:
+        browser = pw.webkit.launch()
+        page = browser.new_page()
+        page.goto(site)
+        time.sleep(3)
 
-# 'X-CMC_PRO_API_KEY': '408f9e2f-96b8-45fb-ae03-0cd552fda446'
-# https://github.com/ky039/BTC-USDT-Dominance-Analysis/blob/main/USDT%20Market%20Dominance.ipynb
+        html = page.content()
+        soup = bs(html, 'html.parser').prettify()
+        lines = soup.splitlines()
+        browser.close()
 
+        list_str = []
+        list_str.clear()
+        fflag = False
+        icount = 0
+        rtn_value = ''
+
+        for line in lines:
+            line = line.strip()
+            if line.startswith('<'):
+                continue
+            if line.startswith('비트 코인 시장 지배력'):
+                fflag = True
+                continue
+            if fflag == False:
+                continue
+            rtn_value = line
+            rtn_value = rtn_value.strip('%')
+            break;
+        return rtn_value
+
+
+# 2022-10-26 sync 로 바꿈.
 def get_dominance():
-    session = Session()
-    session.headers.update(headers)
-
     try:
-        response = session.get(url, params=parameters)
-        jsonObject = json.loads(response.text)
-        jsonArray = jsonObject.get("data")
-        symbol = jsonArray[0]['symbol']
-        price = jsonArray[0]['quote']['USD']['price']
-        chg24 = jsonArray[0]['quote']['USD']['percent_change_24h']
-        domi = jsonArray[0]['quote']['USD']['market_cap_dominance']
+        coinness_schedule = 'https://btctools.io/kr/stats/dominance'
+        dominance = btctools_get_dominance(coinness_schedule)
 
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
 
-    return symbol, price, chg24, domi
+    return dominance
 
 
 # 워뇨띠 포지션
@@ -64,4 +81,3 @@ def aoa_position():
 if __name__ == "__main__":
     print(get_dominance())
     print(aoa_position())
-

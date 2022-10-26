@@ -221,12 +221,16 @@ def main(argv):
 
         pcnt = (mgn / (amt + cash)) * 100.0
 
-        btc_price = binance.fetch_ohlcv('BTC/USDT', timeframe='1d', limit=1)[0][4]
-        eth_price = binance.fetch_ohlcv('ETC/USDT', timeframe='1d', limit=1)[0][4]
+        btc_ohlcv = binance.fetch_ohlcv('BTC/USDT', timeframe='1d', limit=1)
+        eth_ohlcv = binance.fetch_ohlcv('ETH/USDT', timeframe='1d', limit=1)
+        btc_price = btc_ohlcv[0][4]
+        eth_price = eth_ohlcv[0][4]
+        btc_rate = ((btc_ohlcv[0][4] / btc_ohlcv[0][1]) - 1.0) * 100.0
+        etc_rate = ((eth_ohlcv[0][4] / eth_ohlcv[0][1]) - 1.0) * 100.0
 
         print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',
-            f' BTC: $' + format(btc_price, ',.2f') + ',', f'ETH: $' + format(eth_price, ',.2f'),
-            'cash', format(int(cash), ',d'), ',total', format(int(amt + cash), ',d'))
+            f' BTC: ${btc_price:.2f} ({btc_rate:.2f}%), ETH: ${eth_price:.2f} ({etc_rate:.2f}%)',
+            f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
         print()
         time.sleep(sleep_sec)
