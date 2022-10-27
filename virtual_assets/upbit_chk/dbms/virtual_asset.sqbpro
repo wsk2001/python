@@ -89,10 +89,10 @@ VACUUM;
 
 -- commit
 
-select hms, round(sum(earn), 2) from minute_candle
-where 1=1
+select hms as '시각', round(sum(earn), 2) as '등락률' from minute_candle
+where 1=1
 group by hms;
-
+
 
 --update minute_candle
 --set earn = round(((c / o) -1) * 100,2)</sql><current_tab id="2"/></tab_sql></sqlb_project>
