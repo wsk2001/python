@@ -127,17 +127,14 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 401181
+CASH 329492
 
-#ATOM 17290 -> 17740 22.62585309
-IOTA 362 539.79281768
-QKC 18.90 10271.53439153
-ATOM 17740 1
-
-#PUNDIX 679 442.20324005 +
-#UPP 87.86 3347.62665187 # stocastic +
+THETA 1590 207.33144654
+#IOTA 362 1
+#WEMIX 1845 1
 
 
+# $20245.59 short 익절.
 
 
 # https://plotly.com/python/ohlc-charts/
@@ -148,47 +145,11 @@ ATOM 17740 1
 # 도미넌스: https://btctools.io/kr/stats/dominance
 # 시총: https://btctools.io/kr/stats/market-cap
 # 롱숏    : https://kimpga.com/statistics/longshort
+# 		   https://btctools.io/kr/stats/leaderboard
 # 청산 24H: https://kimpga.com/statistics/liquidation
 # 시총    : https://kimpga.com/statistics/marketcap
+#			https://btctools.io/kr/stats/market-cap
 # 일정    : https://coinness.live/market/schedule
- 
 
-# ADA 0.18
-# * ATOM 0.24
-# CRO 1.31
-# ETC 0.37
-# KNC 0.4
-# * LINK 0.1
-# LOOM 0.58
-# MFT 1.34
-# MLK 7.61
-# PLA 0.24
-# POWR 0.73
-# PUNDIX 1.59
-# SOL 0.66
-# SXP 0.22
-# TT 1.35
-# VET 0.62
-# XTZ 0.25
-# ZRX 0.56
+# On-chain Data
 # 
-# ATOM, score=5, score max=5, 2022-10-26 09:44:50
-# Stochast_K : 58.31
-# Stochast_D : 54.72
-# RSI        : 45.67
-# MACD_Diff  : 67.63
-# MACD_Signal: -446.78
-# Ichimoku   : True, count=5
-# Earning    : 0.24%
-# Last Price : 17050.0
-# 
-# LINK, score=5, score max=5, 2022-10-26 09:45:06
-# Stochast_K : 61.76
-# Stochast_D : 58.43
-# RSI        : 46.31
-# MACD_Diff  : 31.17
-# MACD_Signal: -198.95
-# Ichimoku   : True, count=5
-# Earning    : 0.1%
-# Last Price : 10030.0
-

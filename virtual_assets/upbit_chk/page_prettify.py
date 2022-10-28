@@ -165,12 +165,12 @@ async def main():
              'https://www.binance.com/en/markets/coinInfo-ETF',
              'https://www.binance.com/en/markets/coinInfo-Infrastructure']
 
-    coinness_schedule = 'https://btctools.io/kr/stats/dominance'
-    dominance = await get_dominance(coinness_schedule)
-    print(dominance)
+    #coinness_schedule = 'https://btctools.io/kr/stats/dominance'
+    #dominance = await get_dominance(coinness_schedule)
+    #print(dominance)
 
-    # coinness_schedule = 'https://coinness.live/market/schedule'
-    # await get_coinness_schedule(coinness_schedule)
+    link = 'https://kimpga.com/statistics/liquidation'
+    await get_data(link)
 
     #kimpga_liquidation = 'https://kimpga.com/statistics/liquidation'
     #await get_kimpga_liquidation(kimpga_liquidation)
