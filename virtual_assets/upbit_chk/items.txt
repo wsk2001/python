@@ -127,15 +127,12 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 329492
+CASH 335771
 
-THETA 1590 207.33144654
-#IOTA 362 1
-#WEMIX 1845 1
-
+XEM 56.10 2953.64527629
+TT 7.01 23613.87066808
 
 # $20245.59 short 익절.
-
 
 # https://plotly.com/python/ohlc-charts/
 # https://layhope.tistory.com/242
