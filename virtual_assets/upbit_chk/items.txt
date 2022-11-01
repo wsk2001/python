@@ -127,12 +127,13 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 334995
+CASH 334868
 
-POWR 285 1173.66315789
-IOTA  368 1
+THETA 1660 205.12228915
+PUNDIX 707 1
 
-# $20666.05 short
+
+# $20453.81 short
 
 # https://plotly.com/python/ohlc-charts/
 # https://layhope.tistory.com/242

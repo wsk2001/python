@@ -345,9 +345,9 @@ def main():
     #make_month_table()
 
     ##create_minute_table()
-    ##get_date('BTC', 20000, 'minute5')
+    #get_date('PUNDIX', 20000, 'minute5')
 
-    work_date = '2022-10-26'
+    work_date = '2022-10-29'
     delete_db(work_date)
     insert_db(work_date)
 

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1000"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="54"/><column index="3" value="103"/><column index="4" value="74"/><column index="5" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="coin_theme" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="76"/><column index="2" value="72"/><column index="3" value="163"/><column index="4" value="81"/><column index="5" value="54"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="market_value" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="33"/><column index="2" value="74"/><column index="3" value="194"/><column index="4" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">--SELECT symbol, substr(date,9), round(sum(earn),2)  from day_candle
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1000"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,13:mainminute_candle"/><default_encoding codec=""/><browse_table_settings><table schema="main" name="bond_strenth" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="59"/><column index="2" value="54"/><column index="3" value="103"/><column index="4" value="74"/><column index="5" value="67"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="coin_theme" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="76"/><column index="2" value="72"/><column index="3" value="163"/><column index="4" value="81"/><column index="5" value="54"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="market_value" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="33"/><column index="2" value="74"/><column index="3" value="194"/><column index="4" value="78"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table><table schema="main" name="minute_candle" show_row_id="0" encoding="" plot_x_axis="" unlock_view_pk="_rowid_"><sort/><column_widths><column index="1" value="77"/><column index="2" value="57"/><column index="3" value="59"/><column index="4" value="74"/><column index="5" value="74"/><column index="6" value="41"/></column_widths><filter_values/><conditional_formats/><row_id_formats/><display_formats/><hidden_columns/><plot_y_axes/><global_filter/></table></browse_table_settings></tab_browse><tab_sql><sql name="SQL 1">--SELECT symbol, substr(date,9), round(sum(earn),2)  from day_candle
 --where 1=1
 --and date &gt; '2021-12-31'
 --group by substr(date,9), symbol
@@ -46,6 +46,9 @@ FROM
 where A.symbol = B.symbol
 order by rh desc;
 */
+
+select count(*) from minute_candle
+where symbol = 'ONG';
 </sql><sql name="SQL 3">--CREATE TABLE weekday_t AS
 --  SELECT date as dt, symbol, earn, strftime('%w', date) as wd
 --  FROM day_candle
@@ -68,11 +71,10 @@ select symbol as '심볼',
 		AS '요일'
 		,
 		round(sum(earn),2) as '등락률(합계)' from weekday_t
-where dt &gt; '2022-07-31'
+where dt &gt; '2022-08-31'
 group by symbol, wd
 */
-
-VACUUM;
+--VACUUM;
 
 --drop table weekday_t;</sql><sql name="SQL 4">--select * from minute_candle
 --where symbol = 'BTC'
@@ -95,4 +97,4 @@ group by hms;
 
 
 --update minute_candle
---set earn = round(((c / o) -1) * 100,2)</sql><current_tab id="2"/></tab_sql></sqlb_project>
+--set earn = round(((c / o) -1) * 100,2)</sql><current_tab id="0"/></tab_sql></sqlb_project>
