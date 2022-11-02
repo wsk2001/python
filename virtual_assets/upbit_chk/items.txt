@@ -127,10 +127,11 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 334868
+CASH 0
 
-THETA 1660 205.12228915
-PUNDIX 707 1
+SAND 1200 1
+PUNDIX 717 934.91266455
+
 
 
 # $20453.81 short
