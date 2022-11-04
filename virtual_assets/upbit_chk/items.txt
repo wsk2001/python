@@ -104,6 +104,25 @@
 # 출처: https://chobocoinguide.com/56
 
 
+# select C.symbol, D.no from
+# (
+#         select A.symbol FROM
+#         (
+#                 (
+#                         select symbol from coin_theme
+#                         where theme = 'PLATFORM'
+#                 ) A,
+#                 (       select symbol from coin_theme
+#                         where theme = 'WEB3'
+#                 ) B
+#         )
+#         where A.symbol = B.symbol
+# ) C,
+# market_value D
+# where D.symbol = C.symbol
+# order by D.no;
+# 종목 (시총순위) : DOT (7), MATIC (8), AVAX (11), ATOM (14), LINK (15), NEAR (16), ALGO (20), XTZ (28), ICX (70)
+
 # price predicting 
 # https://pythoninoffice.com/predicting-bitcoin-price-stock-to-flow-python/
 
@@ -127,9 +146,9 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 656038
+CASH 0
 
-APT 10580 1
+APT 10286 63.83782540
 ATOM 19310 1
 
 

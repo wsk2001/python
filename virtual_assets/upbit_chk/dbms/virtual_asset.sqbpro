@@ -47,7 +47,55 @@ where A.symbol = B.symbol
 order by rh desc;
 */
 
+/*
+SELECT A.date, A.hearn,  A.symbol, B.no 
+FROM day_candle A,  market_value B
+WHERE A.symbol=B.symbol
+and A.hearn &gt;= 20
+and A.date &gt;= '2022-01-01'
+order by A.date, B.no;
+*/
+
 select * from day_candle where symbol='BTC' and date &gt;= '2022-01-26' and date &lt;= '2022-02-04'
+</sql><sql name="SQL 2">/*
+SELECT A.date, A.hearn,  A.symbol, B.no 
+FROM day_candle A,  market_value B
+WHERE A.symbol=B.symbol
+and A.hearn &gt;= 20
+and A.date &gt;= '2022-01-01'
+order by A.date, B.no;
+*/
+
+-- select * from coin_theme
+-- where symbol in ('ATOM', 'MATIC', 'LINK')
+-- order by theme, symbol;
+
+
+select C.symbol, D.no from
+(select A.symbol FROM
+(
+(select symbol from coin_theme
+where theme = 'PLATFORM') A,
+(select symbol from coin_theme
+where theme = 'WEB3') B
+)
+where A.symbol = B.symbol) C,
+market_value D
+where D.symbol = C.symbol
+order by D.no;
+
+
+--select * from coin_theme
+--where symbol = 'LINK';
+
+--INSERT INTO coin_theme 
+--VALUES('WEB3', 'LINK', '체인링크', 'UPBIT_KRW', 'ERC-20');
+
+--commit;
+
+
+
+
 </sql><sql name="SQL 3">--CREATE TABLE weekday_t AS
 --  SELECT date as dt, symbol, earn, strftime('%w', date) as wd
 --  FROM day_candle
