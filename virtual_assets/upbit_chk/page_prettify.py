@@ -169,7 +169,9 @@ async def main():
     #dominance = await get_dominance(coinness_schedule)
     #print(dominance)
 
-    link = 'https://kimpga.com/statistics/liquidation'
+    # 롱/숏 청산
+    # link = 'https://kimpga.com/statistics/liquidation'
+    link = 'https://coinalyze.net/bitcoin/open-interest'
     await get_data(link)
 
     #kimpga_liquidation = 'https://kimpga.com/statistics/liquidation'
