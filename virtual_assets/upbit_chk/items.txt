@@ -146,9 +146,9 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 
-CASH 107524
+CASH 0
 
-APT 9930 10.81201594
+LINK 11880 16.33063973
 # XTZ 1975 1
 
 

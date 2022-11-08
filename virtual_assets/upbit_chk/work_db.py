@@ -325,14 +325,25 @@ def get_date(symbol, count, interval):
     cur = conn.cursor()
 
     df = pyupbit.get_ohlcv(ticker, count=count, interval=interval, period=1)
+    start_value = 0.0
     for ind, row in df.iterrows():
         ymd = ind.strftime('%Y-%m-%d')
         hms = ind.strftime('%H:%M:%S')
-        earn = round(((row["close"] / row["open"]) - 1.0) * 100.0, 2)
-        print(ticker[4:], ymd, hms, row["open"], row["close"], earn )
 
-        cur.execute("INSERT INTO minute_candle VALUES(?,?,?,?,?,?);",
-                        (ymd, hms, ticker[4:], row["open"], row["close"], 0.0))
+        if hms.startswith('00:00:00'):
+            start_value = row["open"]
+
+        if 0.0 < start_value:
+            earn = round(((row["close"] / start_value) - 1.0) * 100.0, 2)
+            print(ticker[4:], ymd, hms, start_value, row["close"], earn )
+            cur.execute("INSERT INTO minute_candle VALUES(?,?,?,?,?,?);",
+                            (ymd, hms, ticker[4:], start_value, row["close"], earn))
+
+        else :
+            earn = round(((row["close"] / row["open"]) - 1.0) * 100.0, 2)
+            print(ticker[4:], ymd, hms, row["open"], row["close"], earn )
+            cur.execute("INSERT INTO minute_candle VALUES(?,?,?,?,?,?);",
+                            (ymd, hms, ticker[4:], row["open"], row["close"], earn))
 
     conn.commit()
     conn.close()
@@ -345,9 +356,9 @@ def main():
     #make_month_table()
 
     ##create_minute_table()
-    #get_date('PUNDIX', 20000, 'minute5')
+    #get_date('BTC', 30000, 'minute5')
 
-    work_date = '2022-11-01'
+    work_date = '2022-11-07'
     delete_db(work_date)
     insert_db(work_date)
 

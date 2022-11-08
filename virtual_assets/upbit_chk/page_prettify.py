@@ -169,11 +169,11 @@ async def main():
     #dominance = await get_dominance(coinness_schedule)
     #print(dominance)
 
-    link = 'https://kimpga.com/statistics/liquidation'
-    await get_data(link)
+    #link = 'https://kimpga.com/statistics/liquidation'
+    #await get_data(link)
 
-    #kimpga_liquidation = 'https://kimpga.com/statistics/liquidation'
-    #await get_kimpga_liquidation(kimpga_liquidation)
+    kimpga_liquidation = 'https://kimpga.com/statistics/liquidation'
+    await get_kimpga_liquidation(kimpga_liquidation)
 
 if __name__ == '__main__':
     asyncio.run(main())

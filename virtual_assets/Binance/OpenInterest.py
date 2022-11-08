@@ -20,7 +20,7 @@ def longshort_ratio_func():
         global long_history_before_btc
         global short_history_before_btc
 
-        funding_history_raw = urlopen("https://www.binance.com/futures/data/openInterestHist?symbol=BTCUSDT&period=5m")
+        funding_history_raw = urlopen("https://www.binance.com/futures/data/openInterestHist?symbol=FTTUSDT&period=5m")
         funding_history_parser = BeautifulSoup(funding_history_raw, "html.parser")
         Interest_Datas = str(funding_history_parser)
         Interest_Datas = json.loads(Interest_Datas)
@@ -29,15 +29,15 @@ def longshort_ratio_func():
         sumOpenInterestValue = int(round(float(Interest_Datas[29]['sumOpenInterestValue']), 0))
 
         if (funding_history_before_btc == 0):
-            output_text_return += "{:0,.3f}".format(sumOpenInterest) + " BTC ( - ), "
+            output_text_return += "{:0,.3f}".format(sumOpenInterest) + " FTT ( - ), "
 
         else:
             if (sumOpenInterest - funding_history_before_btc > 0):
-                output_text_return += "{:0,.3f}".format(sumOpenInterest) + " BTC (+" + "{:0,.3f}".format(
+                output_text_return += "{:0,.3f}".format(sumOpenInterest) + " FTT (+" + "{:0,.3f}".format(
                     sumOpenInterest - funding_history_before_btc) + "), "
 
             else:
-                output_text_return += "{:0,.3f}".format(sumOpenInterest) + " BTC (" + "{:0,.3f}".format(
+                output_text_return += "{:0,.3f}".format(sumOpenInterest) + " FTT (" + "{:0,.3f}".format(
                     sumOpenInterest - funding_history_before_btc) + "), "
 
         if (funding_history_before_usdt == 0):
@@ -60,7 +60,7 @@ def longshort_ratio_func():
         funding_history_before_usdt = sumOpenInterestValue
 
         longshort_ratio_raw = urlopen(
-            "https://www.binance.com/futures/data/globalLongShortAccountRatio?symbol=BTCUSDT&period=5m")
+            "https://www.binance.com/futures/data/globalLongShortAccountRatio?symbol=FTTUSDT&period=5m")
 
         longshort_ratio_parser = BeautifulSoup(longshort_ratio_raw, "html.parser")
         longshort_ratio_datas = str(longshort_ratio_parser)
