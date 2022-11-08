@@ -4,6 +4,7 @@ import datetime as dt
 from urllib.request import urlopen
 from bs4 import BeautifulSoup
 import json
+import argparse
 
 funding_history_before_btc = 0
 funding_history_before_usdt = 0
@@ -12,7 +13,7 @@ short_history_before_btc = 0
 btcusdt = 0
 
 
-def longshort_ratio_func():
+def longshort_ratio_func(ticker='FTT'):
     try:
         output_text_return = ""
         global funding_history_before_btc
@@ -20,7 +21,7 @@ def longshort_ratio_func():
         global long_history_before_btc
         global short_history_before_btc
 
-        funding_history_raw = urlopen("https://www.binance.com/futures/data/openInterestHist?symbol=FTTUSDT&period=5m")
+        funding_history_raw = urlopen(f'https://www.binance.com/futures/data/openInterestHist?symbol={ticker}USDT&period=5m')
         funding_history_parser = BeautifulSoup(funding_history_raw, "html.parser")
         Interest_Datas = str(funding_history_parser)
         Interest_Datas = json.loads(Interest_Datas)
@@ -29,15 +30,15 @@ def longshort_ratio_func():
         sumOpenInterestValue = int(round(float(Interest_Datas[29]['sumOpenInterestValue']), 0))
 
         if (funding_history_before_btc == 0):
-            output_text_return += "{:0,.3f}".format(sumOpenInterest) + " FTT ( - ), "
+            output_text_return += "{:0,.3f}".format(sumOpenInterest) + f" {ticker} ( - ), "
 
         else:
             if (sumOpenInterest - funding_history_before_btc > 0):
-                output_text_return += "{:0,.3f}".format(sumOpenInterest) + " FTT (+" + "{:0,.3f}".format(
+                output_text_return += "{:0,.3f}".format(sumOpenInterest) + f" {ticker} (+" + "{:0,.3f}".format(
                     sumOpenInterest - funding_history_before_btc) + "), "
 
             else:
-                output_text_return += "{:0,.3f}".format(sumOpenInterest) + " FTT (" + "{:0,.3f}".format(
+                output_text_return += "{:0,.3f}".format(sumOpenInterest) + f" {ticker} (" + "{:0,.3f}".format(
                     sumOpenInterest - funding_history_before_btc) + "), "
 
         if (funding_history_before_usdt == 0):
@@ -60,7 +61,7 @@ def longshort_ratio_func():
         funding_history_before_usdt = sumOpenInterestValue
 
         longshort_ratio_raw = urlopen(
-            "https://www.binance.com/futures/data/globalLongShortAccountRatio?symbol=FTTUSDT&period=5m")
+            f"https://www.binance.com/futures/data/globalLongShortAccountRatio?symbol={ticker}USDT&period=5m")
 
         longshort_ratio_parser = BeautifulSoup(longshort_ratio_raw, "html.parser")
         longshort_ratio_datas = str(longshort_ratio_parser)
@@ -103,12 +104,20 @@ def longshort_ratio_func():
 
 
 def main(argv):
+    parser = argparse.ArgumentParser(description='옵션 지정 방법')
+    parser.add_argument('--sleep', required=False, default=5, help='sleep min (default=5)')
+    parser.add_argument('--ticker', required=False, default='BTC', help='ticker (default=BTC)')
+
+    args = parser.parse_args()
+    sleep_sec = int(args.sleep) * 60
+    ticker = args.ticker.upper()
+
     print("시각,  미결제 약정,  미결제 약정의 명목 가치,   Long,   Short")
 
     while True:
         now = dt.datetime.now().strftime('%H:%M:%S')
-        print(now, longshort_ratio_func())
-        time.sleep(5 * 60)
+        print(now, longshort_ratio_func(ticker))
+        time.sleep(sleep_sec)
 
 
 if __name__ == "__main__":
