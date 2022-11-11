@@ -233,7 +233,7 @@ def main(argv):
         #     f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
         print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',
-            f' BTC: ${btc_price:.2f} (Short: 16327.92 ${btc_rate:.2f}%), ETH( ${eth_price:.2f} ({etc_rate:.2f}%)',
+            f' BTC: ${btc_price:.2f} (${btc_rate:.2f}%), ETH: ${eth_price:.2f} ({etc_rate:.2f}%)',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
         print()
