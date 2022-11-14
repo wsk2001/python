@@ -154,6 +154,8 @@ CASH 495672
 
 PUNDIX 519  318.40269749
 
+# CME 교육 자료.
+# https://www.cmegroup.com/ko/education/learn-about-trading/courses/trading-and-analysis/market-makers-vs-market-takers.html
 
 # $20453.81 short
 
@@ -173,3 +175,9 @@ PUNDIX 519  318.40269749
 
 # On-chain Data
 # 
+
+#SOL, 20360.0, 18070.0, -11.25%
+#NU, 149.0, 131.0, -12.08%
+#DAWN, 887.0, 715.0, -19.39%
+#CRO, 111.0, 84.2, -24.14%
+#SRM, 494.0, 363.0, -26.52%

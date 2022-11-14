@@ -135,6 +135,11 @@ SELECT * from day_candle
 where 1=1
 and symbol = 'BTC'
 and earn &lt;= -7
-and date &gt;= '2022-01-01';</sql><sql name="SQL 5">select * from day_candle
-where symbol='BTC'
-and date in ('2018-01-01', '2018-11-09', '2018-12-31', '2022-01-01', '2022-11-09', '2022-11-10')</sql><current_tab id="3"/></tab_sql></sqlb_project>
+and date &gt;= '2022-01-01';</sql><sql name="SQL 5">select * from day_candle
+where symbol='BTC'
+and date in (
+'2018-01-01', '2018-12-31', 
+'2019-01-01', '2019-12-31', 
+'2020-01-01', '2020-12-31', 
+'2021-01-01', '2021-12-31', 
+'2022-01-01', '2022-11-13')</sql><current_tab id="3"/></tab_sql></sqlb_project>
