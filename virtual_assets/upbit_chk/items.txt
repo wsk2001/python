@@ -32,6 +32,7 @@
 
 # 데일리 호들 https://dailyhodl.com
 # 코인니스 https://coinness.live/
+# https://kr.beincrypto.com/
 # 코인코드 https://coincode.kr/
 # 코인리더스 http://coinreaders.com
 # 싸이프랜닷컴 http://www.cyfren.com/
