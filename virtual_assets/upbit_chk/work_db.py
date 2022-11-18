@@ -203,7 +203,7 @@ def insert_db(start_date):
         ticker = v
         if not ticker.upper().startswith('KRW-'):
             ticker = 'KRW-' + v.upper()
-        print(ticker)
+        print(ticker[4:])
 
         df = pyupbit.get_ohlcv(ticker, count=100, period=1)
         for ind, row in df.iterrows():

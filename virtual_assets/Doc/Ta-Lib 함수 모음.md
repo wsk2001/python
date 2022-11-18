@@ -4,7 +4,7 @@
 
 
 
-### Overlap Studies Functions
+### <span style="color:blue">Overlap Studies Functions</span>
 
 **BBANDS** - Bollinger Bands
 
@@ -142,7 +142,7 @@ real = WMA(close, timeperiod=30)
 
 
 
-### Momentum Indicator Functions
+### <span style="color:blue">Momentum Indicator Functions</span>
 
 **ADX** - Average Directional Movement Index
 
@@ -384,9 +384,10 @@ real = WILLR(high, low, close, timeperiod=14)
 
 
 
-### Volume Indicator Functions
+### <span style="color:blue">Volume Indicator Functions</span>
 
 **AD** - Chaikin A/D Line
+
 ``` python
 real = AD(high, low, close, volume)
 ```
@@ -409,7 +410,7 @@ real = OBV(close, volume)
 
 
 
-### Volatility Indicator Functions
+### <span style="color:blue">Volatility Indicator Functions</span>
 
 **ATR** - Average True Range
 ``` python
@@ -434,7 +435,7 @@ real = TRANGE(high, low, close)
 
 
 
-### Price Transform Functions
+### <span style="color:blue">Price Transform Functions</span>
 
 **AVGPRICE** - Average Price
 
@@ -468,7 +469,7 @@ real = WCLPRICE(high, low, close)
 
 
 
-### Cycle Indicator Functions
+### <span style="color:blue">Cycle Indicator Functions</span>
 
 **HT_DCPERIOD** - Hilbert Transform - Dominant Cycle Period
 
@@ -510,7 +511,7 @@ integer = HT_TRENDMODE(close)
 
 
 
-### Pattern Recognition Functions
+### <span style="color:blue">Pattern Recognition Functions</span>
 
 **CDL2CROWS** - Two Crows
 ``` python
@@ -999,7 +1000,7 @@ integer = CDLXSIDEGAP3METHODS(open, high, low, close)
 
 
 
-### Statistic Functions
+### <span style="color:blue">Statistic Functions</span>
 
 **BETA** - Beta
 
@@ -1073,7 +1074,7 @@ real = VAR(close, timeperiod=5, nbdev=1)
 
 
 
-### Math Transform Functions
+### <span style="color:blue">Math Transform Functions</span>
 
 **ACOS** - Vector Trigonometric ACos
 
@@ -1195,7 +1196,7 @@ real = TANH(close)
 
 
 
-### Math Operator Functions
+### <span style="color:blue">Math Operator Functions</span>
 
 **ADD** - Vector Arithmetic Add
 
