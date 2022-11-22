@@ -154,6 +154,7 @@
 CASH 495672
 
 PUNDIX 519  318.40269749
+ETH 1601500 1
 
 # CME 교육 자료.
 # https://www.cmegroup.com/ko/education/learn-about-trading/courses/trading-and-analysis/market-makers-vs-market-takers.html
