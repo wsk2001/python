@@ -124,6 +124,20 @@
 # order by D.no;
 # 종목 (시총순위) : DOT (7), MATIC (8), AVAX (11), ATOM (14), LINK (15), NEAR (16), ALGO (20), XTZ (28), ICX (70)
 
+#select A.symbol, A.close AS '1109', B.close AS '1122' FROM
+#(
+#        (
+#                select symbol, close from day_candle
+#                where date = '2022-11-09'
+#        ) A,
+#        (       select symbol, close from day_candle
+#                where date = '2022-11-22'
+#        ) B
+#)
+#where A.symbol = B.symbol
+#and A.close > B.close
+#order by A.close desc
+
 # price predicting 
 # https://pythoninoffice.com/predicting-bitcoin-price-stock-to-flow-python/
 
@@ -150,10 +164,12 @@
 # 제일 중요한건 역시 비트/이더가 흐르면 같은 방향(추세그대로, 즉 비트 이더가 -%고 대부분 알트가-%면 숏 그 반대면 롱) 코인이 수익내기 우세합니다.
 # 역추세 즉 전체적인 숏일때 롱 잡으실땐 손절가 타이트하게!!!운전하실때 드는 안전 보험이라고 생각하시고 스탑리밋 잊지마세요!
 
+# 2022-11-23 500KRW Charge
+CASH 0
 
-CASH 495672
+PUNDIX 505  495.04950495
+ONG    339  736.72603226
 
-PUNDIX 519  318.40269749
 ETH 1601500 1
 
 # CME 교육 자료.
@@ -175,11 +191,4 @@ ETH 1601500 1
 #			https://btctools.io/kr/stats/market-cap
 # 일정    : https://coinness.live/market/schedule
 
-# On-chain Data
-# 
 
-#SOL, 20360.0, 18070.0, -11.25%
-#NU, 149.0, 131.0, -12.08%
-#DAWN, 887.0, 715.0, -19.39%
-#CRO, 111.0, 84.2, -24.14%
-#SRM, 494.0, 363.0, -26.52%

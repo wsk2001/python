@@ -12,9 +12,9 @@ def get_amt(ticker):
     h = res.get(ticker)[1]
     l = res.get(ticker)[2]
     c = res.get(ticker)[3]
-    e = (c - o) / o * 100.0
-    print('{}: open={}, high={}, low={}, current={}, earning={:0.3f}%'
-          .format(ticker, o, h, l, c, e))
+    e = ((c / o) - 1.0) * 100.0
+    print(f'{ticker}: open={o}, high={h}, low={l}, current={c}, earning={e:0.3f}%')
+
 
 def usage(app):
     print('python ', app, '-t <ticker symbol>')
