@@ -135,18 +135,25 @@ SELECT * from day_candle
 where 1=1
 and symbol = 'BTC'
 and earn &lt;= -7
-and date &gt;= '2022-01-01';</sql><sql name="SQL 5">select A.symbol, A.close AS '1109', B.close AS '1122' FROM
-(
-        (
-                select symbol, close from day_candle
-                where date = '2022-11-09'
-        ) A,
-        (       select symbol, close from day_candle
-                where date = '2022-11-22'
-        ) B
-)
-where A.symbol = B.symbol
-and A.close &gt; B.close
-order by A.close desc
+and date &gt;= '2022-01-01';</sql><sql name="SQL 5">/*
+select A.symbol, A.close AS '1109', B.close AS '1122' FROM
+(
+        (
+                select symbol, close from day_candle
+                where date = '2022-11-09'
+        ) A,
+        (       select symbol, close from day_candle
+                where date = '2022-11-22'
+        ) B
+)
+where A.symbol = B.symbol
+and A.close &gt; B.close
+order by A.close desc
+*/
 
+select * from day_candle
+where 1=1
+and date = '2022-11-23'
+and symbol in ('BTC','ETH','AAVE','ETC','SOL','AVAX','ATOM','LINK','DOT','NEAR','QTUM','FLOW','OMG','XTZ','THETA','MATIC','SAND','1INCH','MANA','ENJ','ADA','SRM','ALGO','BAT','CRO','TRX','JST','VET','XEC');
+
 </sql><current_tab id="3"/></tab_sql></sqlb_project>

@@ -7,6 +7,7 @@ from common.utils import get_binance_btc
 from common.dominance import get_dominance, aoa_position
 import ccxt, cbpro, datetime
 from tradingview_ta import TA_Handler, Interval, Exchange
+import pyupbit
 
 url = "https://api.alternative.me/fng/?limit="
 
@@ -108,6 +109,48 @@ def cb_index(bn_p):
     return cb_p, bn_p, cb_p - bn_p * ti, ti
     # return cb_p, bn_p, cb_p - bn_p, ((cb_p - bn_p) / bn_p) * 100
 
+def calc_earn(v):
+    try:
+        df = pyupbit.get_ohlcv(v, count=2)
+        o = df['open'][0]
+        c = df['close'][0]
+        p = ((c / o) - 1.0) * 100.0
+
+        return v[4:], o, c, p
+    except:
+        return None, None, None, None
+
+
+def upbit_top10():
+    lst = pyupbit.get_tickers(fiat="KRW")
+    earns = [[]]
+    theme_dict = {}
+    theme_dict.clear()
+    count = 10
+
+    # option: Up
+    reverse_flag = True
+
+    earns.clear()
+
+    for v in lst:
+        time.sleep(0.2)
+        arr = calc_earn(v)
+        if arr is not None:
+            earns.append(list(arr))
+
+    earns = sorted(earns, key=lambda x: x[3], reverse=reverse_flag)
+
+    i = 0
+
+    print()
+    print('전일 상승률 top 10')
+    for e in earns:
+        print(f'{e[0]}, {e[3]:.2f}%')
+        i += 1
+        if count <= i:
+            break
+    print()
 
 def main(argv):
     fng_today = fear_day(0)
@@ -136,6 +179,8 @@ def main(argv):
     print(f'바낸 비트 가격: $' + format(price, ',.2f'))
     print(f'비트  도미넌스: {domi}')
     # print(aoa_position() + ' (bitsignal)')
+
+    upbit_top10()
 
     # print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
     # print(f'테더 가격     : ' + format(ti, ',.5f'))
