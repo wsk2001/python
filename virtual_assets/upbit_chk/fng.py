@@ -180,7 +180,7 @@ def main(argv):
     print(f'비트  도미넌스: {domi}')
     # print(aoa_position() + ' (bitsignal)')
 
-    upbit_top10()
+    # upbit_top10()
 
     # print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
     # print(f'테더 가격     : ' + format(ti, ',.5f'))
