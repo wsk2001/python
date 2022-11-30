@@ -162,12 +162,13 @@
 # 역추세 즉 전체적인 숏일때 롱 잡으실땐 손절가 타이트하게!!!운전하실때 드는 안전 보험이라고 생각하시고 스탑리밋 잊지마세요!
 
 # 2022-11-23 500KRW Charge, 2022-11-29 500 KRW Charge
-CASH 1001578		#267379
+CASH 475416		#267379
 
 # APT    6125 78.23804081 -> 6500
+TFUEL   64.40 7385.92391304
+XRP	    544  1
 PUNDIX  518  1
 APT     6500 1
-AXS	   9040  1
 
 # CME 교육 자료.
 # https://www.cmegroup.com/ko/education/learn-about-trading/courses/trading-and-analysis/market-makers-vs-market-takers.html
