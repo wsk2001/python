@@ -180,14 +180,13 @@
 # 역추세 즉 전체적인 숏일때 롱 잡으실땐 손절가 타이트하게!!!운전하실때 드는 안전 보험이라고 생각하시고 스탑리밋 잊지마세요!
 
 # 2022-11-23 500KRW Charge, 2022-11-29 500 KRW Charge
-CASH 712359		#267379
+CASH 0		#267379
 
 # APT    6125 78.23804081 -> 6500
-LINK    10340 22.95304642
-DOGE      133  1
-XRP	      544  1
-
-
+TFUEL   61.80 3689.64385121
+NEAR    2290  99.57096069
+ALGO     321  709.62649516
+MANA     549  412.23468411
 # CME 교육 자료.
 # https://www.cmegroup.com/ko/education/learn-about-trading/courses/trading-and-analysis/market-makers-vs-market-takers.html
 
@@ -207,4 +206,5 @@ XRP	      544  1
 #			https://btctools.io/kr/stats/market-cap
 # 일정    : https://coinness.live/market/schedule
 
+# 아담스 => 웬즈데이
 

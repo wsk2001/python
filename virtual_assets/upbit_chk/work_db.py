@@ -358,7 +358,7 @@ def main():
     ##create_minute_table()
     #get_date('BTC', 30000, 'minute5')
 
-    work_date = '2022-11-25'
+    work_date = '2022-12-03'
     delete_db(work_date)
     insert_db(work_date)
 
