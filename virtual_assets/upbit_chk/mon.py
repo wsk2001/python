@@ -222,23 +222,18 @@ def main(argv):
         pcnt = (mgn / (amt + cash)) * 100.0
 
         btc_ohlcv = binance.fetch_ohlcv('BTC/USDT', timeframe='1d', limit=1)
-        eth_ohlcv = binance.fetch_ohlcv('GMT/USDT', timeframe='1d', limit=1)
+        eth_ohlcv = binance.fetch_ohlcv('CHZ/USDT', timeframe='1d', limit=1)
         btc_price = btc_ohlcv[0][4]
         eth_price = eth_ohlcv[0][4]
         btc_rate = ((btc_ohlcv[0][4] / btc_ohlcv[0][1]) - 1.0) * 100.0
         etc_rate = ((eth_ohlcv[0][4] / eth_ohlcv[0][1]) - 1.0) * 100.0
 
-        # print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',
-        #     f' BTC: ${btc_price:.2f} (Long: 19736.99 {btc_rate:.2f}%), BCH(89.41): ${eth_price:.2f} ({etc_rate:.2f}%)',
-        #     f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
-
         print(f'fng: {fng}, earn: {mgn:.0f},', f'{pcnt:.2f}%,',
-            f' BTC: ${btc_price:.2f} (${btc_rate:.2f}%), GMT(L) 0.3881: ${eth_price:.5f} ({etc_rate:.2f}%)',
+            f' BTC: ${btc_price:.2f} (${btc_rate:.2f}%), CHZ(L) 0.1629: ${eth_price:.5f} ({etc_rate:.2f}%)',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
         print()
         time.sleep(sleep_sec)
-
 
 
 if __name__ == "__main__":
