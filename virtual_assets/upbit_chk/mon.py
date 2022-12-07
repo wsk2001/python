@@ -230,7 +230,7 @@ def main(argv):
 
         print(f'fng: {fng}, earn: {mgn:.0f}, {pcnt:.2f}%,',
             f'BTC: ${btc_price:.2f} (${btc_rate:.2f}%),',
-            f'BTC(S) 016985.57: ${eth_price:.5f} ({etc_rate:.2f}%)',
+            f'BTC(L) 16748.59: ${eth_price:.5f} ({etc_rate:.2f}%)',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
         print()
