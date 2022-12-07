@@ -31,7 +31,8 @@ def main():
             idxs = ser.index.tolist()
 
             if 0 < vals[-1]:
-                print(f'\n{v[4:]}, {str(idxs[-1])[:10]}, {vals[-1]}')
+                earn =  ((df['close'][-1] / df['open'][-1]) -1) * 100
+                print(f'\n{v[4:]}, {str(idxs[-1])[:10]}, {earn:.2f}%')
             else:
                 print('.', flush=True, end='')
 

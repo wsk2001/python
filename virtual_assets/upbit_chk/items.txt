@@ -182,10 +182,9 @@
 # 2022-11-23 500KRW Charge, 2022-11-29 500 KRW Charge
 CASH 0		#267379
 
-XRP   525 426.50476236
-NEAR    2290  99.57096069
-ALGO     321  709.62649516
-MANA     549  412.23468411
+HUNT   356 623.55900701
+WEMIX 1170 1
+
 # CME 교육 자료.
 # https://www.cmegroup.com/ko/education/learn-about-trading/courses/trading-and-analysis/market-makers-vs-market-takers.html
 
