@@ -56,8 +56,10 @@ and A.date &gt;= '2022-01-01'
 order by A.date, B.no;
 */
 
-select * from day_candle where symbol='BTC' and date &gt;= '2022-01-26' and date &lt;= '2022-02-04'
-</sql><sql name="SQL 2">/*
+select symbol, count(*) from day_candle 
+where date &gt;= '2022-07-01'
+and hearn &lt; -10
+group by symbol</sql><sql name="SQL 2">/*
 SELECT A.date, A.hearn,  A.symbol, B.no 
 FROM day_candle A,  market_value B
 WHERE A.symbol=B.symbol
@@ -131,7 +133,7 @@ SELECT * from day_candle
 where 1=1
 and symbol = 'BTC'
 and earn &lt;= -7
-and date &gt;= '2022-01-01';</sql><sql name="SQL 5">-- FTX Beam '2022-11-09', wemix is delisting news
+and date &gt;= '2022-01-01';</sql><sql name="SQL 5">-- FTX Beam '2022-11-09', wemix is delisting news
 /*
 select A.symbol, A.close, B.close, B.earn,  round(((B.close/A.close)-1)*100, 2) as tearn FROM
 (
@@ -148,7 +150,34 @@ and A.close &gt; B.close
 order by round(((B.close/A.close)-1)*100, 2)
 */
 
-select * from day_candle
-where date = '2022-12-06'
-order by earn DESC
-</sql><current_tab id="3"/></tab_sql></sqlb_project>
+--select * from day_candle
+--where date = '2022-12-06'
+--order by earn DESC
+
+--select date, count(*), round(sum(earn)/count(*),2) as idx from day_candle
+--group by date
+
+/* cnt 가 0 인 경우는 생략된다.
+SELECT A.date, A.cnt as Plus, B.cnt as Minus, C.tot_cnt as total_count
+FROM
+(
+	(
+	select date, count(*) as cnt from day_candle
+	where earn &gt; 0
+	group by date
+	) A,
+	(
+	select date, count(*) as cnt from day_candle
+	where earn &lt; 0
+	group by date
+	) B,
+	(
+	select date, count(*) as tot_cnt from day_candle
+	group by date
+	) C
+)
+WHERE A.date = B.date
+AND A.date = C.date
+order by A.date
+*/
+</sql><current_tab id="0"/></tab_sql></sqlb_project>

@@ -1,4 +1,5 @@
 # 초보들이 저지르기 쉬운 최대 실수는 다른 트레이더들은 미래를 예측할 수 있다고 믿는 것. 사실은 그 누구도 모름. 
+# WEMIX 209 1 상폐 완료(2022-12-08 15:00).
 
 # - 자신만의 시스템/시그널 활용 (자신의 원칙을 만들것)
 # - 저항선 에서 매도
@@ -182,8 +183,14 @@
 # 2022-11-23 500KRW Charge, 2022-11-29 500 KRW Charge
 CASH 0		#267379
 
-LINK  9110 24.00120746
-WEMIX 1170 1
+GAS 3025 74.75270629
+
+
+# Na**r****
+# https://contents.premium.naver.com/coindesk/nextmoney
+
+# update 필요
+# https://bloomingbit.io/forum/cw6K2QefA6Nbvz9o6vnBUz
 
 # CME 교육 자료.
 # https://www.cmegroup.com/ko/education/learn-about-trading/courses/trading-and-analysis/market-makers-vs-market-takers.html
@@ -206,3 +213,6 @@ WEMIX 1170 1
 
 # 아담스 => 웬즈데이
 
+# 유통량 정보 미흡 우려 코인 목록
+# $BORA, $GMT, $ICX, $MANA, $HUM, $SAND, $CRE, $MED
+# $WEMIX 사건으로 유통량을 항상 신경써야할거 같네요
