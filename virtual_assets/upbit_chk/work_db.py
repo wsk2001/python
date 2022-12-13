@@ -199,13 +199,15 @@ def insert_db(start_date):
     conn = sqlite3.connect(database_name)
     cur = conn.cursor()
 
+    rdate = start_date
     for v in lst:
         ticker = v
         if not ticker.upper().startswith('KRW-'):
             ticker = 'KRW-' + v.upper()
+
         print(ticker[4:])
 
-        df = pyupbit.get_ohlcv(ticker, count=100, period=1)
+        df = pyupbit.get_ohlcv(ticker, count=20, period=1)
         for ind, row in df.iterrows():
             rdate = ind.strftime('%Y-%m-%d')
             if rdate < start_date:
@@ -222,6 +224,7 @@ def insert_db(start_date):
 
     conn.commit()
     conn.close()
+    print('\nLast update: ' + rdate)
 
 
 def delete_db(start_date):
