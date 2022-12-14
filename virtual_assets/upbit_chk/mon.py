@@ -206,6 +206,7 @@ def main(argv):
         usd = upbit_get_usd_krw()
         btc_rate, btc_price = rate('KRW-BTC')
 
+        item_count = 0
         for itm in symbols:
             if itm.ticker.startswith('BTC-'):
                 t_mgn, t_amt = check_btc_ticker(itm.ticker, btc_rate, btc_price, itm.base, itm.count)
@@ -214,7 +215,7 @@ def main(argv):
 
             if t_mgn is None or t_amt is None:
                 continue
-
+            item_count += 1
             mgn += t_mgn
             amt += t_amt
             time.sleep(0.2)
@@ -230,10 +231,12 @@ def main(argv):
 
         print(f'fng: {fng}, earn: {mgn:.0f}, {pcnt:.2f}%,',
             f'BTC: ${btc_price:.2f} (${btc_rate:.2f}%),',
-            f'BTC(L) 17149.54: ${eth_price:.5f} ({etc_rate:.2f}%)',
+            f'BTC(L20) 17773.23: ${eth_price:.5f} ({etc_rate:.2f}%)',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
-        print()
+        if 0 < item_count:
+            print()
+
         time.sleep(sleep_sec)
 
 
