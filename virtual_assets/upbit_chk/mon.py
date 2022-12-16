@@ -224,15 +224,17 @@ def main(argv):
 
         btc_ohlcv = binance.fetch_ohlcv('BTC/USDT', timeframe='1d', limit=1)
         eth_ohlcv = binance.fetch_ohlcv('BTC/USDT', timeframe='1d', limit=1)
-        btc_price = btc_ohlcv[0][4]
-        eth_price = eth_ohlcv[0][4]
-        btc_rate = ((btc_ohlcv[0][4] / btc_ohlcv[0][1]) - 1.0) * 100.0
-        etc_rate = ((eth_ohlcv[0][4] / eth_ohlcv[0][1]) - 1.0) * 100.0
+        btc_price = btc_ohlcv[-1][4]
+        eth_price = eth_ohlcv[-1][4]
+        btc_rate = ((btc_ohlcv[-1][4] / btc_ohlcv[-1][1]) - 1.0) * 100.0
+        etc_rate = ((eth_ohlcv[-1][4] / eth_ohlcv[-1][1]) - 1.0) * 100.0
 
         print(f'fng: {fng}, earn: {mgn:.0f}, {pcnt:.2f}%,',
             f'BTC: ${btc_price:.2f} (${btc_rate:.2f}%),',
-            f'BTC(S10) 17718.04: ${eth_price:.5f} ({etc_rate:.2f}%)',
+            f'BTC(S10) 17400.45: ${eth_price:.5f} ({etc_rate:.2f}%)',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
+
+        # print(btc_ohlcv)
 
         if 0 < item_count:
             print()

@@ -284,8 +284,9 @@ def main(argv):
 
     volume = df['volume']
     close = df['close']
+
     title = symbol.upper() + ' 매물대'
-    title = title + ', 범위: ' + str(count) + ' ' + str(interval)+'s'
+    title = title + ', 범위: ' + str(len(close)) + ' ' + str(interval)+'s'
     px.histogram(df, x='volume', y='close', nbins=365, orientation='h', title=title).show()
     #px.histogram(df, x='volume', y='close', nbins=150, orientation='h', title=title).show()
 
