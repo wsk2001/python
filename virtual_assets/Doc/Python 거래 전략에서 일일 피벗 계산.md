@@ -28,19 +28,106 @@
 
   
 
+PP는 주요 피벗 수준입니다. S1, S2 및 S3은 지지 수준입니다. R1, R2 및 R3은 저항 수준입니다.
+
+다음은 각각의 지지/저항선 계산 공식 입니다.
 
 
-PP는 주요 피벗 수준입니다. S1, S2 및 S3은 지원 수준입니다. R1, R2 및 R3은 저항 수준입니다.
 
-``` py
-last_day['Pivot'] = (last_day['High'] + last_day['Low'] + last_day['Close'])/3
-last_day['R1'] = 2*last_day['Pivot'] - last_day['Low']
-last_day['S1'] = 2*last_day['Pivot'] - last_day['High']
-last_day['R2'] = last_day['Pivot'] + (last_day['High'] - last_day['Low'])
-last_day['S2'] = last_day['Pivot'] - (last_day['High'] - last_day['Low'])
-last_day['R3'] = last_day['Pivot'] + 2*(last_day['High'] - last_day['Low'])
-last_day['S3'] = last_day['Pivot'] - 2*(last_day['High'] - last_day['Low'])
+###### Traditional
+
+```js
+    PP = (HIGHprev + LOWprev + CLOSEprev) / 3
+    R1 = PP * 2 - LOWprev
+    S1 = PP * 2 - HIGHprev
+    R2 = PP + (HIGHprev - LOWprev)
+    S2 = PP - (HIGHprev - LOWprev)
+    R3 = PP * 2 + (HIGHprev - 2 * LOWprev)
+    S3 = PP * 2 - (2 * HIGHprev - LOWprev)
+    R4 = PP * 3 + (HIGHprev - 3 * LOWprev)
+    S4 = PP * 3 - (3 * HIGHprev - LOWprev)
+    R5 = PP * 4 + (HIGHprev - 4 * LOWprev)
+    S5 = PP * 4 - (4 * HIGHprev - LOWprev)
 ```
 
 
+
+###### Fibonacci
+
+```js
+    PP = (HIGHprev + LOWprev + CLOSEprev) / 3
+    R1 = PP + 0.382 * (HIGHprev - LOWprev)
+    S1 = PP - 0.382 * (HIGHprev - LOWprev)
+    R2 = PP + 0.618 * (HIGHprev - LOWprev)
+    S2 = PP - 0.618 * (HIGHprev - LOWprev)
+    R3 = PP + (HIGHprev - LOWprev)
+    S3 = PP - (HIGHprev - LOWprev)
+```
+
+
+
+###### Woodie
+
+```js
+    PP = (HIGHprev + LOWprev + 2 * CLOSEprev) / 4
+    R1 = 2 * PP - LOWprev
+    S1 = 2 * PP - HIGHprev
+    R2 = PP + (HIGHprev - LOWprev)
+    S2 = PP - (HIGHprev - LOWprev)
+    R3 =  HIGHprev + 2 * (PP -  LOWprev)
+    S3 =  LOWprev - 2 * (HIGHprev - PP)
+    R4 = R3 + (HIGHprev - LOWprev)
+    S4 = S3 - (HIGHprev - LOWprev)
+```
+
+
+
+###### Classic
+
+```js
+    PP = (HIGHprev + LOWprev + CLOSEprev) / 3
+    R1 = 2 * PP - LOWprev
+    S1 = 2 * PP - HIGHprev
+    R2 = PP + (HIGHprev - LOWprev)
+    S2 = PP - (HIGHprev - LOWprev)
+    R3 = PP + 2 * (HIGHprev - LOWprev)
+    S3 = PP - 2 * (HIGHprev - LOWprev)
+    R4 = PP + 3 * (HIGHprev - LOWprev)
+    S4 = PP - 3 * (HIGHprev - LOWprev)
+```
+
+
+
+###### Demark
+
+```js
+    IF  OPENprev == CLOSEprev
+    X = HIGHprev + LOWprev + 2 * CLOSEprev
+    ELSE 
+    IF CLOSEprev >  OPENprev
+        X = 2 * HIGHprev + LOWprev + CLOSEprev
+    ELSE
+        X = 2 * LOWprev + HIGHprev + CLOSEprev
+    PP = X / 4
+    R1 = X / 2 - LOWprev
+    S1 = X / 2 - HIGHprev
+```
+
+
+
+###### Camarilla
+
+```js
+    PP = (HIGHprev + LOWprev + CLOSEprev) / 3
+    R1 = CLOSEprev + 1.1 * (HIGHprev - LOWprev) / 12
+    S1 = CLOSEprev - 1.1 * (HIGHprev - LOWprev) / 12
+    R2 = CLOSEprev + 1.1 * (HIGHprev - LOWprev) / 6
+    S2 = CLOSEprev - 1.1 * (HIGHprev - LOWprev) / 6
+    R3 = CLOSEprev + 1.1 * (HIGHprev - LOWprev) / 4
+    S3 = CLOSEprev - 1.1 * (HIGHprev - LOWprev) / 4
+    R4 = CLOSEprev + 1.1 * (HIGHprev - LOWprev) / 2
+    S4 = CLOSEprev - 1.1 * (HIGHprev - LOWprev) / 2
+    R5 = (HIGHprev / LOWprev) * CLOSEprev
+    S5 = CLOSEprev - (R5 - CLOSEprev)
+```
 

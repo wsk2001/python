@@ -20,6 +20,7 @@ from dateutil.relativedelta import relativedelta
 import requests
 from ast import literal_eval
 import pandas as pd
+import ccxt
 
 database_name = './dbms/virtual_asset.db'
 
@@ -351,6 +352,24 @@ def get_date(symbol, count, interval):
     conn.commit()
     conn.close()
 
+def get_binance_ohlcv(ticker, count=1):
+    binance = ccxt.binance()
+    parameters = {
+        'start': '1',
+        'limit': '1',
+        'convert': 'USD'
+    }
+
+    # 2017-08-17
+    start_date = '2017-01-01'
+    start = int(time.mktime(datetime.strptime(start_date + ' 00:00', '%Y-%m-%d %H:%M').timetuple())) * 1000
+
+    ohlcv = binance.fetch_ohlcv(ticker.upper()+'/USDT', timeframe='1d', limit=count, since=start)
+    df = pd.DataFrame(ohlcv, columns=['datetime', 'open', 'high', 'low', 'close', 'volume'])
+    df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
+    df.set_index('datetime', inplace=True)
+    print(df)
+
 
 def main():
     # Quadruple_Witching_Day()
@@ -361,7 +380,9 @@ def main():
     ##create_minute_table()
     #get_date('BTC', 30000, 'minute5')
 
-    work_date = '2022-12-16'
+    #get_binance_ohlcv('BTC', 10000)
+
+    work_date = '2022-12-18'
     delete_db(work_date)
     insert_db(work_date)
 
