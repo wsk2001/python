@@ -24,21 +24,30 @@ import ccxt
 
 def get_binance_ohlcv(ticker, count=1):
     binance = ccxt.binance()
-    parameters = {
-        'start': '1',
-        'limit': '1',
-        'convert': 'USD'
-    }
+    ohlcv = binance.fetch_ohlcv(ticker.upper() + '/USDT', timeframe='1d', limit=count)
+    o = 0
+    h = 0
+    l = 0
+    c = 0
 
-    # 2017-08-17
-    start_date = '2017-01-01'
-    start = int(time.mktime(datetime.strptime(start_date + ' 00:00', '%Y-%m-%d %H:%M').timetuple())) * 1000
+    start_flag = True
 
-    ohlcv = binance.fetch_ohlcv(ticker.upper()+'/USDT', timeframe='1d', limit=count, since=start)
-    df = pd.DataFrame(ohlcv, columns=['datetime', 'open', 'high', 'low', 'close', 'volume'])
-    df['datetime'] = pd.to_datetime(df['datetime'], unit='ms')
-    df.set_index('datetime', inplace=True)
-    print(df)
+    for v in ohlcv:
+        if start_flag == True:
+            o = v[1]
+            h = v[2]
+            l = v[3]
+            c = v[4]
+            start_flag = False
+        else :
+            if h < v[2]:
+                h = v[2]
+            if l > v[3]:
+                l = v[3]
+
+        c = v[4]
+
+    return o, h, l, c
 
 def pp_traditional(high, low, close):
     PP = (high + low + close) / 3
@@ -53,7 +62,7 @@ def pp_traditional(high, low, close):
     R5 = PP * 4 + (high - 4 * low)
     S5 = PP * 4 - (4 * high - low)
 
-    return round(PP,2), round(S1,2), round(R1,2), round(S2,2), round(R2,2), round(S3,2), round(R3,2), round(S4,2), round(R4,2), round(S5,2), round(R5,2)
+    return round(PP,2), round(R1,2), round(R2,2), round(R3,2), round(R4,2), round(R5,2), round(S1,2), round(S2,2), round(S3,2), round(S4,2), round(S5,2)
 
 def pp_fibonacci(high, low, close):
     PP = (high + low + close) / 3
@@ -64,7 +73,7 @@ def pp_fibonacci(high, low, close):
     R3 = PP + (high - low)
     S3 = PP - (high - low)
 
-    return round(PP,2), round(S1,2), round(R1,2), round(S2,2), round(R2,2), round(S3,2), round(R3,2)
+    return round(PP,2), round(R1,2), round(R2,2), round(R3,2), round(S1,2), round(S2,2), round(S3,2)
 
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
@@ -76,6 +85,10 @@ def main(argv):
     h = float(args.high)
     l = float(args.low)
     c = float(args.close)
+
+    _, h, l, c = get_binance_ohlcv('btc', 2)
+
+    print(get_binance_ohlcv('btc', 2))
 
     print(pp_traditional(h, l, c))
     print(pp_fibonacci(h, l, c))
