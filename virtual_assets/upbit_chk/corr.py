@@ -13,7 +13,7 @@ database_name = './dbms/virtual_asset.db'
 
 def corr():
     query = \
-        "select symbol, close from day_candle " \
+        "select symbol, hearn from day_candle " \
         "where date >= '2022-05-19' " \
         "and symbol not in ('APT', 'WEMIX') " \
         "order by symbol, date "
@@ -37,7 +37,7 @@ def main():
     pd.set_option('display.max_rows', None)
 
     dic_data = pd.DataFrame(corr())
-    print(dic_data.corr(method='pearson').to_markdown())
+    print(dic_data.corr(method='pearson').round(2).to_markdown())
 
 
 if __name__ == "__main__":
