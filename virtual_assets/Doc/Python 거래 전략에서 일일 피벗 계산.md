@@ -8,6 +8,10 @@
 
 데이 트레이더는 예를 들어 가격이 피벗 수준에 가까운 곳에서 거래 기회를 찾을 수 있습니다. 예를 들어 풀백이나 브레이크아웃을 기다리고 가장 가까운 피벗 수준을 목표로 사용합니다.
 
+
+
+
+
 ### 계산 방법
 
 클래식 피벗 레벨은 마지막 날의 고가, 저가 및 종가에 적용된 [Tradingview 지식 기반](https://www.tradingview.com/support/solutions/43000521824-pivot-points-standard/)에서 가져온 다음 공식에 따라 계산됩니다.
@@ -22,7 +26,7 @@
 
 - S2 = PP — (High — Low)
 
-- R3 = PP + 2 * (High — Low)
+  - R3 = PP + 2 * (High — Low)
 
 - S3 = PP — 2 * (High — Low)
 

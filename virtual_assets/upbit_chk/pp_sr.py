@@ -1,25 +1,12 @@
 # -*- coding: utf-8 -*-
 
 """
-연관성 분석 App
-특정 종목이 주어진 % 이상 상승 했을때 전/후로 특정% 이상 상승한 종목을 이용해 연관성 분석.
-1. 지정 옵션: symbol, 기간 10,000일, earn(원본 종목의 상승%), comp earn(비교하 종목들의 상승%)
-2. 모든 종목들의 일간 상승률 저장 plus 인 경우만 저장. (일자, 상승%, symbol)
-3.
+저항선/지지선  구하는 알고리즘 App
+.
 """
 
 import time, sys
-import pyupbit
-from datetime import datetime, date
-from common.themes import get_themes, get_all_themes
-from common.utils import get_idx_values, get_tickers
 import argparse
-import sqlite3
-from datetime import datetime, timedelta
-from dateutil.relativedelta import relativedelta
-import requests
-from ast import literal_eval
-import pandas as pd
 import ccxt
 
 def get_binance_ohlcv(ticker, count=1):
@@ -62,7 +49,8 @@ def pp_traditional(high, low, close):
     R5 = PP * 4 + (high - 4 * low)
     S5 = PP * 4 - (4 * high - low)
 
-    return round(PP,2), round(R1,2), round(R2,2), round(R3,2), round(R4,2), round(R5,2), round(S1,2), round(S2,2), round(S3,2), round(S4,2), round(S5,2)
+    #return round(PP,2), round(R1,2), round(R2,2), round(R3,2), round(R4,2), round(R5,2), round(S1,2), round(S2,2), round(S3,2), round(S4,2), round(S5,2)
+    return round(PP,2), round(S1,2), round(R1,2)
 
 def pp_fibonacci(high, low, close):
     PP = (high + low + close) / 3
@@ -73,7 +61,68 @@ def pp_fibonacci(high, low, close):
     R3 = PP + (high - low)
     S3 = PP - (high - low)
 
-    return round(PP,2), round(R1,2), round(R2,2), round(R3,2), round(S1,2), round(S2,2), round(S3,2)
+    #return round(PP,2), round(R1,2), round(R2,2), round(R3,2), round(S1,2), round(S2,2), round(S3,2)
+    return round(PP,2), round(S1,2), round(R1,2)
+
+
+def pp_woodie(high, low, close):
+    PP = (high + low + 2 * close) / 4
+    R1 = 2 * PP - low
+    S1 = 2 * PP - high
+    R2 = PP + (high - low)
+    S2 = PP - (high - low)
+    R3 = high + 2 * (PP - low)
+    S3 = low - 2 * (high - PP)
+    R4 = R3 + (high - low)
+    S4 = S3 - (high - low)
+
+    return round(PP, 2), round(S1, 2), round(R1, 2)
+
+
+def pp_classic(high, low, close):
+    PP = (high + low + close) / 3
+    R1 = 2 * PP - low
+    S1 = 2 * PP - high
+    R2 = PP + (high - low)
+    S2 = PP - (high - low)
+    R3 = PP + 2 * (high - low)
+    S3 = PP - 2 * (high - low)
+    R4 = PP + 3 * (high - low)
+    S4 = PP - 3 * (high - low)
+
+    return round(PP, 2), round(S1, 2), round(R1, 2)
+
+
+def pp_demark(open, high, low, close):
+    if open == close:
+        X = high + low + 2 * close
+    else:
+        if close > open:
+            X = 2 * high + low + close
+        else:
+            X = 2 * low + high + close
+
+    PP = X / 4
+    R1 = X / 2 - low
+    S1 = X / 2 - high
+
+    return round(PP, 2), round(S1, 2), round(R1, 2)
+
+
+def pp_camarilla(high, low, close):
+    PP = (high + low + close) / 3
+    R1 = close + 1.1 * (high - low) / 12
+    S1 = close - 1.1 * (high - low) / 12
+    R2 = close + 1.1 * (high - low) / 6
+    S2 = close - 1.1 * (high - low) / 6
+    R3 = close + 1.1 * (high - low) / 4
+    S3 = close - 1.1 * (high - low) / 4
+    R4 = close + 1.1 * (high - low) / 2
+    S4 = close - 1.1 * (high - low) / 2
+    R5 = (high / low) * close
+    S5 = close - (R5 - close)
+
+    return round(PP, 2), round(S1, 2), round(R1, 2)
 
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
@@ -86,13 +135,17 @@ def main(argv):
     l = float(args.low)
     c = float(args.close)
 
-    _, h, l, c = get_binance_ohlcv('btc', 2)
+    o, h, l, c = get_binance_ohlcv('btc', 2)
 
-    print(get_binance_ohlcv('btc', 2))
-
-    print(pp_traditional(h, l, c))
-    print(pp_fibonacci(h, l, c))
-
+    print('yesterday ohlcv:', get_binance_ohlcv('btc', 2))
+    print()
+    print('traditional  sr:', pp_traditional(h, l, c))
+    print('fibonacci    sr:', pp_fibonacci(h, l, c))
+    print('woodie       sr:', pp_woodie(h, l, c))
+    print('classic      sr:', pp_classic(h, l, c))
+    print('demark       sr:', pp_demark(o, h, l, c))
+    print('camarilla    sr:', pp_camarilla(h, l, c))
+    print()
 
 
 if __name__ == "__main__":
