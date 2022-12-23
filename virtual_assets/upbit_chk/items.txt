@@ -177,8 +177,6 @@
 # gmail // k**********P
 # API 키는 Professional/Premium 가입자에게 제공됩니다. 
 #
-# 제일 중요한건 역시 비트/이더가 흐르면 같은 방향(추세그대로, 즉 비트 이더가 -%고 대부분 알트가-%면 숏 그 반대면 롱) 코인이 수익내기 우세합니다.
-# 역추세 즉 전체적인 숏일때 롱 잡으실땐 손절가 타이트하게!!!운전하실때 드는 안전 보험이라고 생각하시고 스탑리밋 잊지마세요!
 
 # 2022-11-23 500KRW Charge, 2022-11-29 500 KRW Charge
 CASH 1		#267379
@@ -228,13 +226,8 @@ XRP	   447 1
 
 # 피어슨 상관계수 계산
 # https://junyoru.tistory.com/135
-#import pandas as pd 
-#
-#data = {"col1":[1,2,3,4,5,6,7,8,9,10],
-#        "col2":[1,4,2,8,16,32,34,37,47,50],
-#        "col3":[10,9,4,6,8,9,11,12,9,7]}
-#
-#data = pd.DataFrame(data)
-#
-#data.corr(method = 'pearson')
+
+
+# 챗GPT 참조
+# https://github.com/labteral/chatgpt-python
 
