@@ -44,7 +44,7 @@ def datetime_to_str(date_time_obj):
     return date_time_str
 
 
-# py view_stocastic.py --count=60 --interval=day --symbol=TT
+# py stocastic_chart.py --count=60 --interval=day --symbol=TT
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('--count', required=False, default=90, help='수집 data 갯수 (default=10000)')
@@ -67,4 +67,4 @@ def main(argv):
 if __name__ == "__main__":
     main(sys.argv)
 
-# py view_stocastic.py --count=60 --interval=day --symbol=TT
+# py stocastic_chart.py --count=60 --interval=day --symbol=TT

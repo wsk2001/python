@@ -87,15 +87,15 @@ def check_stocastic(symbol='ALL', interval='day', count=0, period=9, periodk=3, 
     for v in code_list:
         ticker, k, d = stocastic(v, interval, count, period, periodk, periodd)
 
-        if d <= 10 and 10 < k:
+        if d <= 20 and 20 < k:
             if d < k:
                 print(f'{ticker}, {k:.2f}, {d:.2f} buy')
         elif 80 <= d:
             if d > k:
                 print(f'{ticker}, {k:.2f}, {d:.2f} sell')
+        else:
+            print(f'{ticker}, {k:.2f}, {d:.2f}')
 
-        # else:
-        #     print(f'{ticker}, {k:.2f}, {d:.2f}')
         time.sleep(0.3)
 
 def main(argv):
@@ -124,3 +124,5 @@ if __name__ == "__main__":
 # run: python get_ohlcv.py -c 7 -t kava -i d
 # 일단위 data 수집시, 최고가 일자 _data, 최저가 일자 _data print 하도록 수정 필요.
 # BTC market 가격 반영
+# %K 는 빠르게 움직이는 단기 지표, %D 는 느리게 움직이는 장기 지표.
+
