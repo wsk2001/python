@@ -46,7 +46,7 @@ FROM
 where A.symbol = B.symbol
 order by rh desc;
 */
-
+
 /*
 select A.symbol, S.open as '시가', A.date, A.mx as '고가', B.date, B.mn as '저가', E.date, E.close as '종가' FROM
 (
@@ -73,21 +73,21 @@ WHERE A.symbol = B.symbol
 and  A.symbol = S.symbol
 and  A.symbol = E.symbol
 order by A.symbol
-*/
-
-select S.symbol, S.open, E.close, round((((E.close / S.open) -1) * 100),2) as earn FROM
-(
-        (
-                select symbol, date, open from day_candle
-                where date = '2022-01-01'
-        ) S,
-        (
-                select symbol, date, close from day_candle
-                where date = '2022-12-26'
-        ) E
-)
-WHERE S.symbol = E.symbol
-order by earn
+*/
+
+select S.symbol, S.open, E.close, round((((E.close / S.open) -1) * 100),2) as earn FROM
+(
+        (
+                select symbol, date, open from day_candle
+                where date = '2022-01-01'
+        ) S,
+        (
+                select symbol, date, close from day_candle
+                where date = '2022-12-27'
+        ) E
+)
+WHERE S.symbol = E.symbol
+order by earn
 
 
 --VACUUM
