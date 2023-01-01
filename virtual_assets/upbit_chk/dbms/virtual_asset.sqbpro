@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1037"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">--SELECT symbol, substr(date,9), round(sum(earn),2)  from day_candle
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="1133"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">--SELECT symbol, substr(date,9), round(sum(earn),2)  from day_candle
 --where 1=1
 --and date &gt; '2021-12-31'
 --group by substr(date,9), symbol
@@ -127,6 +127,8 @@ order by D.no;
 --VALUES('WEB3', 'LINK', '체인링크', 'UPBIT_KRW', 'ERC-20');
 
 --commit;
+
+select date, close from day_candle WHERE date &gt;= '2020-01-01' and symbol = 'BTC'
 </sql><sql name="SQL 3">--CREATE TABLE weekday_t AS
 --  SELECT date as dt, symbol, earn, strftime('%w', date) as wd
 --  FROM day_candle
@@ -247,4 +249,4 @@ AND A.symbol = B.symbol
 
 
 
-</sql><current_tab id="0"/></tab_sql></sqlb_project>
+</sql><current_tab id="1"/></tab_sql></sqlb_project>
