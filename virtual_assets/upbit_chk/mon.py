@@ -231,7 +231,7 @@ def main(argv):
 
         print(f'fng: {fng}, earn: {mgn:.0f}, {pcnt:.2f}%,',
             f'BTC: ${btc_price:.2f} (${btc_rate:.2f}%),',
-            f'BTC(S10) 16561.90: ${eth_price:.5f} ({etc_rate:.2f}%)',
+            f'BTC(L100) 16606.75: ${eth_price:.5f} ({etc_rate:.2f}%)',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
         # print(btc_ohlcv)
