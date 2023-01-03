@@ -73,7 +73,7 @@ WHERE A.symbol = B.symbol
 and  A.symbol = S.symbol
 and  A.symbol = E.symbol
 order by A.symbol
-*/
+*/
 
 select S.symbol, S.open, E.close, round((((E.close / S.open) -1) * 100),2) as earn FROM
 (
@@ -87,11 +87,21 @@ select S.symbol, S.open, E.close, round((((E.close / S.open) -1) * 100),2) as ea
         ) E
 )
 WHERE S.symbol = E.symbol
-order by earn
+order by  S.symbol, earn
 
+-- VACUUM
 
---VACUUM
-
+
+/*
+UPDATE day_candle
+set open = open * 100.0,
+high = high * 100.0,
+low = low * 100.0,
+close = close * 100.0
+where 1=1
+and symbol = 'HIFI'
+and date &lt;= '2022-12-26';
+*/
 </sql><sql name="SQL 2">/*
 SELECT A.date, A.hearn,  A.symbol, B.no 
 FROM day_candle A,  market_value B
