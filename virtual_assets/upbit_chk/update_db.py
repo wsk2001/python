@@ -241,11 +241,11 @@ def delete_db(start_date):
     conn.close()
 
 
-
-def statistics():
+# 등락 통계
+def statistics(ticker):
     query = \
         "select date, symbol, earn from day_candle " \
-        "where symbol = 'BTC'; "
+        "where symbol = '" + ticker.upper() + "' order by date; "
 
     con = sqlite3.connect(database_name)
     df = pd.read_sql_query(query, con)
@@ -304,8 +304,13 @@ def statistics():
         lst.append([start_date, end_date, count])
 
 
+    pv_cnt = 0
     for l in lst:
         print(f'{l[0]} ~ {l[1]}, {l[2]}')
+        pv_cnt += 1
+
+    print()
+    print(f'{ticker.upper()} change direction count = {pv_cnt} / total count = {len(vals)},  duration={round(len(vals)/pv_cnt, 2)}')
 
 
     con.close()
@@ -382,11 +387,11 @@ def main():
 
     #get_binance_ohlcv('BTC', 10000)
 
-    work_date = '2022-12-27'
+    work_date = '2023-01-03'
     delete_db(work_date)
     insert_db(work_date)
 
-    # statistics()
+    # statistics('btc')
 
     # theme_updata('USDT')
     # theme_updata('BTC')
