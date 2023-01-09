@@ -24,6 +24,9 @@ import ccxt
 
 database_name = './dbms/virtual_asset.db'
 
+list_theme = ['AVAX','BINANCE','BITCOIN','CHINA','DAO','DEFI','DEX','DID','DOT','FAN','KAKAO','KIMCHI','KLAY','LAYER2',
+              'MAJOR','MATIC','MEDICAL','MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY','SOL','STORAGE','WEB3']
+
 # 상승, 하락률 계산 함수
 def calc_earn(open_price, close_price):
     res = ((close_price / open_price) - 1.0) * 100.0
@@ -175,6 +178,75 @@ def Quadruple_Witching_Day():
     con.close()
 
 
+# Theme 에 등록되어 있는 모든 ticker 를 조회 한다.
+def get_theme_in_tickers(theme):
+    query = \
+        "select symbol from coin_theme " \
+        "where MARKET = 'UPBIT_KRW' " \
+        "and THEME = '" + theme.upper() + "'; "
+
+    con = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, con)
+    vals = df.values.tolist()
+
+    lst = []
+    lst.clear()
+
+    for v in vals:
+        lst.append(v)
+
+    con.close()
+
+    return lst
+
+
+# 2023 년 테마별 실적
+def get_theme_earn_2023(last_date):
+    query = \
+        "SELECT  F.theme,  A.symbol, A.open as O, D.high as H, C.low as L, B.close as C, " \
+"round((((B.close / A.open) -1) * 100),2) as E  FROM                             " \
+"(                                                                               " \
+"       (                                                                        " \
+"               select symbol, open from day_candle                              " \
+"               where date = '2023-01-01'                                        " \
+"               group by symbol                                                  " \
+"       ) A,                                                                     " \
+"       (                                                                        " \
+"               select symbol, close from day_candle                             " \
+"               where date = '" + last_date + "' " \
+"               group by symbol                                                  " \
+"       ) B,                                                                     " \
+"       (                                                                        " \
+"               select symbol, min(close) low from day_candle                    " \
+"               where date like '2023-%'                                         " \
+"               group by symbol                                                  " \
+"       ) C,                                                                     " \
+"       (                                                                        " \
+"               select symbol, max(close) high from day_candle                   " \
+"               where date like '2023-%'                                         " \
+"               group by symbol                                                  " \
+"       ) D,                                                                     " \
+"       (                                                                        " \
+"               select symbol, theme from coin_theme                             " \
+"               where market = 'UPBIT_KRW'                                       " \
+"       ) F                                                                      " \
+")                                                                               " \
+"WHERE A.symbol = B.symbol                                                       " \
+"AND A.symbol = C.symbol                                                         " \
+"AND A.symbol = D.symbol                                                         " \
+"AND A.symbol = F.symbol                                                         " \
+"order by F.theme, A.symbol;                                                     "
+
+    con = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, con)
+    vals = df.values.tolist()
+
+    con.close()
+
+    return vals
+
+
+
 #########################################
 # 등락 통계
 # 진행 방향(등락)이 바뀌는 일자 통계
@@ -285,6 +357,39 @@ def get_binance_ohlcv(ticker, count=1):
     print(df)
 
 
+# 2023년 테마별 실적 평균 (1월 1일 ~ 마지막 날짜 기준)
+def get_theme_earn():
+    datas = get_theme_earn_2023('2023-01-09')
+
+    theme = ''
+    total = 0.0
+    cnt = 0
+
+    for v in datas:
+        if theme != v[0]:
+            if len(theme) == 0:
+                theme = v[0]
+                total = float(v[6])
+                cnt = 1
+                print(v[0], v[1], v[2], v[3], v[4], v[5], v[6])
+                continue
+            else:
+                print(theme + ' Average: ', round(total/cnt, 2))
+                print()
+                theme = v[0]
+                total = float(v[6])
+                cnt = 1
+                print(v[0], v[1], v[2], v[3], v[4], v[5], v[6])
+                continue
+        else:
+            total += float(v[6])
+            cnt += 1
+            print(v[0], v[1], v[2], v[3], v[4], v[5], v[6])
+
+    print(theme + ' Average: ', round(total / cnt, 2))
+    print()
+
+
 def main():
     # Quadruple_Witching_Day()
 
@@ -297,7 +402,15 @@ def main():
     #get_binance_ohlcv('BTC', 10000)
 
 
-    pivot_check('btc')
+    #pivot_check('btc')
+
+    # for theme in list_theme:
+    #     tikers = get_theme_in_tickers(theme)
+    #     print()
+    #     print(theme)
+    #     print(tikers)
+
+    get_theme_earn()
 
     # theme_updata('USDT')
     # theme_updata('BTC')
