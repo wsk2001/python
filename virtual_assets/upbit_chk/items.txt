@@ -189,12 +189,17 @@
 # 2022-11-23 500KRW Charge, 2022-11-29 500 KRW Charge
 CASH 0		#267379
 
+SAND 659 75.86191198
 PUNDIX 412 1
-MANA 477 200.67085953
+MANA 503 1
 
 # 1개월~ 3개월 사이에 비트코인을 매수한 트레이더들의 실현가격은 평균 $17,750이며, 이 가격대가 단기적으로 도달 할 수 있는 최고점이 될 가능성이 높습니다.
 # 17750 에서 short
 # https://www.blockmedia.co.kr/archives/285867 
+
+# 유료 구독중 (전체 스크랩 필요)
+# https://contents.premium.naver.com/coinsignal/first
+
 
 # Na**r****
 # https://contents.premium.naver.com/coindesk/nextmoney
@@ -243,3 +248,13 @@ MANA 477 200.67085953
 # https://songseungwon.tistory.com/63
 
 # Theme Index
+
+# import matplotlib.pyplot as plt
+#
+# singer = ['A', 'B', 'C', 'D', 'E']
+# week1 = [42, 58, 19, 92, 84]
+# week2 = [53, 52, 48, 98, 73]
+#
+# plt.plot(singer, week1)
+# plt.plot(singer, week2)
+# plt.show()

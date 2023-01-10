@@ -357,37 +357,62 @@ def get_binance_ohlcv(ticker, count=1):
     print(df)
 
 
-# 2023년 테마별 실적 평균 (1월 1일 ~ 마지막 날짜 기준)
-def get_theme_earn():
-    datas = get_theme_earn_2023('2023-01-09')
+# 2023년 테마별 실적 평균 (1월 1일 ~ 지정 일자)
+def get_theme_earn(last_date):
+    datas = get_theme_earn_2023(last_date)
 
     theme = ''
     total = 0.0
     cnt = 0
 
+    lst_grouping = []
+    lst_grouping.clear()
     for v in datas:
         if theme != v[0]:
             if len(theme) == 0:
                 theme = v[0]
                 total = float(v[6])
                 cnt = 1
-                print(v[0], v[1], v[2], v[3], v[4], v[5], v[6])
                 continue
             else:
-                print(theme + ' Average: ', round(total/cnt, 2))
-                print()
+                lst_grouping.append([theme, round(total/cnt, 2) ])
                 theme = v[0]
                 total = float(v[6])
                 cnt = 1
-                print(v[0], v[1], v[2], v[3], v[4], v[5], v[6])
                 continue
         else:
             total += float(v[6])
             cnt += 1
-            print(v[0], v[1], v[2], v[3], v[4], v[5], v[6])
 
-    print(theme + ' Average: ', round(total / cnt, 2))
-    print()
+    lst_grouping.append([theme, round(total / cnt, 2)])
+
+    return lst_grouping
+
+
+def delete_db(day):
+    lst = get_tickers('KRW')
+
+    conn = sqlite3.connect(database_name)
+    cur = conn.cursor()
+
+    sql = "DELETE FROM theme_summry WHERE ymd" + ">= '" + day + "';"
+    cur.execute(sql)
+
+    conn.commit()
+    conn.close()
+
+
+def insert_theme_summary(l):
+    conn = sqlite3.connect(database_name)
+    cur = conn.cursor()
+
+    cur.execute("INSERT INTO theme_summry VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+                (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8], l[9], l[10], l[11], l[12], l[13],
+                 l[14], l[15], l[16], l[17], l[18], l[19], l[20], l[21], l[22], l[23], l[24], l[25], l[26], l[27]))
+
+    conn.commit()
+    conn.close()
+
 
 
 def main():
@@ -410,7 +435,33 @@ def main():
     #     print(theme)
     #     print(tikers)
 
-    get_theme_earn()
+    days = ['2023-01-10']
+
+    themes = ['YMD','AVAX','BINANCE','BITCOIN','CHINA','DAO','DEFI','DEX','DID','DOT','FAN','KAKAO','KIMCHI','KLAY',
+              'LAYER2','MAJOR','MATIC','MEDICAL','MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY','SOL','STORAGE',
+              'WEB3','ALL']
+
+    print(themes)
+
+    for day in days:
+        theme_group = get_theme_earn(day)
+
+        cnt = 0
+        earn = 0.0
+        lst = []
+        lst.clear()
+        lst.append(day)
+        for t in theme_group:
+            cnt += 1
+            earn += float(t[1])
+            lst.append(float(t[1]))
+        lst.append(round(earn/cnt, 2))
+
+        delete_db(day)
+        insert_theme_summary(lst)
+
+        print(lst)
+        print()
 
     # theme_updata('USDT')
     # theme_updata('BTC')
