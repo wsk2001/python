@@ -26,6 +26,10 @@ class item:
         self.tp = tp
 
 
+def unixtime_to_str(unixtime):
+    time_obj = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(unixtime))
+    return time_obj
+
 def what_day_is_it(date):
     days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
     day = date.weekday()
@@ -228,12 +232,14 @@ def main(argv):
         eth_price = eth_ohlcv[-1][4]
         btc_rate = ((btc_ohlcv[-1][4] / btc_ohlcv[-1][1]) - 1.0) * 100.0
         etc_rate = ((eth_ohlcv[-1][4] / eth_ohlcv[-1][1]) - 1.0) * 100.0
+        #last_dt = unixtime_to_str(eth_ohlcv[-1][0]/1000)
 
         print(f'fng: {fng}, earn: {mgn:.0f}, {pcnt:.2f}%,',
             f'BTC: ${btc_price:.2f} (${btc_rate:.2f}%),',
-            f'BTC(S80) 16653.46(16909.81): ${eth_price:.2f} ({etc_rate:.2f}%)',
+            f'BTC(L20) 17414.61(16479.33): ${eth_price:.2f} ({etc_rate:.2f}%)',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
+        #print(last_dt)
         # print(btc_ohlcv)
 
         if 0 < item_count:

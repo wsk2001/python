@@ -435,7 +435,7 @@ def main():
     #     print(theme)
     #     print(tikers)
 
-    days = ['2023-01-10']
+    days = ['2023-01-11']
 
     themes = ['YMD','AVAX','BINANCE','BITCOIN','CHINA','DAO','DEFI','DEX','DID','DOT','FAN','KAKAO','KIMCHI','KLAY',
               'LAYER2','MAJOR','MATIC','MEDICAL','MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY','SOL','STORAGE',
