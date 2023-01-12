@@ -236,7 +236,7 @@ def main(argv):
 
         print(f'fng: {fng}, earn: {mgn:.0f}, {pcnt:.2f}%,',
             f'BTC: ${btc_price:.2f} (${btc_rate:.2f}%),',
-            f'BTC(L20) 17414.61(16479.33): ${eth_price:.2f} ({etc_rate:.2f}%)',
+            f'BTC(S10) 17524.05(19591.83): ${eth_price:.2f} ({etc_rate:.2f}%)',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
         #print(last_dt)

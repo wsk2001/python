@@ -49,6 +49,51 @@ def view(v, cnt, interval=None, to=None, disp='yes', save='no'):
         plt.show()
 
 
+def view_2_axes(v, cnt, interval=None, to=None, disp='yes', save='no'):
+    ticker = v
+    if v.upper().startswith('KRW-') or  v.upper().startswith('BTC-'):
+        ticker = v
+    else:
+        ticker = 'KRW-' + v
+
+    df = pyupbit.get_ohlcv(ticker, interval=interval, to=to, count=cnt)
+
+    fig, ax1 = plt.subplots()
+    plt.grid(True)
+
+    color_1 = 'tab:blue'
+    ax1.set_title(f'{ticker.upper()[4:]}, interval={interval} ({str(to)[:10]})', fontsize=16)
+    ax1.set_xlabel('Date')
+    ax1.set_ylabel('Close (blue)', fontsize=14, color=color_1)
+    ax1.plot(df.index, df.close, color=color_1)
+    #ax1.plot(df.index, df.close, marker='s', color=color_1)
+    ax1.tick_params(axis='y', labelcolor=color_1)
+
+    # right side with different scale
+    ax2 = ax1.twinx() # instantiate a second axes that shares the same x-axis
+    color_2 = 'tab:red'
+    ax2.set_ylabel('Volume (red)', fontsize=14, color=color_2)
+
+    # 바 차트
+    ax2.bar(df.index, df.volume, color=color_2)
+
+    # 라인 차트
+    #ax2.plot(df.index, df.volume, color=color_2)
+    # ax2.plot(df.index, df.volume, marker='o', color=color_2)
+    ax2.tick_params(axis='y', labelcolor=color_2)
+
+    # 3개도 가능
+    # ax3 = ax1.twinx() # instantiate a second axes that shares the same x-axis
+    # color_3 = 'tab:green'
+    # ax3.set_ylabel('High (green)', fontsize=14, color=color_3)
+    # ax3.plot(df.index, df.high, color=color_3)
+    # ax3.tick_params(axis='y', labelcolor=color_3)
+
+    fig.tight_layout()
+    plt.show()
+
+
+
 def str_to_datetime(date_time_str):
     date_time_obj = datetime.datetime.strptime(date_time_str, '%Y-%m-%d %H:%M:%S')
     return date_time_obj
@@ -67,9 +112,9 @@ def datetime_minus(date_time_obj, hour):
 
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('--count', required=False, default=1440, help='수집 data 갯수 (default=10000)')
+    parser.add_argument('--count', required=False, default=90, help='수집 data 갯수 (default=10000)')
     parser.add_argument('--symbol', required=False, default='btc', help='심볼 (BTC, ETH, ADA, ..., default=all)')
-    parser.add_argument('--interval', required=False, default='minute1',
+    parser.add_argument('--interval', required=False, default='day',
                         help='candle 종류 (day, week, month, minute1, ...)')
     parser.add_argument('--enddate', required=False, default=None, help='종료 일자(yyyy-mm-dd, default=현재 일자)')
     parser.add_argument('--endtime', required=False, default=None, help='종료 시각(hh:mm:ss, default=현재 시각)')
@@ -99,7 +144,8 @@ def main(argv):
         dt_new = datetime_minus(dt_obj, 9)
         to = datetime_to_str(dt_new)
 
-    view(symbol, count, interval, to)
+    #view(symbol, count, interval, to)
+    view_2_axes(symbol, count, interval, to)
 
 
 if __name__ == "__main__":
