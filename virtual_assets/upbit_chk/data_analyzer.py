@@ -25,7 +25,7 @@ import ccxt
 database_name = './dbms/virtual_asset.db'
 
 list_theme = ['AVAX','BINANCE','BITCOIN','CHINA','DAO','DEFI','DEX','DID','DOT','FAN','KAKAO','KIMCHI','KLAY','LAYER2',
-              'MAJOR','MATIC','MEDICAL','MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY','SOL','STORAGE','WEB3']
+              'MAJOR','MATIC','MEDICAL','META', 'MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY','SOL','STORAGE','WEB3']
 
 # 상승, 하락률 계산 함수
 def calc_earn(open_price, close_price):
@@ -406,9 +406,9 @@ def insert_theme_summary(l):
     conn = sqlite3.connect(database_name)
     cur = conn.cursor()
 
-    cur.execute("INSERT INTO theme_summry VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+    cur.execute("INSERT INTO theme_summry VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
                 (l[0], l[1], l[2], l[3], l[4], l[5], l[6], l[7], l[8], l[9], l[10], l[11], l[12], l[13],
-                 l[14], l[15], l[16], l[17], l[18], l[19], l[20], l[21], l[22], l[23], l[24], l[25], l[26], l[27]))
+                 l[14], l[15], l[16], l[17], l[18], l[19], l[20], l[21], l[22], l[23], l[24], l[25], l[26], l[27], l[28]))
 
     conn.commit()
     conn.close()
@@ -435,11 +435,13 @@ def main():
     #     print(theme)
     #     print(tikers)
 
-    days = ['2023-01-11', '2023-01-12' ]
+    days = [
+        '2023-01-15'
+    ]
 
     themes = ['YMD','AVAX','BINANCE','BITCOIN','CHINA','DAO','DEFI','DEX','DID','DOT','FAN','KAKAO','KIMCHI','KLAY',
-              'LAYER2','MAJOR','MATIC','MEDICAL','MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY','SOL','STORAGE',
-              'WEB3','ALL']
+              'LAYER2','MAJOR','MATIC','MEDICAL', 'META', 'MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY',
+              'SOL','STORAGE', 'WEB3','ALL']
 
     print(themes)
 
