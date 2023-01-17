@@ -237,22 +237,3 @@ MATIC 1215 43.41779727
 
 # 피어슨 상관계수 계산
 # https://junyoru.tistory.com/135
-
-
-# 챗GPT 참조, DALL-E
-# https://github.com/labteral/chatgpt-python
-
-# 과거 주가 데이터로 미래 주가를 예측할 수 있을까? - 파이썬 시계열 패턴 검색
-# https://songseungwon.tistory.com/63
-
-# Theme Index
-
-# import matplotlib.pyplot as plt
-#
-# singer = ['A', 'B', 'C', 'D', 'E']
-# week1 = [42, 58, 19, 92, 84]
-# week2 = [53, 52, 48, 98, 73]
-#
-# plt.plot(singer, week1)
-# plt.plot(singer, week2)
-# plt.show()
