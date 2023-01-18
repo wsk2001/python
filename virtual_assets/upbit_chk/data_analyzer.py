@@ -200,15 +200,15 @@ def get_theme_in_tickers(theme):
     return lst
 
 
-# 2023 년 테마별 실적
-def get_theme_earn_2023(last_date):
+# fst_date: 각 년도의 시작 지정 (2023-01-01), last_date: 실적을 분석할 일자.
+def get_theme_earn_ymd(fst_date, last_date):
     query = \
         "SELECT  F.theme,  A.symbol, A.open as O, D.high as H, C.low as L, B.close as C, " \
 "round((((B.close / A.open) -1) * 100),2) as E  FROM                             " \
 "(                                                                               " \
 "       (                                                                        " \
 "               select symbol, open from day_candle                              " \
-"               where date = '2023-01-01'                                        " \
+"               where date = '" + fst_date + "' " \
 "               group by symbol                                                  " \
 "       ) A,                                                                     " \
 "       (                                                                        " \
@@ -358,8 +358,8 @@ def get_binance_ohlcv(ticker, count=1):
 
 
 # 2023년 테마별 실적 평균 (1월 1일 ~ 지정 일자)
-def get_theme_earn(last_date):
-    datas = get_theme_earn_2023(last_date)
+def get_theme_earn(fst_date, last_date):
+    datas = get_theme_earn_ymd(fst_date, last_date)
 
     theme = ''
     total = 0.0
@@ -436,17 +436,18 @@ def main():
     #     print(tikers)
 
     days = [
-        '2023-01-15', '2023-01-16', '2023-01-17'
+        '2023-01-17'
     ]
 
+
     themes = ['YMD','AVAX','BINANCE','BITCOIN','CHINA','DAO','DEFI','DEX','DID','DOT','FAN','KAKAO','KIMCHI','KLAY',
-              'LAYER2','MAJOR','MATIC','MEDICAL', 'META', 'MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY',
+              'LAYER2','MAJOR','MATIC','MEDICAL', 'METAVERSE', 'MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY',
               'SOL','STORAGE', 'WEB3','ALL']
 
     print(themes)
 
     for day in days:
-        theme_group = get_theme_earn(day)
+        theme_group = get_theme_earn('2023-01-01', day)
 
         cnt = 0
         earn = 0.0
