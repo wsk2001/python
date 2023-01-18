@@ -71,6 +71,33 @@ def main(page: ft.Page):
     b = ft.ElevatedButton(text="Submit", on_click=button_clicked)
     page.add(c1, c2, c3, c4, b, t)
 
+
+    def pick_files_result(e: ft.FilePickerResultEvent):
+        selected_files.value = (
+            ", ".join(map(lambda f: f.name, e.files)) if e.files else "Cancelled!"
+        )
+        selected_files.update()
+
+    pick_files_dialog = ft.FilePicker(on_result=pick_files_result)
+    selected_files = ft.Text()
+
+    page.overlay.append(pick_files_dialog)
+
+    page.add(
+        ft.Row(
+            [
+                ft.ElevatedButton(
+                    "Pick files",
+                    icon=ft.icons.UPLOAD_FILE,
+                    on_click=lambda _: pick_files_dialog.pick_files(
+                        allow_multiple=True
+                    ),
+                ),
+                selected_files,
+            ]
+        )
+    )
+
 #ft.app(target=main)
 ft.app(target=main, view=ft.WEB_BROWSER)
 
