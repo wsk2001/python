@@ -237,3 +237,8 @@ MATIC 1215 43.41779727
 
 # 피어슨 상관계수 계산
 # https://junyoru.tistory.com/135
+
+# CentOS 구 버젼 Download 하는 방법
+# https://vault.centos.org/
+# https://vault.centos.org/8.4.2105/isos/x86_64/
+
