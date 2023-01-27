@@ -189,7 +189,7 @@
 # 2022-11-23 500KRW Charge, 2022-11-29 500 KRW Charge
 CASH 0		#267379
 
-MATIC 1215 43.41779727
+HIFI 638 82.28996865
 
 # 1개월~ 3개월 사이에 비트코인을 매수한 트레이더들의 실현가격은 평균 $17,750이며, 이 가격대가 단기적으로 도달 할 수 있는 최고점이 될 가능성이 높습니다.
 # 17750 에서 short
@@ -241,4 +241,18 @@ MATIC 1215 43.41779727
 # CentOS 구 버젼 Download 하는 방법
 # https://vault.centos.org/
 # https://vault.centos.org/8.4.2105/isos/x86_64/
+
+
+#https://github.com/flet-dev/examples
+
+#[강원술] [오전 5:13] 
+#1.세금계산서 발행 (v)
+#2.교육자료 목차 작성해서 전달(v)
+#3.보험 전화 (v)
+#  -모닝 해약, K3 마일리지
+#4.KBANK 확인(해당없음) (v)
+#
+#CentOS 구 버젼 Download 하는 방법
+#https://vault.centos.org/
+#https://vault.centos.org/8.4.2105/isos/x86_64/
 
