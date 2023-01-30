@@ -3,6 +3,7 @@
 import json
 import Xfc.XfcApiClass as XfcApiClass
 import Xfc.XfcDB as xdb
+import copy
 
 import flet as ft
 from flet import (
@@ -56,7 +57,7 @@ tb30 = api.encErrorCode
 tb31 = api.decErrorCode
 
 
-def load_json_file(filename):
+def load_json_file(page: ft.Page, filename):
     with open(filename) as json_file:
         json_data = json.load(json_file)
         tb1.value = json_data["platform"]
@@ -91,50 +92,48 @@ def load_json_file(filename):
         tb30.value = json_data["encErrorCode"]
         tb31.value = json_data["decErrorCode"]
 
-        tb1.update()
-        tb2.update()
-        #tb3.update()
-        tb4.update()
-        tb5.update()
-        #tb6.update()
-        tb7.update()
-        tb8.update()
-        tb9.update()
-        tb10.update()
-        tb11.update()
-        tb12.update()
-        tb13.update()
-        tb14.update()
-        tb15.update()
-        tb16.update()
-        tb17.update()
-        tb18.update()
-        tb19.update()
-        tb20.update()
-        tb21.update()
-        tb22.update()
-        tb23.update()
-        tb24.update()
-        tb25.update()
-        tb26.update()
-        tb27.update()
-        tb28.update()
-        tb29.update()
-        tb30.update()
-        tb31.update()
-
         ta_id.value = "API-" + json_data["ipAddr"]
         ta_remark.value = "API-" + json_data["ipAddr"]
-        ta_id.update()
-        ta_remark.update()
+
+        page.update()
 
         api.view()
 
+
+def init_page(page: ft.Page):
+    page.title = "XFC Local Agent Policy"
+
+    page.add(ft.Text("XFC API Policy Manager", size=30, color="pink600", italic=True))
+
+    page.add(ft.Row(controls=[api.id, api.remark, api.createTime, api.updateTime]))
+
+    page.add(ft.Row(controls=[api.platform, api.providerName, api.ipAddr, api.macAddr]))
+    page.add(ft.Row(controls=[tb7, tb8, tb9]))
+    page.add(tb10)
+    page.add(tb11, tb12, tb13)
+    page.add(ft.Row(controls=[tb14, tb15, tb16, tb17]))
+    page.add(ft.Row(controls=[tb18, tb19, tb20]))
+    page.add(ft.Row(controls=[tb21, tb22, tb23, tb24, tb25]))
+    page.add(ft.Row(controls=[tb26, tb27, tb28, tb29, tb30, tb31]))
+
+    api.clear()
+
+    page.theme_mode = "dark"
+    page.update()
 
 
 def main(page: ft.Page):
     def button_clicked(e):
         t.value = f"Textboxes values are:  '{tb1.value}', '{tb2.value}', '{tb3.value}', '{tb4.value}', '{tb5.value}'."
+        page.update()
+
+    def navi_change(e):
+        if page.navigation_bar.selected_index == 0:
+            page.title = 'Explore'
+        elif page.navigation_bar.selected_index == 1:
+            page.title = 'Commute'
+        elif page.navigation_bar.selected_index == 2:
+            page.title = 'Bookmark'
         page.update()
 
     dbms = xdb.XfcDB()
@@ -143,16 +142,19 @@ def main(page: ft.Page):
     t = ft.Text()
     selected_files = ft.Text()
 
-    page.title = "XFC Local Agent Policy"
-    # page.theme = Theme(color_scheme_seed="magenta")
-    # page.window_bgcolor = ft.colors.TRANSPARENT
-    # page.bgcolor = ft.colors.TRANSPARENT
-    # page.window_title_bar_hidden = True
-    # page.window_frameless = True
-    # page.bgcolor = "#88888888"
+    page.navigation_bar = ft.NavigationBar(
+        destinations=[
+            ft.NavigationDestination(icon=ft.icons.EXPLORE, label="Explore"),
+            ft.NavigationDestination(icon=ft.icons.COMMUTE, label="Commute"),
+            ft.NavigationDestination(
+                icon=ft.icons.BOOKMARK_BORDER,
+                selected_icon=ft.icons.BOOKMARK,
+                label="Bookmark",
+            ),
+        ],
+        on_change=navi_change,
+    )
 
-    page.theme_mode = "dark"
-    page.update()
 
     bsave = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_clicked)
     bfilepick = ft.ElevatedButton(
@@ -169,22 +171,7 @@ def main(page: ft.Page):
                                   icon=ft.icons.FOLDER_OPEN,
                                   on_click=lambda _: pick_files_dialog.get_directory_path(initial_directory='.'),
                               )
-    page.add(ft.Text("XFC API Policy Manager", size=30, color="pink600", italic=True))
-
-    page.add(ft.Row(controls=[ta_id, ta_remark, ta_createTime, ta_updateTime]))
-
-    page.add(ft.Row(controls=[tb1, tb2, tb4, tb5]))
-    # page.add(tb3)
-    # page.add(tb6)
-    page.add(ft.Row(controls=[tb7, tb8, tb9]))
-    page.add(tb10)
-    page.add(tb11, tb12, tb13)
-    page.add(ft.Row(controls=[tb14, tb15, tb16, tb17]))
-    page.add(ft.Row(controls=[tb18, tb19, tb20]))
-    page.add(ft.Row(controls=[tb21, tb22, tb23, tb24, tb25]))
-    page.add(ft.Row(controls=[tb26, tb27, tb28, tb29, tb30, tb31]))
-
-    api.clear()
+    init_page(page)
 
     def pick_files_result(e: ft.FilePickerResultEvent):
         if e.files is not None:
@@ -193,7 +180,7 @@ def main(page: ft.Page):
 
             selected_files.update()
 
-        load_json_file(selected_files.value)
+        load_json_file(page, selected_files.value)
 
     # Open directory dialog
     def get_directory_result(e: FilePickerResultEvent):
