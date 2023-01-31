@@ -16,7 +16,7 @@ def main(page: ft.Page):
             heading_row_color=ft.colors.BLACK12,
             heading_row_height=100,
             data_row_color={"hovered": "0x30FF0000"},
-            show_checkbox_column=True,
+            #show_checkbox_column=True,
             divider_thickness=0,
             column_spacing=200,
             columns=[
@@ -37,7 +37,9 @@ def main(page: ft.Page):
                     selected=True,
                     on_select_changed=lambda e: print(f"row select changed: {e.data}"),
                 ),
-                ft.DataRow([ft.DataCell(ft.Text("B")), ft.DataCell(ft.Text("2"))]),
+                ft.DataRow([ft.DataCell(ft.Text("B")), ft.DataCell(ft.Text("2"))],
+                    on_select_changed=lambda e: print(f"row select changed: {e.data}"),
+				),
             ],
         ),
     )
