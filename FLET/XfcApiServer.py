@@ -1,26 +1,74 @@
+# -*- coding: utf-8 -*-
+
+import argparse, sys
 import socket
 from _thread import *
+import sqlite3
+import pandas as pd
+
+database_name = './dbms/xfc_policy.db'
 
 
-# 쓰레드에서 실행되는 코드입니다.
-# 접속한 클라이언트마다 새로운 쓰레드가 생성되어 통신을 하게 됩니다.
+# Code that runs in a thread.
 def threaded(client_socket, addr):
     print('Connected by :', addr[0], ':', addr[1])
 
-    # 클라이언트가 접속을 끊을 때 까지 반복합니다.
+    # Repeat until the client disconnects.
     while True:
 
         try:
-            # 데이터가 수신되면 클라이언트에 다시 전송합니다.(에코)
+            # 데이터 수신
             data = client_socket.recv(1024)
 
             if not data:
                 print('Disconnected by ' + addr[0], ':', addr[1])
                 break
 
-            print('Received from ' + addr[0], ':', addr[1], data.decode())
+            else:
+                query = \
+                    "select * from api_policy where ipAddr = \'" + data.decode() + "\';"
+                conn = sqlite3.connect(database_name)
+                df = pd.read_sql_query(query, conn)
+                conn.close()
+                value_list = df.values.tolist()
 
-            client_socket.send(data)
+                json_str = "{"
+                for v in value_list:
+                    json_str += ",\"platform\":" + "\"" + v[4] + "\""
+                    json_str += ",\"providerName\":" + "\"" + v[5] + "\""
+                    json_str += ",\"process\":" + "\"" + v[6] + "\""
+                    json_str += ",\"ipAddr\":" + "\"" + v[7] + "\""
+                    json_str += ",\"macAddr\":" + "\"" + v[8] + "\""
+                    json_str += ",\"modifiedDate\":" + "\"" + v[9] + "\""
+                    json_str += ",\"domainKeyId\":" + "\"" + v[10] + "\""
+                    json_str += ",\"domainAlgorithm\":" + "\"" + v[11] + "\""
+                    json_str += ",\"domainKeyLength\":" + v[12]
+                    json_str += ",\"modulus\":" + "\"" + v[13]
+                    json_str += ",\"publicExponent\":" + v[14]
+                    json_str += ",\"privateExponent\":" + v[15]
+                    json_str += ",\"domainCode\":" + "\"" + v[16] + "\""
+                    json_str += ",\"attributeKeyId\":" + "\"" + v[17] + "\""
+                    json_str += ",\"attributeIv\":" + "\"" + v[18] + "\""
+                    json_str += ",\"attributeAlgorithm\":" + "\"" + v[19] + "\""
+                    json_str += ",\"attributeKeyLength\":" + v[20]
+                    json_str += ",\"attributeChiperMode\":" + "\"" + v[21] + "\""
+                    json_str += ",\"attributePaddingMethod\":" + "\"" + v[22] + "\""
+                    json_str += ",\"attributeKeyMaterial\":" + "\"" + v[23] + "\""
+                    json_str += ",\"contentsAlgorithm\":" + "\"" + v[24] + "\""
+                    json_str += ",\"contentsKeyLength\":" + v[25]
+                    json_str += ",\"readChk\":" + "\"" + v[26] + "\""
+                    json_str += ",\"writeChk\":" + "\"" + v[27] + "\""
+                    json_str += ",\"excuteChk\":" + "\"" + v[28] + "\""
+                    json_str += ",\"syncPeriod\":" + v[29]
+                    json_str += ",\"logPeriod\":" + v[30]
+                    json_str += ",\"excludeExts\":" + "\"" + v[31] + "\""
+                    json_str += ",\"decFileSize\":" + v[32]
+                    json_str += ",\"encErrorCode\":" + "\"" + v[33] + "\""
+                    json_str += ",\"decErrorCode\":" + "\"" + v[34] + "\""
+
+                    break
+                json_str += "}"
+                client_socket.send(json_str.encode())
 
         except ConnectionResetError as e:
 
@@ -30,22 +78,32 @@ def threaded(client_socket, addr):
     client_socket.close()
 
 
-HOST = '127.0.0.1'
-PORT = 9999
+def main(argv):
+    parser = argparse.ArgumentParser(description='옵션 지정 방법')
+    parser.add_argument('--host', required=False, default="127.0.0.1", help='Socket host 지정 (default=127.0.0.1)')
+    parser.add_argument('--port', required=False, default=9999, help='Connect port default=9999)')
 
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-server_socket.bind((HOST, PORT))
-server_socket.listen()
+    args = parser.parse_args()
+    port = int(args.port)
+    host = args.host
 
-print('server start')
+    server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    server_socket.bind((host, port))
+    server_socket.listen()
 
-# 클라이언트가 접속하면 accept 함수에서 새로운 소켓을 리턴합니다.
-# 새로운 쓰레드에서 해당 소켓을 사용하여 통신을 하게 됩니다.
-while True:
-    print('wait')
+    print('server start')
 
-    client_socket, addr = server_socket.accept()
-    start_new_thread(threaded, (client_socket, addr))
+    # When a client connects, the accept function returns a new socket.
+    # A new thread communicates using that socket.
+    while True:
+        print('wait')
 
-server_socket.close()
+        client_socket, addr = server_socket.accept()
+        start_new_thread(threaded, (client_socket, addr))
+
+    server_socket.close()
+
+
+if __name__ == "__main__":
+    main(sys.argv)

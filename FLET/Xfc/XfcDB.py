@@ -46,7 +46,7 @@ class XfcDB:
             api.remark.value = v[1]
             api.createTime.value = v[2]
             api.updateTime.value = v[3]
-            api.platform.value = v[4]
+            api.platform.value = v[4] ##
             api.providerName.value = v[5]
             api.process.value = v[6]
             api.ipAddr.value = v[7]
