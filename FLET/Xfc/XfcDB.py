@@ -22,9 +22,15 @@ class XfcDB:
         )
         conn.close()
 
-    def get_api_policy_list(self):
-        query = \
-            "select id, ipAddr, Remark, createTime, updateTime, platform, domainKeyId from api_policy order by id;"
+    def get_api_policy_list(self, key_id=None):
+        query = ""
+        if key_id is None:
+            query = \
+                "select id, ipAddr, Remark, createTime, updateTime, platform, domainKeyId from api_policy order by id;"
+        else:
+            query = \
+                "select id, ipAddr, Remark, createTime, updateTime, platform, domainKeyId from api_policy " \
+                "where id like '%" + key_id + "%' order by id;"
 
         conn = sqlite3.connect(self.database_name)
         df = pd.read_sql_query(query, conn)
@@ -46,7 +52,7 @@ class XfcDB:
             api.remark.value = v[1]
             api.createTime.value = v[2]
             api.updateTime.value = v[3]
-            api.platform.value = v[4] ##
+            api.platform.value = v[4]
             api.providerName.value = v[5]
             api.process.value = v[6]
             api.ipAddr.value = v[7]
@@ -89,42 +95,43 @@ class XfcDB:
         self.delete_api_policy(c.id.value)
 
         conn = sqlite3.connect(self.database_name)
-        conn.execute("INSERT INTO api_policy VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
-                     (c.id.value,
-                      c.remark.value,
-                      c.createTime.value,
-                      c.updateTime.value,
-                      c.platform.value,
-                      c.providerName.value,
-                      c.process.value,
-                      c.ipAddr.value,
-                      c.macAddr.value,
-                      str(c.modifiedDate.value),
-                      c.domainKeyId.value,
-                      c.domainAlgorithm.value,
-                      str(c.domainKeyLength.value),
-                      str(c.modulus.value),
-                      str(c.publicExponent.value),
-                      str(c.privateExponent.value),
-                      c.domainCode.value,
-                      c.attributeKeyId.value,
-                      c.attributeIv.value,
-                      c.attributeAlgorithm.value,
-                      str(c.attributeKeyLength.value),
-                      c.attributeChiperMode.value,
-                      c.attributePaddingMethod.value,
-                      c.attributeKeyMaterial.value,
-                      c.contentsAlgorithm.value,
-                      str(c.contentsKeyLength.value),
-                      c.readChk.value,
-                      c.writeChk.value,
-                      c.excuteChk.value,
-                      str(c.syncPeriod.value),
-                      str(c.logPeriod.value),
-                      c.excludeExts.value,
-                      str(c.decFileSize.value),
-                      c.encErrorCode.value,
-                      c.decErrorCode.value)
-                     )
+        conn.execute(
+            "INSERT INTO api_policy VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);",
+            (c.id.value,
+             c.remark.value,
+             c.createTime.value,
+             c.updateTime.value,
+             c.platform.value,
+             c.providerName.value,
+             c.process.value,
+             c.ipAddr.value,
+             c.macAddr.value,
+             str(c.modifiedDate.value),
+             c.domainKeyId.value,
+             c.domainAlgorithm.value,
+             str(c.domainKeyLength.value),
+             str(c.modulus.value),
+             str(c.publicExponent.value),
+             str(c.privateExponent.value),
+             c.domainCode.value,
+             c.attributeKeyId.value,
+             c.attributeIv.value,
+             c.attributeAlgorithm.value,
+             str(c.attributeKeyLength.value),
+             c.attributeChiperMode.value,
+             c.attributePaddingMethod.value,
+             c.attributeKeyMaterial.value,
+             c.contentsAlgorithm.value,
+             str(c.contentsKeyLength.value),
+             c.readChk.value,
+             c.writeChk.value,
+             c.excuteChk.value,
+             str(c.syncPeriod.value),
+             str(c.logPeriod.value),
+             c.excludeExts.value,
+             str(c.decFileSize.value),
+             c.encErrorCode.value,
+             c.decErrorCode.value)
+            )
         conn.commit()
         conn.close()

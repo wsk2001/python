@@ -34,16 +34,16 @@ def threaded(client_socket, addr):
 
                 json_str = "{"
                 for v in value_list:
-                    json_str += ",\"platform\":" + "\"" + v[4] + "\""
+                    json_str += "\"platform\":" + "\"" + v[4] + "\""
                     json_str += ",\"providerName\":" + "\"" + v[5] + "\""
                     json_str += ",\"process\":" + "\"" + v[6] + "\""
                     json_str += ",\"ipAddr\":" + "\"" + v[7] + "\""
                     json_str += ",\"macAddr\":" + "\"" + v[8] + "\""
-                    json_str += ",\"modifiedDate\":" + "\"" + v[9] + "\""
+                    json_str += ",\"modifiedDate\":" + v[9]
                     json_str += ",\"domainKeyId\":" + "\"" + v[10] + "\""
                     json_str += ",\"domainAlgorithm\":" + "\"" + v[11] + "\""
                     json_str += ",\"domainKeyLength\":" + v[12]
-                    json_str += ",\"modulus\":" + "\"" + v[13]
+                    json_str += ",\"modulus\":" + v[13]
                     json_str += ",\"publicExponent\":" + v[14]
                     json_str += ",\"privateExponent\":" + v[15]
                     json_str += ",\"domainCode\":" + "\"" + v[16] + "\""
@@ -79,7 +79,7 @@ def threaded(client_socket, addr):
 
 
 def main(argv):
-    parser = argparse.ArgumentParser(description='옵션 지정 방법')
+    parser = argparse.ArgumentParser(description='이 App 은 XFC API 정책을 배포 하는 TCP Server 입니다.')
     parser.add_argument('--host', required=False, default="127.0.0.1", help='Socket host 지정 (default=127.0.0.1)')
     parser.add_argument('--port', required=False, default=9999, help='Connect port default=9999)')
 
