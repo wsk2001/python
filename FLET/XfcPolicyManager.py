@@ -77,6 +77,7 @@ def input_page(page: ft.Page):
         icon=ft.icons.FOLDER_OPEN,
         on_click=lambda _: pick_files_dialog.get_directory_path(initial_directory='.'),
     )
+    # page.auto_scroll = True
 
     page.title = "XFC API Policy Manager"
 
