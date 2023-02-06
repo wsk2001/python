@@ -22,6 +22,65 @@ class XfcDB:
         )
         conn.close()
 
+    def create_la_policy_table(self):
+        conn = sqlite3.connect(self.database_name)
+        conn.execute('CREATE TABLE IF NOT EXISTS la_policy( ' +
+                     'ip TEXT, ' +
+                     'policy TEXT, ' +
+                     'description TEXT, ' +
+                     'base_path TEXT, ' +
+                     'dir TEXT, ' +
+                     'mode TEXT, ' +
+                     'time_limit TEXT, ' +
+                     'check_file_closed TEXT, ' +
+                     'use_file_filter TEXT, ' +
+                     'file_filter_type TEXT, ' +
+                     'file_filter_exts TEXT, ' +
+                     'check_cycle TEXT, ' +
+                     'thread_count TEXT, ' +
+                     'use_backup TEXT, ' +
+                     'backup_path TEXT, ' +
+                     'temp_path TEXT, ' +
+                     'dir_depth TEXT, ' +
+                     'dir_format TEXT, ' +
+                     'ymd_offset TEXT, ' +
+                     'use_trigger_file TEXT, ' +
+                     'trigger_ext TEXT, ' +
+                     'trigger_target  TEXT )'
+                     )
+        conn.close()
+
+    def create_sa_policy_table(self):
+        conn = sqlite3.connect(self.database_name)
+        conn.execute('CREATE TABLE IF NOT EXISTS sa_policy( ' +
+                     'ip TEXT, ' +
+                     'policy TEXT, ' +
+                     'description TEXT, ' +
+                     'file_path TEXT, ' +
+                     'mode TEXT, ' +
+                     'time_limit TEXT, ' +
+                     'repeat TEXT, ' +
+                     'dir_format TEXT, ' +
+                     'ymd_offset TEXT, ' +
+                     'dir_depth TEXT, ' +
+                     'use_weekday TEXT, ' +
+                     'weekdays TEXT, ' +
+                     'day TEXT, ' +
+                     'hh TEXT, ' +
+                     'mm TEXT, ' +
+                     'ss TEXT, ' +
+                     'use_file_filter TEXT, ' +
+                     'file_filter_type TEXT, ' +
+                     'file_filter_exts TEXT, ' +
+                     'check_file_closed TEXT, ' +
+                     'thread_count TEXT, ' +
+                     'use_backup TEXT, ' +
+                     'backup_path TEXT, ' +
+                     'temp_path TEXT, ' +
+                     'check_cycle TEXT )'
+                     )
+        conn.close()
+
     def get_api_policy_list(self, key_id=None):
         query = ""
         if key_id is None:

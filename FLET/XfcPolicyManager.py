@@ -8,18 +8,62 @@ from flet import (
 )
 
 import Xfc.XfcApiClass as XfcApiClass
+import Xfc.XfcLaClass as XfcLaClass
+import Xfc.XfcSaClass as XfcSaClass
+
 import Xfc.XfcDB as xdb
 
 dbms = xdb.XfcDB()
 api = XfcApiClass.XfcApi()
+la_policy = XfcLaClass.XfcLaPolicy()
+sa_policy = XfcSaClass.XfcSaPolicy()
+
 selected_id = None
+xfc_page = None
 
 
 def load_json_file(page: ft.Page, filename):
     XfcApiClass.load_json_file(page, filename, api)
 
 
-def input_page(page: ft.Page):
+def navi_change(e):
+    _navi_change(xfc_page)
+
+
+def _navi_change(page: ft.Page):
+    if page.navigation_bar.selected_index == 0:
+        api_policy_page(page)
+    elif page.navigation_bar.selected_index == 1:
+        api_policy_list_page(page)
+    elif page.navigation_bar.selected_index == 2:
+        la_policy_page(page)
+    elif page.navigation_bar.selected_index == 3:
+        la_policy_list_page(page)
+    elif page.navigation_bar.selected_index == 4:
+        sa_policy_page(page)
+    elif page.navigation_bar.selected_index == 5:
+        sa_policy_list_page(page)
+    elif page.navigation_bar.selected_index == 6:
+        page.window_destroy()
+    page.update()
+
+
+def set_navi():
+    xfc_page.navigation_bar = ft.NavigationBar(
+        destinations=[
+            ft.NavigationDestination(icon=ft.icons.EDIT, label="API Edit"),
+            ft.NavigationDestination(icon=ft.icons.LIST_OUTLINED, label="API List"),
+            ft.NavigationDestination(icon=ft.icons.EDIT_LOCATION, label="LA Edit"),
+            ft.NavigationDestination(icon=ft.icons.LIST_ALT_SHARP, label="LA List"),
+            ft.NavigationDestination(icon=ft.icons.EDIT_NOTE, label="SA Edit"),
+            ft.NavigationDestination(icon=ft.icons.LIST_SHARP, label="SA List"),
+            ft.NavigationDestination(icon=ft.icons.EXIT_TO_APP, label="Exit", ),
+        ],
+        on_change=navi_change,
+    )
+
+
+def api_policy_page(page: ft.Page):
     global selected_id
 
     page.clean()
@@ -42,9 +86,6 @@ def input_page(page: ft.Page):
             page.dialog = dlg
             dlg.open = True
             page.update()
-
-    def navi_change(e):
-        _navi_change(page)
 
     def pick_files_result(e: ft.FilePickerResultEvent):
         if e.files is not None:
@@ -110,27 +151,17 @@ def input_page(page: ft.Page):
 
     page.add(ft.Row(controls=[bsave, bopendir, bfilepick, selected_files]))
 
-    page.navigation_bar = ft.NavigationBar(
-        destinations=[
-            ft.NavigationDestination(icon=ft.icons.EDIT_OUTLINED, label="Edit"),
-            ft.NavigationDestination(icon=ft.icons.LIST_OUTLINED, label="List"),
-            ft.NavigationDestination(icon=ft.icons.EXIT_TO_APP, label="Exit", ),
-        ],
-        on_change=navi_change,
-    )
+    set_navi()
 
     page.theme_mode = "dark"
     page.window_maximized = True
     page.update()
 
 
-def select_page(page: ft.Page, key_id=None):
+def api_policy_list_page(page: ft.Page, key_id=None):
     global selected_id
 
     page.clean()
-
-    def navi_change(e):
-        _navi_change(page)
 
     def selectOnTap(e):
         if 0 < len(e.control.content.value):
@@ -140,7 +171,7 @@ def select_page(page: ft.Page, key_id=None):
     def call_edit_page(e):
         global selected_id
         selected_id = tf_id.value
-        input_page(page)
+        api_policy_page(page)
 
     def delete_data(e):
         if 0 < len(tf_id.value):
@@ -151,11 +182,11 @@ def select_page(page: ft.Page, key_id=None):
             page.dialog = dlg
             dlg.open = True
             page.update()
-            select_page(page)
+            api_policy_list_page(page)
 
     def search_data(e):
         if 0 < len(tf_id_search.value):
-            select_page(page, tf_id_search.value)
+            api_policy_list_page(page, tf_id_search.value)
         else:
             dlg = ft.AlertDialog(
                 title=ft.Text(f"검색할 ID 의 일부를 입력 하세요.")
@@ -164,14 +195,7 @@ def select_page(page: ft.Page, key_id=None):
             dlg.open = True
             page.update()
 
-    page.navigation_bar = ft.NavigationBar(
-        destinations=[
-            ft.NavigationDestination(icon=ft.icons.EDIT_OUTLINED, label="Edit"),
-            ft.NavigationDestination(icon=ft.icons.LIST_OUTLINED, label="List"),
-            ft.NavigationDestination(icon=ft.icons.EXIT_TO_APP, label="Exit", ),
-        ],
-        on_change=navi_change,
-    )
+    set_navi()
 
     page.theme_mode = "dark"
 
@@ -225,20 +249,73 @@ def select_page(page: ft.Page, key_id=None):
     page.update()
 
 
-def _navi_change(page: ft.Page):
-    if page.navigation_bar.selected_index == 0:
-        input_page(page)
-    elif page.navigation_bar.selected_index == 1:
-        select_page(page)
-    elif page.navigation_bar.selected_index == 2:
-        page.window_destroy()
+def la_policy_page(page: ft.Page):
+    page.clean()
+
+    def button_save(e):
+        pass
+
+    set_navi()
+
+    page.theme_mode = "dark"
+
+    title = ft.Text("Edit XFC Local Agent Policy", size=30, color="blue600", italic=True)
+    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
+    page.add(title)
+    page.add(btn_save)
+
+    page.add(ft.Row(controls=[la_policy.ip, la_policy.policy, la_policy.description]))
+    page.add(ft.Row(controls=[la_policy.ip, la_policy.policy, la_policy.description]))
+    page.add(la_policy.base_path)
+    page.add(la_policy.dir)
+    page.add(ft.Row(controls=[ft.Text("암/복호화 모드를 선택 하세요"), la_policy.mode, la_policy.time_limit, la_policy.check_file_closed]))
+    page.add(ft.Row(controls=[la_policy.use_file_filter, la_policy.file_filter_type, la_policy.file_filter_exts]))
+    page.add(ft.Row(controls=[la_policy.check_cycle, la_policy.thread_count]))
+    page.add(ft.Row(controls=[la_policy.use_backup, la_policy.backup_path]))
+    page.add(ft.Row(controls=[la_policy.temp_path, la_policy.dir_depth, la_policy.dir_format, la_policy.ymd_offset]))
+    page.add(ft.Row(controls=[la_policy.use_trigger_file, la_policy.trigger_ext, la_policy.trigger_target]))
+
+    page.update()
+
+
+def la_policy_list_page(page: ft.Page):
+    page.clean()
+    set_navi()
+
+    page.theme_mode = "dark"
+
+    page.add(ft.Text("List XFC Local Agent Policy", size=30, color="blue600", italic=True))
+    page.update()
+
+
+def sa_policy_page(page: ft.Page):
+    page.clean()
+    set_navi()
+
+    page.theme_mode = "dark"
+
+    page.add(ft.Text("Edit XFC Schedule Agent Policy", size=30, color="yellow600", italic=True))
+    page.update()
+
+
+def sa_policy_list_page(page: ft.Page):
+    page.clean()
+    set_navi()
+
+    page.theme_mode = "dark"
+
+    page.add(ft.Text("List XFC Schedule Agent Policy", size=30, color="yellow600", italic=True))
     page.update()
 
 
 def main(page: ft.Page):
+    global xfc_page
     dbms.create_api_policy_table()
+    dbms.create_la_policy_table()
+    dbms.create_sa_policy_table()
 
-    input_page(page)
+    xfc_page = page
+    api_policy_page(page)
 
 
 if __name__ == "__main__":

@@ -19,7 +19,7 @@ public class GetXfcApiPolicy {
             String message = null;
 
             OutputStream os = socket.getOutputStream();
-            message = "192.168.90.190";
+            message = "192.168.60.190";
             //bytes = message.getBytes("UTF-8");
             bytes = message.getBytes();
             os.write(bytes);

@@ -25,12 +25,18 @@ def threaded(client_socket, addr):
                 break
 
             else:
+                # print(type(data))
+                # print(data)
+                print('receive data: ' + data.decode())
+
                 query = \
                     "select * from api_policy where ipAddr = \'" + data.decode() + "\';"
                 conn = sqlite3.connect(database_name)
                 df = pd.read_sql_query(query, conn)
                 conn.close()
                 value_list = df.values.tolist()
+                # print(query)
+                # print(value_list)
 
                 json_str = "{"
                 for v in value_list:
@@ -68,6 +74,7 @@ def threaded(client_socket, addr):
 
                     break
                 json_str += "}"
+                print('send data: ' + json_str)
                 client_socket.send(json_str.encode())
 
         except ConnectionResetError as e:
@@ -97,7 +104,7 @@ def main(argv):
     # When a client connects, the accept function returns a new socket.
     # A new thread communicates using that socket.
     while True:
-        print('wait')
+        # print('wait')
 
         client_socket, addr = server_socket.accept()
         start_new_thread(threaded, (client_socket, addr))
