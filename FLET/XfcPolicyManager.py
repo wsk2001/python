@@ -27,25 +27,21 @@ def load_json_file(page: ft.Page, filename):
 
 
 def navi_change(e):
-    _navi_change(xfc_page)
-
-
-def _navi_change(page: ft.Page):
-    if page.navigation_bar.selected_index == 0:
-        api_policy_page(page)
-    elif page.navigation_bar.selected_index == 1:
-        api_policy_list_page(page)
-    elif page.navigation_bar.selected_index == 2:
-        la_policy_page(page)
-    elif page.navigation_bar.selected_index == 3:
-        la_policy_list_page(page)
-    elif page.navigation_bar.selected_index == 4:
-        sa_policy_page(page)
-    elif page.navigation_bar.selected_index == 5:
-        sa_policy_list_page(page)
-    elif page.navigation_bar.selected_index == 6:
-        page.window_destroy()
-    page.update()
+    global xfc_page
+    if e.control.selected_index == 0:
+        api_policy_page(xfc_page)
+    elif e.control.selected_index == 1:
+        api_policy_list_page(xfc_page)
+    elif e.control.selected_index == 2:
+        la_policy_page(xfc_page)
+    elif e.control.selected_index == 3:
+        la_policy_list_page(xfc_page)
+    elif e.control.selected_index == 4:
+        sa_policy_page(xfc_page)
+    elif e.control.selected_index == 5:
+        sa_policy_list_page(xfc_page)
+    elif e.control.selected_index == 6:
+        xfc_page.window_destroy()
 
 
 def set_navi():
@@ -153,7 +149,6 @@ def api_policy_page(page: ft.Page):
 
     set_navi()
 
-    page.theme_mode = "dark"
     page.window_maximized = True
     page.update()
 
@@ -196,8 +191,6 @@ def api_policy_list_page(page: ft.Page, key_id=None):
             page.update()
 
     set_navi()
-
-    page.theme_mode = "dark"
 
     page.add(ft.Text("List XFC API Policy", size=30, color="pink600", italic=True))
     tf_id = ft.TextField(label="선택된 ID", color="cyan")
@@ -249,52 +242,171 @@ def api_policy_list_page(page: ft.Page, key_id=None):
     page.update()
 
 
-def la_policy_page(page: ft.Page):
+def la_policy_page(page: ft.Page, ip=None, policy=None):
     page.clean()
 
     def button_save(e):
-        pass
+        if 0 < len(la_policy.ip.value) and 0 < len(la_policy.policy.value):
+            dbms.insert_la_policy(la_policy)
+            dlg = ft.AlertDialog(
+                title=ft.Text(f"ip:{la_policy.ip.value}, policy:{la_policy.policy.value} Data 를 저장 하였습니다.")
+            )
+            page.dialog = dlg
+            dlg.open = True
+            page.update()
+            la_policy.clear()
+            page.update()
+        else:
+            dlg = ft.AlertDialog(
+                title=ft.Text("ip 또는 policy 가 입력되지 않았습니다.\n 저장 할 수 없습니다.")
+            )
+            page.dialog = dlg
+            dlg.open = True
+            page.update()
+
+    def new_click(e):
+        la_policy.clear()
+        page.update()
 
     set_navi()
 
-    page.theme_mode = "dark"
-
     title = ft.Text("Edit XFC Local Agent Policy", size=30, color="blue600", italic=True)
     btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
+    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.NEWSPAPER_OUTLINED, on_click=new_click)
     page.add(title)
-    page.add(btn_save)
+    page.add(ft.Row(controls=[btn_save, btn_new]))
 
     page.add(ft.Row(controls=[la_policy.ip, la_policy.policy, la_policy.description]))
     page.add(ft.Row(controls=[la_policy.ip, la_policy.policy, la_policy.description]))
     page.add(la_policy.base_path)
     page.add(la_policy.dir)
-    page.add(ft.Row(controls=[ft.Text("암/복호화 모드를 선택 하세요"), la_policy.mode, la_policy.time_limit, la_policy.check_file_closed]))
+    page.add(ft.Row(
+        controls=[ft.Text("암/복호화 모드를 선택 하세요"), la_policy.mode, la_policy.time_limit, la_policy.check_file_closed]))
     page.add(ft.Row(controls=[la_policy.use_file_filter, la_policy.file_filter_type, la_policy.file_filter_exts]))
     page.add(ft.Row(controls=[la_policy.check_cycle, la_policy.thread_count]))
     page.add(ft.Row(controls=[la_policy.use_backup, la_policy.backup_path]))
     page.add(ft.Row(controls=[la_policy.temp_path, la_policy.dir_depth, la_policy.dir_format, la_policy.ymd_offset]))
     page.add(ft.Row(controls=[la_policy.use_trigger_file, la_policy.trigger_ext, la_policy.trigger_target]))
 
+    if ip is not None:
+        dbms.get_la_policy(la_policy, ip, policy)
+
     page.update()
 
 
 def la_policy_list_page(page: ft.Page):
+    def select_ip(e):
+        if 0 < len(e.control.content.value):
+            tf_ip.value = e.control.content.value
+            page.update()
+
+    def select_policy(e):
+        if 0 < len(e.control.content.value):
+            tf_policy.value = e.control.content.value
+            page.update()
+
+    def call_edit_page(e):
+        la_policy_page(page, tf_ip.value, tf_policy.value)
+
+    def delete_data(e):
+        dbms.delete_la_policy(tf_ip.value, tf_policy.value)
+        la_policy_list_page(page)
+
+    def search_data(e):
+        dbms.get_api_policy(tf_ip.value, tf_policy.value)
+        la_policy_page(page)
+
     page.clean()
     set_navi()
 
-    page.theme_mode = "dark"
-
     page.add(ft.Text("List XFC Local Agent Policy", size=30, color="blue600", italic=True))
+
+    tf_ip = ft.TextField(label="ip", color="cyan")
+    tf_policy = ft.TextField(label="policy", color="cyan")
+    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_ROAD, on_click=call_edit_page)
+    btn_del = ft.ElevatedButton(text="선택 항목 삭제", icon=ft.icons.DELETE, on_click=delete_data)
+    btn_find = ft.ElevatedButton(text="검색", icon=ft.icons.FIND_IN_PAGE_OUTLINED, on_click=search_data)
+
+    page.add(ft.Row(controls=[tf_ip, tf_policy, btn_edit, btn_del, btn_find]))
+
+    header = [ft.DataColumn(ft.Text("ip", color="blue600")), ft.DataColumn(ft.Text("policy", color="blue600")),
+              ft.DataColumn(ft.Text("description", width=380, color="cyan")),
+              ft.DataColumn(ft.Text("base_path", width=380, color="cyan")), ft.DataColumn(ft.Text("dir", width=380, color="cyan")),
+              ft.DataColumn(ft.Text("mode", color="cyan")), ft.DataColumn(ft.Text("temp_path", color="cyan"))]
+
+    df = dbms.get_la_policy_list()
+    value_list = df.values.tolist()
+    low_list = []
+    low_list.clear()
+
+    first_row = True
+    for v in value_list:
+        low_list.append(
+            ft.DataRow(
+                cells=[
+                    ft.DataCell(ft.Text(v[0], color="cyan"), on_tap=select_ip),
+                    ft.DataCell(ft.Text(v[1], color="cyan"), on_tap=select_policy), ft.DataCell(ft.Text(v[2])),
+                    ft.DataCell(ft.Text(v[3])), ft.DataCell(ft.Text(v[4])),
+                    ft.DataCell(ft.Text(v[5])), ft.DataCell(ft.Text(v[6])),
+                ],
+            )
+        )
+        if first_row:
+            tf_ip.value = v[0]
+            tf_policy.value = v[1]
+            first_row = False
+
+    page.add(
+        ft.DataTable(
+            heading_row_color=ft.colors.BLACK12,
+            columns=header,
+            rows=low_list,
+        ),
+    )
+
     page.update()
 
 
-def sa_policy_page(page: ft.Page):
+def sa_policy_page(page: ft.Page, ip=None, policy=None):
+    def button_save(e):
+        if 0 < len(sa_policy.ip.value) and 0 < len(sa_policy.policy.value):
+            dbms.insert_sa_policy(sa_policy)
+            dlg = ft.AlertDialog(
+                title=ft.Text(f"ip:{sa_policy.ip.value}, policy:{sa_policy.policy.value} Data 를 저장 하였습니다.")
+            )
+            page.dialog = dlg
+            dlg.open = True
+            page.update()
+            sa_policy.clear()
+            page.update()
+        else:
+            dlg = ft.AlertDialog(
+                title=ft.Text("ip 또는 policy 가 입력되지 않았습니다.\n 저장 할 수 없습니다.")
+            )
+            page.dialog = dlg
+            dlg.open = True
+            page.update()
+
     page.clean()
     set_navi()
 
-    page.theme_mode = "dark"
+    title = ft.Text("Edit XFC Schedule Agent Policy", size=30, color="yellow600", italic=True)
+    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
+    page.add(title)
+    page.add(btn_save)
 
-    page.add(ft.Text("Edit XFC Schedule Agent Policy", size=30, color="yellow600", italic=True))
+    page.add(ft.Row(controls=[sa_policy.ip, sa_policy.policy, sa_policy.description]))
+    page.add(sa_policy.file_path)
+    page.add(ft.Row(controls=[ft.Text("암/복호화 모드를 선택 하세요"), sa_policy.mode, sa_policy.time_limit, sa_policy.repeat]))
+    page.add(ft.Row(controls=[sa_policy.dir_depth, sa_policy.dir_format, sa_policy.ymd_offset]))
+    page.add(ft.Row(controls=[sa_policy.use_weekday, sa_policy.weekdays, sa_policy.sun, sa_policy.mon, sa_policy.tue,
+                              sa_policy.wed, sa_policy.thu, sa_policy.fri, sa_policy.sat]))
+    page.add(ft.Row(controls=[sa_policy.day, sa_policy.hh, sa_policy.mm, sa_policy.ss]))
+    page.add(ft.Row(controls=[sa_policy.use_file_filter, sa_policy.file_filter_type, sa_policy.file_filter_exts]))
+    page.add(ft.Row(controls=[sa_policy.check_file_closed, sa_policy.thread_count, sa_policy.check_cycle]))
+    page.add(ft.Row(controls=[sa_policy.use_backup, sa_policy.backup_path]))
+    page.add(sa_policy.temp_path)
+
     page.update()
 
 
@@ -302,19 +414,19 @@ def sa_policy_list_page(page: ft.Page):
     page.clean()
     set_navi()
 
-    page.theme_mode = "dark"
-
     page.add(ft.Text("List XFC Schedule Agent Policy", size=30, color="yellow600", italic=True))
     page.update()
 
 
 def main(page: ft.Page):
     global xfc_page
+    xfc_page = page
+    page.theme_mode = "dark"
+
     dbms.create_api_policy_table()
     dbms.create_la_policy_table()
     dbms.create_sa_policy_table()
 
-    xfc_page = page
     api_policy_page(page)
 
 
