@@ -313,7 +313,7 @@ def la_policy_list_page(page: ft.Page):
         la_policy_list_page(page)
 
     def search_data(e):
-        dbms.get_api_policy(tf_ip.value, tf_policy.value)
+        dbms.get_la_policy(tf_ip.value, tf_policy.value)
         la_policy_page(page)
 
     page.clean()
@@ -387,13 +387,18 @@ def sa_policy_page(page: ft.Page, ip=None, policy=None):
             dlg.open = True
             page.update()
 
+    def new_click(e):
+        sa_policy.clear()
+        page.update()
+
     page.clean()
     set_navi()
 
     title = ft.Text("Edit XFC Schedule Agent Policy", size=30, color="yellow600", italic=True)
     btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
+    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.NEWSPAPER_OUTLINED, on_click=new_click)
     page.add(title)
-    page.add(btn_save)
+    page.add(ft.Row(controls=[btn_save,btn_new]))
 
     page.add(ft.Row(controls=[sa_policy.ip, sa_policy.policy, sa_policy.description]))
     page.add(sa_policy.file_path)
@@ -401,11 +406,14 @@ def sa_policy_page(page: ft.Page, ip=None, policy=None):
     page.add(ft.Row(controls=[sa_policy.dir_depth, sa_policy.dir_format, sa_policy.ymd_offset]))
     page.add(ft.Row(controls=[sa_policy.use_weekday, sa_policy.weekdays, sa_policy.sun, sa_policy.mon, sa_policy.tue,
                               sa_policy.wed, sa_policy.thu, sa_policy.fri, sa_policy.sat]))
-    page.add(ft.Row(controls=[sa_policy.day, sa_policy.hh, sa_policy.mm, sa_policy.ss]))
+    page.add(ft.Row(controls=[sa_policy.day,sa_policy.hh,sa_policy.mm,sa_policy.ss]))
     page.add(ft.Row(controls=[sa_policy.use_file_filter, sa_policy.file_filter_type, sa_policy.file_filter_exts]))
     page.add(ft.Row(controls=[sa_policy.check_file_closed, sa_policy.thread_count, sa_policy.check_cycle]))
     page.add(ft.Row(controls=[sa_policy.use_backup, sa_policy.backup_path]))
     page.add(sa_policy.temp_path)
+
+    if ip is not None:
+        dbms.get_sa_policy(sa_policy, ip, policy)
 
     page.update()
 
@@ -414,7 +422,88 @@ def sa_policy_list_page(page: ft.Page):
     page.clean()
     set_navi()
 
+    def select_ip(e):
+        if 0 < len(e.control.content.value):
+            tf_ip.value = e.control.content.value
+            page.update()
+
+    def select_policy(e):
+        if 0 < len(e.control.content.value):
+            tf_policy.value = e.control.content.value
+            page.update()
+
+    def call_edit_page(e):
+        sa_policy_page(page, tf_ip.value, tf_policy.value)
+
+    def delete_data(e):
+        dbms.delete_sa_policy(tf_ip.value, tf_policy.value)
+        sa_policy_list_page(page)
+
+    def search_data(e):
+        dbms.get_sa_policy(tf_ip.value, tf_policy.value)
+        sa_policy_page(page)
+
+    page.clean()
+    set_navi()
+
     page.add(ft.Text("List XFC Schedule Agent Policy", size=30, color="yellow600", italic=True))
+
+    tf_ip = ft.TextField(label="ip", color="cyan")
+    tf_policy = ft.TextField(label="policy", color="cyan")
+    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_ROAD, on_click=call_edit_page)
+    btn_del = ft.ElevatedButton(text="선택 항목 삭제", icon=ft.icons.DELETE, on_click=delete_data)
+    btn_find = ft.ElevatedButton(text="검색", icon=ft.icons.FIND_IN_PAGE_OUTLINED, on_click=search_data)
+
+    page.add(ft.Row(controls=[tf_ip, tf_policy, btn_edit, btn_del, btn_find]))
+
+    # ip, policy, description, file_path, mode, repeat, day, hh, mm, ss
+    header = [ft.DataColumn(ft.Text("ip", color="blue600")),
+              ft.DataColumn(ft.Text("policy", color="blue600")),
+              ft.DataColumn(ft.Text("description", width=380, color="cyan")),
+              ft.DataColumn(ft.Text("file_path", width=380, color="cyan")),
+              ft.DataColumn(ft.Text("mode", width=120, color="cyan")),
+              ft.DataColumn(ft.Text("repeat", color="cyan")),
+              ft.DataColumn(ft.Text("day", color="cyan")),
+              ft.DataColumn(ft.Text("hh", color="cyan")),
+              ft.DataColumn(ft.Text("mm", color="cyan")),
+              ft.DataColumn(ft.Text("ss", color="cyan"))]
+
+    df = dbms.get_sa_policy_list()
+    value_list = df.values.tolist()
+    low_list = []
+    low_list.clear()
+
+    first_row = True
+    for v in value_list:
+        low_list.append(
+            ft.DataRow(
+                cells=[
+                    ft.DataCell(ft.Text(v[0], color="cyan"), on_tap=select_ip),
+                    ft.DataCell(ft.Text(v[1], color="cyan"), on_tap=select_policy),
+                    ft.DataCell(ft.Text(v[2])),
+                    ft.DataCell(ft.Text(v[3])),
+                    ft.DataCell(ft.Text(v[4])),
+                    ft.DataCell(ft.Text(v[5])),
+                    ft.DataCell(ft.Text(v[6])),
+                    ft.DataCell(ft.Text(v[7])),
+                    ft.DataCell(ft.Text(v[8])),
+                    ft.DataCell(ft.Text(v[9])),
+                ],
+            )
+        )
+        if first_row:
+            tf_ip.value = v[0]
+            tf_policy.value = v[1]
+            first_row = False
+
+    page.add(
+        ft.DataTable(
+            heading_row_color=ft.colors.BLACK12,
+            columns=header,
+            rows=low_list,
+        ),
+    )
+
     page.update()
 
 

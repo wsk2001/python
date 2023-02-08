@@ -57,8 +57,8 @@ class XfcLaPolicy:
             width=300,
             label="파일 필터 타입",
             options=[
-                ft.dropdown.Option("(I) 필터 타입 포함"),
-                ft.dropdown.Option("(E) 필터 타입 제외"),
+                ft.dropdown.Option("I (필터 타입 포함)"),
+                ft.dropdown.Option("E (필터 타입 제외)"),
             ],
             visible=False,
         )

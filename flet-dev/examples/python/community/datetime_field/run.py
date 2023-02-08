@@ -1,6 +1,6 @@
 import flet as ft
 
-from .datetime_field import DatetimeField
+from datetime_field import DatetimeField
 
 callback = lambda e : print(e)
 def main(page: ft.Page):

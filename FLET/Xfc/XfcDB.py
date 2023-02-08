@@ -218,19 +218,19 @@ class XfcDB:
                          c.dir.value,
                          c.mode.value,
                          c.time_limit.value,
-                         c.check_file_closed.value,
-                         c.use_file_filter.value,
-                         c.file_filter_type.value,
+                         'Y' if c.check_file_closed.value is True else 'N',
+                         'Y' if c.use_file_filter.value is True else 'N',
+                         c.file_filter_type.value[0:1],
                          c.file_filter_exts.value,
                          c.check_cycle.value,
                          c.thread_count.value,
-                         c.use_backup.value,
+                         'Y' if c.use_backup.value is True else 'N',
                          c.backup_path.value,
                          c.temp_path.value,
                          c.dir_depth.value,
                          c.dir_format.value,
                          c.ymd_offset.value,
-                         c.use_trigger_file.value,
+                         'Y' if c.use_trigger_file.value is True else 'N',
                          c.trigger_ext.value,
                          c.trigger_target.value )
                      )
@@ -292,15 +292,15 @@ class XfcDB:
                          c.hh.value,
                          c.mm.value,
                          c.ss.value,
-                         'Y' if c.use_file_filter.valueis is True else 'N',
-                         c.file_filter_type.value,
+                         'Y' if c.use_file_filter.value is True else 'N',
+                         c.file_filter_type.value[0:1],
                          c.file_filter_exts.value,
-                         c.check_file_closed.value,
+                         'Y' if c.check_file_closed.value is True else 'N',
                          c.thread_count.value,
                          'Y' if c.use_backup.value is True else 'N',
                          c.backup_path.value,
                          c.temp_path.value,
-                         c.check_cycle.value )
+                         c.check_cycle.value)
                      )
 
         conn.commit()
@@ -364,6 +364,7 @@ class XfcDB:
         conn = sqlite3.connect(self.database_name)
         df = pd.read_sql_query(query, conn)
         conn.close()
+
         value_list = df.values.tolist()
 
         for v in value_list:
@@ -374,19 +375,19 @@ class XfcDB:
             la.dir.value = v[4]
             la.mode.value = v[5]  # "E"
             la.time_limit.value = v[6]
-            la.check_file_closed.value = True if v[7] == '1' else False
-            la.use_file_filter.value = True if v[8] == '1' else False
-            la.file_filter_type.value = v[9]
+            la.check_file_closed.value = True if v[7] == 'Y' else False
+            la.use_file_filter.value = True if v[8] == 'Y' else False
+            la.file_filter_type.value = 'I (필터 타입 포함)' if v[9][0] == 'I' else 'E (필터 타입 제외)'
             la.file_filter_exts.value = v[10]
             la.check_cycle.value = v[11]
             la.thread_count.value = v[12]
-            la.use_backup.value = True if v[13] == '1' else False
+            la.use_backup.value = True if v[13] == 'Y' else False
             la.backup_path.value = v[14]
             la.temp_path.value = v[15]
             la.dir_depth.value = v[16]
             la.dir_format.value = v[17]
             la.ymd_offset.value = v[18]
-            la.use_trigger_file.value = True if v[19] == '1' else False
+            la.use_trigger_file.value = True if v[19] == 'Y' else False
             la.trigger_ext.value = v[20]
             la.trigger_target.value = v[21]
 
@@ -408,5 +409,66 @@ class XfcDB:
             else:
                 la.trigger_ext.visible = False
                 la.trigger_target.visible = False
+
+            break
+
+    def get_sa_policy(self, sa, ip=None, policy=None):
+        query = ""
+
+        if ip is None:
+            query = \
+                "select * from sa_policy;"
+        elif policy is None:
+            query = \
+                "select * from sa_policy where ip = \'" + ip + "\';"
+        else:
+            query = \
+                "select * from sa_policy where ip = \'" + ip + "\' and policy = \'" + policy + "\';"
+
+        conn = sqlite3.connect(self.database_name)
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+
+        value_list = df.values.tolist()
+
+        for v in value_list:
+            sa.ip.value = v[0]
+            sa.policy.value = v[1]
+
+            sa.description.value = v[2]
+            sa.file_path.value = v[3]
+            sa.mode.value = v[4]
+            sa.time_limit.value = v[5]
+            sa.repeat.value = True if v[6] == 'Y' else False
+            sa.dir_format.value = v[7]
+            sa.ymd_offset.value = v[8]
+            sa.dir_depth.value = v[9]
+            sa.use_weekday.value = True if v[10] == 'Y' else False
+            sa.weekdays.value = v[11]
+            sa.day.value = v[12]
+            sa.hh.value = v[13]
+            sa.mm.value = v[14]
+            sa.ss.value = v[15]
+            sa.use_file_filter.value = True if v[16] == 'Y' else False
+            sa.file_filter_type.value = v[17]
+            sa.file_filter_exts.value = v[18]
+            sa.check_file_closed.value = True if v[19] == 'Y' else False
+            sa.thread_count.value = v[20]
+            sa.use_backup.value = True if v[21] == 'Y' else False
+            sa.backup_path.value = v[22]
+            sa.temp_path.value = v[23]
+            sa.check_cycle.value = v[24]
+
+            if sa.use_file_filter.value:
+                sa.file_filter_type.visible = True
+                sa.file_filter_exts.visible = True
+            else:
+                sa.file_filter_type.visible = False
+                sa.file_filter_exts.visible = False
+
+            if sa.use_backup.value:
+                sa.backup_path.visible = True
+            else:
+                sa.backup_path.visible = False
 
             break

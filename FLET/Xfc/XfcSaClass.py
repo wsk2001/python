@@ -6,6 +6,15 @@ from datetime import datetime
 
 
 class XfcSaPolicy:
+    num_list = [
+        "00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
+        "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
+        "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
+        "30", "31", "32", "33", "34", "35", "36", "37", "38", "39",
+        "40", "41", "42", "43", "44", "45", "46", "47", "48", "49",
+        "50", "51", "52", "53", "54", "55", "56", "57", "58", "59",
+    ]
+
     def use_weekday_checkbox_changed(self, e):
         if self.use_weekday.value:
             self.sun.visible = True
@@ -68,7 +77,7 @@ class XfcSaPolicy:
             ft.Radio(value="D", label="복호화", width=150)]), value="E")
         self.time_limit = ft.TextField(label="최대 작업 시간", height=hi)
 
-        self.repeat = ft.Checkbox(label="주기별 반복 작업", height=hi)
+        self.repeat = ft.Checkbox(label="주기별 반복 작업", height=hi, value=True)
 
         self.dir_depth = ft.TextField(label="디렉토리 탐색 깊이", height=hi)
         self.dir_format = ft.TextField(label="디렉토리 포멧", height=hi)
@@ -85,10 +94,41 @@ class XfcSaPolicy:
         self.fri = ft.Checkbox(label="금요일", width=100, height=hi, visible=False)
         self.sat = ft.Checkbox(label="토요일", width=100, height=hi, visible=False)
 
-        self.day = ft.TextField(label="일자", height=hi)
-        self.hh = ft.TextField(label="시간")
-        self.mm = ft.TextField(label="분", height=hi)
-        self.ss = ft.TextField(label="초")
+        lst_days = []
+        lst_days.clear()
+        for i in range(0, 32):
+            lst_days.append(ft.dropdown.Option(self.num_list[i]))
+
+        lst_hhs = []
+        lst_hhs.clear()
+        for i in range(0, 24):
+            lst_hhs.append(ft.dropdown.Option(self.num_list[i]))
+
+        lst_mms = []
+        lst_mms.clear()
+        for i in range(0, 60):
+            lst_mms.append(ft.dropdown.Option(self.num_list[i]))
+
+        self.day = ft.Dropdown(
+            width=300,
+            label="일자",
+            options=lst_days,
+        )
+        self.hh = ft.Dropdown(
+            width=300,
+            label="시간",
+            options=lst_hhs,
+        )
+        self.mm = ft.Dropdown(
+            width=300,
+            label="분",
+            options=lst_mms,
+        )
+        self.ss = ft.Dropdown(
+            width=300,
+            label="초",
+            options=lst_mms,
+        )
 
         self.use_file_filter = ft.Checkbox(label="파일 확장자 필터 사용", width=300, value=False, height=hi,
                                            on_change=self.use_filter_checkbox_changed)
@@ -96,8 +136,8 @@ class XfcSaPolicy:
             width=300,
             label="파일 필터 타입",
             options=[
-                ft.dropdown.Option("(I) 필터 타입 포함"),
-                ft.dropdown.Option("(E) 필터 타입 제외"),
+                ft.dropdown.Option("I (필터 타입 포함)"),
+                ft.dropdown.Option("E (필터 타입 제외)"),
             ],
             visible=False,
         )
@@ -120,22 +160,22 @@ class XfcSaPolicy:
         self.file_path.value = ""
         self.mode.value = ""
         self.time_limit.value = ""
-        self.repeat.value = ""
+        self.repeat.value = True
         self.dir_format.value = ""
         self.ymd_offset.value = ""
         self.dir_depth.value = ""
-        self.use_weekday.value = ""
+        self.use_weekday.value = False
         self.weekdays.value = ""
-        self.day.value = ""
-        self.hh.value = ""
-        self.mm.value = ""
-        self.ss.value = ""
-        self.use_file_filter.value = ""
+        self.day.value = "00"
+        self.hh.value = "00"
+        self.mm.value = "00"
+        self.ss.value = "00"
+        self.use_file_filter.value = False
         self.file_filter_type.value = ""
         self.file_filter_exts.value = ""
-        self.check_file_closed.value = ""
+        self.check_file_closed.value = True
         self.thread_count.value = ""
-        self.use_backup.value = ""
+        self.use_backup.value = True
         self.backup_path.value = ""
         self.temp_path.value = ""
         self.check_cycle.value = ""
