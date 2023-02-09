@@ -471,4 +471,57 @@ class XfcDB:
             else:
                 sa.backup_path.visible = False
 
+            if sa.use_weekday.value:
+                sa.mon.visible = True
+                sa.tue.visible = True
+                sa.wed.visible = True
+                sa.thu.visible = True
+                sa.fri.visible = True
+                sa.sat.visible = True
+                sa.sun.visible = True
+
+            else:
+                sa.mon.visible = False
+                sa.tue.visible = False
+                sa.wed.visible = False
+                sa.thu.visible = False
+                sa.fri.visible = False
+                sa.sat.visible = False
+                sa.sun.visible = False
+
+            if '1' in sa.weekdays.value:
+                sa.mon.value = True
+            else:
+                sa.mon.value = False
+
+            if '2' in sa.weekdays.value:
+                sa.tue.value = True
+            else:
+                sa.tue.value = False
+
+            if '3' in sa.weekdays.value:
+                sa.wed.value = True
+            else:
+                sa.wed.value = False
+
+            if '4' in sa.weekdays.value:
+                sa.thu.value = True
+            else:
+                sa.thu.value = False
+
+            if '5' in sa.weekdays.value:
+                sa.fri.value = True
+            else:
+                sa.fri.value = False
+
+            if '6' in sa.weekdays.value:
+                sa.sat.value = True
+            else:
+                sa.sat.value = False
+
+            if '7' in sa.weekdays.value:
+                sa.sun.value = True
+            else:
+                sa.sun.value = False
+
             break

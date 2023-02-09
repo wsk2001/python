@@ -256,3 +256,4 @@ HIFI 638 82.28996865
 #https://vault.centos.org/
 #https://vault.centos.org/8.4.2105/isos/x86_64/
 
+# https://www.koharu.co/contents/119?item_id=1608&tblci=GiCp4L0N3crBGPpmQxcsoetN0lz_yRikTDunllGRoByOuSCUn1QoyYv08cKSvLCfAQ#tblciGiCp4L0N3crBGPpmQxcsoetN0lz_yRikTDunllGRoByOuSCUn1QoyYv08cKSvLCfAQ

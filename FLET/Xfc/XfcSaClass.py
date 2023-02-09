@@ -180,6 +180,14 @@ class XfcSaPolicy:
         self.temp_path.value = ""
         self.check_cycle.value = ""
 
+        self.mon.visible = False
+        self.tue.visible = False
+        self.wed.visible = False
+        self.thu.visible = False
+        self.fri.visible = False
+        self.sat.visible = False
+        self.sun.visible = False
+
     def view(self):
         print(self.ip.value)
         print(self.policy.value)

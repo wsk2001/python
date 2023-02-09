@@ -4,7 +4,8 @@ import flet as ft
 from flet import (
     FilePicker,
     FilePickerResultEvent,
-    Text
+    Text,
+    Icon
 )
 
 import Xfc.XfcApiClass as XfcApiClass
@@ -28,6 +29,7 @@ def load_json_file(page: ft.Page, filename):
 
 def navi_change(e):
     global xfc_page
+
     if e.control.selected_index == 0:
         api_policy_page(xfc_page)
     elif e.control.selected_index == 1:
@@ -47,7 +49,7 @@ def navi_change(e):
 def set_navi():
     xfc_page.navigation_bar = ft.NavigationBar(
         destinations=[
-            ft.NavigationDestination(icon=ft.icons.EDIT, label="API Edit"),
+            ft.NavigationDestination(icon=ft.icons.EDIT_OUTLINED, label="API Edit"),
             ft.NavigationDestination(icon=ft.icons.LIST_OUTLINED, label="API List"),
             ft.NavigationDestination(icon=ft.icons.EDIT_LOCATION, label="LA Edit"),
             ft.NavigationDestination(icon=ft.icons.LIST_ALT_SHARP, label="LA List"),
@@ -56,6 +58,34 @@ def set_navi():
             ft.NavigationDestination(icon=ft.icons.EXIT_TO_APP, label="Exit", ),
         ],
         on_change=navi_change,
+    )
+
+
+def set_AppBar(page, pg_title=None):
+    page.appbar = ft.AppBar(
+        leading=ft.Icon(ft.icons.PALETTE),
+        leading_width=40,
+        title=ft.Text("XFC Policy Manager") if pg_title is None else ft.Text(pg_title),
+        center_title=False,
+        bgcolor=ft.colors.SURFACE_VARIANT,
+        actions=[
+            ft.IconButton(ft.icons.WB_SUNNY_OUTLINED),
+            ft.IconButton(ft.icons.EXIT_TO_APP, tooltip="Exit to App", on_click=lambda _: xfc_page.window_destroy()),
+            ft.PopupMenuButton(
+                items=[
+                    ft.PopupMenuItem(text="API 정책 관리", icon=ft.icons.EDIT_OUTLINED, on_click=lambda _: api_policy_page(page)),
+                    ft.PopupMenuItem(text="API 정책 조회", icon=ft.icons.LIST_OUTLINED, on_click=lambda _: api_policy_list_page(page)),
+                    ft.PopupMenuItem(),  # divider
+                    ft.PopupMenuItem(text="LocalAgent 정책 관리", icon=ft.icons.EDIT_OUTLINED, on_click=lambda _: la_policy_page(page)),
+                    ft.PopupMenuItem(text="LocalAgent 정책 조회", icon=ft.icons.LIST_OUTLINED, on_click=lambda _: la_policy_list_page(page)),
+                    ft.PopupMenuItem(),  # divider
+                    ft.PopupMenuItem(text="ScheduleAgent 정책 관리", icon=ft.icons.EDIT_OUTLINED, on_click=lambda _: sa_policy_page(page)),
+                    ft.PopupMenuItem(text="ScheduleAgent 정책 조회", icon=ft.icons.LIST_OUTLINED, on_click=lambda _: sa_policy_list_page(page)),
+                    ft.PopupMenuItem(),  # divider
+                    ft.PopupMenuItem(text="App 종료", icon=ft.icons.EXIT_TO_APP, on_click=lambda _: xfc_page.window_destroy())
+                ]
+            ),
+        ],
     )
 
 
@@ -147,7 +177,7 @@ def api_policy_page(page: ft.Page):
 
     page.add(ft.Row(controls=[bsave, bopendir, bfilepick, selected_files]))
 
-    set_navi()
+    # set_navi()
 
     page.window_maximized = True
     page.update()
@@ -190,7 +220,7 @@ def api_policy_list_page(page: ft.Page, key_id=None):
             dlg.open = True
             page.update()
 
-    set_navi()
+    # set_navi()
 
     page.add(ft.Text("List XFC API Policy", size=30, color="pink600", italic=True))
     tf_id = ft.TextField(label="선택된 ID", color="cyan")
@@ -268,7 +298,7 @@ def la_policy_page(page: ft.Page, ip=None, policy=None):
         la_policy.clear()
         page.update()
 
-    set_navi()
+    # set_navi()
 
     title = ft.Text("Edit XFC Local Agent Policy", size=30, color="blue600", italic=True)
     btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
@@ -276,7 +306,6 @@ def la_policy_page(page: ft.Page, ip=None, policy=None):
     page.add(title)
     page.add(ft.Row(controls=[btn_save, btn_new]))
 
-    page.add(ft.Row(controls=[la_policy.ip, la_policy.policy, la_policy.description]))
     page.add(ft.Row(controls=[la_policy.ip, la_policy.policy, la_policy.description]))
     page.add(la_policy.base_path)
     page.add(la_policy.dir)
@@ -317,7 +346,7 @@ def la_policy_list_page(page: ft.Page):
         la_policy_page(page)
 
     page.clean()
-    set_navi()
+    # set_navi()
 
     page.add(ft.Text("List XFC Local Agent Policy", size=30, color="blue600", italic=True))
 
@@ -392,7 +421,7 @@ def sa_policy_page(page: ft.Page, ip=None, policy=None):
         page.update()
 
     page.clean()
-    set_navi()
+    # set_navi()
 
     title = ft.Text("Edit XFC Schedule Agent Policy", size=30, color="yellow600", italic=True)
     btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
@@ -420,7 +449,7 @@ def sa_policy_page(page: ft.Page, ip=None, policy=None):
 
 def sa_policy_list_page(page: ft.Page):
     page.clean()
-    set_navi()
+    # set_navi()
 
     def select_ip(e):
         if 0 < len(e.control.content.value):
@@ -444,13 +473,13 @@ def sa_policy_list_page(page: ft.Page):
         sa_policy_page(page)
 
     page.clean()
-    set_navi()
+    # set_navi()
 
     page.add(ft.Text("List XFC Schedule Agent Policy", size=30, color="yellow600", italic=True))
 
     tf_ip = ft.TextField(label="ip", color="cyan")
     tf_policy = ft.TextField(label="policy", color="cyan")
-    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_ROAD, on_click=call_edit_page)
+    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT, on_click=call_edit_page)
     btn_del = ft.ElevatedButton(text="선택 항목 삭제", icon=ft.icons.DELETE, on_click=delete_data)
     btn_find = ft.ElevatedButton(text="검색", icon=ft.icons.FIND_IN_PAGE_OUTLINED, on_click=search_data)
 
@@ -516,12 +545,16 @@ def main(page: ft.Page):
     dbms.create_la_policy_table()
     dbms.create_sa_policy_table()
 
+    # set_AppBar(page)
+    set_navi()
     api_policy_page(page)
 
 
 if __name__ == "__main__":
-    ft.app(target=main)
-    # ft.app(target=main, view=ft.WEB_BROWSER)
+    t = main
+    v = ft.FLET_APP
+    # v = ft.WEB_BROWSER
+    ft.app(target=t, assets_dir='assets')
 
 # flet 종료 방법 : page.window_destroy(): WEB 에서는 정상 동작 하지 않음.
 # get_directory_path() 는 보안을 이유로 view 가 WEB_BROWSER 인 경우는 정상 동작 하지 않는다.
