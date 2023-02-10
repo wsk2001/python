@@ -189,7 +189,7 @@
 # 2022-11-23 500KRW Charge, 2022-11-29 500 KRW Charge
 CASH 0		#267379
 
-HIFI 638 82.28996865
+HIFI 660 531.47365711
 
 # 1개월~ 3개월 사이에 비트코인을 매수한 트레이더들의 실현가격은 평균 $17,750이며, 이 가격대가 단기적으로 도달 할 수 있는 최고점이 될 가능성이 높습니다.
 # 17750 에서 short
@@ -256,4 +256,3 @@ HIFI 638 82.28996865
 #https://vault.centos.org/
 #https://vault.centos.org/8.4.2105/isos/x86_64/
 
-# https://www.koharu.co/contents/119?item_id=1608&tblci=GiCp4L0N3crBGPpmQxcsoetN0lz_yRikTDunllGRoByOuSCUn1QoyYv08cKSvLCfAQ#tblciGiCp4L0N3crBGPpmQxcsoetN0lz_yRikTDunllGRoByOuSCUn1QoyYv08cKSvLCfAQ

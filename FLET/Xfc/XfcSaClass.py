@@ -64,35 +64,33 @@ class XfcSaPolicy:
         self.backup_path.update()
 
     def __init__(self):
-        hi = 60
+        self.ip = ft.TextField(label="IP 주소")
+        self.policy = ft.TextField(label="정책 이름")
+        self.description = ft.TextField(label="설명", width=610)
 
-        self.ip = ft.TextField(label="IP 주소", height=hi)
-        self.policy = ft.TextField(label="정책 이름", height=hi)
-        self.description = ft.TextField(label="설명", width=610, height=hi)
-
-        self.file_path = ft.TextField(label="파일 암/복호화 대상 경로", width=1220, height=hi)
+        self.file_path = ft.TextField(label="파일 암/복호화 대상 경로", width=1230)
 
         self.mode = ft.RadioGroup(content=ft.Row([
             ft.Radio(value="E", label="암호화", width=150),
             ft.Radio(value="D", label="복호화", width=150)]), value="E")
-        self.time_limit = ft.TextField(label="최대 작업 시간", height=hi)
+        self.time_limit = ft.TextField(label="최대 작업 시간")
 
-        self.repeat = ft.Checkbox(label="주기별 반복 작업", height=hi, value=True)
+        self.repeat = ft.Checkbox(label="주기별 반복 작업", value=True)
 
-        self.dir_depth = ft.TextField(label="디렉토리 탐색 깊이", height=hi)
-        self.dir_format = ft.TextField(label="디렉토리 포멧", height=hi)
-        self.ymd_offset = ft.TextField(label="날짜 포멧의 일자 옵셋", height=hi)
+        self.dir_depth = ft.TextField(label="디렉토리 탐색 깊이")
+        self.dir_format = ft.TextField(label="디렉토리 포멧")
+        self.ymd_offset = ft.TextField(label="날짜 포멧의 일자 옵셋")
 
-        self.use_weekday = ft.Checkbox(label="요일 구분 사용", width=300, height=hi,
+        self.use_weekday = ft.Checkbox(label="요일 구분 사용", width=300,
                                        on_change=self.use_weekday_checkbox_changed)
-        self.weekdays = ft.TextField(label="작업 요일 선택", height=hi, visible=False)
-        self.sun = ft.Checkbox(label="일요일", width=100, height=hi, visible=False)
-        self.mon = ft.Checkbox(label="월요일", width=100, height=hi, visible=False)
-        self.tue = ft.Checkbox(label="화요일", width=100, height=hi, visible=False)
-        self.wed = ft.Checkbox(label="수요일", width=100, height=hi, visible=False)
-        self.thu = ft.Checkbox(label="목요일", width=100, height=hi, visible=False)
-        self.fri = ft.Checkbox(label="금요일", width=100, height=hi, visible=False)
-        self.sat = ft.Checkbox(label="토요일", width=100, height=hi, visible=False)
+        self.weekdays = ft.TextField(label="작업 요일 선택", visible=False)
+        self.sun = ft.Checkbox(label="일요일", width=100, visible=False)
+        self.mon = ft.Checkbox(label="월요일", width=100, visible=False)
+        self.tue = ft.Checkbox(label="화요일", width=100, visible=False)
+        self.wed = ft.Checkbox(label="수요일", width=100, visible=False)
+        self.thu = ft.Checkbox(label="목요일", width=100, visible=False)
+        self.fri = ft.Checkbox(label="금요일", width=100, visible=False)
+        self.sat = ft.Checkbox(label="토요일", width=100, visible=False)
 
         lst_days = []
         lst_days.clear()
@@ -130,7 +128,7 @@ class XfcSaPolicy:
             options=lst_mms,
         )
 
-        self.use_file_filter = ft.Checkbox(label="파일 확장자 필터 사용", width=300, value=False, height=hi,
+        self.use_file_filter = ft.Checkbox(label="파일 확장자 필터 사용", width=300, value=False,
                                            on_change=self.use_filter_checkbox_changed)
         self.file_filter_type = ft.Dropdown(
             width=300,
@@ -141,17 +139,17 @@ class XfcSaPolicy:
             ],
             visible=False,
         )
-        self.file_filter_exts = ft.TextField(label="파일 필터 확장자", width=610, height=hi, visible=False)
+        self.file_filter_exts = ft.TextField(label="파일 필터 확장자", width=610, visible=False)
 
-        self.check_file_closed = ft.Checkbox(label="파일 닫힘 검사", value=True, width=300, height=hi)
-        self.thread_count = ft.TextField(label="작업 Thread 개 수", height=hi)
+        self.check_file_closed = ft.Checkbox(label="파일 닫힘 검사", value=True, width=300)
+        self.thread_count = ft.TextField(label="작업 Thread 개 수")
 
-        self.use_backup = ft.Checkbox(label="파일 암호화 전 백업", width=300, value=True, height=hi,
+        self.use_backup = ft.Checkbox(label="파일 암호화 전 백업", width=300, value=True,
                                       on_change=self.use_backup_checkbox_changed)
-        self.backup_path = ft.TextField(label="파일 백업 경로",  width=910,  height=hi)
+        self.backup_path = ft.TextField(label="파일 백업 경로", width=920)
 
-        self.temp_path = ft.TextField(label="작업 임시 경로",  width=1220)
-        self.check_cycle = ft.TextField(label="작업 시간 도달 검사 주기(sec)", height=hi)
+        self.temp_path = ft.TextField(label="작업 임시 경로", width=1230)
+        self.check_cycle = ft.TextField(label="작업 시간 도달 검사 주기(sec)")
 
     def clear(self):
         self.ip.value = ""

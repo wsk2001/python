@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 import flet as ft
 import utils
 
@@ -55,7 +57,7 @@ def main(page: ft.Page):
 
     page.on_error = on_error
 
-    def get_file_format(file_format: str | None):
+    def get_file_format(file_format: str):
         """
         Closes the dialog, and calls the md_save with the file format specified by the user(in the alertdialog)
 

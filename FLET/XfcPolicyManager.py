@@ -19,8 +19,7 @@ api = XfcApiClass.XfcApi()
 la_policy = XfcLaClass.XfcLaPolicy()
 sa_policy = XfcSaClass.XfcSaPolicy()
 
-selected_id = None
-xfc_page = None
+view_type = "flet_app"
 
 
 def load_json_file(page: ft.Page, filename):
@@ -28,26 +27,24 @@ def load_json_file(page: ft.Page, filename):
 
 
 def navi_change(e):
-    global xfc_page
-
     if e.control.selected_index == 0:
-        api_policy_page(xfc_page)
+        api_policy_page(e.page)
     elif e.control.selected_index == 1:
-        api_policy_list_page(xfc_page)
+        api_policy_list_page(e.page)
     elif e.control.selected_index == 2:
-        la_policy_page(xfc_page)
+        la_policy_page(e.page)
     elif e.control.selected_index == 3:
-        la_policy_list_page(xfc_page)
+        la_policy_list_page(e.page)
     elif e.control.selected_index == 4:
-        sa_policy_page(xfc_page)
+        sa_policy_page(e.page)
     elif e.control.selected_index == 5:
-        sa_policy_list_page(xfc_page)
+        sa_policy_list_page(e.page)
     elif e.control.selected_index == 6:
-        xfc_page.window_destroy()
+        e.page.window_destroy()
 
 
-def set_navi():
-    xfc_page.navigation_bar = ft.NavigationBar(
+def set_navi(page):
+    page.navigation_bar = ft.NavigationBar(
         destinations=[
             ft.NavigationDestination(icon=ft.icons.EDIT_OUTLINED, label="API Edit"),
             ft.NavigationDestination(icon=ft.icons.LIST_OUTLINED, label="API List"),
@@ -61,7 +58,24 @@ def set_navi():
     )
 
 
-def set_AppBar(page, pg_title=None):
+def set_appbar(page, pg_title=None):
+    def change_theme(e):
+        page.theme_mode = "light" if page.theme_mode == "dark" else "dark"
+        theme_icon_button.selected = not theme_icon_button.selected
+        page.update()
+
+    # button to change theme_mode (from dark to light mode, or the reverse)
+    theme_icon_button = ft.IconButton(
+        icon=ft.icons.LIGHT_MODE,
+        selected_icon=ft.icons.DARK_MODE,
+        icon_color=ft.colors.WHITE,
+        selected_icon_color=ft.colors.BLACK,
+        selected=False,
+        icon_size=35,
+        tooltip="change theme",
+        on_click=change_theme,
+    )
+
     page.appbar = ft.AppBar(
         leading=ft.Icon(ft.icons.PALETTE),
         leading_width=40,
@@ -69,8 +83,8 @@ def set_AppBar(page, pg_title=None):
         center_title=False,
         bgcolor=ft.colors.SURFACE_VARIANT,
         actions=[
-            ft.IconButton(ft.icons.WB_SUNNY_OUTLINED),
-            ft.IconButton(ft.icons.EXIT_TO_APP, tooltip="Exit to App", on_click=lambda _: xfc_page.window_destroy()),
+            theme_icon_button,
+            ft.IconButton(ft.icons.EXIT_TO_APP, tooltip="Exit to App", on_click=lambda _: page.window_destroy()),
             ft.PopupMenuButton(
                 items=[
                     ft.PopupMenuItem(text="API 정책 관리", icon=ft.icons.EDIT_OUTLINED, on_click=lambda _: api_policy_page(page)),
@@ -82,15 +96,14 @@ def set_AppBar(page, pg_title=None):
                     ft.PopupMenuItem(text="ScheduleAgent 정책 관리", icon=ft.icons.EDIT_OUTLINED, on_click=lambda _: sa_policy_page(page)),
                     ft.PopupMenuItem(text="ScheduleAgent 정책 조회", icon=ft.icons.LIST_OUTLINED, on_click=lambda _: sa_policy_list_page(page)),
                     ft.PopupMenuItem(),  # divider
-                    ft.PopupMenuItem(text="App 종료", icon=ft.icons.EXIT_TO_APP, on_click=lambda _: xfc_page.window_destroy())
+                    ft.PopupMenuItem(text="App 종료", icon=ft.icons.EXIT_TO_APP, on_click=lambda _: page.window_destroy())
                 ]
             ),
         ],
     )
 
 
-def api_policy_page(page: ft.Page):
-    global selected_id
+def api_policy_page(page: ft.Page, selected_id=None):
 
     page.clean()
 
@@ -127,11 +140,18 @@ def api_policy_page(page: ft.Page):
         directory_path.value = e.path if e.path else "Cancelled!"
         directory_path.update()
 
+    def new_click(e):
+        api.clear()
+        page.update()
+
+    page.appbar.title = ft.Text("XFC API Policy")
     selected_files = ft.Text()
 
-    bsave = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
-    bfilepick = ft.ElevatedButton(
-        "Pick files",
+    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
+    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.NEWSPAPER_OUTLINED, on_click=new_click)
+
+    file_pick = ft.ElevatedButton(
+        "File 선택",
         icon=ft.icons.FILE_OPEN,
         on_click=lambda _: pick_files_dialog.pick_files(
             allow_multiple=False,
@@ -139,34 +159,36 @@ def api_policy_page(page: ft.Page):
             allowed_extensions=['json']
         ),
     )
-    bopendir = ft.ElevatedButton(
-        "Open director",
+    open_dir = ft.ElevatedButton(
+        "Director 선택",
         icon=ft.icons.FOLDER_OPEN,
         on_click=lambda _: pick_files_dialog.get_directory_path(initial_directory='.'),
     )
-    # page.auto_scroll = True
 
-    page.title = "XFC API Policy Manager"
+    global view_type
+    if view_type == ft.FLET_APP:
+        page.add(ft.Row(controls=[btn_save, btn_new, ft.Text("json 파일 load ->", color="cyan"),
+                                  open_dir, file_pick, selected_files]))
+    else:
+        page.add(ft.Row(controls=[btn_save, btn_new]))
 
-    page.add(ft.Text("Edit XFC API Policy", size=30, color="pink600", italic=True))
-
-    page.add(ft.Row(controls=[api.id, api.remark, api.createTime, api.updateTime]))
-
+    page.add(ft.Row(controls=[api.id, api.remark]))
+    page.add(ft.Row(controls=[api.createTime, api.updateTime]))
     page.add(ft.Row(controls=[api.platform, api.providerName, api.ipAddr, api.macAddr]))
     page.add(ft.Row(controls=[api.domainKeyId, api.domainAlgorithm, api.domainKeyLength]))
     page.add(api.modulus)
     page.add(api.publicExponent, api.privateExponent, api.domainCode)
     page.add(ft.Row(controls=[api.attributeKeyId, api.attributeIv, api.attributeAlgorithm, api.attributeKeyLength]))
     page.add(ft.Row(controls=[api.attributeChiperMode, api.attributePaddingMethod, api.attributeKeyMaterial]))
-    page.add(ft.Row(controls=[api.contentsAlgorithm, api.contentsKeyLength, api.readChk, api.writeChk, api.excuteChk]))
-    page.add(ft.Row(
-        controls=[api.syncPeriod, api.logPeriod, api.excludeExts, api.decFileSize, api.encErrorCode, api.decErrorCode]))
+    page.add(ft.Row(controls=[api.contentsAlgorithm, api.contentsKeyLength]))
+    page.add(ft.Row(controls=[api.readChk, api.writeChk, api.excuteChk]))
+    page.add(ft.Row(controls=[api.syncPeriod, api.logPeriod, api.excludeExts, api.decFileSize]))
+    page.add(ft.Row(controls=[api.encErrorCode, api.decErrorCode]))
 
     api.clear()
 
-    if selected_id != None:
+    if selected_id is not None:
         dbms.get_api_policy(api, selected_id)
-        selected_id = None
 
     get_directory_dialog = FilePicker(on_result=get_directory_result)
     directory_path = Text()
@@ -175,17 +197,10 @@ def api_policy_page(page: ft.Page):
 
     page.overlay.extend([pick_files_dialog, get_directory_dialog])
 
-    page.add(ft.Row(controls=[bsave, bopendir, bfilepick, selected_files]))
-
-    # set_navi()
-
-    page.window_maximized = True
     page.update()
 
 
 def api_policy_list_page(page: ft.Page, key_id=None):
-    global selected_id
-
     page.clean()
 
     def selectOnTap(e):
@@ -194,9 +209,7 @@ def api_policy_list_page(page: ft.Page, key_id=None):
             page.update()
 
     def call_edit_page(e):
-        global selected_id
-        selected_id = tf_id.value
-        api_policy_page(page)
+        api_policy_page(page, tf_id.value)
 
     def delete_data(e):
         if 0 < len(tf_id.value):
@@ -220,9 +233,8 @@ def api_policy_list_page(page: ft.Page, key_id=None):
             dlg.open = True
             page.update()
 
-    # set_navi()
+    page.appbar.title = ft.Text("List XFC API Policy")
 
-    page.add(ft.Text("List XFC API Policy", size=30, color="pink600", italic=True))
     tf_id = ft.TextField(label="선택된 ID", color="cyan")
     btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_ROAD, on_click=call_edit_page)
     btn_del = ft.ElevatedButton(text="선택 항목 삭제", icon=ft.icons.DELETE, on_click=delete_data)
@@ -298,12 +310,9 @@ def la_policy_page(page: ft.Page, ip=None, policy=None):
         la_policy.clear()
         page.update()
 
-    # set_navi()
-
-    title = ft.Text("Edit XFC Local Agent Policy", size=30, color="blue600", italic=True)
+    page.appbar.title = ft.Text("XFC Local Agent Policy")
     btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
     btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.NEWSPAPER_OUTLINED, on_click=new_click)
-    page.add(title)
     page.add(ft.Row(controls=[btn_save, btn_new]))
 
     page.add(ft.Row(controls=[la_policy.ip, la_policy.policy, la_policy.description]))
@@ -346,9 +355,8 @@ def la_policy_list_page(page: ft.Page):
         la_policy_page(page)
 
     page.clean()
-    # set_navi()
 
-    page.add(ft.Text("List XFC Local Agent Policy", size=30, color="blue600", italic=True))
+    page.appbar.title = ft.Text("List XFC Local Agent Policy")
 
     tf_ip = ft.TextField(label="ip", color="cyan")
     tf_policy = ft.TextField(label="policy", color="cyan")
@@ -421,12 +429,11 @@ def sa_policy_page(page: ft.Page, ip=None, policy=None):
         page.update()
 
     page.clean()
-    # set_navi()
 
-    title = ft.Text("Edit XFC Schedule Agent Policy", size=30, color="yellow600", italic=True)
+    page.appbar.title = ft.Text("XFC Schedule Agent Policy")
+
     btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
     btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.NEWSPAPER_OUTLINED, on_click=new_click)
-    page.add(title)
     page.add(ft.Row(controls=[btn_save,btn_new]))
 
     page.add(ft.Row(controls=[sa_policy.ip, sa_policy.policy, sa_policy.description]))
@@ -448,9 +455,6 @@ def sa_policy_page(page: ft.Page, ip=None, policy=None):
 
 
 def sa_policy_list_page(page: ft.Page):
-    page.clean()
-    # set_navi()
-
     def select_ip(e):
         if 0 < len(e.control.content.value):
             tf_ip.value = e.control.content.value
@@ -473,9 +477,8 @@ def sa_policy_list_page(page: ft.Page):
         sa_policy_page(page)
 
     page.clean()
-    # set_navi()
 
-    page.add(ft.Text("List XFC Schedule Agent Policy", size=30, color="yellow600", italic=True))
+    page.appbar.title = ft.Text("List XFC Schedule Agent Policy")
 
     tf_ip = ft.TextField(label="ip", color="cyan")
     tf_policy = ft.TextField(label="policy", color="cyan")
@@ -537,24 +540,29 @@ def sa_policy_list_page(page: ft.Page):
 
 
 def main(page: ft.Page):
-    global xfc_page
-    xfc_page = page
     page.theme_mode = "dark"
+    page.title = "XFC Manager"
+    # page.scroll = "always"
+    page.scroll = "auto"
 
     dbms.create_api_policy_table()
     dbms.create_la_policy_table()
     dbms.create_sa_policy_table()
 
-    # set_AppBar(page)
-    set_navi()
+    set_appbar(page)
+    # set_navi(page)
     api_policy_page(page)
 
 
+# if __name__ == "__main__": 에서는 global 을 선언 하지 않는다.
+# 이유는 ? if __name__ 문장이 있는곳은 함수 또는 Class 내부가 아니라 외부(즉 전역 영역) 이기 때문 이다.
+
 if __name__ == "__main__":
-    t = main
-    v = ft.FLET_APP
-    # v = ft.WEB_BROWSER
-    ft.app(target=t, assets_dir='assets')
+    target = main
+    view_type = ft.FLET_APP
+    # view_type = ft.WEB_BROWSER
+
+    ft.app(target=target, view=view_type, assets_dir='assets')
 
 # flet 종료 방법 : page.window_destroy(): WEB 에서는 정상 동작 하지 않음.
 # get_directory_path() 는 보안을 이유로 view 가 WEB_BROWSER 인 경우는 정상 동작 하지 않는다.
