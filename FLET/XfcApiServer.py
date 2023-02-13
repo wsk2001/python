@@ -222,7 +222,7 @@ def threaded(client_socket, addr):
             data = client_socket.recv(1024)
 
             if not data:
-                print('Disconnected by ' + addr[0], ':', addr[1])
+                print('Disconnected by-001 ' + addr[0], ':', addr[1])
                 break
 
             else:
@@ -244,10 +244,11 @@ def threaded(client_socket, addr):
 
         except ConnectionResetError as e:
 
-            print('Disconnected by ' + addr[0], ':', addr[1])
+            print('Disconnected by-002 ' + addr[0], ':', addr[1])
             break
 
     client_socket.close()
+    print('Disconnected by-003 :', addr[0], ':', addr[1])
 
 
 def main(argv):

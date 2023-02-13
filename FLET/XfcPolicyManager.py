@@ -46,11 +46,11 @@ def navi_change(e):
 def set_navi(page):
     page.navigation_bar = ft.NavigationBar(
         destinations=[
-            ft.NavigationDestination(icon=ft.icons.EDIT_OUTLINED, label="API Edit"),
-            ft.NavigationDestination(icon=ft.icons.LIST_OUTLINED, label="API List"),
-            ft.NavigationDestination(icon=ft.icons.EDIT_LOCATION, label="LA Edit"),
-            ft.NavigationDestination(icon=ft.icons.LIST_ALT_SHARP, label="LA List"),
-            ft.NavigationDestination(icon=ft.icons.EDIT_NOTE, label="SA Edit"),
+            ft.NavigationDestination(icon=ft.icons.EDIT_DOCUMENT, label="API Edit"),
+            ft.NavigationDestination(icon=ft.icons.LIST_SHARP, label="API List"),
+            ft.NavigationDestination(icon=ft.icons.EDIT_DOCUMENT, label="LA Edit"),
+            ft.NavigationDestination(icon=ft.icons.LIST_SHARP, label="LA List"),
+            ft.NavigationDestination(icon=ft.icons.EDIT_DOCUMENT, label="SA Edit"),
             ft.NavigationDestination(icon=ft.icons.LIST_SHARP, label="SA List"),
             ft.NavigationDestination(icon=ft.icons.EXIT_TO_APP, label="Exit", ),
         ],
@@ -87,14 +87,14 @@ def set_appbar(page, pg_title=None):
             ft.IconButton(ft.icons.EXIT_TO_APP, tooltip="Exit to App", on_click=lambda _: page.window_destroy()),
             ft.PopupMenuButton(
                 items=[
-                    ft.PopupMenuItem(text="API 정책 관리", icon=ft.icons.EDIT_OUTLINED, on_click=lambda _: api_policy_page(page)),
-                    ft.PopupMenuItem(text="API 정책 조회", icon=ft.icons.LIST_OUTLINED, on_click=lambda _: api_policy_list_page(page)),
+                    ft.PopupMenuItem(text="API 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: api_policy_page(page)),
+                    ft.PopupMenuItem(text="API 정책 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: api_policy_list_page(page)),
                     ft.PopupMenuItem(),  # divider
-                    ft.PopupMenuItem(text="LocalAgent 정책 관리", icon=ft.icons.EDIT_OUTLINED, on_click=lambda _: la_policy_page(page)),
-                    ft.PopupMenuItem(text="LocalAgent 정책 조회", icon=ft.icons.LIST_OUTLINED, on_click=lambda _: la_policy_list_page(page)),
+                    ft.PopupMenuItem(text="LocalAgent 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: la_policy_page(page)),
+                    ft.PopupMenuItem(text="LocalAgent 정책 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: la_policy_list_page(page)),
                     ft.PopupMenuItem(),  # divider
-                    ft.PopupMenuItem(text="ScheduleAgent 정책 관리", icon=ft.icons.EDIT_OUTLINED, on_click=lambda _: sa_policy_page(page)),
-                    ft.PopupMenuItem(text="ScheduleAgent 정책 조회", icon=ft.icons.LIST_OUTLINED, on_click=lambda _: sa_policy_list_page(page)),
+                    ft.PopupMenuItem(text="ScheduleAgent 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: sa_policy_page(page)),
+                    ft.PopupMenuItem(text="ScheduleAgent 정책 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: sa_policy_list_page(page)),
                     ft.PopupMenuItem(),  # divider
                     ft.PopupMenuItem(text="App 종료", icon=ft.icons.EXIT_TO_APP, on_click=lambda _: page.window_destroy())
                 ]
@@ -147,8 +147,8 @@ def api_policy_page(page: ft.Page, selected_id=None):
     page.appbar.title = ft.Text("XFC API Policy")
     selected_files = ft.Text()
 
-    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
-    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.NEWSPAPER_OUTLINED, on_click=new_click)
+    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE_ALT, on_click=button_save)
+    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.FIBER_NEW_ROUNDED, on_click=new_click)
 
     file_pick = ft.ElevatedButton(
         "File 선택",
@@ -236,10 +236,10 @@ def api_policy_list_page(page: ft.Page, key_id=None):
     page.appbar.title = ft.Text("List XFC API Policy")
 
     tf_id = ft.TextField(label="선택된 ID", color="cyan")
-    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_ROAD, on_click=call_edit_page)
+    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_DOCUMENT, on_click=call_edit_page)
     btn_del = ft.ElevatedButton(text="선택 항목 삭제", icon=ft.icons.DELETE, on_click=delete_data)
     tf_id_search = ft.TextField(label="검색할 ID", color="pink")
-    btn_find = ft.ElevatedButton(text="검색", icon=ft.icons.FIND_IN_PAGE_OUTLINED, on_click=search_data)
+    btn_find = ft.ElevatedButton(text="검색", icon=ft.icons.SEARCH, on_click=search_data)
 
     page.add(ft.Row(controls=[tf_id, btn_edit, btn_del, tf_id_search, btn_find]))
 
@@ -311,8 +311,8 @@ def la_policy_page(page: ft.Page, ip=None, policy=None):
         page.update()
 
     page.appbar.title = ft.Text("XFC Local Agent Policy")
-    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
-    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.NEWSPAPER_OUTLINED, on_click=new_click)
+    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE_ALT, on_click=button_save)
+    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.FIBER_NEW_OUTLINED, on_click=new_click)
     page.add(ft.Row(controls=[btn_save, btn_new]))
 
     page.add(ft.Row(controls=[la_policy.ip, la_policy.policy, la_policy.description]))
@@ -360,9 +360,9 @@ def la_policy_list_page(page: ft.Page):
 
     tf_ip = ft.TextField(label="ip", color="cyan")
     tf_policy = ft.TextField(label="policy", color="cyan")
-    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_ROAD, on_click=call_edit_page)
+    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_DOCUMENT, on_click=call_edit_page)
     btn_del = ft.ElevatedButton(text="선택 항목 삭제", icon=ft.icons.DELETE, on_click=delete_data)
-    btn_find = ft.ElevatedButton(text="검색", icon=ft.icons.FIND_IN_PAGE_OUTLINED, on_click=search_data)
+    btn_find = ft.ElevatedButton(text="검색", icon=ft.icons.SEARCH, on_click=search_data)
 
     page.add(ft.Row(controls=[tf_ip, tf_policy, btn_edit, btn_del, btn_find]))
 
@@ -432,8 +432,8 @@ def sa_policy_page(page: ft.Page, ip=None, policy=None):
 
     page.appbar.title = ft.Text("XFC Schedule Agent Policy")
 
-    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE, on_click=button_save)
-    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.NEWSPAPER_OUTLINED, on_click=new_click)
+    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE_ALT, on_click=button_save)
+    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.FIBER_NEW_OUTLINED, on_click=new_click)
     page.add(ft.Row(controls=[btn_save,btn_new]))
 
     page.add(ft.Row(controls=[sa_policy.ip, sa_policy.policy, sa_policy.description]))
@@ -482,9 +482,9 @@ def sa_policy_list_page(page: ft.Page):
 
     tf_ip = ft.TextField(label="ip", color="cyan")
     tf_policy = ft.TextField(label="policy", color="cyan")
-    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT, on_click=call_edit_page)
+    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_DOCUMENT, on_click=call_edit_page)
     btn_del = ft.ElevatedButton(text="선택 항목 삭제", icon=ft.icons.DELETE, on_click=delete_data)
-    btn_find = ft.ElevatedButton(text="검색", icon=ft.icons.FIND_IN_PAGE_OUTLINED, on_click=search_data)
+    btn_find = ft.ElevatedButton(text="검색", icon=ft.icons.SEARCH, on_click=search_data)
 
     page.add(ft.Row(controls=[tf_ip, tf_policy, btn_edit, btn_del, btn_find]))
 
