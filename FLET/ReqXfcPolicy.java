@@ -27,8 +27,11 @@ public class ReqXfcPolicy {
 	        os.flush();
 	       
 			Thread.sleep(10);
-	        bytes = new byte[4096];
+	        bytes = new byte[10240];
 	        int readByteCount = is.read(bytes);
+	        
+	        if (readByteCount <= 0 )
+	        	return null;
 	
 	        sRes = new String(bytes,0,readByteCount,"UTF-8");
 	       
@@ -80,7 +83,7 @@ public class ReqXfcPolicy {
             	System.out.println("[Received API policy]: " + msg + "\n\n");
             Thread.sleep(500);
             
-            msg = ReqLaPolicy(is, os, "192.168.60.190", "LA001");
+            msg = ReqLaPolicy(is, os, "192.168.60.190", null);
             if(msg != null)
             	System.out.println("[Received Local Agent policy]: " + msg + "\n\n");
             Thread.sleep(500);

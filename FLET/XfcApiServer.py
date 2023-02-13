@@ -7,7 +7,6 @@ import sqlite3
 import pandas as pd
 import json
 
-
 database_name = './dbms/xfc_policy.db'
 
 
@@ -29,6 +28,7 @@ def parse_json(json_str):
             continue
 
     return func_type, str_ip, str_policy
+
 
 # data 요청 format
 # { "policyType": "api_policy/la_policy/sa_policy", "ip": "192.168.60.190", "policy": "la-001" }
@@ -88,8 +88,16 @@ def select_la_policy(ip=None, policy=None):
     if ip is None or policy is None:
         return None
 
-    query = \
-        "select * from la_policy where ip = \'" + ip + "\' and policy = \'" + policy + "\';"
+    if ip is not None and policy is not None:
+        query = \
+            "select * from la_policy where ip = \'" + ip + "\' and policy = \'" + policy + "\';"
+    elif ip is not None and policy is None:
+        query = \
+            "select * from la_policy where ip = \'" + ip + "\';"
+    else:
+        return None
+
+    print('query: ' + query)
 
     conn = sqlite3.connect(database_name)
     df = pd.read_sql_query(query, conn)
@@ -152,10 +160,11 @@ def select_sa_policy(ip=None, policy=None):
     if len(value_list) == 0:
         return None
 
-    json_str = "["
+    json_str = ""
     first_flag = True
     for v in value_list:
         if first_flag:
+            json_str = "["
             json_str += "{"
             first_flag = False
         else:
@@ -240,8 +249,12 @@ def threaded(client_socket, addr):
                     print('Unknown policy type')
                     break
 
-                print('send data: ' + json_str)
-                client_socket.send(json_str.encode())
+                if json_str is not None:
+                    print('send data: ' + json_str)
+                    client_socket.send(json_str.encode())
+                else:
+                    print('Data not found!!')
+                    break
 
         except ConnectionResetError as e:
             print('Disconnected by ' + addr[0], ':', addr[1])
@@ -273,7 +286,6 @@ def main(argv):
 
         client_socket, addr = server_socket.accept()
         start_new_thread(threaded, (client_socket, addr))
-
 
     server_socket.close()
 

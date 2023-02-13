@@ -40,10 +40,10 @@ class XfcLaPolicy:
         self.backup_path.update()
 
     def __init__(self):
-        self.ip = ft.TextField(label="IP 주소", color="white")
-        self.policy = ft.TextField(label="정책 이름", color="white")
-        self.description = ft.TextField(label="설명", width=610, color="white")
-        self.base_path = ft.TextField(label="파일 감시 기본 경로", width=1230, color="white")
+        self.ip = ft.TextField(label="IP 주소")
+        self.policy = ft.TextField(label="정책 이름")
+        self.description = ft.TextField(label="설명", width=610)
+        self.base_path = ft.TextField(label="파일 감시 기본 경로", width=1230)
         self.dir = ft.TextField(label="파일 감시 경로", width=1230)
         self.mode = ft.RadioGroup(content=ft.Row([
             ft.Radio(value="E", label="암호화", width=150),
