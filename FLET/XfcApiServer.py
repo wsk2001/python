@@ -222,7 +222,7 @@ def threaded(client_socket, addr):
             data = client_socket.recv(1024)
 
             if not data:
-                print('Disconnected by-001 ' + addr[0], ':', addr[1])
+                print('Disconnected by ' + addr[0], ':', addr[1])
                 break
 
             else:
@@ -233,22 +233,21 @@ def threaded(client_socket, addr):
                 if func_type.startswith('api_policy'):
                     json_str = select_api_policy(str_ip)
                 elif func_type.startswith('la_policy'):
-                    json_str = select_la_policy(str_ip, str_policy)
+                    json_str = select_la_policy(str_ip, str_policy if 0 < len(str_policy) else None)
                 elif func_type.startswith('sa_policy'):
-                    json_str = select_sa_policy(str_ip, str_policy)
+                    json_str = select_sa_policy(str_ip, str_policy if 0 < len(str_policy) else None)
                 else:
-                    continue
+                    print('Unknown policy type')
+                    break
 
                 print('send data: ' + json_str)
                 client_socket.send(json_str.encode())
 
         except ConnectionResetError as e:
-
-            print('Disconnected by-002 ' + addr[0], ':', addr[1])
+            print('Disconnected by ' + addr[0], ':', addr[1])
             break
 
     client_socket.close()
-    print('Disconnected by-003 :', addr[0], ':', addr[1])
 
 
 def main(argv):

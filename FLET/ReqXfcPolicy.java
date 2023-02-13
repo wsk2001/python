@@ -13,9 +13,14 @@ public class ReqXfcPolicy {
         String message = null;
 
         try {
-	        message = "{ \"policyType\": \"" + c_policy_type + "\", " +
-	        		  "\"ip\": \"" + c_ip + "\", " +
-	        		  "\"policy\": \"" + c_policy + "\" }";
+        	if(c_policy != null)
+		        message = "{ \"policyType\": \"" + c_policy_type + "\", " +
+		        		  "\"ip\": \"" + c_ip + "\", " +
+		        		  "\"policy\": \"" + c_policy + "\" }";
+        	else
+		        message = "{ \"policyType\": \"" + c_policy_type + "\", " +
+		        		  "\"ip\": \"" + c_ip + "\", " +
+		        		  "\"policy\": \"\" }";
 	        		
 	        bytes = message.getBytes();
 	        os.write(bytes);
@@ -72,18 +77,19 @@ public class ReqXfcPolicy {
             String msg = null;
             msg = ReqAPiPolicy(is, os, "192.168.60.190", null);
             if(msg != null)
-            	System.out.println("[Received API policy]: " + msg);
-            Thread.sleep(2000);
+            	System.out.println("[Received API policy]: " + msg + "\n\n");
+            Thread.sleep(500);
             
             msg = ReqLaPolicy(is, os, "192.168.60.190", "LA001");
             if(msg != null)
-            	System.out.println("[Received Local Agent policy]: " + msg);
-            Thread.sleep(2000);
+            	System.out.println("[Received Local Agent policy]: " + msg + "\n\n");
+            Thread.sleep(500);
 
-            msg = ReqSaPolicy(is, os, "192.168.60.190", "SAwin002");
+            // msg = ReqSaPolicy(is, os, "192.168.60.190", "SAwin002");
+            msg = ReqSaPolicy(is, os, "192.168.60.190", null);
             if(msg != null)
-            	System.out.println("[Received Schedule Agent policy]: " + msg);
-            Thread.sleep(2000);
+            	System.out.println("[Received Schedule Agent policy]: " + msg + "\n\n");
+            Thread.sleep(500);
             
             is.close();
             os.close();
