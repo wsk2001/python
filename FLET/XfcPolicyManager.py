@@ -542,7 +542,6 @@ def sa_policy_list_page(page: ft.Page):
 def main(page: ft.Page):
     page.theme_mode = "dark"
     page.title = "XFC Manager"
-    # page.scroll = "always"
     page.scroll = "auto"
 
     dbms.create_api_policy_table()

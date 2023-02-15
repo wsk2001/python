@@ -10,7 +10,7 @@ import json
 database_name = './dbms/xfc_policy.db'
 
 
-def parse_json(json_str):
+def parse_json(json_str:str):
     json_dict = json.loads(json_str)
 
     func_type = None
@@ -33,7 +33,7 @@ def parse_json(json_str):
 # data 요청 format
 # { "policyType": "api_policy/la_policy/sa_policy", "ip": "192.168.60.190", "policy": "la-001" }
 
-def select_api_policy(ip):
+def select_api_policy(ip:str):
     query = \
         "select * from api_policy where ipAddr = \'" + ip + "\';"
     conn = sqlite3.connect(database_name)
@@ -84,7 +84,7 @@ def select_api_policy(ip):
     return json_str
 
 
-def select_la_policy(ip=None, policy=None):
+def select_la_policy(ip:str=None, policy:str=None):
     if ip is None or policy is None:
         return None
 
@@ -138,7 +138,7 @@ def select_la_policy(ip=None, policy=None):
     return json_str
 
 
-def select_sa_policy(ip=None, policy=None):
+def select_sa_policy(ip:str=None, policy:str=None):
     query = None
 
     if ip is None:
