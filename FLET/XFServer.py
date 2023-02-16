@@ -239,6 +239,7 @@ def threaded(client_socket, addr):
                 func_type, str_ip, str_policy = parse_json(rcv_data)
 
                 print('receive data: ' + rcv_data)
+                print()
                 if func_type.startswith('api_policy'):
                     json_str = select_api_policy(str_ip)
                 elif func_type.startswith('la_policy'):
@@ -251,6 +252,7 @@ def threaded(client_socket, addr):
 
                 if json_str is not None:
                     print('send data: ' + json_str)
+                    print()
                     client_socket.send(json_str.encode())
                 else:
                     print('Data not found!!')
@@ -277,13 +279,11 @@ def main(argv):
     server_socket.bind((host, port))
     server_socket.listen()
 
-    print('server start')
+    print('Start XFServer')
 
     # When a client connects, the accept function returns a new socket.
     # A new thread communicates using that socket.
     while True:
-        # print('wait')
-
         client_socket, addr = server_socket.accept()
         start_new_thread(threaded, (client_socket, addr))
 

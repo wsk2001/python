@@ -256,3 +256,5 @@ HIFI 660 531.47365711
 #https://vault.centos.org/
 #https://vault.centos.org/8.4.2105/isos/x86_64/
 
+# 7402280
+# 정보통신공학부
