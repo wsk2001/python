@@ -222,12 +222,12 @@ order by F.theme, A.symbol
 
 select * from theme_summry
 where ymd like '2023%'
-order by ymd;
-
-
---select * from theme_summry
---where ymd like '2022%'
---order by ymd;
+order by ymd;
+
+
+--select * from theme_summry
+--where ymd like '2022%'
+--order by ymd;
 
 
 
@@ -309,5 +309,5 @@ AND A.symbol = B.symbol
 
 */
 
-
-</sql><current_tab id="3"/></tab_sql></sqlb_project>
+-- VACUUM;
+</sql><current_tab id="4"/></tab_sql></sqlb_project>

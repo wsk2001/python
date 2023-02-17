@@ -108,9 +108,9 @@ def analyze(ticker, cnt, interval='day', to=None):
 
     if interval.startswith('day'):
         print(f'earning(count = {cnt} days): {earn:.3f}%')
-        print(f'start :  {start_date} , Open, High, Low, Close')
-        print('top   : ', hv.day, ',', f'{hv.o:.3f} , {hv.h:.3f}, {hv.l:.3f}, {hv.c:.3f}')
-        print('bottom: ', lv.day, ',', f'{lv.o:.3f} , {lv.h:.3f}, {lv.l:.3f}, {lv.c:.3f}')
+        print(f'star    :  {start_date} , Open, High, Low, Close')
+        print('highest : ', hv.day, ',', f'{hv.o:.3f} , {hv.h:.3f}, {hv.l:.3f}, {hv.c:.3f}')
+        print('lowest  : ', lv.day, ',', f'{lv.o:.3f} , {lv.h:.3f}, {lv.l:.3f}, {lv.c:.3f}')
     else:
         print(f'earning: {earn:.3f}%')
 
