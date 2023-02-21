@@ -10,7 +10,7 @@ import json
 database_name = './dbms/xfc_policy.db'
 
 
-def parse_json(json_str:str):
+def parse_json(json_str: str):
     json_dict = json.loads(json_str)
 
     func_type = None
@@ -33,7 +33,7 @@ def parse_json(json_str:str):
 # data 요청 format
 # { "policyType": "api_policy/la_policy/sa_policy", "ip": "192.168.60.190", "policy": "la-001" }
 
-def select_api_policy(ip:str):
+def select_api_policy(ip: str):
     query = \
         "select * from api_policy where ipAddr = \'" + ip + "\';"
     conn = sqlite3.connect(database_name)
@@ -81,10 +81,14 @@ def select_api_policy(ip:str):
     if 0 < len(json_str):
         json_str += "}"
 
-    return json_str
+    json_object = json.loads(json_str)
+
+    json_formatted_str = json.dumps(json_object, indent=2)
+
+    return json_formatted_str
 
 
-def select_la_policy(ip:str=None, policy:str=None):
+def select_la_policy(ip: str = None, policy: str = None):
     if ip is None or policy is None:
         return None
 
@@ -135,10 +139,14 @@ def select_la_policy(ip:str=None, policy:str=None):
         break
     json_str += "}"
 
-    return json_str
+    json_object = json.loads(json_str)
+
+    json_formatted_str = json.dumps(json_object, indent=2)
+
+    return json_formatted_str
 
 
-def select_sa_policy(ip:str=None, policy:str=None):
+def select_sa_policy(ip: str = None, policy: str = None):
     query = None
 
     if ip is None:
@@ -183,27 +191,26 @@ def select_sa_policy(ip:str=None, policy:str=None):
         json_str += ",\"use_weekday\":" + "\"" + v[10] + "\""
         json_str += ",\"weekdays\":" + "\"" + v[11] + "\""
 
-        if v[12] is not None:
+        if v[12] is not None and v[12].startswith("00") is False:
             json_str += ",\"day\":" + "\"" + v[12] + "\""
         else:
             json_str += ",\"day\":" + "\"\""
 
-        if v[13] is not None:
+        if v[13] is not None and v[13].startswith("00") is False:
             json_str += ",\"hh\":" + "\"" + v[13] + "\""
         else:
             json_str += ",\"hh\":" + "\"\""
 
-        if v[14] is not None:
+        if v[14] is not None and v[14].startswith("00") is False:
             json_str += ",\"mm\":" + "\"" + v[14] + "\""
         else:
             json_str += ",\"mm\":" + "\"\""
 
-        if v[15] is not None:
+        if v[15] is not None and v[15].startswith("00") is False:
             json_str += ",\"ss\":" + "\"" + v[15] + "\""
         else:
             json_str += ",\"ss\":" + "\"\""
 
-        json_str += ",\"use_file_filter\":" + "\"" + v[16] + "\""
         json_str += ",\"file_filter_type\":" + "\"" + v[17] + "\""
         json_str += ",\"file_filter_exts\":" + "\"" + v[18] + "\""
         json_str += ",\"check_file_closed\":" + "\"" + v[19] + "\""
@@ -216,7 +223,12 @@ def select_sa_policy(ip:str=None, policy:str=None):
 
     json_str += "]"
 
-    return json_str
+    json_object = json.loads(json_str)
+
+    json_formatted_str = json.dumps(json_object, indent=2)
+
+    return json_formatted_str
+    # return json_str
 
 
 # Code that runs in a thread.
