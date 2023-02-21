@@ -170,7 +170,7 @@ def bond_strength(v, e, r, p):
     for k, val in dictionary.items():
         if 2 <= val:
             dval = round(val/detect_count, 4)*100.0
-            if 30.0 <= dval:
+            if 50.0 <= dval:
                 print(k+',', str(val)+',',f'{dval:4.2f}', '(%)')
     print()
 
