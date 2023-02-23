@@ -7,6 +7,7 @@ from datetime import datetime
 
 class XfcSaPolicy:
     num_list = [
+        "*",
         "00", "01", "02", "03", "04", "05", "06", "07", "08", "09",
         "10", "11", "12", "13", "14", "15", "16", "17", "18", "19",
         "20", "21", "22", "23", "24", "25", "26", "27", "28", "29",
@@ -94,17 +95,17 @@ class XfcSaPolicy:
 
         lst_days = []
         lst_days.clear()
-        for i in range(0, 32):
+        for i in range(0, 33):
             lst_days.append(ft.dropdown.Option(self.num_list[i]))
 
         lst_hhs = []
         lst_hhs.clear()
-        for i in range(0, 24):
+        for i in range(0, 25):
             lst_hhs.append(ft.dropdown.Option(self.num_list[i]))
 
         lst_mms = []
         lst_mms.clear()
-        for i in range(0, 60):
+        for i in range(0, 61):
             lst_mms.append(ft.dropdown.Option(self.num_list[i]))
 
         self.day = ft.Dropdown(
@@ -164,10 +165,10 @@ class XfcSaPolicy:
         self.dir_depth.value = ""
         self.use_weekday.value = False
         self.weekdays.value = ""
-        self.day.value = "00"
-        self.hh.value = "00"
-        self.mm.value = "00"
-        self.ss.value = "00"
+        self.day.value = "*"
+        self.hh.value = "*"
+        self.mm.value = "*"
+        self.ss.value = "*"
         self.use_file_filter.value = False
         self.file_filter_type.value = ""
         self.file_filter_exts.value = ""

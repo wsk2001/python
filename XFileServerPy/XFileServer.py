@@ -191,22 +191,22 @@ def select_sa_policy(ip: str = None, policy: str = None):
         json_str += ",\"use_weekday\":" + "\"" + v[10] + "\""
         json_str += ",\"weekdays\":" + "\"" + v[11] + "\""
 
-        if v[12] is not None and v[12].startswith("00") is False:
+        if v[12] is not None:
             json_str += ",\"day\":" + "\"" + v[12] + "\""
         else:
             json_str += ",\"day\":" + "\"\""
 
-        if v[13] is not None and v[13].startswith("00") is False:
+        if v[13] is not None:
             json_str += ",\"hh\":" + "\"" + v[13] + "\""
         else:
             json_str += ",\"hh\":" + "\"\""
 
-        if v[14] is not None and v[14].startswith("00") is False:
+        if v[14] is not None:
             json_str += ",\"mm\":" + "\"" + v[14] + "\""
         else:
             json_str += ",\"mm\":" + "\"\""
 
-        if v[15] is not None and v[15].startswith("00") is False:
+        if v[15] is not None:
             json_str += ",\"ss\":" + "\"" + v[15] + "\""
         else:
             json_str += ",\"ss\":" + "\"\""
