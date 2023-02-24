@@ -1,0 +1,12 @@
+*.pyc
+*.exe
+
+XFileServerPy/flet_env/
+XFileServerPy/flet_env/*
+XFileServerPy/build/
+XFileServerPy/dist/
+
+
+
+XFileServerPy/Xfc/__pycache__/
+XFileServerPy/Xfc/__pycache__/*
