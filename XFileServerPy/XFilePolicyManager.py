@@ -79,7 +79,7 @@ def set_appbar(page, pg_title=None):
     page.appbar = ft.AppBar(
         leading=ft.Icon(ft.icons.PALETTE),
         leading_width=40,
-        title=ft.Text("XFC Policy Manager") if pg_title is None else ft.Text(pg_title),
+        title=ft.Text("XFile Policy Manager") if pg_title is None else ft.Text(pg_title),
         center_title=False,
         bgcolor=ft.colors.SURFACE_VARIANT,
         actions=[
@@ -144,7 +144,7 @@ def api_policy_page(page: ft.Page, selected_id=None):
         api.clear()
         page.update()
 
-    page.appbar.title = ft.Text("XFC API Policy")
+    page.appbar.title = ft.Text("XFile API Policy")
     selected_files = ft.Text()
 
     btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE_ALT, on_click=button_save)
@@ -233,7 +233,7 @@ def api_policy_list_page(page: ft.Page, key_id=None):
             dlg.open = True
             page.update()
 
-    page.appbar.title = ft.Text("List XFC API Policy")
+    page.appbar.title = ft.Text("List XFile API Policy")
 
     tf_id = ft.TextField(label="선택된 ID", color="cyan")
     btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_DOCUMENT, on_click=call_edit_page)
@@ -310,7 +310,7 @@ def la_policy_page(page: ft.Page, ip=None, policy=None):
         la_policy.clear()
         page.update()
 
-    page.appbar.title = ft.Text("XFC Local Agent Policy")
+    page.appbar.title = ft.Text("XFile Local Agent Policy")
     btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE_ALT, on_click=button_save)
     btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.FIBER_NEW_OUTLINED, on_click=new_click)
     page.add(ft.Row(controls=[btn_save, btn_new]))
@@ -356,7 +356,7 @@ def la_policy_list_page(page: ft.Page):
 
     page.clean()
 
-    page.appbar.title = ft.Text("List XFC Local Agent Policy")
+    page.appbar.title = ft.Text("List XFile Local Agent Policy")
 
     tf_ip = ft.TextField(label="ip", color="cyan")
     tf_policy = ft.TextField(label="policy", color="cyan")
@@ -430,7 +430,7 @@ def sa_policy_page(page: ft.Page, ip=None, policy=None):
 
     page.clean()
 
-    page.appbar.title = ft.Text("XFC Schedule Agent Policy")
+    page.appbar.title = ft.Text("XFile Schedule Agent Policy")
 
     btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE_ALT, on_click=button_save)
     btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.FIBER_NEW_OUTLINED, on_click=new_click)
@@ -478,7 +478,7 @@ def sa_policy_list_page(page: ft.Page):
 
     page.clean()
 
-    page.appbar.title = ft.Text("List XFC Schedule Agent Policy")
+    page.appbar.title = ft.Text("List XFile Schedule Agent Policy")
 
     tf_ip = ft.TextField(label="ip", color="cyan")
     tf_policy = ft.TextField(label="policy", color="cyan")
@@ -541,7 +541,7 @@ def sa_policy_list_page(page: ft.Page):
 
 def main(page: ft.Page):
     page.theme_mode = "dark"
-    page.title = "XFC Manager"
+    page.title = "XFile Manager"
     page.scroll = "auto"
 
     dbms.create_api_policy_table()
