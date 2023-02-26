@@ -5,14 +5,17 @@ from flet import (
     FilePicker,
     FilePickerResultEvent,
     Text,
+    colors,
     Icon
 )
 
 import Xfc.XfcApiClass as XfcApiClass
 import Xfc.XfcLaClass as XfcLaClass
 import Xfc.XfcSaClass as XfcSaClass
-
 import Xfc.XfcDB as xdb
+import Xfc.LoginPage as LoginPage
+from datetime import datetime
+
 
 dbms = xdb.XfcDB()
 api = XfcApiClass.XfcApi()
@@ -539,10 +542,17 @@ def sa_policy_list_page(page: ft.Page):
     page.update()
 
 
-def main(page: ft.Page):
-    page.theme_mode = "dark"
+def main_page(page: ft.Page):
+    curr_hour = datetime.now().time().hour
+    if curr_hour < 7 or 18 < curr_hour:
+        page.theme_mode = "light"
+    else:
+        page.theme_mode = "dark"
+
+    # page.bgcolor = colors.BLUE_GREY_900
     page.title = "XFile Manager"
     page.scroll = "auto"
+    page.window_maximized = True
 
     dbms.create_api_policy_table()
     dbms.create_la_policy_table()
@@ -551,6 +561,10 @@ def main(page: ft.Page):
     set_appbar(page)
     # set_navi(page)
     api_policy_page(page)
+
+
+def main(page: ft.Page):
+    LoginPage.Login(page, main_page, "Login 정보를 입력 하세요.")
 
 
 # if __name__ == "__main__": 에서는 global 을 선언 하지 않는다.
