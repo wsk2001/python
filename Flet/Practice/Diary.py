@@ -110,7 +110,7 @@ class Task(UserControl):
 class DiaryApp(UserControl):
     def build(self):
         self.title = TextField(hint_text="Title...",icon=icons.TITLE,)
-        self.desc = TextField(hint_text="Write your diary here...",multiline=True,border="outline", min_lines=18,max_lines=1000,)
+        self.desc = TextField(hint_text="Write your diary here...",multiline=True,border="outline", min_lines=13,max_lines=1000,)
         self.tasks = Column()
 
 
@@ -160,8 +160,11 @@ class DiaryApp(UserControl):
 
 def main(page):
     page.title =  "Diary"
-    page.theme = theme.Theme(color_scheme_seed="green",font_family="kanit")
-    page.bgcolor = colors.LIGHT_GREEN_50
+    page.window_maximized = True
+    page.theme_mode = "dark" # "green"
+    # page.theme = theme.Theme(color_scheme_seed=theme_color,font_family="kanit")
+    # color no 50, 100, 200 ~ 900
+    page.bgcolor = colors.INDIGO_900 # colors.BLUE_GREY_900
     page.horizontal_alignment="center"
     page.padding = 60
     page.scroll = True
