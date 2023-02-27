@@ -564,7 +564,8 @@ def main_page(page: ft.Page):
 
 
 def main(page: ft.Page):
-    LoginPage.Login(page, main_page, "Login 정보를 입력 하세요.")
+    main_page(page)
+    # LoginPage.Login(page, main_page, "Login 정보를 입력 하세요.")
 
 
 # if __name__ == "__main__": 에서는 global 을 선언 하지 않는다.

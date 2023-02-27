@@ -6,6 +6,8 @@ count = 0
 def Login(page: Page, func, title=None):
     def handle_login(e):
         if username.value == "test" and password.value == "test":
+            page.window_left = 0
+            page.window_top = 0
             return func(e.page)
         else:
             global count
