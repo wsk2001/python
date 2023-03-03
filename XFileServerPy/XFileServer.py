@@ -14,20 +14,20 @@ def parse_json(json_str: str):
     json_dict = json.loads(json_str)
 
     func_type = None
-    str_ip = None
-    str_policy = None
+    str_key = None
+    str_subkey = None
 
     for key, val in json_dict.items():
         if "policyType" in key:
             func_type = val
-        elif "ip" in key:
-            str_ip = val
-        elif "policy" in key:
-            str_policy = val
+        elif "key" in key:
+            str_key = val
+        elif "subKey" in key:
+            str_subkey = val
         else:
             continue
 
-    return func_type, str_ip, str_policy
+    return func_type, str_key, str_subkey
 
 
 # data 요청 format
@@ -231,6 +231,40 @@ def select_sa_policy(ip: str = None, policy: str = None):
     # return json_str
 
 
+def select_key_material(key_id: str):
+    if key_id is None:
+        return None
+
+    query = \
+        "select * from key_material where key_id = \'" + key_id + "\';"
+
+    print('query: ' + query)
+
+    conn = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    value_list = df.values.tolist()
+    if len(value_list) == 0:
+        return None
+
+    json_str = ""
+    for v in value_list:
+        json_str += "{"
+        json_str += "\"key_id\":" + "\"" + v[0] + "\""
+        json_str += ",\"key_material\":" + "\"" + v[1] + "\""
+        json_str += ",\"key_iv\":" + "\"" + v[2] + "\""
+        json_str += ",\"key_activeyn\":" + "\"" + v[3] + "\""
+
+        break
+    json_str += "}"
+
+    json_object = json.loads(json_str)
+
+    json_formatted_str = json.dumps(json_object, indent=2)
+
+    return json_formatted_str
+
+
 # Code that runs in a thread.
 def threaded(client_socket, addr):
     print('Connected by :', addr[0], ':', addr[1])
@@ -248,16 +282,18 @@ def threaded(client_socket, addr):
 
             else:
                 rcv_data = data.decode()
-                func_type, str_ip, str_policy = parse_json(rcv_data)
+                func_type, key, subkey = parse_json(rcv_data)
 
                 print('receive data: ' + rcv_data)
                 print()
                 if func_type.startswith('api_policy'):
-                    json_str = select_api_policy(str_ip)
+                    json_str = select_api_policy(key)
                 elif func_type.startswith('la_policy'):
-                    json_str = select_la_policy(str_ip, str_policy if 0 < len(str_policy) else None)
+                    json_str = select_la_policy(key, subkey if 0 < len(subkey) else None)
                 elif func_type.startswith('sa_policy'):
-                    json_str = select_sa_policy(str_ip, str_policy if 0 < len(str_policy) else None)
+                    json_str = select_sa_policy(key, subkey if 0 < len(subkey) else None)
+                elif func_type.startswith('key_material'):
+                    json_str = select_key_material(key)
                 else:
                     print('Unknown policy type')
                     break

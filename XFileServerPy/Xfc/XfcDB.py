@@ -81,6 +81,68 @@ class XfcDB:
                      )
         conn.close()
 
+    def create_key_material(self):
+        conn = sqlite3.connect(self.database_name)
+        conn.execute('CREATE TABLE IF NOT EXISTS key_material( ' +
+                     'key_id TEXT, ' +
+                     'key_material TEXT, ' +
+                     'key_iv TEXT, ' +
+                     'key_activeyn TEXT )'
+                     )
+        conn.close()
+
+    def key_material_list(self, key_id=None):
+        query = ""
+        if key_id is None:
+            query = \
+                "select key_id, key_material, key_iv, key_activeyn from key_material;"
+        else:
+            query = \
+                "select key_id, key_material, key_iv, key_activeyn from key_material " \
+                "where key_id = '" + key_id + "';"
+
+        conn = sqlite3.connect(self.database_name)
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+
+        return df
+
+    def get_key_material(self, km, key_id):
+        query = \
+            "select * from key_material where key_id = \'" + key_id + "\';"
+
+        conn = sqlite3.connect(self.database_name)
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+        value_list = df.values.tolist()
+
+        for v in value_list:
+            km.key_id.value = v[0]
+            km.key_material.value = v[1]
+            km.key_iv.value = v[2]
+            km.key_activeyn.value = v[3]
+            break
+
+    def delete_key_material(self, key_id: str):
+        conn = sqlite3.connect(self.database_name)
+        conn.execute('delete from key_material where key_id = ' + '\'' + key_id + '\';')
+        conn.commit()
+        conn.close()
+
+    def insert_key_material(self, c):
+        self.delete_key_material(c.key_id.value)
+        conn = sqlite3.connect(self.database_name)
+        conn.execute("INSERT INTO key_material VALUES(?,?,?,?);",
+                     (
+                         c.key_id.value,
+                         c.key_material.value,
+                         c.key_iv.value,
+                         c.key_activeyn.value)
+                     )
+
+        conn.commit()
+        conn.close()
+
     def get_api_policy_list(self, key_id=None):
         query = ""
         if key_id is None:
@@ -232,7 +294,7 @@ class XfcDB:
                          c.ymd_offset.value,
                          'Y' if c.use_trigger_file.value is True else 'N',
                          c.trigger_ext.value,
-                         c.trigger_target.value )
+                         c.trigger_target.value)
                      )
 
         conn.commit()

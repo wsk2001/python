@@ -12,13 +12,17 @@ from flet import (
 import Xfc.XfcApiClass as XfcApiClass
 import Xfc.XfcLaClass as XfcLaClass
 import Xfc.XfcSaClass as XfcSaClass
+import Xfc.XfcKeyMaterial as XfcKeyMaterial
+
 import Xfc.XfcDB as xdb
 import Xfc.LoginPage as LoginPage
 from datetime import datetime
+import uuid
 
 
 dbms = xdb.XfcDB()
 api = XfcApiClass.XfcApi()
+key_material = XfcKeyMaterial.XfcKeyMaterial()
 la_policy = XfcLaClass.XfcLaPolicy()
 sa_policy = XfcSaClass.XfcSaPolicy()
 
@@ -92,6 +96,9 @@ def set_appbar(page, pg_title=None):
                 items=[
                     ft.PopupMenuItem(text="API 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: api_policy_page(page)),
                     ft.PopupMenuItem(text="API 정책 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: api_policy_list_page(page)),
+                    ft.PopupMenuItem(),  # divider
+                    ft.PopupMenuItem(text="KEY Material 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: key_material_page(page)),
+                    ft.PopupMenuItem(text="KEY Material 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: key_material_list_page(page)),
                     ft.PopupMenuItem(),  # divider
                     ft.PopupMenuItem(text="LocalAgent 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: la_policy_page(page)),
                     ft.PopupMenuItem(text="LocalAgent 정책 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: la_policy_list_page(page)),
@@ -269,6 +276,140 @@ def api_policy_list_page(page: ft.Page, key_id=None):
                     ft.DataCell(ft.Text(v[1])), ft.DataCell(ft.Text(v[2])),
                     ft.DataCell(ft.Text(v[3])), ft.DataCell(ft.Text(v[4])),
                     ft.DataCell(ft.Text(v[5])), ft.DataCell(ft.Text(v[6])),
+                ],
+            )
+        )
+        if first_row:
+            tf_id.value = v[0]
+            first_row = False
+
+    page.add(
+        ft.DataTable(
+            heading_row_color=ft.colors.BLACK12,
+            columns=header,
+            rows=low_list,
+        ),
+    )
+
+    page.update()
+
+def key_material_page(page: ft.Page, selected_id=None):
+
+    page.clean()
+
+    def button_save(e):
+        if 0 < len(key_material.key_id.value):
+            dbms.insert_key_material(key_material)
+            dlg = ft.AlertDialog(
+                title=ft.Text(f"ID {key_material.key_id.value} Data 를 저장 하였습니다.")
+            )
+            page.dialog = dlg
+            dlg.open = True
+            page.update()
+            key_material.clear()
+            page.update()
+        else:
+            dlg = ft.AlertDialog(
+                title=ft.Text("ID 가 입력되지 않았습니다.\n 저장 할 수 없습니다.")
+            )
+            page.dialog = dlg
+            dlg.open = True
+            page.update()
+
+    def new_click(e):
+        key_material.clear()
+        page.update()
+
+
+    def gen_uuid(e):
+        key = uuid.uuid4()
+        if key_material.select_name.startswith('key_id'):
+            key_material.key_id.value = str(key)
+        elif key_material.select_name.startswith('key_material'):
+            key_material.key_material.value = str(key).replace('-', '')
+        elif key_material.select_name.startswith('key_iv'):
+            key_material.key_iv.value = str(key).replace('-', '')
+
+        e.page.update()
+
+    def list_material(e):
+        key_material_list_page(e.page)
+
+    page.appbar.title = ft.Text("XFile Key Material")
+
+    btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE_ALT, on_click=button_save)
+    btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.FIBER_NEW_ROUNDED, on_click=new_click)
+    btn_gen = ft.ElevatedButton(text="Key 생성", icon=ft.icons.GENERATING_TOKENS, on_click=gen_uuid)
+    btn_lst = ft.ElevatedButton(text="View List", icon=ft.icons.LIST_ALT, on_click=list_material)
+
+    page.add(ft.Row(controls=[btn_save, btn_new, btn_gen, btn_lst]))
+
+    page.add(ft.Row(controls=[key_material.key_id]))
+    page.add(ft.Row(controls=[key_material.key_material]))
+    page.add(ft.Row(controls=[key_material.key_iv]))
+    page.add(ft.Row(controls=[key_material.key_activeyn]))
+
+    key_material.clear()
+
+    if selected_id is not None:
+        dbms.get_key_material(key_material, selected_id)
+
+    page.update()
+
+
+def key_material_list_page(page: ft.Page, key_id=None):
+    page.clean()
+
+    def selectOnTap(e):
+        if 0 < len(e.control.content.value):
+            tf_id.value = e.control.content.value
+            page.update()
+
+    def call_edit_page(e):
+        key_material_page(page, tf_id.value)
+
+    def delete_data(e):
+        if 0 < len(tf_id.value):
+            dbms.delete_key_material(tf_id.value)
+            dlg = ft.AlertDialog(
+                title=ft.Text(f"ID {tf_id.value} Data 를 삭제 하였습니다.")
+            )
+            page.dialog = dlg
+            dlg.open = True
+            page.update()
+            key_material_list_page(page)
+
+    page.appbar.title = ft.Text("List XFile Key Material")
+
+    tf_id = ft.TextField(label="선택된 ID", width=480, color="cyan")
+    btn_edit = ft.ElevatedButton(text="선택 항목 편집", icon=ft.icons.EDIT_DOCUMENT, on_click=call_edit_page)
+    btn_del = ft.ElevatedButton(text="선택 항목 삭제", icon=ft.icons.DELETE, on_click=delete_data)
+
+    page.add(ft.Row(controls=[tf_id, btn_edit, btn_del]))
+
+    header = [ft.DataColumn(ft.Text("key_id", color="pink600")),
+              ft.DataColumn(ft.Text("key_material",  width=480,)),
+              ft.DataColumn(ft.Text("key_iv")),
+              ft.DataColumn(ft.Text("key_activeyn"))]
+
+    if key_id is None:
+        df = dbms.key_material_list()
+    else:
+        df = dbms.key_material_list(key_id)
+
+    value_list = df.values.tolist()
+    low_list = []
+    low_list.clear()
+
+    first_row = True
+    for v in value_list:
+        low_list.append(
+            ft.DataRow(
+                cells=[
+                    ft.DataCell(ft.Text(v[0], color="cyan"), on_tap=selectOnTap),
+                    ft.DataCell(ft.Text(v[1],  width=480,)),
+                    ft.DataCell(ft.Text(v[2])),
+                    ft.DataCell(ft.Text(v[3])),
                 ],
             )
         )
@@ -557,6 +698,7 @@ def main_page(page: ft.Page):
     dbms.create_api_policy_table()
     dbms.create_la_policy_table()
     dbms.create_sa_policy_table()
+    dbms.create_key_material()
 
     set_appbar(page)
     # set_navi(page)
