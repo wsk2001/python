@@ -1,53 +1,9 @@
-# 초보들이 저지르기 쉬운 최대 실수는 다른 트레이더들은 미래를 예측할 수 있다고 믿는 것. 사실은 그 누구도 모름. 
-# WEMIX 209 1 상폐 완료(2022-12-08 15:00).
-
-# - 자신만의 시스템/시그널 활용 (자신의 원칙을 만들것)
-# - 저항선 에서 매도
-# - 지지선 에서 매수
-# - 틀렸음이 명백한 지점을 식별해놓을 것(손절가 지정)
-# - 틀렸을 때 가차없이 손절하는 절제력을 기를 것(필요시 예약 매도)
-
-# 코인판에서 잘맞는 보조지표
-# 거래량: 모든 지표는 거래량이 증가할 때 좀 더 확증을 준다.
-# STCH MTM Index(스토캐스틱 모맨텀) : 주어진 기간 중 움직인 가격 범위에서 오늘의 시장가격이 상대적으로 어디에 위치하고 있는지를 알려주는 지표
-# Commodity Channel Index(CCI) : 특정일 평균가격이 이동평균가격과 얼마나 떨어져 있는지를 나태내는 지표로 변동성이 강하여 중 장기 추세 매매보다 단기매매시점 포착에 유리
-# Money Flow Index(MFI) : 자금이 얼마나 유출되고 유입되는지 힘의 강도를 측정하는 모맨텀 지표로 RSI지표는 가격만으로 강도를 측정하는 데 비해 MFI는 거래량도 포함하여 강도를 측정한다.
-# Bollinger Bands(BB) : 가격이 20일 이동평균선 중심으로 표준편차(약 96.5%) 범위 안에서 (밴드 안에서) 움직이는 지표 
-#   밴드폭이 좁아지거나 넓어지면 가격 변동이 일어남
-#   1시간봉 볼린저밴드 과매수 터치일 경우 매도
-#   매수: 볼린저밴드 하단부 돌파 동시에 매도량 감소
-#   매도: 볼린저밴드 상단부 돌파 동시에 매수량 감소
-
-# 12/1일 - THETA 메인넷 4.0($THETA)
-# 12/2일 - 가처분 신청 심문기일($WEMIX)
-# 12/2일 - 바이낸스 BNB체인 지갑 유지보수
-#  (https://www.binance.com/en/support/announcement/wallet-maintenance-for-bnb-smart-chain-bep20-2022-12-02-3dba7a761d0244788758e0a4e750de5f)12/2일 - 디스코드에서 수익창출 기능 공개
-# 12/5일 - $APE 스테이킹 사전 예치($APE)
-# 12/6일 - 체인링크 스테이킹v0.1 (https://blog.naver.com/chainlinkkorea/222921370052)($LINK)
-# 12/7일 - 폴리매쓰 메인넷 변경 및 토큰스왑 (https://upbit.com/service_center/notice?id=3086)($POLY)
-# 12/7일 - 트론네트워크 업그레이드/업비트입출금중단($TRX)
-# 12/8일 - WEMIX 거래소 상장 폐지($WEMIX)
-# 12/5일~8일 - 메인프레임 토큰스왑 거버넌스 투표($MFT)
-# 12/9일 - 메인프레임 토큰스왑 배포($MFT)
-# 
-# 12/12일 - $APE 스테이킹 정식런칭($APE)
-# 12/15일 - 업비트 카바 유의종목 연장기한($KAVA)
-# 
-# 12월(4분기) - 칠리즈 메인넷 2.0 출시 (https://chiliz-chain.notion.site/Chiliz-Testnet-Scoville-3dd86f6e6152400ba85f8ba87b02d1b1)($CHZ)
-
-
-# 2021년 12월 CPI지수 발표일은  2022년 1월 12일
-# 2022년 1월 CPI지수 발표일은  2022년 2월 10일
-# 2022년 2월 CPI지수 발표일은  2022년 3월 10일
-# 2022년 3월 CPI지수 발표일은  2022년 4월 12일
-# 2022년 4월 CPI지수 발표일은  2022년 5월 11일
-# 2022년 5월 CPI지수 발표일은  2022년 6월 10일
-# 2022년 6월 CPI지수 발표일은  2022년 7월 13일
-# 2022년 7월 CPI지수 발표일은  2022년 8월 10일
-# 2022년 8월 CPI지수 발표일은  2022년 9월 13일
-# 2022년 9월 CPI지수 발표일은  2022년 10월 13일
-# 2022년 10월 CPI지수 발표일은  2022년 11월 10일
-# 2022년 11월 CPI지수 발표일은  2022년 12월 13일
+#FED 제롬 파월 성명문 요약
+# 1⃣  궁극적인 금리 수준은 이전에 예상했던 것보다 높을 가능성이 높습니다.
+# 2⃣  물가 안정을 회복하려면 한동안 제한적인 정책 기조를 유지해야 할 것이 거의 확실합니다.
+# 3⃣  궁극적인 금리 수준은 이전에 예상했던 것보다 높을 가능성이 높습니다.
+# 4⃣  들어오는 데이터의 전체가 더 빠른 긴축이 필요하다는 것을 나타내면 우리는 금리 인상을 가속화할 준비가 되어 있습니다.
+# 최종금리 : 5.5% ~5.75% 로 올해동안 유지 할것.
 
 # 데일리 호들 https://dailyhodl.com
 # 코인니스 https://coinness.live/
@@ -70,193 +26,17 @@
 # https://cryptoquant.com/ko/asset/btc/summary#overview
 
 
-# BTC 선물 옵션 만기일 (마지막주 금요일): 1/28, 2/25, 3/25, 4/29, 5/27, 6/24, 12/30
-# 2022 FOMC 2일간, 1/25 3/15 5/3 6/14 7/26 9/20 11/1 12/13 (미국시간)
-
-# 2023 한국 통화정책방향 결정 회의 (이 회의에서 기준금리를 결정합니다.)
-# 1/13(금), 2/23(목), 4/13(목), 5/25(목), 7/13(목), 8/24(목), 10/19(목), 11/30(목)
-
-# 2023 미국 FOMC 회의 (UTC 기준)
-# 1/31(화) ~ 2/1(수), 3/21(화) ~ 22(수),  5/2(화) ~ 3(수),      6/13(화) ~ 14(수)
-# 7/25(화) ~ 26(수),  9/19(화) ~ 20(수), 10/31(화) ~ 11/1(수), 12/12(화) ~ 13(수)
-
-# cme는 런던 시간(GMT) 기준으로 매월 마지막주 금요일 오후(PM 4시) 이고, 한국시간(GMT+9) 토요일 새벽(AM 1시)
-# 바이 비트, 바이 낸스 펀딩비 시간 01:00, 09:00, 17:00
-# 바낸 펀딩비 : https://youngmaninvestment.tistory.com/218
-# 하락장 대처법 : https://cyberpol.tistory.com/15
-# 워뇨띠 등 글 참조: https://cyberpol.tistory.com/
-# 토큰포스트: https://www.tokenpost.kr/forum/free
-# Algorithm Trading for Crypto
-# https://github.com/search?l=Python&o=desc&q=Algorithm+Trading+for+Crypto&s=stars&type=Repositories
-# -- https://github.com/songv1/2019-Cryptocurrency-Trading-Algorithm
-# https://blog.naver.com/PostView.naver?blogId=pp8762&logNo=222439726692&categoryNo=16&parentCategoryNo=16&viewDate=&currentPage=1&postListTopCurrentPage=1&from=postView
-# https://bloomingbit.io/news
-# https://www.coinmaster.tips/
-
-
-##########################
-# https://kimsfamily.kr/
-##########################
-
-# 상승 가능성이 있는 종목 찾기.
-# https://superhky.tistory.com/282
-
-# BTCC 상장 종목: BTC, ETH, LTC, BCH, EOS, XRP, DASH, ADA, 
-########################################################
-# https://github.com/WestXu/support_resistance_line
-########################################################
-
-# https://github.com/binance/binance-public-data/
-
-# 하락장 07 매수, 08:35 매도, 이후 대기 및 저점 (10:40 매수 검토)
-# BTCC: 010 전화 // kang0192
-# upbit 에서 BTCC 로 입금 가능 
-# 2022-05-30 08:15:02: KRW-WEMIX 5345.0 5665.0       5.99% expected to rise
-
-
-################################
-# https://bitcode.tv/
-# 실시간 차트채팅. 청산맵. 매수매도 시그널 알고리즘...
-################################
-
-# 분석 글 : https://twitter.com/mignoletkr/status/1533332058000371712
-# 
-
 # 예상/분석/심리 관련 글.
 # https://m.blog.naver.com/respect2030/222788536188
 
 # 스캘핑 기법
 # 출처: https://chobocoinguide.com/56
 
-
-# select C.symbol, D.no from
-# (
-#         select A.symbol FROM
-#         (
-#                 (
-#                         select symbol from coin_theme
-#                         where theme = 'PLATFORM'
-#                 ) A,
-#                 (       select symbol from coin_theme
-#                         where theme = 'WEB3'
-#                 ) B
-#         )
-#         where A.symbol = B.symbol
-# ) C,
-# market_value D
-# where D.symbol = C.symbol
-# order by D.no;
-# 종목 (시총순위) : DOT (7), MATIC (8), AVAX (11), ATOM (14), LINK (15), NEAR (16), ALGO (20), XTZ (28), ICX (70)
-
-#select A.symbol, A.close AS '1109', B.close AS '1122' FROM
-#(
-#        (
-#                select symbol, close from day_candle
-#                where date = '2022-11-09'
-#        ) A,
-#        (       select symbol, close from day_candle
-#                where date = '2022-11-22'
-#        ) B
-#)
-#where A.symbol = B.symbol
-#and A.close > B.close
-#order by A.close desc
-
-# price predicting 
-# https://pythoninoffice.com/predicting-bitcoin-price-stock-to-flow-python/
-
-# https://investing-world.com/kr/lee-jae-yong-investment/?lpkey=16c857d3591e87df19&offer=Bitcoin%20Buyer&uclick=usqd16xrbl&uclickhash=usqd16xrbl-usqd16xrbl-fna8-0-8p17-uslpi4-usgm6o-c8a726
-
-###################################################################
-# https://github.com/AutomationPanda/playwright-python-tutorial
-###################################################################
-
-# 바이비트: https://www.bybit.com/en-US/ mail // 끝()OP
-# https://kr.tradingview.com/symbols/CRYPTOCAP-USDT.D/
-
-# python animation
-# from matplotlib.animation import FuncAnimation
-
-# 코인론 프리미엄.
-# https://contents.premium.naver.com/coinlearn/cointhink
-
-# 롱숏 비율 : https://coinness.live/market/future/long-short
-# 크립토퀀트: https://cryptoquant.com/ko/asset/btc/summary 
-# gmail // k**********P
-# API 키는 Professional/Premium 가입자에게 제공됩니다. 
-#
-
-# 2022-11-23 500KRW Charge, 2022-11-29 500 KRW Charge
+############################################################
 CASH 0		# 267379
 
-PUNDIX 627 1835.57413356
-ELF    389 1484.16280291
-
-# 1개월~ 3개월 사이에 비트코인을 매수한 트레이더들의 실현가격은 평균 $17,750이며, 이 가격대가 단기적으로 도달 할 수 있는 최고점이 될 가능성이 높습니다.
-# 17750 에서 short
-# https://www.blockmedia.co.kr/archives/285867 
-
-# 유료 구독중 (전체 스크랩 필요)
-# https://contents.premium.naver.com/coinsignal/first
-
-
-# Na**r****
-# https://contents.premium.naver.com/coindesk/nextmoney
-
-# update 필요
-# https://bloomingbit.io/forum/cw6K2QefA6Nbvz9o6vnBUz
-
-# CME 교육 자료.
-# https://www.cmegroup.com/ko/education/learn-about-trading/courses/trading-and-analysis/market-makers-vs-market-takers.html
-
-# $20453.81 short
-
-# https://plotly.com/python/ohlc-charts/
-# https://layhope.tistory.com/242
-# https://www.coingazua.com/b/chart-3?page=4
-# https://pypi.org/project/stocktrends/
-
-# 도미넌스: https://btctools.io/kr/stats/dominance
-# 시총: https://btctools.io/kr/stats/market-cap
-# 롱숏    : https://kimpga.com/statistics/longshort
-# 		   https://btctools.io/kr/stats/leaderboard
-# 청산 24H: https://kimpga.com/statistics/liquidation
-# 시총    : https://kimpga.com/statistics/marketcap
-#			https://btctools.io/kr/stats/market-cap
-# 일정    : https://coinness.live/market/schedule
-
-# 아담스 => 웬즈데이
-
-# 유통량 정보 미흡 우려 코인 목록
-# $BORA, $GMT, $ICX, $MANA, $HUM, $SAND, $CRE, $MED
-
-# https://contents.premium.naver.com/my/subscriptions
-# https://marupong.tistory.com/entry/EmperorBTC-TRADING-MANUAL-%ED%95%9C%EA%B8%80-%EB%B2%88%EC%97%AD-05-%EA%B8%B0%EC%88%A0%EC%A0%81-%EB%B6%84%EC%84%9D-%EC%A7%80%EC%A7%80%EC%84%A0%EA%B3%BC-%EC%A0%80%ED%95%AD%EC%84%A0
-
-# 지지/저항선 계산식
-# https://www.tradingview.com/support/solutions/43000521824-pivot-points-standard/
-
-# 피어슨 상관계수 계산
-# https://junyoru.tistory.com/135
-
-# CentOS 구 버젼 Download 하는 방법
-# https://vault.centos.org/
-# https://vault.centos.org/8.4.2105/isos/x86_64/
-
-
-#https://github.com/flet-dev/examples
-
-#[강원술] [오전 5:13] 
-#1.세금계산서 발행 (v)
-#2.교육자료 목차 작성해서 전달(v)
-#3.보험 전화 (v)
-#  -모닝 해약, K3 마일리지
-#4.KBANK 확인(해당없음) (v)
-#
-#CentOS 구 버젼 Download 하는 방법
-#https://vault.centos.org/
-#https://vault.centos.org/8.4.2105/isos/x86_64/
-
-# DevOps
+HIFI 581 	516.09307222
+ZIL  34.9 	1
+############################################################
 
 
