@@ -42,3 +42,4 @@ ZIL  34.9 	1
 
 # YTD (Year To Date) 연초 대비 증감율
 # MTD (Month To Date) 월초 대비 증감율
+# http://dc500.org/course

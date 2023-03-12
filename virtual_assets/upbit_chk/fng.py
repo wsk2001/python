@@ -4,7 +4,7 @@ import time, sys, signal
 import requests
 import json
 from common.utils import get_binance_btc
-from common.dominance import get_dominance, aoa_position
+from common.dominance import get_dominance
 import ccxt, cbpro, datetime
 from tradingview_ta import TA_Handler, Interval, Exchange
 import pyupbit
@@ -177,7 +177,7 @@ def main(argv):
     cb_p, bn_p, cb_idx, ti = cb_index(price)
 
     print(f'바낸 비트 가격: $' + format(price, ',.2f'))
-    print(f'비트  도미넌스: {domi}')
+    print(f'비트  도미넌스: {domi:.2f}')
     # print(aoa_position() + ' (bitsignal)')
 
     # upbit_top10()

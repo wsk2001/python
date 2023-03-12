@@ -45,14 +45,23 @@ def btctools_get_dominance(site):
 
 # 2022-10-26 sync 로 바꿈.
 def get_dominance():
-    try:
-        coinness_schedule = 'https://btctools.io/kr/stats/dominance'
-        dominance = btctools_get_dominance(coinness_schedule)
+    # try:
+    #     coinness_schedule = 'https://btctools.io/kr/stats/dominance'
+    #     dominance = btctools_get_dominance(coinness_schedule)
+    #
+    # except (ConnectionError, Timeout, TooManyRedirects) as e:
+    #     print(e)
+    #
+    # return dominance
+    return get_btc_dominance()
 
-    except (ConnectionError, Timeout, TooManyRedirects) as e:
-        print(e)
 
-    return dominance
+def get_btc_dominance():
+    url = 'https://api.coingecko.com/api/v3/global'
+    response = requests.get(url)
+    data = json.loads(response.text)
+    btc_dominance = data['data']['market_cap_percentage']['btc']
+    return btc_dominance
 
 
 # 워뇨띠 포지션
