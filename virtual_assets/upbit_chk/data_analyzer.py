@@ -414,6 +414,29 @@ def insert_theme_summary(l):
     conn.close()
 
 
+def list_year_to_today(start=None):
+    today = date.today()
+    yesterday = today - timedelta(days=1)  # 어제 날짜 계산
+    year = today.year
+
+    if start is None:
+        start = 10
+    elif start < 0:
+        start = start * -1
+
+    # start_date = date(year, 1, 1)  # 해당 년도의 1월 1일
+    start_date = today - timedelta(days=start)
+    end_date = yesterday
+
+    delta = timedelta(days=1)  # 1일씩 증가하도록 timedelta 생성
+
+    date_list = []
+
+    while start_date <= end_date:
+        date_list.append(start_date.strftime('%Y-%m-%d'))
+        start_date += delta
+
+    return date_list
 
 def main():
     # Quadruple_Witching_Day()
@@ -435,10 +458,7 @@ def main():
     #     print(theme)
     #     print(tikers)
 
-    days = [
-        '2023-03-08','2023-03-09','2023-03-10',
-    ]
-
+    days = list_year_to_today(7)
 
     themes = ['YMD','AVAX','BINANCE','BITCOIN','CHINA','DAO','DEFI','DEX','DID','DOT','FAN','KAKAO','KIMCHI','KLAY',
               'LAYER2','MAJOR','MATIC','MEDICAL', 'METAVERSE', 'MIM','NFT','P2E','PAYMENT','PLATFORM','SECURITY',

@@ -85,12 +85,18 @@ def delete_ytd(day):
     conn.close()
 
 
-def list_year_to_today():
+def list_year_to_today(start=None):
     today = date.today()
     yesterday = today - timedelta(days=1)  # 어제 날짜 계산
     year = today.year
 
-    start_date = date(year, 1, 1)  # 해당 년도의 1월 1일
+    if start is None:
+        start = 10
+    elif start < 0:
+        start = start * -1
+
+    # start_date = date(year, 1, 1)  # 해당 년도의 1월 1일
+    start_date = today - timedelta(days=start)
     end_date = yesterday
 
     delta = timedelta(days=1)  # 1일씩 증가하도록 timedelta 생성
@@ -104,11 +110,11 @@ def list_year_to_today():
     return date_list
 
 def main():
-    days = [
-        '2023-03-09', '2023-03-10', '2023-03-11', '2023-03-12', '2023-03-13',
-    ]
+    # days = [
+    #     '2023-03-09', '2023-03-10', '2023-03-11', '2023-03-12', '2023-03-13',
+    # ]
 
-    # days = list_year_to_today()
+    days = list_year_to_today(7)
 
     for day in days:
         ymd, open, close, ytd = select_ytd(day)
