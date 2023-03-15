@@ -181,6 +181,7 @@ def Quadruple_Witching_Day():
 
     con.close()
 
+
 def symbol_updata(symbol):
     conn = sqlite3.connect(database_name)
     cur = conn.cursor()
@@ -376,6 +377,16 @@ def get_binance_ohlcv(ticker, count=1):
     print(df)
 
 
+def get_last_date():
+    query = \
+        "select max(date) day from day_candle;"
+    con = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, con)
+    vals = df.values.tolist()[0][0]
+    con.close()
+
+    return vals
+
 def main():
     # Quadruple_Witching_Day()
 
@@ -387,7 +398,7 @@ def main():
 
     #get_binance_ohlcv('BTC', 10000)
 
-    work_date = '2023-03-13'
+    work_date = get_last_date()
     delete_db(work_date)
     insert_db(work_date)
 

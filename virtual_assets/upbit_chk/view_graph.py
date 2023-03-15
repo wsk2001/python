@@ -144,8 +144,8 @@ def main(argv):
         dt_new = datetime_minus(dt_obj, 9)
         to = datetime_to_str(dt_new)
 
-    #view(symbol, count, interval, to)
-    view_2_axes(symbol, count, interval, to)
+    view(symbol, count, interval, to)
+    #view_2_axes(symbol, count, interval, to)
 
 
 if __name__ == "__main__":
