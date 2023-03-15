@@ -35,8 +35,8 @@
 ############################################################
 CASH 0		# 267,132
 
-GLM 	  311 432.60042004
-SAND 	  818 164.63691931
+REP 	  11340 31.31467775
+# SAND 	  818 1
 # CVC	 	  140 1
 # STRK 	17480 1
 # PUNDIX 	  591 1
@@ -50,3 +50,4 @@ SAND 	  818 164.63691931
 
 
 # DEBUG 2023-03-14 08:02:32 NFS98    RpcRequestThreadPool             RpcRequestThreadPool.java (122, wonsool) Worker NFS98 : java.lang.NoSuchMethodError: java.nio.ByteBuffer.clear()Ljava/nio/ByteBuffer;
+# 삼성전자 갤럭시탭S7FE SM-T733 WiFi 128GB
