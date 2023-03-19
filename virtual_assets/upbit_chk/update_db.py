@@ -399,6 +399,7 @@ def main():
     #get_binance_ohlcv('BTC', 10000)
 
     work_date = get_last_date()
+    print('delete date: ' + work_date)
     delete_db(work_date)
     insert_db(work_date)
 

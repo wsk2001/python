@@ -37,11 +37,11 @@ def main(argv):
 
     plt.xticks(np.arange(0, len(x), step=10))
 
-    plt.title('UPBIT 원화 마켓 YTD(Year To Date): ' + x[0] + ' ~ ' + x[-1] )
+    plt.title('업비트 원화 마켓 YTD(Year To Date): ' + x[0] + ' ~ ' + x[-1])
     plt.grid(True)
 
-    plt.plot(x, btc, label="btc", color="red", marker='o', markersize=4)
-    plt.plot(x, all, label="all", color="blue", marker='o', markersize=4)
+    plt.plot(x, btc, label="비트코인", color="red", marker='o', markersize=4)
+    plt.plot(x, all, label="원화마켓 전체 종목", color="blue", marker='o', markersize=4)
 
     plt.legend()
     plt.show()

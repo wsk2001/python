@@ -1,10 +1,3 @@
-#FED 제롬 파월 성명문 요약
-# 1⃣  궁극적인 금리 수준은 이전에 예상했던 것보다 높을 가능성이 높습니다.
-# 2⃣  물가 안정을 회복하려면 한동안 제한적인 정책 기조를 유지해야 할 것이 거의 확실합니다.
-# 3⃣  궁극적인 금리 수준은 이전에 예상했던 것보다 높을 가능성이 높습니다.
-# 4⃣  들어오는 데이터의 전체가 더 빠른 긴축이 필요하다는 것을 나타내면 우리는 금리 인상을 가속화할 준비가 되어 있습니다.
-# 최종금리 : 5.5% ~5.75% 로 올해동안 유지 할것.
-
 # 데일리 호들 https://dailyhodl.com
 # 코인니스 https://coinness.live/
 # https://kr.beincrypto.com/
@@ -35,7 +28,7 @@
 ############################################################
 CASH 0		# 267,132
 
-REP 	  11340 31.31467775
+OMG 	  1820 193.79980339
 # SAND 	  818 1
 # CVC	 	  140 1
 # STRK 	17480 1
@@ -48,6 +41,3 @@ REP 	  11340 31.31467775
 # MTD (Month To Date) 월초 대비 증감율
 # http://dc500.org/course
 
-
-# DEBUG 2023-03-14 08:02:32 NFS98    RpcRequestThreadPool             RpcRequestThreadPool.java (122, wonsool) Worker NFS98 : java.lang.NoSuchMethodError: java.nio.ByteBuffer.clear()Ljava/nio/ByteBuffer;
-# 삼성전자 갤럭시탭S7FE SM-T733 WiFi 128GB
