@@ -5,7 +5,7 @@ Created on 14. nov. 2017
 link: https://github.com/mfolusiak/kMeansSupportResistance
 @see 지지선, 저항선 그리는 알고리즘
 '''
-import time, datetime, sys, getopt
+import os, datetime, sys, getopt
 import matplotlib.patches as mpatches
 import pyupbit
 import pandas as pd
@@ -81,11 +81,13 @@ def main(argv):
     parser.add_argument('--symbol', required=False, default='BTC', help='심볼 (default:BTC)')
     parser.add_argument('--interval', required=False, default='day', help='interval(day,minute60, ..., default=day)')
     parser.add_argument('--count', required=False, default=365, help='count of candle')
+    parser.add_argument('--view', required=False, default="yes", help='view plot (yes/no)')
 
     args = parser.parse_args()
     symbol = args.symbol
     interval = args.interval
     count = int(args.count)
+    view = args.view
 
     last_date = save_ticker(symbol, count, interval)
     tckr = load_quotes(symbol)
@@ -110,17 +112,37 @@ def main(argv):
     my_plot = plot_candlestick(tckr, symbol, last_date, interval)
 
     # red cluster centers by days
+    sr_val_list = []
+    sr_val_list.clear()
     for cc in kmeans.cluster_centers_:
         horiz_line_data = np.array([cc for i in range(2)])
         lb = str(horiz_line_data[0])
         my_plot.plot([0, tckr.index.size-1], horiz_line_data, 'r--', label=lb)
-        print(horiz_line_data[0])
+        # print(horiz_line_data[0])
+        sr_val_list.append(horiz_line_data[0])
 
-    price_patch = mpatches.Patch(color='r', label='지지/저항선')
-    count_patch = mpatches.Patch(color='black', label='count: ' + str(rlen))
+    sr_val_list = sorted(sr_val_list)
+    sr_val_list = reversed(sr_val_list)
+    if interval.lower().startswith('minute'):
+        minute = interval.replace('minute', '')
+        print(f'{symbol.upper()} 지지/저항선, {minute}분봉:{rlen} 기준')
+    else:
+        print(f'{symbol.upper()} 지지/저항선, 일봉:{rlen} 기준')
 
-    my_plot.legend(loc='upper left', handles=[price_patch, count_patch])
-    my_plot.show()
+    print(f'분석 시점: {datetime.datetime.today()} ')
+    print()
+    for ele in sr_val_list:
+        print(f'{ele[0]:.2f}')
+    print()
+
+    os.remove("data/" + symbol + ".mst")
+
+    if view.upper().startswith('YES'):
+        price_patch = mpatches.Patch(color='r', label='지지/저항선')
+        count_patch = mpatches.Patch(color='black', label='count: ' + str(rlen))
+
+        my_plot.legend(loc='upper left', handles=[price_patch, count_patch])
+        my_plot.show()
 
 
 if __name__ == "__main__":
