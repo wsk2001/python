@@ -14,6 +14,7 @@
 # 스팀잇(https://steemit.com/)
 # 뉴스 BTC(https://www.newsbtc.com/)
 # 코인마켓캡 (https://coinmarketcap.com/) 
+#  wonsool@outlook.kr // kang0192
 # 코인달인 https://www.coindalin.com/bbs/register_form.php wonsool // 12~~~er
 # 크립토퀀트 : https://cryptoquant.com/ko/asset/btc/summary : gmail // k******2
 # https://cryptoquant.com/ko/asset/btc/summary#overview
@@ -28,7 +29,7 @@
 ############################################################
 CASH 0		# 267,132
 
-PLA 	  315 1076.40012207
+PLA 	  310 1124.51193757
 # SAND 	  818 1
 # CVC	 	  140 1
 # STRK 	17480 1

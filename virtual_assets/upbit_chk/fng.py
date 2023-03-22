@@ -8,9 +8,8 @@ from common.dominance import get_dominance
 import ccxt, cbpro, datetime
 from tradingview_ta import TA_Handler, Interval, Exchange
 import pyupbit
-
-url = "https://api.alternative.me/fng/?limit="
-
+import requests
+from datetime import timedelta
 
 def funding_rate_binance():
     binance = ccxt.binance({'options': {
@@ -35,63 +34,36 @@ def funding_rate_bitmex():
     return tick_info['fundingRate']
 
 
-def fear_day(bef):
-    _bef = str(bef+1)
-    _url = url + _bef
-    res = requests.request("GET", _url)
-
-    parsed = json.loads(res.text)
-    data = parsed["data"]
-
-    return data[bef]["value"]
-
-
-def fear_yester():
-    _url = url + "2"
-    res = requests.request("GET", _url)
-
-    parsed = json.loads(res.text)
-    data = parsed["data"]
-
-    return data[1]["value"]
-
-
-def fear_twodaysago():
-    _url = url + "3"
-    res = requests.request("GET", _url)
-
-    parsed = json.loads(res.text)
-    data = parsed["data"]
-
-    return data[2]["value"]
-
-
-def fear_week():
-    _url = url + "7"
-    res = requests.request("GET", _url)
-
-    parsed = json.loads(res.text)
-    data = parsed["data"]
-
-    sum = 0
-    for index, value in enumerate(data):
-        sum += int(value["value"])
-
-    return sum / 7
-
-
-def fear_month():
+def get_fng():
+    url = "https://api.alternative.me/fng/?limit="
     _url = url + "30"
     res = requests.request("GET", _url)
 
     parsed = json.loads(res.text)
     data = parsed["data"]
 
+    ma = 0
+    wa = 0
     sum = 0
-    for index, value in enumerate(data):
-        sum += int(value["value"])
+    i = 0
+    l = []
+    l.clear()
 
-    return sum / 30
+    for d in data:
+        sum += int(d["value"])
+    ma = sum / 30
+
+    sum = 0
+    i = 0
+    for d in data:
+        sum += int(d["value"])
+        i += 1
+        l.append(int(d["value"]))
+        if 7 <= i:
+            break
+    wa = sum / 7
+
+    return l[0], l[1],  l[2],  l[3],  l[4],  l[5],  l[6],  wa, ma
 
 
 # Coinbase Index
@@ -152,48 +124,32 @@ def upbit_top10():
             break
     print()
 
-def main(argv):
-    fng_today = fear_day(0)
-    fng_yesterday = fear_day(1)
-    fng_twodayago = fear_day(2)
-    fng_threedayago = fear_day(3)
-    fng_fourdayago = fear_day(4)
-    fng_fivedayago = fear_day(5)
-    fng_sixdayago = fear_day(6)
 
-    fng_week = fear_week()
-    fng_month = fear_month()
+def get_coingecko_dominance():
+    tmp_url = 'https://api.coingecko.com/api/v3/global'
+    response = requests.get(tmp_url)
+    data = json.loads(response.text)
+    bitcoin_dominance = data['data']['market_cap_percentage']['btc']
+    return bitcoin_dominance
+
+
+def main(argv):
+    fng_b0, fng_b1, fng_b2, fng_b3, fng_b4, fng_b5, fng_b6, fng_week, fng_month = get_fng()
 
     print()
     print('공포/탐욕 지수', '(' + datetime.datetime.now().strftime('%Y/%m/%d %H:%M:%S') + ')')
-    print('일간:', fng_sixdayago, '->', fng_fivedayago, '->', fng_fourdayago, '->',
-          fng_threedayago, '->', fng_twodayago, '->', fng_yesterday, '->', fng_today)
+    print('일간:', fng_b6, '->', fng_b5, '->', fng_b4, '->',
+          fng_b3, '->', fng_b2, '->', fng_b1, '->', fng_b0)
     print('주간:', f'{fng_week:.2f}')
     print('월간:', f'{fng_month:.2f}')
     print('')
 
-    domi = get_dominance()
+    domi = get_coingecko_dominance()
     _, price = get_binance_btc('BTC')
-    cb_p, bn_p, cb_idx, ti = cb_index(price)
 
     print(f'바낸 비트 가격: $' + format(price, ',.2f'))
     print(f'비트  도미넌스: {domi:.2f}')
-    # print(aoa_position() + ' (bitsignal)')
 
-    # upbit_top10()
-
-    # print(f'코베 비트 가격: $' + format(cb_p, ',.2f'))
-    # print(f'테더 가격     : ' + format(ti, ',.5f'))
-    # print('')
-    # print('코인베이스 프리미엄 지수:', f'{cb_idx:.2f}')
-    # print('  산출 방법: 코베 - (바낸 * 테더)')
-    # print('')
-    #
-    # while True:
-    #     _, price = get_binance_btc('BTC')
-    #     cb_p, bn_p, cb_idx, ti = cb_index(price)
-    #     print('Coinbase Premium Index:', f'{cb_idx:.2f}')
-    #     time.sleep(5)
 
 
 def exit_gracefully(signal, frame):

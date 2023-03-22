@@ -36,6 +36,7 @@ def select_ytd(symbol, start, end):
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('--symbol', required=False, default='btc', help='심볼 (BTC, ETH, ADA, ..., default=all)')
+    parser.add_argument('--marker', required=False, default='yes', help='꼭지점 마커 표시(yes/no)')
     parser.add_argument('--start', required=False, default=None, help='시작 일자(yyyy-mm-dd, default=현재 일자-100)')
     parser.add_argument('--end', required=False, default=None, help='종료 일자(yyyy-mm-dd, default=현재 일자)')
 
@@ -43,6 +44,7 @@ def main(argv):
     symbol = args.symbol.upper()
     start = args.start
     end = args.end
+    marker = args.marker
 
     today = date.today()
 
@@ -62,10 +64,11 @@ def main(argv):
 
     plt.title( symbol + ' : ' + start + ' ~ ' + end)
     plt.grid(which='both')
-    # plt.grid(which='minor', alpha=0.1)
-    # plt.grid(which='major', alpha=1)
 
-    plt.plot(x, close, label=symbol, color="green", marker='o', markersize=4)
+    if len(x) < 70 or marker.lower().startswith('yes'):
+        plt.plot(x, close, label=symbol, color="green", marker='o', markersize=4)
+    else:
+        plt.plot(x, close, label=symbol, color="green")
 
     plt.legend()
     plt.show()

@@ -315,11 +315,13 @@ def threaded(client_socket, addr):
 
 def main(argv):
     parser = argparse.ArgumentParser(description='이 App 은 XFC API 정책을 배포 하는 TCP Server 입니다.')
-    parser.add_argument('--host', required=False, default="127.0.0.1", help='Socket host 지정 (default=127.0.0.1)')
+    parser.add_argument('--host', required=False, default="0.0.0.0", help='Socket host 지정 (default=127.0.0.1)')
     parser.add_argument('--port', required=False, default=9999, help='Connect port default=9999)')
 
     args = parser.parse_args()
     port = int(args.port)
+
+    # 127.0.0.1 로 하면 localhost 에서만 접근 할 수 있다. (loopback, 테스트 또는 보안을 위해 사용시)
     host = args.host
 
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
