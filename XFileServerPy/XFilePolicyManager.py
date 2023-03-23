@@ -5,6 +5,7 @@ from flet import (
     FilePicker,
     FilePickerResultEvent,
     Text,
+    AlertDialog,
     colors,
     Icon
 )
@@ -27,6 +28,51 @@ la_policy = XfcLaClass.XfcLaPolicy()
 sa_policy = XfcSaClass.XfcSaPolicy()
 
 view_type = "flet_app"
+
+
+def popup_dialog(e):
+    def close_dlg(e):
+        if (hasattr(e.control, "text") and not e.control.text == "Cancel") or (
+                type(e.control) is ft.TextField and e.control.value != ""
+        ):
+            dialog.open = False
+            e.control.page.update()
+
+    def textfield_change(e):
+        if dialog_text.value == "":
+            create_button.disabled = True
+        else:
+            create_button.disabled = False
+        e.page.update()
+
+    dialog_text = ft.TextField(
+        label="New Board Name", on_submit=close_dlg, on_change=textfield_change
+    )
+    create_button = ft.ElevatedButton(
+        text="Create", bgcolor=colors.BLUE_200, on_click=close_dlg, disabled=True
+    )
+    dialog = AlertDialog(
+        title=Text("Name your new board"),
+        content=ft.Column(
+            [
+                dialog_text,
+                ft.Row(
+                    [
+                        ft.ElevatedButton(text="Cancel", on_click=close_dlg),
+                        create_button,
+                    ],
+                    alignment="spaceBetween",
+                ),
+            ],
+            tight=True,
+        ),
+        on_dismiss=lambda e: print("Modal dialog dismissed!"),
+    )
+    e.page.dialog = dialog
+    dialog.open = True
+    e.page.update()
+    dialog_text.focus()
+
 
 
 def load_json_file(page: ft.Page, filename):
@@ -344,6 +390,7 @@ def key_material_page(page: ft.Page, selected_id=None):
 
     page.add(ft.Row(controls=[btn_save, btn_new, btn_gen, btn_lst]))
 
+    btn_test = ft.ElevatedButton(text="팝업 테스트 버튼", icon=ft.icons.LIST_ALT, on_click=popup_dialog)
     page.add(ft.Row(controls=[key_material.key_id]))
     page.add(ft.Row(controls=[key_material.key_material]))
     page.add(ft.Row(controls=[key_material.key_iv]))

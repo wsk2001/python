@@ -62,13 +62,13 @@ def main(argv):
 
     plt.xticks(np.arange(0, len(x), step=30))
 
-    plt.title( symbol + ' : ' + start + ' ~ ' + end)
+    plt.title('UPBIT KRW Market\n' + symbol + ' : ' + start + ' ~ ' + end)
     plt.grid(which='both')
 
     if len(x) < 70 or marker.lower().startswith('yes'):
-        plt.plot(x, close, label=symbol, color="green", marker='o', markersize=4)
+        plt.plot(x, close, label=symbol+'/KRW', color="green", marker='o', markersize=4)
     else:
-        plt.plot(x, close, label=symbol, color="green")
+        plt.plot(x, close, label=symbol+'/KRW', color="green")
 
     plt.legend()
     plt.show()
