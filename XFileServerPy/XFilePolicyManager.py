@@ -14,6 +14,7 @@ import Xfc.XfcApiClass as XfcApiClass
 import Xfc.XfcLaClass as XfcLaClass
 import Xfc.XfcSaClass as XfcSaClass
 import Xfc.XfcKeyMaterial as XfcKeyMaterial
+import Xfc.XfcRaPolicy as XfcRaPolicy
 
 import Xfc.XfcDB as xdb
 import Xfc.LoginPage as LoginPage
@@ -26,6 +27,8 @@ api = XfcApiClass.XfcApi()
 key_material = XfcKeyMaterial.XfcKeyMaterial()
 la_policy = XfcLaClass.XfcLaPolicy()
 sa_policy = XfcSaClass.XfcSaPolicy()
+ra_policy = XfcRaPolicy.XfcRaPolicy()
+
 
 view_type = "flet_app"
 
@@ -151,6 +154,8 @@ def set_appbar(page, pg_title=None):
                     ft.PopupMenuItem(),  # divider
                     ft.PopupMenuItem(text="ScheduleAgent 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: sa_policy_page(page)),
                     ft.PopupMenuItem(text="ScheduleAgent 정책 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: sa_policy_list_page(page)),
+                    ft.PopupMenuItem(),  # divider
+                    ft.PopupMenuItem(text="RemoteAgent 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: ra_policy.ra_main(page)),
                     ft.PopupMenuItem(),  # divider
                     ft.PopupMenuItem(text="App 종료", icon=ft.icons.EXIT_TO_APP, on_click=lambda _: page.window_destroy())
                 ]

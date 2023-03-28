@@ -114,6 +114,8 @@ def analyze(ticker, cnt, interval='day', to=None):
     else:
         print(f'earning: {earn:.3f}%')
 
+arr_interval = ['day', 'week', 'month', 'minute1', 'minute3', 'minute5',
+                'minute10', 'minute15', 'minute30', 'minute60', 'minute240']
 
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
@@ -131,6 +133,10 @@ def main(argv):
     enddate = args.enddate
     endtime = args.endtime
     to = None
+
+    if arr_interval.count(interval) <= 0:
+        parser.print_help()
+        exit(0)
 
     if enddate is not None and endtime is None:
         to = enddate + ' ' + '09:00:00'

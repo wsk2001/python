@@ -159,6 +159,16 @@ class XfcDB:
 
         return df
 
+    def select_api_list(self):
+        query = \
+            "select ipAddr, Remark, platform from api_policy; "
+
+        conn = sqlite3.connect(self.database_name)
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+
+        return df
+
     def get_api_policy(self, api, api_id):
         query = \
             "select * from api_policy where id = \'" + api_id + "\';"
