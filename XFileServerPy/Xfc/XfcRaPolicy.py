@@ -12,6 +12,10 @@ from flet import (
 import json
 from datetime import datetime
 
+# 동일 경로에 있는 파일 import
+from . import XfcDB as xdb
+import uuid
+
 
 class XfcRaPolicy:
     def __init__(self):
@@ -34,7 +38,7 @@ class XfcRaPolicy:
             ],
             value="NFS"
         )
-
+        self.id = uuid.uuid4()
         self.endpoint = ft.TextField(label="앤드 포인트", width=316)
         self.encpolicy = ft.TextField(label="암호화 정책", width=316)
         self.policyPollingPeriod = ft.TextField(label="정책 업데이트주기(분)", value="30", width=390)
@@ -90,28 +94,29 @@ class XfcRaPolicy:
                 e.control.content.page.update()
 
         header = [ft.DataColumn(ft.Text("앤드 포인트 IP", color="cyan")),
-                  ft.DataColumn(ft.Text("설명", width=240))]
+                  ft.DataColumn(ft.Text("설명")),
+                  ft.DataColumn(ft.Text("플랫폼")),
+                  ]
 
         low_list = []
         low_list.clear()
 
-        low_list.append(
-            ft.DataRow(
-                cells=[
-                    ft.DataCell(ft.Text("192.168.60.190", color="cyan"), on_tap=select_on_top),
-                    ft.DataCell(ft.Text("desktop")),
-                ],
-            )
-        )
+        dbms = xdb.XfcDB()
 
-        low_list.append(
-            ft.DataRow(
-                cells=[
-                    ft.DataCell(ft.Text("192.168.60.211", color="cyan"), on_tap=select_on_top),
-                    ft.DataCell(ft.Text("notebook")),
-                ],
+        df = dbms.select_api_list()
+        value_list = df.values.tolist()
+
+        for v in value_list:
+            low_list.append(
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text(v[0], color="cyan"), on_tap=select_on_top),
+                        ft.DataCell(ft.Text(v[1])),
+                        ft.DataCell(ft.Text(v[2])),
+                    ],
+                )
             )
-        )
+
         ip = ft.TextField(label="앤드 포인트 아이피", color="cyan")
 
         dialog = AlertDialog(
@@ -127,7 +132,7 @@ class XfcRaPolicy:
                 ],
                 tight=True,
             ),
-            on_dismiss=lambda e: print("Modal dialog dismissed!"),
+            # on_dismiss=lambda e: print("Modal dialog dismissed!"),
         )
         e.page.dialog = dialog
         dialog.open = True
@@ -160,49 +165,22 @@ class XfcRaPolicy:
         low_list = []
         low_list.clear()
 
-        low_list.append(
-            ft.DataRow(
-                cells=[
-                    ft.DataCell(ft.Text("AES-128", color="cyan"), on_tap=select_on_top),
-                    ft.DataCell(ft.Text("ASE")),
-                    ft.DataCell(ft.Text("128")),
-                    ft.DataCell(ft.Text("AES-128")),
-                ],
-            )
-        )
+        dbms = xdb.XfcDB()
 
-        low_list.append(
-            ft.DataRow(
-                cells=[
-                    ft.DataCell(ft.Text("AES-256", color="cyan"), on_tap=select_on_top),
-                    ft.DataCell(ft.Text("ASE")),
-                    ft.DataCell(ft.Text("256")),
-                    ft.DataCell(ft.Text("AES-256")),
-                ],
-            )
-        )
+        df = dbms.select_enc_policy_list()
+        value_list = df.values.tolist()
 
-        low_list.append(
-            ft.DataRow(
-                cells=[
-                    ft.DataCell(ft.Text("ARIA-256", color="cyan"), on_tap=select_on_top),
-                    ft.DataCell(ft.Text("ARIA")),
-                    ft.DataCell(ft.Text("256")),
-                    ft.DataCell(ft.Text("ARIA-256")),
-                ],
+        for v in value_list:
+            low_list.append(
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text(v[1], color="cyan"), on_tap=select_on_top),
+                        ft.DataCell(ft.Text(v[2])),
+                        ft.DataCell(ft.Text(v[3])),
+                        ft.DataCell(ft.Text(v[4])),
+                    ],
+                )
             )
-        )
-
-        low_list.append(
-            ft.DataRow(
-                cells=[
-                    ft.DataCell(ft.Text("RA", color="cyan"), on_tap=select_on_top),
-                    ft.DataCell(ft.Text("AES")),
-                    ft.DataCell(ft.Text("256")),
-                    ft.DataCell(ft.Text("AES-256")),
-                ],
-            )
-        )
 
         dialog = AlertDialog(
             title=Text("Remote Agent 앤드 포인트 선택"),
@@ -217,18 +195,93 @@ class XfcRaPolicy:
                 ],
                 tight=True,
             ),
-            on_dismiss=lambda e: print("Modal dialog dismissed!"),
+            # on_dismiss=lambda e: print("Modal dialog dismissed!"),
         )
         e.page.dialog = dialog
         dialog.open = True
         e.page.update()
+
+    def dlg_select_target_path(self, e):
+        target_path = ft.TextField(label="경로명", color="cyan")
+        low_list = []
+        low_list.clear()
+
+        def tab_path(e):
+            target_path.value = e.control.content.value
+            e.control.page.update()
+
+        def add_path(e):
+            low_list.append(
+                ft.DataRow(
+                    cells=[
+                        ft.DataCell(ft.Text(target_path.value), on_tap=tab_path),
+                    ],
+                )
+            )
+            target_path.value = ''
+            e.control.page.update()
+
+        def del_path(e):
+            pass
+
+        add_btn = ft.ElevatedButton(text="추가", on_click=add_path)
+        del_btn = ft.ElevatedButton(text="삭제", on_click=del_path)
+
+        header = [ft.DataColumn(ft.Text("경로명", width=400)),
+                  ]
+
+        dialog = AlertDialog(
+            title=Text("Remote Agent 대상 경로 설정"),
+            content=ft.Column(
+                [
+                    ft.Row([target_path, add_btn, del_btn, ]),
+                    ft.Row([
+                        ft.DataTable(
+                            heading_row_color=ft.colors.BLACK12,
+                            columns=header,
+                            rows=low_list,
+                        ),
+                        ft.Column([
+                            ft.TextField(label="대상 제외 확장자", color="cyan"),
+                            ft.Row([ft.Checkbox(label='복호화'), ft.Checkbox(label='암호화')]),
+                            ft.DataTable(
+                                columns=[
+                                    ft.DataColumn(ft.Text("IP 주소")),
+                                    ft.DataColumn(ft.Text("UID")),
+                                    ft.DataColumn(ft.Text("GID")),
+                                    ft.DataColumn(ft.Text("복호화")),
+                                    ft.DataColumn(ft.Text("암호화")),
+                                ],
+                                rows=[
+                                    ft.DataRow(
+                                        cells=[
+                                            ft.DataCell(ft.Text('127.0.0.1', color="cyan")),
+                                            ft.DataCell(ft.Text('1000')),
+                                            ft.DataCell(ft.Text('')),
+                                            ft.DataCell(ft.Text('O')),
+                                            ft.DataCell(ft.Text('O')),
+                                        ],
+                                    )
+                                ]
+                            ),
+                        ])
+                    ])
+                ],
+                tight=True,
+            ),
+            # on_dismiss=lambda e: print("Modal dialog dismissed!"),
+        )
+        e.page.dialog = dialog
+        dialog.open = True
+        e.page.update()
+
 
     def ra_main(self, page: ft.Page, selected_id=None):
         page.clean()
         btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE_ALT, on_click=self.button_save)
         btn_new = ft.ElevatedButton(text="새로 만들기", icon=ft.icons.FIBER_NEW_ROUNDED, on_click=self.new_click)
 
-        btn_acl = ft.ElevatedButton(text="설정", on_click=self.new_click)
+        btn_acl = ft.ElevatedButton(text="설정", on_click=self.dlg_select_target_path)
 
         page.appbar.title = ft.Text("XFile RA Policy")
         page.add(ft.Row(controls=[btn_save, btn_new]))
