@@ -27,13 +27,10 @@
 # 출처: https://chobocoinguide.com/56
 
 ############################################################
-CASH 0		# 1,449,131 (2023-03-29)
+CASH 857700		# 1,527,137 (2023-04-02)
 
-PLA 	310 1
-GMT 	532  1
-MASK    7488 1
-STX		1245 1169.53371405
-
+QTUM   4087 161.69976298
+MASK   7805 1
 ############################################################
 # MASK      7565 -> 7685
 
@@ -44,3 +41,13 @@ STX		1245 1169.53371405
 
 # 중국코인 "네오 (NEO), 퀀텀 (QTUM) , 온톨로지 (ONT), 비체인 (VET)"
 # http://btc.xn--tv-hd0jw5m992a.kro.kr/
+
+
+# python3 kcmvp_test.py --filename="./resFile/LEA_KAT/LEA-256_(CTR)_KAT.sam"
+# cat "./resFile/LEA_KAT/LEA-256_(CTR)_KAT.sam" | grep 31E765F6262FE1FB5615B91A7322EABB | wc -l
+ 
+# script 명령으로 암/복호화 명령 command 기록 하기
+# - start: script ctr_enc.cap
+# - ~~~~
+# - end: script -q
+ 
