@@ -13,9 +13,47 @@ import json
 from datetime import datetime
 
 # 동일 경로에 있는 파일 import
+from flet_core import MainAxisAlignment
+
 from . import XfcDB as xdb
 import uuid
 
+class CAclDetail:
+    def __init__(self):
+        self.id = ''
+        self.ra_acls_id = ''
+        self.ip = ''
+        self.start_ip = ''
+        self.end_ip = ''
+        self.uid = ''
+        self.gid = ''
+        self.enc = '' # yes/ no
+        self.dec = '' # yes/ no
+
+class CAcl:
+    def __init__(self):
+        self.id = ''
+        self.ra_id = ''
+        self.path = ''
+        self.exclude_exts = ''
+        self.base_enc = '' # yes/ no
+        self.base_dec = '' # yes/ no
+        self.detail_acls = [] # CAclDetail
+        self.detail_acls.clear()
+
+class CRemoteAgent:
+    def __init__(self):
+        self.id = ''
+        self.agent_type = 'C'
+        self.share_protocol = 'NFS'
+        self.endpoint = ''
+        self.encpolicy = ''
+        self.policyPollingPeriod = 30
+        self.logSendPollingPeriod = 30
+        self.targetPath = ''
+        self.description = ''
+        self.acls = []
+        self.acls.clear()
 
 class XfcRaPolicy:
     def __init__(self):
@@ -26,7 +64,7 @@ class XfcRaPolicy:
                 ft.dropdown.Option("L", "Local Agent"),
                 ft.dropdown.Option("C", "Remote Agent"),
             ],
-            value="C"
+            value=self.data.agent_type
         )
 
         self.text_protocol = ft.Text('파일 공유 프로토콜', width=130)
@@ -38,7 +76,6 @@ class XfcRaPolicy:
             ],
             value="NFS"
         )
-        self.id = uuid.uuid4()
         self.endpoint = ft.TextField(label="앤드 포인트", width=316)
         self.encpolicy = ft.TextField(label="암호화 정책", width=316)
         self.policyPollingPeriod = ft.TextField(label="정책 업데이트주기(분)", value="30", width=390)
@@ -50,6 +87,8 @@ class XfcRaPolicy:
         self.btn_get_policy = ft.ElevatedButton(text="선택", on_click=self.dlg_select_policy)
 
         self.info_acl = ft.Text("대상 경로 설정 및 경로에 대한 접근제어를 설정하시기 바랍니다.", width=700)
+
+        self.data = CRemoteAgent()
 
     def clear(self):
         self.agentType.value = "C"
@@ -202,8 +241,11 @@ class XfcRaPolicy:
         e.page.update()
 
     def dlg_select_target_path(self, e):
-        target_path = ft.TextField(label="경로명", color="cyan")
+        target_path = ft.TextField(label="경로명", color="cyan", width=740)
+        path_list = []
         low_list = []
+
+        path_list.clear()
         low_list.clear()
 
         def tab_path(e):
@@ -211,24 +253,55 @@ class XfcRaPolicy:
             e.control.page.update()
 
         def add_path(e):
-            low_list.append(
-                ft.DataRow(
-                    cells=[
-                        ft.DataCell(ft.Text(target_path.value), on_tap=tab_path),
-                    ],
-                )
-            )
+            if len(target_path.value.strip()) == 0:
+                return
+
+            if target_path.value not in path_list:
+                path_list.append(target_path.value)
+
+                low_list.clear()
+                for v in path_list:
+                    low_list.append(
+                        ft.DataRow(
+                            cells=[
+                                ft.DataCell(ft.Text(v), on_tap=tab_path),
+                            ],
+                        )
+                    )
+
             target_path.value = ''
             e.control.page.update()
 
         def del_path(e):
-            pass
+            if len(target_path.value.strip()) == 0:
+                return
 
-        add_btn = ft.ElevatedButton(text="추가", on_click=add_path)
-        del_btn = ft.ElevatedButton(text="삭제", on_click=del_path)
+            if target_path.value in path_list:
+                path_list.remove(target_path.value)
 
-        header = [ft.DataColumn(ft.Text("경로명", width=400)),
-                  ]
+            low_list.clear()
+            for v in path_list:
+                low_list.append(
+                    ft.DataRow(
+                        cells=[
+                            ft.DataCell(ft.Text(v), on_tap=tab_path),
+                        ],
+                    )
+                )
+            target_path.value = ''
+            e.control.page.update()
+
+        add_btn = ft.ElevatedButton(text="추가", icon=ft.icons.ADD_CARD, on_click=add_path)
+        del_btn = ft.ElevatedButton(text="삭제", icon=ft.icons.DELETE_FOREVER_OUTLINED, on_click=del_path)
+
+        path_columns = [ft.DataColumn(ft.Text("경로명", width=400)) ]
+        detail_columns = [
+            ft.DataColumn(ft.Text("IP 주소")),
+            ft.DataColumn(ft.Text("UID")),
+            ft.DataColumn(ft.Text("GID")),
+            ft.DataColumn(ft.Text("복호화")),
+            ft.DataColumn(ft.Text("암호화")),
+        ]
 
         dialog = AlertDialog(
             title=Text("Remote Agent 대상 경로 설정"),
@@ -238,20 +311,14 @@ class XfcRaPolicy:
                     ft.Row([
                         ft.DataTable(
                             heading_row_color=ft.colors.BLACK12,
-                            columns=header,
+                            columns=path_columns,
                             rows=low_list,
                         ),
                         ft.Column([
-                            ft.TextField(label="대상 제외 확장자", color="cyan"),
+                            ft.TextField(label="대상 제외 확장자", color="cyan", width=480),
                             ft.Row([ft.Checkbox(label='복호화'), ft.Checkbox(label='암호화')]),
                             ft.DataTable(
-                                columns=[
-                                    ft.DataColumn(ft.Text("IP 주소")),
-                                    ft.DataColumn(ft.Text("UID")),
-                                    ft.DataColumn(ft.Text("GID")),
-                                    ft.DataColumn(ft.Text("복호화")),
-                                    ft.DataColumn(ft.Text("암호화")),
-                                ],
+                                columns=detail_columns,
                                 rows=[
                                     ft.DataRow(
                                         cells=[
