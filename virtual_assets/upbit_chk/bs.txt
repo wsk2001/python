@@ -1,4 +1,0 @@
-# buy_sell datafile
-BTC
-ETH
-SAND
