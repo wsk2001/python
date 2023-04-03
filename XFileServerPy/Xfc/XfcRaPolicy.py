@@ -57,6 +57,7 @@ class CRemoteAgent:
 
 class XfcRaPolicy:
     def __init__(self):
+        self.data = CRemoteAgent()
         self.text_agent_type = ft.Text('에이전트 타입', width=100)
         self.agentType = ft.Dropdown(
             width=280,
@@ -88,7 +89,6 @@ class XfcRaPolicy:
 
         self.info_acl = ft.Text("대상 경로 설정 및 경로에 대한 접근제어를 설정하시기 바랍니다.", width=700)
 
-        self.data = CRemoteAgent()
 
     def clear(self):
         self.agentType.value = "C"
