@@ -97,13 +97,15 @@ AND A.symbol = D.symbol
 AND A.symbol = F.symbol
 order by F.theme, A.symbol
 </sql><sql name="SQL 4">-- select * from day_candle
--- where symbol = 'STX'
+-- where symbol = 'STX'
 
--- rate of change
-select symbol, round(avg((high-low)/close*100),2) as roc from day_candle
-where date &gt;= '2023-03-23'
-group by symbol
+-- rate of change
+select symbol, round(avg((high-low)/close*100),2) as roc from day_candle
+where symbol != 'NU' 
+and date &gt;= '2023-04-01'
+group by symbol
 order by roc desc
+limit 20
 </sql><sql name="SQL 5">-- FTX Beam '2022-11-09', wemix is delisting news
 /*
 select A.symbol, A.open, B.close, B.earn,  round(((B.close/A.open)-1)*100, 2) as tearn FROM

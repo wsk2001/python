@@ -27,31 +27,13 @@
 # 출처: https://chobocoinguide.com/56
 
 ############################################################
-CASH 1450734		# 1,527,137 (2023-04-02)
+CASH 1122461		# 1,527,137 (2023-04-02) 1,645,111 (2023-04-05)
 
 #ANKR   44.61 1
 #BTC   36685000 1
 #STRAX 752 1
-MASK 7695 1
-STX  1145 167.50786026
-#ZRX  370 1401.10165714
+MASK 7663 68.45074568
+HBAR 88.78 1
 ############################################################
 # MASK      7565 -> 7685
 
-# YTD (Year To Date) 연초 대비 증감율
-# 업비트 원화마켓 YTD 입니다. 붉은 색이 비트코인 실절, 파란색은 전체 종목 실적 입니다.
-# MTD (Month To Date) 월초 대비 증감율
-# http://dc500.org/course
-
-# 중국코인 "네오 (NEO), 퀀텀 (QTUM) , 온톨로지 (ONT), 비체인 (VET)"
-# http://btc.xn--tv-hd0jw5m992a.kro.kr/
-
-
-# python3 kcmvp_test.py --filename="./resFile/LEA_KAT/LEA-256_(CTR)_KAT.sam"
-# cat "./resFile/LEA_KAT/LEA-256_(CTR)_KAT.sam" | grep 31E765F6262FE1FB5615B91A7322EABB | wc -l
- 
-# script 명령으로 암/복호화 명령 command 기록 하기
-# - start: script ctr_enc.cap
-# - ~~~~
-# - end: script -q
- 
