@@ -20,20 +20,22 @@
 # https://cryptoquant.com/ko/asset/btc/summary#overview
 
 
-# 예상/분석/심리 관련 글.
-# https://m.blog.naver.com/respect2030/222788536188
+# -- sub query
+# SELECT A.symbol from (
+#     select symbol, count(*) as cnt from day_candle
+#     where date >= '2022-01-01'
+#     group by symbol
+#     HAVING cnt = 460
+# ) A
 
-# 스캘핑 기법
-# 출처: https://chobocoinguide.com/56
+
 
 ############################################################
-CASH 1122461		# 1,527,137 (2023-04-02) 1,645,111 (2023-04-05)
+CASH 0		# 1,645,111 (2023-04-05) 1,631,549 (04-06)
 
-#ANKR   44.61 1
-#BTC   36685000 1
-#STRAX 752 1
-MASK 7663 68.45074568
-HBAR 88.78 1
+ETH 2495000 1
+GAS 4455 91.30909090
+
 ############################################################
 # MASK      7565 -> 7685
 
