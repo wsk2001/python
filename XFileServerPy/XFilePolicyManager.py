@@ -15,6 +15,7 @@ import Xfc.XfcLaClass as XfcLaClass
 import Xfc.XfcSaClass as XfcSaClass
 import Xfc.XfcKeyMaterial as XfcKeyMaterial
 import Xfc.XfcRaPolicy as XfcRaPolicy
+import Xfc.XfcRaList as XfcRaList
 
 import Xfc.XfcDB as xdb
 import Xfc.LoginPage as LoginPage
@@ -144,19 +145,20 @@ def set_appbar(page, pg_title=None):
             ft.PopupMenuButton(
                 items=[
                     ft.PopupMenuItem(text="API 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: api_policy_page(page)),
-                    ft.PopupMenuItem(text="API 정책 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: api_policy_list_page(page)),
-                    ft.PopupMenuItem(),  # divider
+                    ft.PopupMenuItem(text="API 정책 조회", icon=ft.icons.VIEW_LIST_OUTLINED, on_click=lambda _: api_policy_list_page(page)),
+                    ft.VerticalDivider(),
                     ft.PopupMenuItem(text="KEY Material 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: key_material_page(page)),
-                    ft.PopupMenuItem(text="KEY Material 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: key_material_list_page(page)),
-                    ft.PopupMenuItem(),
+                    ft.PopupMenuItem(text="KEY Material 조회", icon=ft.icons.VIEW_LIST_OUTLINED, on_click=lambda _: key_material_list_page(page)),
+                    ft.VerticalDivider(),
                     ft.PopupMenuItem(text="LocalAgent 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: la_policy_page(page)),
-                    ft.PopupMenuItem(text="LocalAgent 정책 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: la_policy_list_page(page)),
-                    ft.PopupMenuItem(),
+                    ft.PopupMenuItem(text="LocalAgent 정책 조회", icon=ft.icons.VIEW_LIST_OUTLINED, on_click=lambda _: la_policy_list_page(page)),
+                    ft.VerticalDivider(),
                     ft.PopupMenuItem(text="ScheduleAgent 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: sa_policy_page(page)),
-                    ft.PopupMenuItem(text="ScheduleAgent 정책 조회", icon=ft.icons.FORMAT_LIST_BULLETED_SHARP, on_click=lambda _: sa_policy_list_page(page)),
-                    ft.PopupMenuItem(),
+                    ft.PopupMenuItem(text="ScheduleAgent 정책 조회", icon=ft.icons.VIEW_LIST_OUTLINED, on_click=lambda _: sa_policy_list_page(page)),
+                    ft.VerticalDivider(),
                     ft.PopupMenuItem(text="RemoteAgent 정책 관리", icon=ft.icons.EDIT_DOCUMENT, on_click=lambda _: ra_policy.ra_main(page)),
-                    ft.PopupMenuItem(),
+                    ft.PopupMenuItem(text="RemoteAgent 정책 조회", icon=ft.icons.VIEW_LIST_OUTLINED, on_click=lambda _: XfcRaList.ra_policy_list_page(page)),
+                    ft.VerticalDivider(),
                     ft.PopupMenuItem(text="App 종료", icon=ft.icons.EXIT_TO_APP, on_click=lambda _: page.window_destroy()),
                 ]
             ),

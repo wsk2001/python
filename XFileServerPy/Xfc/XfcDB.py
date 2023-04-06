@@ -179,8 +179,6 @@ class XfcDB:
 
         return df
 
-
-
     def get_api_policy(self, api, api_id):
         query = \
             "select * from api_policy where id = \'" + api_id + "\';"
@@ -609,3 +607,80 @@ class XfcDB:
                 sa.sun.value = False
 
             break
+
+    # ra -> XfcRaPolicy Class: CRemoteAgent
+    def save_ra(self, ra):
+        conn = sqlite3.connect(self.database_name)
+        conn.execute("INSERT INTO ra_policy VALUES(?,?,?,?,?,?,?,?,?);",
+                     (
+                         ra.id,
+                         ra.agent_type,
+                         ra.share_protocol,
+                         ra.endpoint,
+                         ra.encpolicy,
+                         ra.policyPollingPeriod,
+                         ra.logSendPollingPeriod,
+                         ra.targetPath,
+                         ra.description
+                     )
+                     )
+
+        conn.commit()
+        conn.close()
+
+    def delete_ra(self, id):
+        conn = sqlite3.connect(self.database_name)
+        conn.execute('delete from ra_policy where id = ' + '\'' + id + '\';')
+        conn.commit()
+        conn.close()
+
+    # acl -> XfcRaPolicy Class: CRaACL
+    def save_acl(self, acl):
+        conn = sqlite3.connect(self.database_name)
+        conn.execute("INSERT INTO ra_acl VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?);",
+                     (
+                         acl.id,
+                         acl.ra_id,
+                         acl.path,
+                         acl.exclude_exts,
+                         acl.comm_enc,
+                         acl.comm_dec,
+                         acl.ip,
+                         acl.start_ip,
+                         acl.end_ip,
+                         acl.uid,
+                         acl.gid,
+                         acl.enc,
+                         acl.dec
+                     )
+                     )
+
+        conn.commit()
+        conn.close()
+
+    def delete_acl(self, ra_id, path):
+        conn = sqlite3.connect(self.database_name)
+        conn.execute('delete from ra_acl where ra_id = ' + '\'' + ra_id + '\'' + ' and path = \'' + path + '\';')
+        conn.commit()
+        conn.close()
+
+    def list_ra_acl(self, ra_id):
+        query = "select * from ra_acl where ra_id = \'" + ra_id + "\';"
+
+        conn = sqlite3.connect(self.database_name)
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+
+        return df
+
+    def list_ra_policy(self, id=None):
+        if id is None:
+            query = "select * from ra_policy;"
+        else:
+            query = "select * from ra_policy where id = \'" + id + "\';"
+
+        conn = sqlite3.connect(self.database_name)
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+
+        return df

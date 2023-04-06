@@ -16,10 +16,11 @@ import sqlite3
 import json
 from datetime import datetime
 
-# 동일 경로에 있는 파일 import
 from flet_core import MainAxisAlignment
 
+# 동일 경로에 있는 파일 import
 from . import XfcDB as xdb
+
 import uuid
 
 
@@ -43,6 +44,22 @@ class CRaACL:
         self.enc = ''  # 암호화 가능 여부
         self.dec = ''  # 복호화 가능 여부
 
+    def view(self):
+        print('[CRaACL]')
+        print('id          : ' + self.id)
+        print('ra_id       : ' + self.ra_id)
+        print('path        : ' + self.path)
+        print('exclude_exts: ' + self.exclude_exts)
+        print('comm_enc    : ' + self.comm_enc)
+        print('comm_dec    : ' + self.comm_dec)
+        print('ip          : ' + self.ip)
+        print('start_ip    : ' + self.start_ip)
+        print('end_ip      : ' + self.end_ip)
+        print('uid         : ' + self.uid)
+        print('gid         : ' + self.gid)
+        print('enc         : ' + self.enc)
+        print('dec         : ' + self.dec)
+
 
 class CRemoteAgent:
     def __init__(self):
@@ -55,81 +72,24 @@ class CRemoteAgent:
         self.logSendPollingPeriod = 30
         self.targetPath = ''
         self.description = ''
-        self.acls = []
-        self.acls.clear()
 
-
-database_name = './dbms/xfc_policy.db'
-
-'''
-CREATE TABLE "ra_policy" (
-	"id"	TEXT,
-	"agent_type"	TEXT,
-	"share_protocol"	TEXT,
-	"endpoint"	TEXT,
-	"encpolicy"	TEXT,
-	"policyPollingPeriod"	INTEGER,
-	"logSendPollingPeriod"	INTEGER,
-	"targetPath"	TEXT,
-	"description"	TEXT
-);
-'''
-def save_ra(ra):
-    global database_name
-    conn = sqlite3.connect(database_name)
-    # conn.execute("INSERT INTO ra_policy VALUES(?,?,?,?,?,?,?,?,?);",
-    #              (
-    #                  c.id.value,
-    #                  c.agent_type.value,
-    #                  c.share_protocol.value,
-    #                  c.endpoint.value,
-    #                  c.encpolicy.value,
-    #                  c.policyPollingPeriod.value,
-    #                  c.logSendPollingPeriod.value,
-    #                  c.targetPath.value,
-    #                  c.description.value
-    #              )
-    # )
-    #
-    # conn.commit()
-    conn.close()
-
-
-'''
-CREATE TABLE "ra_acl" (
-	"id"	TEXT,
-	"ra_id"	TEXT,
-	"path"	TEXT,
-	"exclude_exts"	TEXT,
-	"comm_enc"	TEXT,
-	"comm_dec"	TEXT,
-	"ip"	TEXT,
-	"start_ip"	TEXT,
-	"end_ip"	TEXT,
-	"uid"	REAL,
-	"gid"	TEXT,
-	"enc"	TEXT,
-	"dec"	TEXT
-);
-'''
-def save_ra_target(lst):
-    global database_name
-    conn = sqlite3.connect(database_name)
-    # conn.execute("INSERT INTO ra_acl VALUES(?,?,?,?);",
-    #              (
-    #                  c.key_id.value,
-    #                  c.key_material.value,
-    #                  c.key_iv.value,
-    #                  c.key_activeyn.value)
-    #              )
-    #
-    # conn.commit()
-    conn.close()
-
+    def view(self):
+        print('[CRemoteAgent]')
+        print('id                  : ' + self.id)
+        print('agent_type          : ' + self.agent_type)
+        print('share_protocol      : ' + self.share_protocol)
+        print('endpoint            : ' + self.endpoint)
+        print('encpolicy           : ' + self.encpolicy)
+        print('policyPollingPeriod : ' + str(self.policyPollingPeriod))
+        print('logSendPollingPeriod: ' + str(self.logSendPollingPeriod))
+        print('targetPath          : ' + self.targetPath)
+        print('description         : ' + self.description)
 
 class XfcRaPolicy:
     def __init__(self):
         self.data = CRemoteAgent()
+        self.dbms = xdb.XfcDB()
+
         self.text_agent_type = ft.Text('에이전트 타입', width=100)
         self.agentType = ft.Dropdown(
             width=280,
@@ -223,6 +183,23 @@ class XfcRaPolicy:
             dlg_content.value = "대상 경로 설정 완료 후 저장 하여 주시기 바랍니다."
             flag = True
         else:
+            ra = CRemoteAgent()
+            ra.id = self.id.value
+            ra.agent_type = self.agentType.value
+            ra.share_protocol = self.protocol.value
+            ra.endpoint = self.endpoint.value
+            ra.encpolicy = self.encpolicy.value
+            ra.policyPollingPeriod = self.policyPollingPeriod.value
+            ra.logSendPollingPeriod = self.logSendPollingPeriod.value
+            ra.targetPath = self.targetPath.value
+            ra.description = self.description.value
+            print()
+            ra.view()
+            print()
+
+            self.dbms.delete_ra(ra.id)
+            self.dbms.save_ra(ra)
+
             dlg_title.value = "저장 완료"
             dlg_content.value = "데이터를 저장 하였습니다."
             flag = True
@@ -274,9 +251,7 @@ class XfcRaPolicy:
         row_list = []
         row_list.clear()
 
-        dbms = xdb.XfcDB()
-
-        df = dbms.select_api_list()
+        df = self.dbms.select_api_list()
         value_list = df.values.tolist()
 
         for v in value_list:
@@ -342,9 +317,7 @@ class XfcRaPolicy:
         low_list = []
         low_list.clear()
 
-        dbms = xdb.XfcDB()
-
-        df = dbms.select_enc_policy_list()
+        df = self.dbms.select_enc_policy_list()
         value_list = df.values.tolist()
 
         for v in value_list:
@@ -552,8 +525,39 @@ class XfcRaPolicy:
                 else:
                     self.targetPath.value = self.targetPath.value + '\n' + path
 
+            tmp_path = ''
             for d in dpl:
-                print(self.id.value, d[0], d[1], d[2], d[3], d[4], d[5], d[6], d[7], d[8])
+                acl = CRaACL()
+                acl.id = str(uuid.uuid4())
+                acl.ra_id = self.id.value
+                acl.path = d[0]
+                acl.exclude_exts = d[1]
+                acl.comm_dec = d[2]
+                acl.comm_enc = d[3]
+                if ('~' in d[4]) or ('-' in d[4]):
+                    if '~' in d[4]:
+                        rip = str(d[4]).split('~')
+                    elif '-' in d[4]:
+                        rip = str(d[4]).split('-')
+
+                    acl.start_ip = rip[0].strip()
+                    acl.end_ip = rip[1].strip()
+                else:
+                    acl.ip = d[4]
+
+                acl.uid = d[5]
+                acl.gid = d[6]
+                acl.dec = d[7]
+                acl.enc = d[8]
+
+                print()
+                acl.view()
+                print()
+
+                if tmp_path != acl.path:
+                    tmp_path = acl.path
+                    self.dbms.delete_acl(acl.ra_id, tmp_path)
+                self.dbms.save_acl(acl)
 
             msg_text.value = 'Data 를 정상 저장 하였습니다.'
             e.page.update()
@@ -656,7 +660,7 @@ class XfcRaPolicy:
         dialog.open = True
         e.page.update()
 
-    def ra_main(self, page: ft.Page, selected_id=None):
+    def ra_main(self, page: ft.Page, ra_id=None):
         page.clean()
         btn_save = ft.ElevatedButton(text="저장 하기", icon=ft.icons.SAVE_ALT, on_click=self.save_ra,
                                      tooltip='설정된 RA 정보를 저장 한다.')
@@ -664,7 +668,6 @@ class XfcRaPolicy:
                                     tooltip='RA 설정을 초기화 한다.')
         btn_acl = ft.ElevatedButton(text="설정", on_click=self.dlg_set_target_path, tooltip='Remote Agent 대상 경로 및 권한 설정')
 
-        page.appbar.title = ft.Text("XFile RA Policy")
         page.add(ft.Row(controls=[self.id, self.btn_regenid]))
         page.add(ft.Row(controls=[btn_save, btn_new]))
         page.add(ft.Row(controls=[self.text_agent_type, self.agentType, self.text_protocol, self.protocol]))
@@ -673,5 +676,20 @@ class XfcRaPolicy:
         page.add(ft.Row(controls=[self.info_acl, btn_acl]))
         page.add(ft.Row(controls=[self.targetPath]))
         page.add(ft.Row(controls=[self.description]))
+
+        if ra_id is not None:
+            df = self.dbms.list_ra_policy(ra_id)
+            value_list = df.values.tolist()
+            for v in value_list:
+                self.id.value = v[0]
+                self.agentType.value = v[1]
+                self.protocol.value = v[2]
+                self.endpoint.value = v[3]
+                self.encpolicy.value = v[4]
+                self.policyPollingPeriod.value = v[5]
+                self.logSendPollingPeriod.value = v[6]
+                self.targetPath.value = v[7]
+                self.description.value = v[8]
+                break
 
         page.update()
