@@ -1,3 +1,33 @@
+# - 4/8일 : DAXA BASIC 유의종목 지정 연장 (https://upbit.com/service_center/notice?id=3408) 마감일 ($BASIC)-  
+# - 4/11일 : ARDR 어나운스 (https://twitter.com/Jelurida/status/1643550053959716864?s=20) 예고($ARDR) 
+# - 4/11일 : 메디블록 네트워크 업그레이드 업비트 입출금 중단 (https://upbit.com/service_center/notice?id=3429) ($MED)
+# - 4/12일 : 홍콩 Web3 페스티벌
+# - 4/12일 : 업비트 이더리움 계열 입출금 (https://upbit.com/service_center/notice?id=3430) 중단 (UPBIT)
+# - 4/13일 : 바이낸스 이더리움 계열 입출금 (https://www.binance.com/en/support/announcement/binance-will-support-the-ethereum-eth-network-s-shapella-upgrade-427a18a0ba03497087401d4b89d229df) 중단(BINANCE)
+# - 4/13일 : 이더리움 샤펠라 업그레이드 (https://blog.ethereum.org/2023/03/28/shapella-mainnet-announcement) 예정 ($ETH)
+# - 4/13일 : 세럼/오미세고 유의종목 지정 연장 마감일($OMG)($SRM)
+# - 4/14일 : EOS EVM 출시 (https://twitter.com/EOSnFoundation/status/1640534904503934978?s=20) ($EOS)
+# - 4/14일 : 엘프 네트워크 업그레이드 업비트 입출금 중단 (https://upbit.com/service_center/notice?id=3434)($ELF)
+# - 4/14일 - 페이코인 거래종료($PCI)
+# - 4/9일~16일 : Fusionist "FEC" 관련 발표 (https://t.me/enjoymyhobby/60261) 예정
+# - 416일~23일 : 리스크 새로운 제품 출시 예정 (https://twitter.com/LiskHQ/status/1641814265228058625?s=20)($LSK)
+# - 4/17일 : Cypress 메인넷 하드포크 (https://t.co/2womtnHsvZ)($KLAY)
+# - 4/18일 - 헬리움 솔라나로 마이그레이션 (https://twitter.com/helium/status/1643222180145053697?s=20) 진행($HNT)
+# - 4/19일 : 마브렉스 모두의마블 런칭 (https://twitter.com/MARBLEXofficial/status/1643130025577963522?t=iaEm7IfbzqthrdaLQCI3LA&s=19)예정 ($MBX)
+# - 4/20일 : 도지데이($DOGE)
+# - 4/25일 : 질리카 EVM 호환성 메인넷 적용 (https://twitter.com/zilliqa/status/1637846337713471489?s=20)($ZIL)
+# 
+# - 5월 : LIDO stETH 스테이커들 이더 인출 할것으로 기대 (https://www.coindesk.com/business/2023/04/06/lido-stakers-can-expect-ether-withdrawals-no-sooner-than-early-may/)($ETH)
+# - 5월 : LIDO 메인넷 업그레이드 (https://twitter.com/LidoFinance/status/1635739571227951117?s=20) ($LDO)
+# - 5/1일 : Blur 시즌2 에어드랍 ($BLUR)
+# - 5/10일 : 칠리즈 메인넷 2.0 + 신규스포츠 블록체인 (https://t.me/enjoymyhobby/59902) 출시
+# 
+# - 2분기 : 휴먼스케이프 HPO로 리브랜딩 (https://drive.google.com/file/d/17W2DcwDw5k2HIRIaJUqcJdadZPfamyXg/view) ($HUM)
+# 
+# ✍️ 취미생활방 리서치
+
+
+
 # 데일리 호들 https://dailyhodl.com
 # 코인니스 https://coinness.live/
 # https://kr.beincrypto.com/
@@ -31,11 +61,9 @@
 
 
 ############################################################
-CASH 0		# 1,645,111 (2023-04-05) 1,631,549 (04-06)
+CASH 449925		# 432,655
 
-ETH 2495000 1
-GAS 4455 91.30909090
-
+ELF 422 1367.94593689
 ############################################################
-# MASK      7565 -> 7685
+
 

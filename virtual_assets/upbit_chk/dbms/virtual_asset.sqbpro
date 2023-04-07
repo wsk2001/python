@@ -12,17 +12,18 @@ select sum(S.open) as open, sum(E.close) as close, round((((close / open) -1) * 
 )
 WHERE S.symbol = E.symbol
 */
-
+
 -- sub query
+/*
 SELECT A.symbol from (
-select symbol, count(*) as cnt from day_candle
-where date &gt;= '2022-01-01'
-group by symbol
-HAVING cnt = 460
-) A
+	select symbol, count(*) as cnt from day_candle
+	where date &gt;= '2022-01-01'
+	group by symbol
+	HAVING cnt = 460
+) A
+*/
 
-
--- VACUUM
+VACUUM;
 
 
 </sql><sql name="SQL 2">
