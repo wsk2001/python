@@ -13,21 +13,21 @@ database_name = './dbms/xfc_policy.db'
 def parse_json(json_str: str):
     json_dict = json.loads(json_str)
 
-    func_type = None
-    str_key = None
-    str_subkey = None
+    policy_type = None
+    key_val = None
+    subkey_val = None
 
     for key, val in json_dict.items():
-        if "policyType" in key:
-            func_type = val
-        elif "key" in key:
-            str_key = val
-        elif "subKey" in key:
-            str_subkey = val
+        if "policytype" == str(key).lower():
+            policy_type = val
+        elif "key" == str(key).lower():
+            key_val = val
+        elif "subkey" == str(key).lower():
+            subkey_val = val
         else:
             continue
 
-    return func_type, str_key, str_subkey
+    return policy_type, key_val, subkey_val
 
 
 # data 요청 format
@@ -231,6 +231,95 @@ def select_sa_policy(ip: str = None, policy: str = None):
     # return json_str
 
 
+def select_ra_policy(endpoint: str):
+    if endpoint is None:
+        return None
+
+    query = \
+        "select * from ra_policy where endpoint = \'" + endpoint + "\';"
+
+    conn = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    value_list = df.values.tolist()
+    if len(value_list) == 0:
+        return None
+
+    json_str = ""
+    for v in value_list:
+        json_str += "{"
+        json_str += "\"id\":" + "\"" + v[0] + "\""
+        json_str += ",\"agent_type\":" + "\"" + v[1] + "\""
+        json_str += ",\"share_protocol\":" + "\"" + v[2] + "\""
+        json_str += ",\"endpoint\":" + "\"" + v[3] + "\""
+        json_str += ",\"encpolicy\":" + "\"" + v[4] + "\""
+        json_str += ",\"policyPollingPeriod\":" + "\"" + str(v[5]) + "\""
+        json_str += ",\"logSendPollingPeriod\":" + "\"" + str(v[6]) + "\""
+        json_str += ",\"targetPath\":" + "\"" + v[7].replace('\n', ',') + "\""
+        json_str += ",\"description\":" + "\"" + v[8] + "\""
+
+        json_str += ",\"acls\":" + select_ra_acl(v[0])
+
+        json_str += "}"
+        break
+
+    json_object = json.loads(json_str)
+
+    json_formatted_str = json.dumps(json_object, indent=2)
+
+    return json_formatted_str
+
+
+def select_ra_acl(ra_id: str):
+    query = None
+
+    if ra_id is None:
+        return None
+
+    query = \
+        "select * from ra_acl where ra_id = \'" + ra_id + "\';"
+
+    conn = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    value_list = df.values.tolist()
+    if len(value_list) == 0:
+        return None
+
+    json_str = ""
+    first_flag = True
+    for v in value_list:
+        if first_flag :
+            json_str += "["
+            first_flag = False
+        else:
+            json_str += ","
+        json_str += "{"
+        json_str += "\"id\":" + "\"" + v[0] + "\""
+        json_str += ",\"ra_id\":" + "\"" + v[1] + "\""
+        json_str += ",\"path\":" + "\"" + v[2] + "\""
+        json_str += ",\"exclude_exts\":" + "\"" + v[3] + "\""
+        json_str += ",\"comm_enc\":" + "\"" + v[4] + "\""
+        json_str += ",\"comm_dec\":" + "\"" + v[5] + "\""
+        json_str += ",\"ip\":" + "\"" + v[6] + "\""
+        json_str += ",\"start_ip\":" + "\"" + v[7] + "\""
+        json_str += ",\"end_ip\":" + "\"" + v[8] + "\""
+        json_str += ",\"uid\":" + "\"" + str(v[9]) + "\""
+        json_str += ",\"gid\":" + "\"" + str(v[10]) + "\""
+        json_str += ",\"enc\":" + "\"" + v[11] + "\""
+        json_str += ",\"dec\":" + "\"" + v[12] + "\""
+        json_str += "}"
+
+    if len(json_str):
+        json_str += "]"
+
+    json_object = json.loads(json_str)
+
+    json_formatted_str = json.dumps(json_object, indent=2)
+
+    return json_formatted_str
+
+
 def select_key_material(key_id: str):
     if key_id is None:
         return None
@@ -282,17 +371,28 @@ def threaded(client_socket, addr):
 
             else:
                 rcv_data = data.decode()
-                func_type, key, subkey = parse_json(rcv_data)
+                agent_type, key, subkey = parse_json(rcv_data)
 
                 print('receive data: ' + rcv_data)
-                print()
-                if func_type.startswith('api_policy'):
+                print('******************************************')
+                if agent_type:
+                    print('agent_type: ' + agent_type)
+                if key:
+                    print('key       : ' + key)
+                if subkey:
+                    print('subkey    : ' + subkey)
+                print('******************************************')
+
+                if agent_type.startswith('api_policy'):
                     json_str = select_api_policy(key)
-                elif func_type.startswith('la_policy'):
-                    json_str = select_la_policy(key, subkey if 0 < len(subkey) else None)
-                elif func_type.startswith('sa_policy'):
-                    json_str = select_sa_policy(key, subkey if 0 < len(subkey) else None)
-                elif func_type.startswith('key_material'):
+                elif agent_type.startswith('la_policy'):
+                    json_str = select_la_policy(key, subkey)
+                elif agent_type.startswith('sa_policy'):
+                    json_str = select_sa_policy(key, subkey)
+                elif agent_type.startswith('ra_policy'):
+                    print('ra_policy, key=' + key)
+                    json_str = select_ra_policy(key)
+                elif agent_type.startswith('key_material'):
                     json_str = select_key_material(key)
                 else:
                     print('Unknown policy type')

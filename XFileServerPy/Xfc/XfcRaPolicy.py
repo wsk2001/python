@@ -365,18 +365,113 @@ class XfcRaPolicy:
         msg_title = ft.Text('Application Message: ')
         msg_text = ft.Text('', color="red")
 
+        dt_exclude = ft.TextField(label="대상 제외 확장자", width=500)
+        dt_comm_dec = ft.Checkbox(label='복호화')
+        dt_comm_enc = ft.Checkbox(label='암호화')
+
+        dt_ip = ft.TextField(label="IP 주소", width=320)
+        dt_uid = ft.TextField(label="UID", width=80)
+        dt_gid = ft.TextField(label="GID", width=80)
+        dt_dec = ft.Checkbox(label='복호화')
+        dt_enc = ft.Checkbox(label='암호화')
+
         path_list.clear()
         path_widget_list.clear()
 
         # detail permission list
+        # id, ra_id, path, exclude_exts, comm_enc, comm_dec, ip, start_ip, end_ip, uid, gid, enc, dec
         dpl = []
         dpl.clear()
 
         dpl_list = []
         dpl_list.clear()
 
+        def tab_ip(e):
+            dt_ip.value = e.control.content.value
+            for l in dpl:
+                if l[6] == dt_ip.value:
+                    dt_uid.value = l[9]
+                    dt_gid.value = l[10]
+                    dt_enc.value = True if l[11] == 'O' else False
+                    dt_dec.value = True if l[12] == 'O' else False
+                    break
+
+            e.control.page.update()
+
+        def update_detail_perm(tp=None):
+            '''
+            tp: target path, 외부에서 지정 한 경우, 지정 값과 list 의 첫번째 값 비교
+            그렇지 않은 경우 target_path.value 와 list 의 첫번째 값 비교 하여 표시 목록을 만든다.
+            '''
+            dpl_list.clear()
+
+            for l in dpl:
+                app_flag = False
+                if tp is None and l[2] == target_path.value:
+                    app_flag = True
+                elif tp is not None and l[2] == tp:
+                    app_flag = True
+
+                if app_flag is True:
+                    dpl_list.append(ft.DataRow(
+                        cells=[
+                            ft.DataCell(ft.Text(l[6], color="cyan"), on_tap=tab_ip), # ip
+                            ft.DataCell(ft.Text(l[9])), # uid
+                            ft.DataCell(ft.Text(l[10])), # gid
+                            ft.DataCell(ft.Text(l[11])), # enc
+                            ft.DataCell(ft.Text(l[12])), # dec
+                        ]))
+                    dt_exclude.value = l[3]
+                    dt_comm_enc.value = True if l[4] == 'O' else False
+                    dt_comm_dec.value = True if l[5] == 'O' else False
+
+        def tab_path(e):
+            '''
+            target path 목록 선택시
+            '''
+            target_path.value = e.control.content.value
+            update_detail_perm(target_path.value)
+            e.control.page.update()
+
+        # table ra_acl 에 등록된 타겟 경로 및 상세 권한 을 읽어 들인다.
+        def read_target_conf(ra_id):
+            df = self.dbms.list_ra_acl(ra_id)
+            vlist = df.values.tolist()
+            for v in vlist:
+                if len(v[6]):
+                    dpl.append([v[0], v[1], v[2], v[3], v[4], v[5], v[6], v[7], v[8], v[9], v[10], v[11], v[12]])
+                else:
+                    dpl.append([v[0], v[1], v[2], v[3], v[4], v[5], v[7] + ' - ' + v[8], '', '', v[9], v[10], v[11], v[12]])
+
+                if v[2] not in path_list:
+                    path_list.append(v[2])
+
+            if len(vlist):
+                dt_exclude.value = vlist[-1][3]
+                dt_comm_enc.value = vlist[-1][4]
+                dt_comm_dec.value = vlist[-1][5]
+                dt_ip.value = vlist[-1][6]
+                dt_uid.value = vlist[-1][9]
+                dt_gid.value = vlist[-1][10]
+                dt_enc.value = True if vlist[-1][11] == 'O' else False
+                dt_dec.value = True if vlist[-1][12] == 'O' else False
+
+            if len(path_list):
+                target_path.value = path_list[-1]
+                for v in path_list:
+                    path_widget_list.append(
+                        ft.DataRow(
+                            cells=[
+                                ft.DataCell(ft.Text(v), on_tap=tab_path),
+                            ],
+                        )
+                    )
+                update_detail_perm(target_path.value)
+
         if len(self.id.value) <= 0:
             self.id.value = str(uuid.uuid4())
+        else:
+            read_target_conf(self.id.value)
 
         # 5 초에 한번씩 msg 를 clear 한다.
         def msg_clear():
@@ -387,13 +482,6 @@ class XfcRaPolicy:
 
         msg_clear()
 
-        def tab_path(e):
-            '''
-            target path 목록 선택시
-            '''
-            target_path.value = e.control.content.value
-            update_detail_perm(target_path.value)
-            e.control.page.update()
 
         def add_path(e):
             '''
@@ -466,52 +554,6 @@ class XfcRaPolicy:
             ft.DataColumn(ft.Text("암호화")),
         ]
 
-        dt_exclude = ft.TextField(label="대상 제외 확장자", width=500)
-        dt_comm_dec = ft.Checkbox(label='복호화')
-        dt_comm_enc = ft.Checkbox(label='암호화')
-
-        dt_ip = ft.TextField(label="IP 주소", width=320)
-        dt_uid = ft.TextField(label="UID", width=80)
-        dt_gid = ft.TextField(label="GID", width=80)
-        dt_dec = ft.Checkbox(label='복호화')
-        dt_enc = ft.Checkbox(label='암호화')
-
-        def tab_ip(e):
-            dt_ip.value = e.control.content.value
-            for l in dpl:
-                if l[4] == dt_ip.value:
-                    dt_uid.value = l[5]
-                    dt_gid.value = l[6]
-                    dt_dec.value = True if l[7] == 'O' else False
-                    dt_enc.value = True if l[8] == 'O' else False
-                    break
-
-            e.control.page.update()
-
-        def update_detail_perm(tp=None):
-            '''
-            tp: target path, 외부에서 지정 한 경우, 지정 값과 list 의 첫번째 값 비교
-            그렇지 않은 경우 target_path.value 와 list 의 첫번째 값 비교 하여 표시 목록을 만든다.
-            '''
-            dpl_list.clear()
-
-            for l in dpl:
-                app_flag = False
-                if tp is None and l[0] == target_path.value:
-                    app_flag = True
-                elif tp is not None and l[0] == tp:
-                    app_flag = True
-
-                if app_flag:
-                    dpl_list.append(ft.DataRow(
-                        cells=[
-                            ft.DataCell(ft.Text(l[4], color="cyan"), on_tap=tab_ip),
-                            ft.DataCell(ft.Text(l[5])),
-                            ft.DataCell(ft.Text(l[6])),
-                            ft.DataCell(ft.Text(l[7])),
-                            ft.DataCell(ft.Text(l[8])),
-                        ]))
-
         def save_target_path(e):
             '''
             상세 설정 정보 저장
@@ -528,27 +570,29 @@ class XfcRaPolicy:
             tmp_path = ''
             for d in dpl:
                 acl = CRaACL()
-                acl.id = str(uuid.uuid4())
+                if len(str(d[0]).split()) == 0:
+                    d[0] = str(uuid.uuid4())
+                acl.id = d[0]
                 acl.ra_id = self.id.value
-                acl.path = d[0]
-                acl.exclude_exts = d[1]
-                acl.comm_dec = d[2]
-                acl.comm_enc = d[3]
-                if ('~' in d[4]) or ('-' in d[4]):
-                    if '~' in d[4]:
-                        rip = str(d[4]).split('~')
-                    elif '-' in d[4]:
-                        rip = str(d[4]).split('-')
+                acl.path = d[2]
+                acl.exclude_exts = d[3]
+                acl.comm_enc = d[4]
+                acl.comm_dec = d[5]
+                if ('~' in d[6]) or ('-' in d[6]):
+                    if '~' in d[6]:
+                        rip = str(d[6]).split('~')
+                    elif '-' in d[6]:
+                        rip = str(d[6]).split('-')
 
                     acl.start_ip = rip[0].strip()
                     acl.end_ip = rip[1].strip()
                 else:
-                    acl.ip = d[4]
+                    acl.ip = d[6]
 
-                acl.uid = d[5]
-                acl.gid = d[6]
-                acl.dec = d[7]
-                acl.enc = d[8]
+                acl.uid = d[9]
+                acl.gid = d[10]
+                acl.enc = d[11]
+                acl.dec = d[12]
 
                 print()
                 acl.view()
@@ -583,13 +627,20 @@ class XfcRaPolicy:
             입력된 상세 항목 list 에 추가
             '''
             if 0 < len(dt_ip.value.strip()) and 0 < len(target_path.value.strip()):
-                dpl.append([target_path.value,
+                dpl.append([
+                            str(uuid.uuid4()), # acl id
+                            self.id.value, # ra_id
+                            target_path.value,
                             dt_exclude.value,
-                            'O' if dt_comm_dec.value is True else '',
                             'O' if dt_comm_enc.value is True else '',
-                            dt_ip.value, dt_uid.value, dt_gid.value,
-                            'O' if dt_dec.value is True else '',
+                            'O' if dt_comm_dec.value is True else '',
+                            dt_ip.value,
+                            '', # start ip
+                            '', # end ip
+                            dt_uid.value,
+                            dt_gid.value,
                             'O' if dt_enc.value is True else '',
+                            'O' if dt_dec.value is True else '',
                             ])
                 update_detail_perm()
                 e.control.page.update()
@@ -605,9 +656,9 @@ class XfcRaPolicy:
                 tlist = copy.deepcopy(dpl)
                 dpl.clear()
                 for t in tlist:
-                    if t[0] == target_path.value and t[4] == dt_ip.value:
+                    if t[2] == target_path.value and t[6] == dt_ip.value:
                         continue
-                    dpl.append([t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8]])
+                    dpl.append([t[0], t[1], t[2], t[3], t[4], t[5], t[6], t[7], t[8], t[9], t[10], t[11], t[12]])
 
                 update_detail_perm()
                 reset_input(e)
@@ -639,10 +690,10 @@ class XfcRaPolicy:
                         ]),
                         ft.Column([
                             dt_exclude,
-                            ft.Row([dt_comm_dec, dt_comm_enc]),
+                            ft.Row([dt_comm_enc, dt_comm_dec]),
                             ft.Divider(),
                             ft.Row([dt_ip, dt_uid, dt_gid]),
-                            ft.Row([dt_dec, dt_enc, add_detail_btn, delete_detail_btn, reset_detail_btn]),
+                            ft.Row([dt_enc, dt_dec, add_detail_btn, delete_detail_btn, reset_detail_btn]),
                             ft.Divider(),
                             ft.DataTable(columns=detail_columns, rows=dpl_list, ),
                         ])
