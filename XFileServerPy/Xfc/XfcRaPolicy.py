@@ -55,8 +55,8 @@ class CRaACL:
         print('ip          : ' + self.ip)
         print('start_ip    : ' + self.start_ip)
         print('end_ip      : ' + self.end_ip)
-        print('uid         : ' + self.uid)
-        print('gid         : ' + self.gid)
+        print('uid         : ' + str(self.uid))
+        print('gid         : ' + str(self.gid))
         print('enc         : ' + self.enc)
         print('dec         : ' + self.dec)
 
@@ -604,6 +604,7 @@ class XfcRaPolicy:
                 self.dbms.save_acl(acl)
 
             msg_text.value = 'Data 를 정상 저장 하였습니다.'
+            print(msg_text.value)
             e.page.update()
 
         def close_target_path(e):
