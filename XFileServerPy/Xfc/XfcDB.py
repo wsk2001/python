@@ -169,6 +169,17 @@ class XfcDB:
 
         return df
 
+    def select_end_point_list(self):
+        query = \
+            "select client_name, description, client_platform from client; "
+
+        conn = sqlite3.connect(self.database_name)
+        df = pd.read_sql_query(query, conn)
+        conn.close()
+
+        return df
+
+
     def select_enc_policy_list(self):
         query = \
             "select id, policy_name, algorithm, key_length, description from enc_policy; "

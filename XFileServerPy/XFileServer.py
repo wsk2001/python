@@ -53,9 +53,9 @@ def select_api_policy(ip: str):
         json_str += ",\"domainKeyId\":" + "\"" + v[10] + "\""
         json_str += ",\"domainAlgorithm\":" + "\"" + v[11] + "\""
         json_str += ",\"domainKeyLength\":" + v[12]
-        json_str += ",\"modulus\":" + v[13]
-        json_str += ",\"publicExponent\":" + v[14]
-        json_str += ",\"privateExponent\":" + v[15]
+        json_str += ",\"modulus\":" + "\"" + v[13] + "\""
+        json_str += ",\"publicExponent\":" + "\"" + v[14] + "\""
+        json_str += ",\"privateExponent\":" + "\"" + v[15] + "\""
         json_str += ",\"domainCode\":" + "\"" + v[16] + "\""
         json_str += ",\"attributeKeyId\":" + "\"" + v[17] + "\""
         json_str += ",\"attributeIv\":" + "\"" + v[18] + "\""
@@ -246,8 +246,53 @@ def select_ra_policy(endpoint: str):
         return None
 
     json_str = ""
+    '''
+    {
+	"response": {
+		"header": {
+			"resultCode": "00",
+			"resultMsg": "NORMAL SERVICE."
+		},
+		"body": {
+			"items": {
+				"item": [{
+					"airline": "아시아나항공",
+					"airport": "마닐라",
+					"airportCode": "MNL",
+					"carousel": 19,
+					"cityCode": "MNL",
+					"elapsetime": "0316",
+					"estimatedDateTime": "0359",
+					"exitnumber": "E",
+					"flightId": "OZ704",
+					"gatenumber": 32,
+					"remark": "도착",
+					"scheduleDateTime": "0500",
+					"terminalId": "P01"
+				}, {
+					"airline": "대한항공",
+					"airport": "마닐라",
+					"airportCode": "MNL",
+					"carousel": 10,
+					"cityCode": "MNL",
+					"elapsetime": "0322",
+					"estimatedDateTime": "0410",
+					"exitnumber": "B",
+					"flightId": "KE624",
+					"gatenumber": 251,
+					"remark": "도착",
+					"scheduleDateTime": "0500",
+					"terminalId": "P03"
+				}]
+			}
+		}
+	}
+}
+    계층을 main 에서 한번 더 씌워야 한다.
+    '''
     for v in value_list:
         json_str += "{"
+
         json_str += "\"id\":" + "\"" + v[0] + "\""
         json_str += ",\"agent_type\":" + "\"" + v[1] + "\""
         json_str += ",\"share_protocol\":" + "\"" + v[2] + "\""
@@ -258,10 +303,15 @@ def select_ra_policy(endpoint: str):
         json_str += ",\"targetPath\":" + "\"" + v[7].replace('\n', ',') + "\""
         json_str += ",\"description\":" + "\"" + v[8] + "\""
 
+        json_str += ",\"clientDto\":" + "\"" + select_client(v[3]) + "\""
+        json_str += ",\"encPolicyDto\":" + "\"" + select_encpolicy(v[4]) + "\""
+
         json_str += ",\"acls\":" + select_ra_acl(v[0])
 
         json_str += "}"
         break
+
+    print("json: " + json_str + "\n");
 
     json_object = json.loads(json_str)
 
@@ -353,6 +403,89 @@ def select_key_material(key_id: str):
 
     return json_formatted_str
 
+
+def select_client(client_name: str):
+    if client_name is None:
+        return None
+
+    query = \
+        "select id, client_name, mac_addr, description, create_date, creator, client_status, client_platform, " \
+        "platformver from client " \
+        "where client_name = \'" + client_name + "\';"
+
+    print('query: ' + query)
+
+    conn = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    value_list = df.values.tolist()
+    if len(value_list) == 0:
+        return None
+
+    json_str = ""
+    for v in value_list:
+        json_str += "{"
+        json_str += "\"id\":" + "\"" + v[0] + "\""
+        json_str += ",\"client_name\":" + "\"" + v[1] + "\""
+        json_str += ",\"mac_addr\":" + "\"" + v[2] + "\""
+        json_str += ",\"description\":" + "\"" + v[3] + "\""
+        json_str += ",\"create_date\":" + "\"" + str(int(v[4])) + "\""
+        json_str += ",\"creator\":" + "\"" + v[5] + "\""
+        json_str += ",\"client_status\":" + "\"" + v[6] + "\""
+        json_str += ",\"client_platform\":" + "\"" + v[7] + "\""
+        json_str += ",\"platformver\":" + "\"" + v[8] + "\""
+
+        break
+    json_str += "}"
+
+    json_object = json.loads(json_str)
+
+    json_formatted_str = json.dumps(json_object, indent=2)
+
+    return json_formatted_str
+
+
+def select_encpolicy(policy_name: str):
+    if policy_name is None:
+        return None
+
+    query = \
+        "select id, policy_name, policy_type, description, algorithm, key_length, share_range, back_migration, " \
+        "create_date, modified_date, creator from enc_policy " \
+        "where policy_name = \'" + policy_name + "\';"
+
+    print('query: ' + query)
+
+    conn = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    value_list = df.values.tolist()
+    if len(value_list) == 0:
+        return None
+
+    json_str = ""
+    for v in value_list:
+        json_str += "{"
+        json_str += "\"id\":" + "\"" + v[0] + "\""
+        json_str += ",\"policy_name\":" + "\"" + v[1] + "\""
+        json_str += ",\"policy_type\":" + "\"" + v[2] + "\""
+        json_str += ",\"description\":" + "\"" + v[3] + "\""
+        json_str += ",\"algorithm\":" + "\"" + v[4] + "\""
+        json_str += ",\"key_length\":" + "\"" + str(int(v[5])) + "\""
+        json_str += ",\"share_range\":" + "\"" + v[6] + "\""
+        json_str += ",\"back_migration\":" + "\"" + str(int(v[7])) + "\""
+        json_str += ",\"create_date\":" + "\"" + str(int(v[8])) + "\""
+        json_str += ",\"modified_date\":" + "\"" + str(int(v[9])) + "\""
+        json_str += ",\"creator\":" + "\"" + v[10] + "\""
+
+        break
+    json_str += "}"
+
+    json_object = json.loads(json_str)
+
+    json_formatted_str = json.dumps(json_object, indent=2)
+
+    return json_formatted_str
 
 # Code that runs in a thread.
 def threaded(client_socket, addr):

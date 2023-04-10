@@ -251,7 +251,7 @@ class XfcRaPolicy:
         row_list = []
         row_list.clear()
 
-        df = self.dbms.select_api_list()
+        df = self.dbms.select_end_point_list()
         value_list = df.values.tolist()
 
         for v in value_list:
