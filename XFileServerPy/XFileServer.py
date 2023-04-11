@@ -292,6 +292,7 @@ def select_ra_policy(endpoint: str):
     '''
     for v in value_list:
         json_str += "{"
+        json_str += "\"main\":{"
 
         json_str += "\"id\":" + "\"" + v[0] + "\""
         json_str += ",\"agent_type\":" + "\"" + v[1] + "\""
@@ -302,9 +303,13 @@ def select_ra_policy(endpoint: str):
         json_str += ",\"logSendPollingPeriod\":" + "\"" + str(v[6]) + "\""
         json_str += ",\"targetPath\":" + "\"" + v[7].replace('\n', ',') + "\""
         json_str += ",\"description\":" + "\"" + v[8] + "\""
+        json_str += "}"
 
-        json_str += ",\"clientDto\":" + "\"" + select_client(v[3]) + "\""
-        json_str += ",\"encPolicyDto\":" + "\"" + select_encpolicy(v[4]) + "\""
+        # json_str += ",\"clientDto\":" + "\"" + select_client(v[3]) + "\""
+        # json_str += ",\"encPolicyDto\":" + "\"" + select_encpolicy(v[4]) + "\""
+
+        json_str += ",\"client_dto\":" + select_client(v[3])
+        json_str += ",\"enc_policy_dto\":" + select_encpolicy(v[4])
 
         json_str += ",\"acls\":" + select_ra_acl(v[0])
 
@@ -575,3 +580,43 @@ def main(argv):
 
 if __name__ == "__main__":
     main(sys.argv)
+
+
+'''
+[RA 관련 Table]
+
+-- access_control   : 
+
+## client			: ip 를 이용해 client_id 구함.
+-- id: c2e1291c-2518-4245-9c11-6aac4be267c9
+select * from client 
+where 1=1
+and client_name = '192.168.60.190'
+
+
+## agent_policy		: client_id 를 이용해 RA 설정 정보 및 암호화 정책 id(enc_id -> enc_policy id) 구함
+-- id: 96261197-cc23-4ae7-9bcc-5d35cb3909cf, 
+-- client_id: c2e1291c-2518-4245-9c11-6aac4be267c9
+-- enc_id: d9546ee9-f8da-40ff-bbed-9911bf2ec80c
+select * from agent_policy 
+where client_id = 'c2e1291c-2518-4245-9c11-6aac4be267c9'
+and policy_type = 'C'
+
+## enc_policy		: 암호화 정책 조회 (enc_id 사용)
+select * from enc_policy 
+where id = 'd9546ee9-f8da-40ff-bbed-9911bf2ec80c'
+
+## target_path		: agent_policy id 를 이용해 등록된 경로별 전역 설정 정보 조회 (target_path id => tp_id 포함)
+-- id: f6c17db2-06a0-43fc-ac93-2b18daf61ca7, 6a9a1bc6-cda9-46b5-8bfd-83a9ef259a03
+select * from target_path 
+where ap_id = '96261197-cc23-4ae7-9bcc-5d35cb3909cf'
+
+## access_control : tp_id 를 이용해 상세 접근제어 목록 조회
+select * from access_control
+where tp_id in ( 'f6c17db2-06a0-43fc-ac93-2b18daf61ca7', '6a9a1bc6-cda9-46b5-8bfd-83a9ef259a03')
+
+
+## permission : 퍼미션 조회
+select * from permission
+where p_id in ( 'f6c17db2-06a0-43fc-ac93-2b18daf61ca7', '6a9a1bc6-cda9-46b5-8bfd-83a9ef259a03')
+'''
