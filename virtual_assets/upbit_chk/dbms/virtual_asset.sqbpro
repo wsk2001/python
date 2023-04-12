@@ -114,17 +114,25 @@ and date &gt;= '2023-04-01'
 group by symbol
 order by roc desc
 limit 40
-</sql><sql name="SQL 5">/*
+</sql><sql name="SQL 5">/*
 select date, strftime('%w', date) from day_candle
 where 1 = 1
 and symbol='BTC'
-and date &gt; '2022-01-01'
+and date &gt; '2022-01-01'
+and earn &gt; 4.0
+*/
+
+/*
+select date, substr(date, 9, 2), strftime('%w', date) from day_candle
+where 1 = 1
+and symbol='BTC'
 and earn &gt; 4.0
 */
 
-select date, substr(date, 9, 2), strftime('%w', date) from day_candle
-where 1 = 1
-and symbol='BTC'
-and earn &gt; 4.0
-
+select symbol, count(*) as cnt from day_candle
+where date &gt;= '2023-04-05'
+and earn &lt; 0.0
+group by symbol
+order by cnt desc
+
 </sql><current_tab id="4"/></tab_sql></sqlb_project>
