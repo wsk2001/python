@@ -231,149 +231,6 @@ def select_sa_policy(ip: str = None, policy: str = None):
     # return json_str
 
 
-def select_ra_policy(endpoint: str):
-    if endpoint is None:
-        return None
-
-    query = \
-        "select * from ra_policy where endpoint = \'" + endpoint + "\';"
-
-    conn = sqlite3.connect(database_name)
-    df = pd.read_sql_query(query, conn)
-    conn.close()
-    value_list = df.values.tolist()
-    if len(value_list) == 0:
-        return None
-
-    json_str = ""
-    '''
-    {
-	"response": {
-		"header": {
-			"resultCode": "00",
-			"resultMsg": "NORMAL SERVICE."
-		},
-		"body": {
-			"items": {
-				"item": [{
-					"airline": "아시아나항공",
-					"airport": "마닐라",
-					"airportCode": "MNL",
-					"carousel": 19,
-					"cityCode": "MNL",
-					"elapsetime": "0316",
-					"estimatedDateTime": "0359",
-					"exitnumber": "E",
-					"flightId": "OZ704",
-					"gatenumber": 32,
-					"remark": "도착",
-					"scheduleDateTime": "0500",
-					"terminalId": "P01"
-				}, {
-					"airline": "대한항공",
-					"airport": "마닐라",
-					"airportCode": "MNL",
-					"carousel": 10,
-					"cityCode": "MNL",
-					"elapsetime": "0322",
-					"estimatedDateTime": "0410",
-					"exitnumber": "B",
-					"flightId": "KE624",
-					"gatenumber": 251,
-					"remark": "도착",
-					"scheduleDateTime": "0500",
-					"terminalId": "P03"
-				}]
-			}
-		}
-	}
-}
-    계층을 main 에서 한번 더 씌워야 한다.
-    '''
-    for v in value_list:
-        json_str += "{"
-        json_str += "\"main\":{"
-
-        json_str += "\"id\":" + "\"" + v[0] + "\""
-        json_str += ",\"agent_type\":" + "\"" + v[1] + "\""
-        json_str += ",\"share_protocol\":" + "\"" + v[2] + "\""
-        json_str += ",\"endpoint\":" + "\"" + v[3] + "\""
-        json_str += ",\"encpolicy\":" + "\"" + v[4] + "\""
-        json_str += ",\"policyPollingPeriod\":" + "\"" + str(v[5]) + "\""
-        json_str += ",\"logSendPollingPeriod\":" + "\"" + str(v[6]) + "\""
-        json_str += ",\"targetPath\":" + "\"" + v[7].replace('\n', ',') + "\""
-        json_str += ",\"description\":" + "\"" + v[8] + "\""
-        json_str += "}"
-
-        # json_str += ",\"clientDto\":" + "\"" + select_client(v[3]) + "\""
-        # json_str += ",\"encPolicyDto\":" + "\"" + select_encpolicy(v[4]) + "\""
-
-        json_str += ",\"client_dto\":" + select_client(v[3])
-        json_str += ",\"enc_policy_dto\":" + select_encpolicy(v[4])
-
-        json_str += ",\"acls\":" + select_ra_acl(v[0])
-
-        json_str += "}"
-        break
-
-    print("json: " + json_str + "\n");
-
-    json_object = json.loads(json_str)
-
-    json_formatted_str = json.dumps(json_object, indent=2)
-
-    return json_formatted_str
-
-
-def select_ra_acl(ra_id: str):
-    query = None
-
-    if ra_id is None:
-        return None
-
-    query = \
-        "select * from ra_acl where ra_id = \'" + ra_id + "\';"
-
-    conn = sqlite3.connect(database_name)
-    df = pd.read_sql_query(query, conn)
-    conn.close()
-    value_list = df.values.tolist()
-    if len(value_list) == 0:
-        return None
-
-    json_str = ""
-    first_flag = True
-    for v in value_list:
-        if first_flag :
-            json_str += "["
-            first_flag = False
-        else:
-            json_str += ","
-        json_str += "{"
-        json_str += "\"id\":" + "\"" + v[0] + "\""
-        json_str += ",\"ra_id\":" + "\"" + v[1] + "\""
-        json_str += ",\"path\":" + "\"" + v[2] + "\""
-        json_str += ",\"exclude_exts\":" + "\"" + v[3] + "\""
-        json_str += ",\"comm_enc\":" + "\"" + v[4] + "\""
-        json_str += ",\"comm_dec\":" + "\"" + v[5] + "\""
-        json_str += ",\"ip\":" + "\"" + v[6] + "\""
-        json_str += ",\"start_ip\":" + "\"" + v[7] + "\""
-        json_str += ",\"end_ip\":" + "\"" + v[8] + "\""
-        json_str += ",\"uid\":" + "\"" + str(v[9]) + "\""
-        json_str += ",\"gid\":" + "\"" + str(v[10]) + "\""
-        json_str += ",\"enc\":" + "\"" + v[11] + "\""
-        json_str += ",\"dec\":" + "\"" + v[12] + "\""
-        json_str += "}"
-
-    if len(json_str):
-        json_str += "]"
-
-    json_object = json.loads(json_str)
-
-    json_formatted_str = json.dumps(json_object, indent=2)
-
-    return json_formatted_str
-
 
 def select_key_material(key_id: str):
     if key_id is None:
@@ -423,74 +280,284 @@ def select_client(client_name: str):
     conn = sqlite3.connect(database_name)
     df = pd.read_sql_query(query, conn)
     conn.close()
-    value_list = df.values.tolist()
-    if len(value_list) == 0:
-        return None
 
-    json_str = ""
-    for v in value_list:
-        json_str += "{"
-        json_str += "\"id\":" + "\"" + v[0] + "\""
-        json_str += ",\"client_name\":" + "\"" + v[1] + "\""
-        json_str += ",\"mac_addr\":" + "\"" + v[2] + "\""
-        json_str += ",\"description\":" + "\"" + v[3] + "\""
-        json_str += ",\"create_date\":" + "\"" + str(int(v[4])) + "\""
-        json_str += ",\"creator\":" + "\"" + v[5] + "\""
-        json_str += ",\"client_status\":" + "\"" + v[6] + "\""
-        json_str += ",\"client_platform\":" + "\"" + v[7] + "\""
-        json_str += ",\"platformver\":" + "\"" + v[8] + "\""
-
-        break
-    json_str += "}"
-
-    json_object = json.loads(json_str)
-
-    json_formatted_str = json.dumps(json_object, indent=2)
-
-    return json_formatted_str
+    return df
 
 
-def select_encpolicy(policy_name: str):
-    if policy_name is None:
+def select_agent_policy(client_id: str):
+    if client_id is None:
         return None
 
     query = \
-        "select id, policy_name, policy_type, description, algorithm, key_length, share_range, back_migration, " \
-        "create_date, modified_date, creator from enc_policy " \
-        "where policy_name = \'" + policy_name + "\';"
+        "select id, policy_type, protocol, sync_period, log_period, creator, create_date, modified_date, " \
+        "client_id, enc_id, policy_status, description  from agent_policy " \
+        "where client_id = \'" + client_id + "\';"
 
     print('query: ' + query)
 
     conn = sqlite3.connect(database_name)
     df = pd.read_sql_query(query, conn)
     conn.close()
-    value_list = df.values.tolist()
-    if len(value_list) == 0:
+
+    return df
+
+
+def select_encpolicy(enc_id: str):
+    if enc_id is None:
         return None
 
-    json_str = ""
-    for v in value_list:
-        json_str += "{"
-        json_str += "\"id\":" + "\"" + v[0] + "\""
-        json_str += ",\"policy_name\":" + "\"" + v[1] + "\""
-        json_str += ",\"policy_type\":" + "\"" + v[2] + "\""
-        json_str += ",\"description\":" + "\"" + v[3] + "\""
-        json_str += ",\"algorithm\":" + "\"" + v[4] + "\""
-        json_str += ",\"key_length\":" + "\"" + str(int(v[5])) + "\""
-        json_str += ",\"share_range\":" + "\"" + v[6] + "\""
-        json_str += ",\"back_migration\":" + "\"" + str(int(v[7])) + "\""
-        json_str += ",\"create_date\":" + "\"" + str(int(v[8])) + "\""
-        json_str += ",\"modified_date\":" + "\"" + str(int(v[9])) + "\""
-        json_str += ",\"creator\":" + "\"" + v[10] + "\""
+    query = \
+        "select id, policy_name, policy_type, description, algorithm, key_length, share_range, back_migration, " \
+        "create_date, modified_date, creator from enc_policy " \
+        "where id = \'" + enc_id + "\';"
 
+    print('query: ' + query)
+
+    conn = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    return df
+
+
+def select_target_path(ap_id: str):
+    if ap_id is None:
+        return None
+
+    query = \
+        "select id, tp_path, tp_mode, exclude_exts, tp_uid, tp_gid, ap_id " \
+        "from target_path " \
+        "where ap_id = \'" + ap_id + "\';"
+
+    print('query: ' + query)
+
+    conn = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    return df
+
+
+def select_access_control(tp_id: str):
+    '''
+    "\'aaa\', \'bbb\'" 형태로 넘어와야 함
+    '''
+    if tp_id is None:
+        return None
+
+    query = \
+        "select id, access_ip, access_sip, access_eip, access_uid, access_gid, access_account, access_passwd, " \
+        "access_process, tp_id, access_mac, access_type " \
+        "from access_control " \
+        "where tp_id in (" + tp_id + ");"
+
+    print('query: ' + query)
+
+    conn = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    return df
+
+
+def select_permission(p_id: str):
+    '''
+    "\'aaa\', \'bbb\'" 형태로 넘어와야 함
+    '''
+    if p_id is None:
+        return None
+
+    query = \
+        "select id, read_chk, write_chk, excute_chk, perm_type, p_id " \
+        "from permission " \
+        "where p_id in (" + p_id + ");"
+
+    print('query: ' + query)
+
+    conn = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, conn)
+    conn.close()
+    return df
+
+
+def get_ra_policy(ip):
+    json_str = ""
+    df = select_client(ip)
+    vlist = df.values.tolist()
+
+    key_id = ''
+    json_tmp = ''
+    for v in vlist:
+        key_id = v[0]
+        json_tmp = "\"client\": {"
+        json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        json_tmp += ",\"client_name\":" + "\"" + v[1] + "\""  # endpoint id
+        json_tmp += ",\"mac_addr\":" + "\"" + v[2] + "\""
+        json_tmp += ",\"description\":" + "\"" + v[3] + "\""
+        json_tmp += ",\"create_date\":" + "\"" + str(int(v[4])) + "\""
+        json_tmp += ",\"creator\":" + "\"" + v[5] + "\""
+        json_tmp += ",\"client_status\":" + "\"" + v[6] + "\""
+        json_tmp += ",\"client_platform\":" + "\"" + v[7] + "\""
+        json_tmp += ",\"platformver\":" + "\"" + v[8] + "\""
+        json_tmp += "}"
         break
-    json_str += "}"
+
+    json_str = json_tmp
+
+    df = select_agent_policy(key_id)
+    vlist = df.values.tolist()
+    ap_id = ''
+    for v in vlist:
+        json_tmp = ",\"agent_policy\": {"
+        json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        json_tmp += ",\"policy_type\":" + "\"" + v[1] + "\""
+        json_tmp += ",\"protocol\":" + "\"" + v[2] + "\""
+        json_tmp += ",\"sync_period\":" + "\"" + str(int(v[3])) + "\""
+        json_tmp += ",\"log_period\":" + "\"" + str(int(v[4])) + "\""
+        json_tmp += ",\"creator\":" + "\"" + v[5] + "\""
+        json_tmp += ",\"create_date\":" + "\"" + str(int(v[6])) + "\""
+        json_tmp += ",\"modified_date\":" + "\"" + str(int(v[7])) + "\""
+        json_tmp += ",\"client_id\":" + "\"" + v[8] + "\""
+        json_tmp += ",\"enc_id\":" + "\"" + v[9] + "\""
+        json_tmp += ",\"policy_status\":" + "\"" + v[10] + "\""
+        json_tmp += ",\"description\":" + "\"" + v[11] + "\""
+        json_tmp += "}"
+        key_id = v[9]
+        ap_id = v[0]
+        break
+
+    json_str += "\n" + json_tmp
+
+    df = select_encpolicy(key_id)
+    vlist = df.values.tolist()
+    for v in vlist:
+        json_tmp = ",\"enc_policy\": {"
+        json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        json_tmp += ",\"policy_name\":" + "\"" + v[1] + "\""
+        json_tmp += ",\"policy_type\":" + "\"" + v[2] + "\""
+        json_tmp += ",\"description\":" + "\"" + v[3] + "\""
+        json_tmp += ",\"algorithm\":" + "\"" + v[4] + "\""
+        json_tmp += ",\"key_length\":" + "\"" + str(int(v[5])) + "\""
+        json_tmp += ",\"share_range\":" + "\"" + v[6] + "\""
+        json_tmp += ",\"back_migration\":" + "\"" + str(int(v[7])) + "\""
+        json_tmp += ",\"create_date\":" + "\"" + str(int(v[8])) + "\""
+        json_tmp += ",\"modified_date\":" + "\"" + str(int(v[9])) + "\""
+        json_tmp += ",\"creator\":" + "\"" + v[10] + "\""
+        json_tmp += "}"
+        key_id = v[0]
+        break
+
+    json_str += "\n" + json_tmp
+
+    df = select_target_path(ap_id)
+    vlist = df.values.tolist()
+    fst_flag = True
+    json_tmp = ''
+    tp_id_list = []
+    tp_id_list.clear()
+    for v in vlist:
+        if fst_flag is True:
+            json_tmp = ",\"target_path\": [\n"
+            json_tmp += "{"
+            fst_flag = False
+        else:
+            json_tmp += ",{"
+
+        tp_id_list.append(v[0])
+        json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        json_tmp += ",\"tp_path\":" + "\"" + v[1] + "\""
+        json_tmp += ",\"tp_mode\":" + "\"" + (v[2] if v[2] is not  None else '') + "\""
+        json_tmp += ",\"exclude_exts\":" + "\"" + (v[3] if v[3] is not  None else '') + "\""
+        json_tmp += ",\"tp_uid\":" + "\"" + (str(int(v[4])) if v[4] is not  None else '') + "\""
+        json_tmp += ",\"tp_gid\":" + "\"" + (str(int(v[5])) if v[5] is not  None else '') + "\""
+        json_tmp += ",\"ap_id\":" + "\"" + v[6] + "\""
+        json_tmp += "}"
+
+    if 0 < len(json_tmp):
+        json_tmp += "]"
+        json_str += "\n" + json_tmp
+
+    if 0 < len(tp_id_list):
+        tp_id_str = ''
+        fst_flag = True
+        for tp_id in tp_id_list:
+            if fst_flag is True:
+                tp_id_str = "\"" + tp_id + "\""
+                fst_flag = False
+            else:
+                tp_id_str += ",\"" + tp_id + "\""
+
+        df = select_access_control(tp_id_str)
+        vlist = df.values.tolist()
+        fst_flag = True
+        for v in vlist:
+            if fst_flag is True:
+                json_tmp = ",\"access_control\": [\n"
+                json_tmp += "{"
+                fst_flag = False
+            else:
+                json_tmp += ",{"
+            json_tmp += "\"id\":" + "\"" + v[0] + "\""
+            json_tmp += ",\"access_ip\":" + "\"" + (v[1] if v[1] is not  None else '') + "\""
+            json_tmp += ",\"access_sip\":" + "\"" + (v[2] if v[2] is not  None else '') + "\""
+            json_tmp += ",\"access_eip\":" + "\"" + (v[3] if v[3] is not  None else '') + "\""
+            json_tmp += ",\"access_uid\":" + "\"" + (str(int(v[4])) if v[4] is not  None else '') + "\""
+            json_tmp += ",\"access_gid\":" + "\"" + (str(int(v[5])) if v[5] is not  None else '') + "\""
+            json_tmp += ",\"access_account\":" + "\"" + (v[6] if v[6] is not  None else '') + "\""
+            json_tmp += ",\"access_passwd\":" + "\"" + (v[7] if v[7] is not  None else '') + "\""
+            json_tmp += ",\"access_process\":" + "\"" + (v[8] if v[8] is not  None else '') + "\""
+            json_tmp += ",\"tp_id\":" + "\"" + v[9] + "\""
+            json_tmp += ",\"access_mac\":" + "\"" + (v[9] if v[9] is not  None else '') + "\""
+            json_tmp += ",\"access_type\":" + "\"" + (v[10] if v[10] is not  None else '') + "\""
+            json_tmp += "}"
+
+    if 0 < len(json_tmp):
+        json_tmp += "]"
+        json_str += "\n" + json_tmp
+
+    if 0 < len(tp_id_list):
+        tp_id_str = ''
+        fst_flag = True
+        for tp_id in tp_id_list:
+            if fst_flag is True:
+                tp_id_str = "\"" + tp_id + "\""
+                fst_flag = False
+            else:
+                tp_id_str += ",\"" + tp_id + "\""
+
+        df = select_permission(tp_id_str)
+        vlist = df.values.tolist()
+        fst_flag = True
+        for v in vlist:
+            if fst_flag is True:
+                json_tmp = ",\"permission\": [\n"
+                json_tmp += "{"
+                fst_flag = False
+            else:
+                json_tmp += ",{"
+            json_tmp += "\"id\":" + "\"" + v[0] + "\""
+            json_tmp += ",\"read_chk\":" + "\"" + (v[1] if v[1] is not  None else '') + "\""
+            json_tmp += ",\"write_chk\":" + "\"" + (v[2] if v[2] is not  None else '') + "\""
+            json_tmp += ",\"excute_chk\":" + "\"" + (v[3] if v[3] is not  None else '') + "\""
+            json_tmp += ",\"perm_type\":" + "\"" + (v[4] if v[4] is not  None else '') + "\""
+            json_tmp += ",\"p_id\":" + "\"" + v[5] + "\""
+            json_tmp += "}"
+    if 0 < len(json_tmp):
+        json_tmp += "]"
+        json_str += "\n" + json_tmp
+
+    json_str = '{\n' + json_str + '\n}'
 
     json_object = json.loads(json_str)
 
     json_formatted_str = json.dumps(json_object, indent=2)
 
+    print()
+    print(json_formatted_str)
+    print()
+
     return json_formatted_str
+
+
+
+
 
 # Code that runs in a thread.
 def threaded(client_socket, addr):
@@ -529,7 +596,7 @@ def threaded(client_socket, addr):
                     json_str = select_sa_policy(key, subkey)
                 elif agent_type.startswith('ra_policy'):
                     print('ra_policy, key=' + key)
-                    json_str = select_ra_policy(key)
+                    json_str = get_ra_policy(key)
                 elif agent_type.startswith('key_material'):
                     json_str = select_key_material(key)
                 else:
