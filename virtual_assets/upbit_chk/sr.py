@@ -18,7 +18,10 @@ font_path = "C:/Windows/Fonts/NGULIM.TTF"
 font = font_manager.FontProperties(fname=font_path).get_name()
 rc('font', family=font)
 
+current_price = 0
+
 def save_ticker(v, cnt=60, interval='day'):
+    global current_price
     to_time = datetime.datetime.now()
 
     if v.upper().startswith('KRW-'):
@@ -28,6 +31,8 @@ def save_ticker(v, cnt=60, interval='day'):
 
     tickers = df.values.tolist()
     indexs = df.index.tolist()
+
+    current_price = tickers[-1][3]
 
     f = open('data/' + v + '.mst', 'w')
     print('<TICKER>,<DTYYYYMMDD>,<OPEN>,<HIGH>,<LOW>,<CLOSE>,<VOL>', file=f)
@@ -76,6 +81,7 @@ def main(argv):
     import pandas as pd
     import numpy as np
     from sklearn import cluster
+    global current_price
 
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('--symbol', required=False, default='BTC', help='심볼 (default:BTC)')
@@ -133,6 +139,7 @@ def main(argv):
     print()
     for ele in sr_val_list:
         print(f'{ele[0]:.2f}')
+    print(f'cur: {current_price:.2f}')
     print()
 
     os.remove("data/" + symbol + ".mst")

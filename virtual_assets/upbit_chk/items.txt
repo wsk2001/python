@@ -50,22 +50,30 @@
 # https://cryptoquant.com/ko/asset/btc/summary#overview
 
 
-# -- sub query
-# SELECT A.symbol from (
-#     select symbol, count(*) as cnt from day_candle
-#     where date >= '2022-01-01'
-#     group by symbol
-#     HAVING cnt = 460
-# ) A
-
-
+# select A.symbol, B.cnt FROM 
+# ( 
+#        ( 
+# 			select symbol from day_candle
+# 			where 0 < earn and date = (SELECT date('now','localtime','-1 days') as Yesterday)
+#         ) A, 
+#         ( 
+# 			select symbol, count(*) as cnt from day_candle
+# 			where earn < 0 and (SELECT date('now','localtime','-4 days') as CheckDay) <= date
+# 			group by symbol
+# 			having 2 <= cnt
+#         ) B 
+# ) 
+# WHERE A.symbol = B.symbol
+# ORDER BY B.cnt desc
 
 ############################################################
-CASH 0		# 954,024
+CASH 0		# 954,024 -> 940,546
 
-MASK   7035 131.51684434
+MATIC 1535 501.33434911
 ############################################################
 
 # https://play-in-stock.tistory.com/
 
 
+# MASK (4168.57, 5146.67, 7192.31, 7838.18, 8621.25)
+# CRE (3.74, 4.64, 6.09, 6.68, 8.23)
