@@ -2,14 +2,14 @@
 select * from client 
 where 1=1
 and client_name = '192.168.60.190'
-/**/
+/**/
 -- id: c2e1291c-2518-4245-9c11-6aac4be267c9
 
 /**
 select * from agent_policy 
 where client_id = 'c2e1291c-2518-4245-9c11-6aac4be267c9'
 and policy_type = 'C'
-/**/
+/**/
 -- enc_id: d9546ee9-f8da-40ff-bbed-9911bf2ec80c 
 
 /**
@@ -27,7 +27,12 @@ select * from access_control
 where tp_id in ( 'f6c17db2-06a0-43fc-ac93-2b18daf61ca7', '6a9a1bc6-cda9-46b5-8bfd-83a9ef259a03')
 /**/
 
-/**/
+/**
 select * from permission
 where p_id in ( 'f6c17db2-06a0-43fc-ac93-2b18daf61ca7', '6a9a1bc6-cda9-46b5-8bfd-83a9ef259a03')
-/**/</sql><current_tab id="0"/></tab_sql></sqlb_project>
+/**/
+
+/**
+select * from permission
+/**/
+</sql><current_tab id="0"/></tab_sql></sqlb_project>

@@ -15,19 +15,16 @@ def parse_json(json_str: str):
 
     policy_type = None
     key_val = None
-    subkey_val = None
 
     for key, val in json_dict.items():
         if "policytype" == str(key).lower():
             policy_type = val
         elif "key" == str(key).lower():
             key_val = val
-        elif "subkey" == str(key).lower():
-            subkey_val = val
         else:
             continue
 
-    return policy_type, key_val, subkey_val
+    return policy_type, key_val
 
 
 # data 요청 format
@@ -89,17 +86,19 @@ def select_api_policy(ip: str):
 
 
 def select_la_policy(ip: str = None, policy: str = None):
-    if ip is None or policy is None:
+    if ip is None:
         return None
 
-    if ip is not None and policy is not None:
+    if policy is not None:
+        if len(policy) <= 0:
+            policy = None
+
+    if policy is not None:
         query = \
             "select * from la_policy where ip = \'" + ip + "\' and policy = \'" + policy + "\';"
-    elif ip is not None and policy is None:
+    else:
         query = \
             "select * from la_policy where ip = \'" + ip + "\';"
-    else:
-        return None
 
     print('query: ' + query)
 
@@ -146,20 +145,25 @@ def select_la_policy(ip: str = None, policy: str = None):
     return json_formatted_str
 
 
-def select_sa_policy(ip: str = None, policy: str = None):
+def select_sa_policy(ip, policy=None):
     query = None
 
     if ip is None:
         return None
 
-    if ip is not None and policy is None:
-        query = \
-            "select * from sa_policy where ip = \'" + ip + "\';"
-    elif ip is not None and policy is not None:
+    if policy is not None:
+        if len(policy) <= 0:
+            policy = None
+
+    if policy is not None:
+        print('ip: ' + ip + ', policy: [' + policy + ']')
         query = \
             "select * from sa_policy where ip = \'" + ip + "\' and policy = \'" + policy + "\';"
     else:
-        return None
+        query = \
+            "select * from sa_policy where ip = \'" + ip + "\';"
+
+    print("query: " + query)
 
     conn = sqlite3.connect(database_name)
     df = pd.read_sql_query(query, conn)
@@ -229,7 +233,6 @@ def select_sa_policy(ip: str = None, policy: str = None):
 
     return json_formatted_str
     # return json_str
-
 
 
 def select_key_material(key_id: str):
@@ -463,10 +466,10 @@ def get_ra_policy(ip):
         tp_id_list.append(v[0])
         json_tmp += "\"id\":" + "\"" + v[0] + "\""
         json_tmp += ",\"tp_path\":" + "\"" + v[1] + "\""
-        json_tmp += ",\"tp_mode\":" + "\"" + (v[2] if v[2] is not  None else '') + "\""
-        json_tmp += ",\"exclude_exts\":" + "\"" + (v[3] if v[3] is not  None else '') + "\""
-        json_tmp += ",\"tp_uid\":" + "\"" + (str(int(v[4])) if v[4] is not  None else '') + "\""
-        json_tmp += ",\"tp_gid\":" + "\"" + (str(int(v[5])) if v[5] is not  None else '') + "\""
+        json_tmp += ",\"tp_mode\":" + "\"" + (v[2] if v[2] is not None else '') + "\""
+        json_tmp += ",\"exclude_exts\":" + "\"" + (v[3] if v[3] is not None else '') + "\""
+        json_tmp += ",\"tp_uid\":" + "\"" + (str(int(v[4])) if v[4] is not None else '') + "\""
+        json_tmp += ",\"tp_gid\":" + "\"" + (str(int(v[5])) if v[5] is not None else '') + "\""
         json_tmp += ",\"ap_id\":" + "\"" + v[6] + "\""
         json_tmp += "}"
 
@@ -487,6 +490,8 @@ def get_ra_policy(ip):
         df = select_access_control(tp_id_str)
         vlist = df.values.tolist()
         fst_flag = True
+        acl_id_list = []
+        acl_id_list.clear()
         for v in vlist:
             if fst_flag is True:
                 json_tmp = ",\"access_control\": [\n"
@@ -494,18 +499,19 @@ def get_ra_policy(ip):
                 fst_flag = False
             else:
                 json_tmp += ",{"
+            acl_id_list.append(v[0])
             json_tmp += "\"id\":" + "\"" + v[0] + "\""
-            json_tmp += ",\"access_ip\":" + "\"" + (v[1] if v[1] is not  None else '') + "\""
-            json_tmp += ",\"access_sip\":" + "\"" + (v[2] if v[2] is not  None else '') + "\""
-            json_tmp += ",\"access_eip\":" + "\"" + (v[3] if v[3] is not  None else '') + "\""
-            json_tmp += ",\"access_uid\":" + "\"" + (str(int(v[4])) if v[4] is not  None else '') + "\""
-            json_tmp += ",\"access_gid\":" + "\"" + (str(int(v[5])) if v[5] is not  None else '') + "\""
-            json_tmp += ",\"access_account\":" + "\"" + (v[6] if v[6] is not  None else '') + "\""
-            json_tmp += ",\"access_passwd\":" + "\"" + (v[7] if v[7] is not  None else '') + "\""
-            json_tmp += ",\"access_process\":" + "\"" + (v[8] if v[8] is not  None else '') + "\""
+            json_tmp += ",\"access_ip\":" + "\"" + (v[1] if v[1] is not None else '') + "\""
+            json_tmp += ",\"access_sip\":" + "\"" + (v[2] if v[2] is not None else '') + "\""
+            json_tmp += ",\"access_eip\":" + "\"" + (v[3] if v[3] is not None else '') + "\""
+            json_tmp += ",\"access_uid\":" + "\"" + (str(int(v[4])) if v[4] is not None else '') + "\""
+            json_tmp += ",\"access_gid\":" + "\"" + (str(int(v[5])) if v[5] is not None else '') + "\""
+            json_tmp += ",\"access_account\":" + "\"" + (v[6] if v[6] is not None else '') + "\""
+            json_tmp += ",\"access_passwd\":" + "\"" + (v[7] if v[7] is not None else '') + "\""
+            json_tmp += ",\"access_process\":" + "\"" + (v[8] if v[8] is not None else '') + "\""
             json_tmp += ",\"tp_id\":" + "\"" + v[9] + "\""
-            json_tmp += ",\"access_mac\":" + "\"" + (v[9] if v[9] is not  None else '') + "\""
-            json_tmp += ",\"access_type\":" + "\"" + (v[10] if v[10] is not  None else '') + "\""
+            json_tmp += ",\"access_mac\":" + "\"" + (v[10] if v[10] is not None else '') + "\""
+            json_tmp += ",\"access_type\":" + "\"" + (v[11] if v[11] is not None else '') + "\""
             json_tmp += "}"
 
     if 0 < len(json_tmp):
@@ -527,16 +533,47 @@ def get_ra_policy(ip):
         fst_flag = True
         for v in vlist:
             if fst_flag is True:
-                json_tmp = ",\"permission\": [\n"
+                json_tmp = ",\"common_permission\": [\n"
                 json_tmp += "{"
                 fst_flag = False
             else:
                 json_tmp += ",{"
             json_tmp += "\"id\":" + "\"" + v[0] + "\""
-            json_tmp += ",\"read_chk\":" + "\"" + (v[1] if v[1] is not  None else '') + "\""
-            json_tmp += ",\"write_chk\":" + "\"" + (v[2] if v[2] is not  None else '') + "\""
-            json_tmp += ",\"excute_chk\":" + "\"" + (v[3] if v[3] is not  None else '') + "\""
-            json_tmp += ",\"perm_type\":" + "\"" + (v[4] if v[4] is not  None else '') + "\""
+            json_tmp += ",\"read_chk\":" + "\"" + (v[1] if v[1] is not None else '') + "\""
+            json_tmp += ",\"write_chk\":" + "\"" + (v[2] if v[2] is not None else '') + "\""
+            json_tmp += ",\"excute_chk\":" + "\"" + (v[3] if v[3] is not None else '') + "\""
+            json_tmp += ",\"perm_type\":" + "\"" + (v[4] if v[4] is not None else '') + "\""
+            json_tmp += ",\"p_id\":" + "\"" + v[5] + "\""
+            json_tmp += "}"
+    if 0 < len(json_tmp):
+        json_tmp += "]"
+        json_str += "\n" + json_tmp
+
+    if 0 < len(acl_id_list):
+        acl_id_str = ''
+        fst_flag = True
+        for acl_id in acl_id_list:
+            if fst_flag is True:
+                acl_id_str = "\"" + acl_id + "\""
+                fst_flag = False
+            else:
+                acl_id_str += ",\"" + acl_id + "\""
+
+        df = select_permission(acl_id_str)
+        vlist = df.values.tolist()
+        fst_flag = True
+        for v in vlist:
+            if fst_flag is True:
+                json_tmp = ",\"acl_permission\": [\n"
+                json_tmp += "{"
+                fst_flag = False
+            else:
+                json_tmp += ",{"
+            json_tmp += "\"id\":" + "\"" + v[0] + "\""
+            json_tmp += ",\"read_chk\":" + "\"" + (v[1] if v[1] is not None else '') + "\""
+            json_tmp += ",\"write_chk\":" + "\"" + (v[2] if v[2] is not None else '') + "\""
+            json_tmp += ",\"excute_chk\":" + "\"" + (v[3] if v[3] is not None else '') + "\""
+            json_tmp += ",\"perm_type\":" + "\"" + (v[4] if v[4] is not None else '') + "\""
             json_tmp += ",\"p_id\":" + "\"" + v[5] + "\""
             json_tmp += "}"
     if 0 < len(json_tmp):
@@ -556,12 +593,11 @@ def get_ra_policy(ip):
     return json_formatted_str
 
 
-
-
-
 # Code that runs in a thread.
 def threaded(client_socket, addr):
-    print('Connected by :', addr[0], ':', addr[1])
+    client_ipaddr = addr[0]
+    client_port = addr[1]
+    print('Connected by :', client_ipaddr, ':', client_port)
 
     # Repeat until the client disconnects.
     while True:
@@ -571,12 +607,12 @@ def threaded(client_socket, addr):
             data = client_socket.recv(1024)
 
             if not data:
-                print('Disconnected by ' + addr[0], ':', addr[1])
+                print('Disconnected by ' + client_ipaddr, ':', client_port)
                 break
 
             else:
                 rcv_data = data.decode()
-                agent_type, key, subkey = parse_json(rcv_data)
+                agent_type, key = parse_json(rcv_data)
 
                 print('receive data: ' + rcv_data)
                 print('******************************************')
@@ -584,21 +620,18 @@ def threaded(client_socket, addr):
                     print('agent_type: ' + agent_type)
                 if key:
                     print('key       : ' + key)
-                if subkey:
-                    print('subkey    : ' + subkey)
                 print('******************************************')
 
                 if agent_type.startswith('api_policy'):
-                    json_str = select_api_policy(key)
+                    json_str = select_api_policy(client_ipaddr)
                 elif agent_type.startswith('la_policy'):
-                    json_str = select_la_policy(key, subkey)
+                    json_str = select_la_policy(client_ipaddr, key)
                 elif agent_type.startswith('sa_policy'):
-                    json_str = select_sa_policy(key, subkey)
+                    json_str = select_sa_policy(client_ipaddr, key)
                 elif agent_type.startswith('ra_policy'):
-                    print('ra_policy, key=' + key)
-                    json_str = get_ra_policy(key)
+                    json_str = get_ra_policy(client_ipaddr)
                 elif agent_type.startswith('key_material'):
-                    json_str = select_key_material(key)
+                    json_str = select_key_material(client_ipaddr)
                 else:
                     print('Unknown policy type')
                     break
@@ -612,7 +645,7 @@ def threaded(client_socket, addr):
                     break
 
         except ConnectionResetError as e:
-            print('Disconnected by ' + addr[0], ':', addr[1])
+            print('Disconnected by ' + client_ipaddr, ':', client_port)
             break
 
     client_socket.close()
@@ -648,42 +681,6 @@ def main(argv):
 if __name__ == "__main__":
     main(sys.argv)
 
-
 '''
-[RA 관련 Table]
-
--- access_control   : 
-
-## client			: ip 를 이용해 client_id 구함.
--- id: c2e1291c-2518-4245-9c11-6aac4be267c9
-select * from client 
-where 1=1
-and client_name = '192.168.60.190'
-
-
-## agent_policy		: client_id 를 이용해 RA 설정 정보 및 암호화 정책 id(enc_id -> enc_policy id) 구함
--- id: 96261197-cc23-4ae7-9bcc-5d35cb3909cf, 
--- client_id: c2e1291c-2518-4245-9c11-6aac4be267c9
--- enc_id: d9546ee9-f8da-40ff-bbed-9911bf2ec80c
-select * from agent_policy 
-where client_id = 'c2e1291c-2518-4245-9c11-6aac4be267c9'
-and policy_type = 'C'
-
-## enc_policy		: 암호화 정책 조회 (enc_id 사용)
-select * from enc_policy 
-where id = 'd9546ee9-f8da-40ff-bbed-9911bf2ec80c'
-
-## target_path		: agent_policy id 를 이용해 등록된 경로별 전역 설정 정보 조회 (target_path id => tp_id 포함)
--- id: f6c17db2-06a0-43fc-ac93-2b18daf61ca7, 6a9a1bc6-cda9-46b5-8bfd-83a9ef259a03
-select * from target_path 
-where ap_id = '96261197-cc23-4ae7-9bcc-5d35cb3909cf'
-
-## access_control : tp_id 를 이용해 상세 접근제어 목록 조회
-select * from access_control
-where tp_id in ( 'f6c17db2-06a0-43fc-ac93-2b18daf61ca7', '6a9a1bc6-cda9-46b5-8bfd-83a9ef259a03')
-
-
-## permission : 퍼미션 조회
-select * from permission
-where p_id in ( 'f6c17db2-06a0-43fc-ac93-2b18daf61ca7', '6a9a1bc6-cda9-46b5-8bfd-83a9ef259a03')
+실행 방법: py XFileServer
 '''
