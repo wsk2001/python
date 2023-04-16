@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="D:/GitHub/python/XFileServerPy/dbms/xfc_policy.db" readonly="0" foreign_keys="" case_sensitive_like="" temp_store="" wal_autocheckpoint="" synchronous=""/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="4977"/><column_width id="4" width="0"/></tab_structure><tab_browse><current_table name="0,0:"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">/*
+<?xml version="1.0" encoding="UTF-8"?><sqlb_project><db path="C:/GitHub/python/virtual_assets/upbit_chk/dbms/virtual_asset.db" readonly="0" foreign_keys="1" case_sensitive_like="0" temp_store="0" wal_autocheckpoint="1000" synchronous="2"/><attached/><window><main_tabs open="structure browser pragmas query" current="3"/></window><tab_structure><column_width id="0" width="300"/><column_width id="1" width="0"/><column_width id="2" width="125"/><column_width id="3" width="3479"/><column_width id="4" width="0"/><expanded_item id="0" parent="1"/><expanded_item id="1" parent="1"/><expanded_item id="2" parent="1"/><expanded_item id="3" parent="1"/></tab_structure><tab_browse><current_table name="4,12:mainbond_strenth"/><default_encoding codec=""/><browse_table_settings/></tab_browse><tab_sql><sql name="SQL 1">/*
 select sum(S.open) as open, sum(E.close) as close, round((((close / open) -1) * 100),2) as YTD FROM
 (
         (
@@ -23,21 +23,21 @@ SELECT A.symbol from (
 ) A
 */
 
--- VACUUM;
-select A.symbol, B.cnt FROM 
-( 
-       ( 
-			select symbol from day_candle
-			where 0 &lt; earn and date = (SELECT date('now','localtime','-1 days') as Yesterday)
-        ) A, 
-        ( 
-			select symbol, count(*) as cnt from day_candle
-			where earn &lt; 0 and (SELECT date('now','localtime','-4 days') as CheckDay) &lt;= date
-			group by symbol
-			having 3 &lt;= cnt
-        ) B 
-) 
-WHERE A.symbol = B.symbol
+-- VACUUM;
+select A.symbol, B.cnt FROM 
+( 
+       ( 
+			select symbol from day_candle
+			where 0 &lt; earn and date = (SELECT date('now','localtime','-1 days') as Yesterday)
+        ) A, 
+        ( 
+			select symbol, count(*) as cnt from day_candle
+			where earn &lt; 0 and (SELECT date('now','localtime','-4 days') as CheckDay) &lt;= date
+			group by symbol
+			having 3 &lt;= cnt
+        ) B 
+) 
+WHERE A.symbol = B.symbol
 ORDER BY B.cnt desc
 
 
@@ -122,7 +122,7 @@ order by F.theme, A.symbol
 </sql><sql name="SQL 4">-- select * from day_candle
 -- where symbol = 'STX'
 
--- rate of change
+-- rate of change
 /**
 select symbol, round(avg((high-low)/close*100),2) as roc from day_candle
 where symbol != 'NU' 
@@ -130,31 +130,31 @@ and date &gt;= '2023-04-01'
 group by symbol
 order by roc desc
 limit 40
-/**/
-
-/**
-select symbol
-from day_candle
-where 0 &lt; earn
-and date = '2023-04-12'
-/**/
-
-
-select A.symbol, B.cnt FROM 
-( 
-       ( 
-			select symbol from day_candle
-			where 0 &lt; earn and date = (SELECT date('now','localtime','-1 days') as Yesterday)
-        ) A, 
-        ( 
-			select symbol, count(*) as cnt from day_candle
-			where earn &lt; 0 and (SELECT date('now','localtime','-4 days') as CheckDay) &lt;= date
-			group by symbol
-			having 2 &lt;= cnt
-        ) B 
-) 
-WHERE A.symbol = B.symbol
-ORDER BY B.cnt desc
+/**/
+
+/**
+select symbol
+from day_candle
+where 0 &lt; earn
+and date = '2023-04-12'
+/**/
+
+
+select A.symbol, B.cnt FROM 
+( 
+       ( 
+			select symbol from day_candle
+			where 0 &lt; earn and date = (SELECT date('now','localtime','-1 days') as Yesterday)
+        ) A, 
+        ( 
+			select symbol, count(*) as cnt from day_candle
+			where earn &lt; 0 and (SELECT date('now','localtime','-4 days') as CheckDay) &lt;= date
+			group by symbol
+			having 2 &lt;= cnt
+        ) B 
+) 
+WHERE A.symbol = B.symbol
+ORDER BY B.cnt desc
 </sql><sql name="SQL 5">/*
 select date, strftime('%w', date) from day_candle
 where 1 = 1
@@ -168,12 +168,30 @@ select date, substr(date, 9, 2), strftime('%w', date) from day_candle
 where 1 = 1
 and symbol='BTC'
 and earn &gt; 4.0
-*/
+*/
+
+select * FROM
+(
+select symbol, count(*) from day_candle
+where date = '2023-02-05' and 0 &lt; earn
+) D,
+(
+select A.symbol from
+(
+select symbol from day_candle
+where date = '2023-02-04' and 0 &lt; earn
+) A,
+(
+select symbol, count(*) as cnt from day_candle
+where '2023-02-01' &lt;= date and date &lt;= '2023-02-03' and 0 &lt; earn
+group by symbol
+having 3 = cnt
+) B
+where A.symbol = B.symbol
+) C
+where D.symbol = C.symbol
+
 
-select symbol, count(*) as cnt from day_candle
-where date &gt;= '2023-04-11'
-and earn &gt; 0.0
-group by symbol
-order by cnt desc
 
-</sql><current_tab id="3"/></tab_sql></sqlb_project>
+
+</sql><current_tab id="4"/></tab_sql></sqlb_project>
