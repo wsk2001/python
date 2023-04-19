@@ -64,7 +64,7 @@ def analyze(ticker, cnt, interval='day', to=None):
         rc = get_earning(values[open_p], values[close_p])
         rh = get_earning(values[open_p], values[high_p])
         rl = get_earning(values[open_p], values[low_p])
-        vr = rh - rl
+        # vr = rh - rl
         if interval.startswith('day'):
 
             chk_date = datetime.strptime(str(indexs)[:10], "%Y-%m-%d")
@@ -72,7 +72,7 @@ def analyze(ticker, cnt, interval='day', to=None):
             week_day = (what_day_is_it(chk_date))
             print(str(indexs)[:10], week_day, ',', f'{values[open_p]:.3f}, {values[high_p]:.3f},',
                   f'{values[low_p]:.3f}, {values[close_p]:.3f}, {values[vol_p]:.3f}, {rh:.3f}%', ',',
-                  f'{rl:.3f}%, {rc:.3f}%, ( {vr:.3f}% )')
+                  f'{rl:.3f}%, {rc:.3f}%')
             if hv.o == 0.0:
                 start_date = str(indexs)[:10]
                 hv.day = str(indexs)[:10]

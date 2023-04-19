@@ -105,4 +105,4 @@ def main(argv):
 if __name__ == "__main__":
     main(sys.argv)
 
-# py view_graph.py --count=1440 --interval=minute1 --symbol=bora --enddate=2022-09-19 --endtime=15:44:00
+# py vg.py --count=1440 --interval=minute1 --symbol=bora --enddate=2022-09-19 --endtime=15:44:00
