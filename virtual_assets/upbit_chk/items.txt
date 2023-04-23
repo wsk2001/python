@@ -70,10 +70,18 @@
 CASH 0		# 811,002 + 500,000 = 1,311,002 
 # => 1,303,601 => 1,212,536
 
-ATOM 15375 38.85258955
-MASK 6507 94.66643500
+MASK 6140 41.23208469
+STX   951 265.94273840
+HIFI  647 260.90378670
 
 ############################################################
 
 # https://play-in-stock.tistory.com/
+# 192.168.1.103
+# 내 아이피 주소(IP Address): 175.195.214.66
+# Access key: HqYyB1E6hAG8wqBeiquWdKdE8MBB5jzkGFesjvV2
+# Secret key: 8U4AycjBcCuvSlY6kVRcwS39bpsyIDAjvD4O01nl
+
+
+
 
