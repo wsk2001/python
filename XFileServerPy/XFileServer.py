@@ -390,7 +390,8 @@ def get_ra_policy(ip):
     for v in vlist:
         key_id = v[0]
         json_tmp = "\"client\": {"
-        json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        # json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        json_tmp += "\"client_id\":" + "\"" + v[0] + "\""
         json_tmp += ",\"client_name\":" + "\"" + v[1] + "\""  # endpoint id
         json_tmp += ",\"mac_addr\":" + "\"" + v[2] + "\""
         json_tmp += ",\"description\":" + "\"" + v[3] + "\""
@@ -409,16 +410,20 @@ def get_ra_policy(ip):
     ap_id = ''
     for v in vlist:
         json_tmp = ",\"agent_policy\": {"
-        json_tmp += "\"id\":" + "\"" + v[0] + "\""
-        json_tmp += ",\"policy_type\":" + "\"" + v[1] + "\""
+        # json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        json_tmp += "\"ag_id\":" + "\"" + v[0] + "\""
+        # json_tmp += ",\"policy_type\":" + "\"" + v[1] + "\""
+        json_tmp += ",\"agent_type\":" + "\"" + v[1] + "\""
         json_tmp += ",\"protocol\":" + "\"" + v[2] + "\""
         json_tmp += ",\"sync_period\":" + "\"" + str(int(v[3])) + "\""
         json_tmp += ",\"log_period\":" + "\"" + str(int(v[4])) + "\""
         json_tmp += ",\"creator\":" + "\"" + v[5] + "\""
         json_tmp += ",\"create_date\":" + "\"" + str(int(v[6])) + "\""
         json_tmp += ",\"modified_date\":" + "\"" + str(int(v[7])) + "\""
-        json_tmp += ",\"client_id\":" + "\"" + v[8] + "\""
-        json_tmp += ",\"enc_id\":" + "\"" + v[9] + "\""
+        # json_tmp += ",\"client_id\":" + "\"" + v[8] + "\""
+        json_tmp += ",\"p_clientid\":" + "\"" + v[8] + "\""
+        # json_tmp += ",\"enc_id\":" + "\"" + v[9] + "\""
+        json_tmp += ",\"p_encid\":" + "\"" + v[9] + "\""
         json_tmp += ",\"policy_status\":" + "\"" + v[10] + "\""
         json_tmp += ",\"description\":" + "\"" + v[11] + "\""
         json_tmp += "}"
@@ -432,7 +437,8 @@ def get_ra_policy(ip):
     vlist = df.values.tolist()
     for v in vlist:
         json_tmp = ",\"enc_policy\": {"
-        json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        # json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        json_tmp += "\"enc_id\":" + "\"" + v[0] + "\""
         json_tmp += ",\"policy_name\":" + "\"" + v[1] + "\""
         json_tmp += ",\"policy_type\":" + "\"" + v[2] + "\""
         json_tmp += ",\"description\":" + "\"" + v[3] + "\""
@@ -464,13 +470,15 @@ def get_ra_policy(ip):
             json_tmp += ",{"
 
         tp_id_list.append(v[0])
-        json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        # json_tmp += "\"id\":" + "\"" + v[0] + "\""
+        json_tmp += "\"tp_id\":" + "\"" + v[0] + "\""
         json_tmp += ",\"tp_path\":" + "\"" + v[1] + "\""
         json_tmp += ",\"tp_mode\":" + "\"" + (v[2] if v[2] is not None else '') + "\""
         json_tmp += ",\"exclude_exts\":" + "\"" + (v[3] if v[3] is not None else '') + "\""
         json_tmp += ",\"tp_uid\":" + "\"" + (str(int(v[4])) if v[4] is not None else '') + "\""
         json_tmp += ",\"tp_gid\":" + "\"" + (str(int(v[5])) if v[5] is not None else '') + "\""
-        json_tmp += ",\"ap_id\":" + "\"" + v[6] + "\""
+        # json_tmp += ",\"ap_id\":" + "\"" + v[6] + "\""
+        json_tmp += ",\"p_ag_id\":" + "\"" + v[6] + "\""
         json_tmp += "}"
 
     if 0 < len(json_tmp):
@@ -500,7 +508,8 @@ def get_ra_policy(ip):
             else:
                 json_tmp += ",{"
             acl_id_list.append(v[0])
-            json_tmp += "\"id\":" + "\"" + v[0] + "\""
+            # json_tmp += "\"id\":" + "\"" + v[0] + "\""
+            json_tmp += "\"ac_id\":" + "\"" + v[0] + "\""
             json_tmp += ",\"access_ip\":" + "\"" + (v[1] if v[1] is not None else '') + "\""
             json_tmp += ",\"access_sip\":" + "\"" + (v[2] if v[2] is not None else '') + "\""
             json_tmp += ",\"access_eip\":" + "\"" + (v[3] if v[3] is not None else '') + "\""
@@ -509,7 +518,8 @@ def get_ra_policy(ip):
             json_tmp += ",\"access_account\":" + "\"" + (v[6] if v[6] is not None else '') + "\""
             json_tmp += ",\"access_passwd\":" + "\"" + (v[7] if v[7] is not None else '') + "\""
             json_tmp += ",\"access_process\":" + "\"" + (v[8] if v[8] is not None else '') + "\""
-            json_tmp += ",\"tp_id\":" + "\"" + v[9] + "\""
+            # json_tmp += ",\"tp_id\":" + "\"" + v[9] + "\""
+            json_tmp += ",\"p_tpid\":" + "\"" + v[9] + "\""
             json_tmp += ",\"access_mac\":" + "\"" + (v[10] if v[10] is not None else '') + "\""
             json_tmp += ",\"access_type\":" + "\"" + (v[11] if v[11] is not None else '') + "\""
             json_tmp += "}"
@@ -538,12 +548,14 @@ def get_ra_policy(ip):
                 fst_flag = False
             else:
                 json_tmp += ",{"
-            json_tmp += "\"id\":" + "\"" + v[0] + "\""
+            # json_tmp += "\"id\":" + "\"" + v[0] + "\""
+            json_tmp += "\"cp_id\":" + "\"" + v[0] + "\""
             json_tmp += ",\"read_chk\":" + "\"" + (v[1] if v[1] is not None else '') + "\""
             json_tmp += ",\"write_chk\":" + "\"" + (v[2] if v[2] is not None else '') + "\""
             json_tmp += ",\"excute_chk\":" + "\"" + (v[3] if v[3] is not None else '') + "\""
             json_tmp += ",\"perm_type\":" + "\"" + (v[4] if v[4] is not None else '') + "\""
-            json_tmp += ",\"p_id\":" + "\"" + v[5] + "\""
+            # json_tmp += ",\"p_id\":" + "\"" + v[5] + "\""
+            json_tmp += ",\"p_tpid\":" + "\"" + v[5] + "\""
             json_tmp += "}"
     if 0 < len(json_tmp):
         json_tmp += "]"
@@ -569,12 +581,14 @@ def get_ra_policy(ip):
                 fst_flag = False
             else:
                 json_tmp += ",{"
-            json_tmp += "\"id\":" + "\"" + v[0] + "\""
+            # json_tmp += "\"id\":" + "\"" + v[0] + "\""
+            json_tmp += "\"ap_id\":" + "\"" + v[0] + "\""
             json_tmp += ",\"read_chk\":" + "\"" + (v[1] if v[1] is not None else '') + "\""
             json_tmp += ",\"write_chk\":" + "\"" + (v[2] if v[2] is not None else '') + "\""
             json_tmp += ",\"excute_chk\":" + "\"" + (v[3] if v[3] is not None else '') + "\""
             json_tmp += ",\"perm_type\":" + "\"" + (v[4] if v[4] is not None else '') + "\""
-            json_tmp += ",\"p_id\":" + "\"" + v[5] + "\""
+            # json_tmp += ",\"p_id\":" + "\"" + v[5] + "\""
+            json_tmp += ",\"p_acid\":" + "\"" + v[5] + "\""
             json_tmp += "}"
     if 0 < len(json_tmp):
         json_tmp += "]"

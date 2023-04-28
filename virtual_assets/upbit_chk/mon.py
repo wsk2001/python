@@ -189,8 +189,6 @@ def main(argv):
         if not strings[0].startswith('BTC-'):
             strings[0] = 'KRW-' + strings[0]
 
-        # low_limit = float(strings[3])
-        # upper_limit = float(strings[4])
         low_limit = -10000.0
         upper_limit = 10000.0
 
@@ -199,11 +197,7 @@ def main(argv):
     file.close()
 
     binance = ccxt.binance()
-    parameters = {
-        'start': '1',
-        'limit': '1',
-        'convert': 'USD'
-    }
+
     while True:
         amt = 0.0
         mgn = 0.0
@@ -232,15 +226,11 @@ def main(argv):
         eth_price = eth_ohlcv[-1][4]
         btc_rate = ((btc_ohlcv[-1][4] / btc_ohlcv[-1][1]) - 1.0) * 100.0
         etc_rate = ((eth_ohlcv[-1][4] / eth_ohlcv[-1][1]) - 1.0) * 100.0
-        #last_dt = unixtime_to_str(eth_ohlcv[-1][0]/1000)
 
         print(f'fng: {fng}, earn: {mgn:.0f}, {pcnt:.2f}%,',
             f'BTC: ${btc_price:.2f} (${btc_rate:.2f}%),',
             f'ETH: ${eth_price:.5f} ({etc_rate:.2f}%)',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
-
-        #print(last_dt)
-        # print(btc_ohlcv)
 
         if 0 < item_count:
             print()

@@ -23,7 +23,7 @@ SELECT A.symbol from (
 ) A
 */
 
--- VACUUM;
+-- VACUUM;
 /**
 select A.symbol, B.cnt FROM 
 ( 
@@ -40,7 +40,7 @@ select A.symbol, B.cnt FROM
 ) 
 WHERE A.symbol = B.symbol
 ORDER BY B.cnt desc
-/**/
+/**/
 
 /**
 select date, strftime('%w', date) from day_candle
@@ -56,7 +56,7 @@ where 1 = 1
 and symbol='BTC'
 and earn &gt; 4.0
 */
-
+
 /**
 select * FROM
 (
@@ -77,7 +77,7 @@ having 3 = cnt
 ) B
 where A.symbol = B.symbol
 ) C
-where D.symbol = C.symbol
+where D.symbol = C.symbol
 /**/
 
 -- select * from day_candle
@@ -116,7 +116,7 @@ select A.symbol, B.cnt FROM
 ) 
 WHERE A.symbol = B.symbol
 ORDER BY B.cnt desc
-/**/
+/**/
 
 /*
 select symbol as '심볼', 
@@ -136,7 +136,7 @@ select symbol as '심볼',
 where dt &gt; '2022-08-31'
 group by symbol, wd
 */
-
+
 /**
 SELECT  F.theme,  A.symbol, A.open as O, D.high as H, C.low as L, B.close as C, round((((B.close / A.open) -1) * 100),2) as E  FROM
 (
@@ -170,7 +170,7 @@ AND A.symbol = C.symbol
 AND A.symbol = D.symbol
 AND A.symbol = F.symbol
 order by F.theme, A.symbol
-/**/
+/**/
 
 /**
 select round(sum(S.open),2) as open, round(sum(E.close),2) as close, round((((close / open) -1) * 100),2) as YTD FROM 
@@ -219,8 +219,8 @@ and   B.hearn = A.mx
 order by B.date
 /**/
 
-/** 
---상승률(종가) 최고 종목 
+/** 
+--상승률(종가) 최고 종목 
 select B.date, B.symbol, B.earn from
 (
 	(
@@ -237,22 +237,27 @@ and   B.earn = A.mx
 order by B.date
 /**/
 
-select A.*, B.earn from 
-(
-	(
-		select symbol, sum(earn) earn, count(*) as cnt from day_candle
-		where date &gt;= '2023-04-22'
-		and earn &gt; 0
-		group by symbol
+/**
+select A.*, B.earn from 
+(
+	(
+		select symbol, sum(earn) earn, count(*) as cnt from day_candle
+		where date &gt;= '2023-04-22'
+		and earn &gt; 0
+		group by symbol
 		having 2 &lt;= cnt
-	) A,
-	(
-		select symbol, earn from day_candle
-		where date = '2023-04-24'
-		and earn &gt; 0
-	) B
-)
-where A.symbol = B.symbol
+	) A,
+	(
+		select symbol, earn from day_candle
+		where date = '2023-04-24'
+		and earn &gt; 0
+	) B
+)
+where A.symbol = B.symbol
 order by A.earn
+/**/
 
-</sql><current_tab id="0"/></tab_sql></sqlb_project>
+select * from day_candle
+where date &gt;= '2023-04-20'
+and symbol in ('CRE','UPP')
+order by symbol, date</sql><current_tab id="0"/></tab_sql></sqlb_project>

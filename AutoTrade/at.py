@@ -162,7 +162,7 @@ def main(argv):
 
         best_k_run = 1  # k값 구하기 동작 여부
         buy_price = 0  # 매수 총가
-        list_tickers = ['KRW-DOGE','KRW-MASK','KRW-AHT']
+        list_tickers = ['KRW-UPP', 'KRW-CRE']
         while 1:
             try:
                 for symbol in list_tickers:
