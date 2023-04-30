@@ -634,6 +634,8 @@ def threaded(client_socket, addr):
                     print('agent_type: ' + agent_type)
                 if key:
                     print('key       : ' + key)
+                # test key 를 무조건 배포
+                client_ipaddr = "192.168.60.190"
                 print('******************************************')
 
                 if agent_type.startswith('api_policy'):
