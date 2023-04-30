@@ -29,8 +29,7 @@ def load_key():
 # 미체결 잔액 조회
 def get_order(ticker):
     order_list = upbit.get_order(ticker_or_uuid=ticker,
-                                 state='wait',
-                                 limit=100)
+                                 state='wait')
     if order_list is None:
         return 0
 
@@ -137,7 +136,6 @@ def get_best_k(ticker):
 
 
 def main(argv):
-    global g_access, g_secret
     global upbit
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('-m', '--mode', required=False, default='test', help='실행 모드 run/test default=test')
@@ -152,17 +150,29 @@ def main(argv):
     except Exception as e:
         print("Connection Error:", e)
     else:
-        my_balance = get_balance("KRW")
-        print("내 잔고 : " + str(format(int(my_balance), ",")) + " 원")
-        print("date:" + str(datetime.datetime.now()))
-        print('MASK:', upbit.get_amount('MASK'))
-        print('미체결', get_order_all())
+        # get krw balance
+        # my_balance = get_balance("KRW")
 
-        print(have_tickers())
+        # Balance inquiry of individual items
+        # print('MASK:', upbit.get_amount('MASK'))
+
+        list_tickers = []
+        list_tickers.clear()
+        balances = upbit.get_balances()
+        for balance in balances:
+            if balance['currency'] == 'KRW':
+                my_balance = float(balance['balance'])
+                continue
+            if 'KRW-' + balance['currency'] in ticker_list:
+                print(balance['currency'], balance['balance'], balance['avg_buy_price'])
+                list_tickers.append('KRW-' + balance['currency'])
+
+        print("내 잔고 : " + str(format(int(my_balance), ",")) + " 원")
+        print('미체결', get_order_all())
 
         best_k_run = 1  # k값 구하기 동작 여부
         buy_price = 0  # 매수 총가
-        list_tickers = ['KRW-UPP', 'KRW-CRE']
+
         while 1:
             try:
                 for symbol in list_tickers:
