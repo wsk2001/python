@@ -14,6 +14,12 @@ upbit = ''
 buy_max_amount = 100000.0
 polling_time = 10
 
+# monitoring ticker list
+# stop loss
+# take profit
+# no trading time (from, to)
+# fee
+
 ticker_list = pyupbit.get_tickers('KRW')
 
 # API KEY Load
