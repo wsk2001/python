@@ -9,16 +9,17 @@ import json
 
 g_access = ''  # Upbit API access 키
 g_secret = ''  # Upbit API secret 키
-fee = 0.9995  # 거래 수수료 0.05%
 upbit = ''
-buy_max_amount = 100000.0
-polling_time = 10
 
-# monitoring ticker list
-# stop loss
-# take profit
-# no trading time (from, to)
-# fee
+g_fee = 0.9995
+g_buy_max = 100000.0
+g_polling_time = 10
+g_mon_ticker_list = []
+g_stop_loss = ''
+g_take_profit = ''
+g_no_trading_from = ''
+g_no_trading_to = ''
+g_run_mode = ''
 
 ticker_list = pyupbit.get_tickers('KRW')
 
@@ -31,8 +32,39 @@ def load_key():
     g_access = setting_loaded["access_key"]
     g_secret = setting_loaded["secret_key"]
 
+def load_run_conf():
+    global g_fee, g_buy_max, g_polling_time, g_mon_ticker_list, g_stop_loss
+    global g_take_profit, g_no_trading_from, g_no_trading_to, g_run_mode
 
-# 미체결 잔액 조회
+    with open("C:\\Temp\\ub_algo_trade.json") as f:
+        json_obj = json.loads(f.read())
+
+    lst = json_obj["mon_ticker_list"]
+    g_mon_ticker_list.clear()
+    for l in lst:
+        g_mon_ticker_list.append('KRW-' + l)
+
+    g_stop_loss = json_obj["stop_loss"]
+    g_take_profit = json_obj["take_profit"]
+    g_no_trading_from = json_obj["no_trading_from"]
+    g_no_trading_to = json_obj["no_trading_to"]
+    g_fee = json_obj["fee"]
+    g_buy_max = json_obj["buy_max"]
+    g_polling_time = json_obj["polling_time"]
+    g_run_mode = json_obj["run_mode"]
+
+    print(g_mon_ticker_list)
+    print(g_stop_loss)
+    print(g_take_profit)
+    print(g_no_trading_from)
+    print(g_no_trading_to)
+    print(g_fee)
+    print(g_buy_max)
+    print(g_polling_time)
+    print(g_run_mode)
+
+
+# Open balance inquiry
 def get_order(ticker):
     order_list = upbit.get_order(ticker_or_uuid=ticker,
                                  state='wait')
@@ -82,7 +114,7 @@ def get_ror(ticker, k):
     df["target"] = df["open"] + df["range"].shift(1)  # target = 매수가
 
     df["ror"] = np.where(
-        df["high"] > df["target"], df["close"] / df["target"] - fee, 1
+        df["high"] > df["target"], df["close"] / df["target"] - g_fee, 1
     )  # ror(수익율), np.where(조건문, 참일때 값, 거짓일때 값)
 
     ror = df["ror"].cumprod()[-2]
@@ -143,6 +175,8 @@ def get_best_k(ticker):
 
 def main(argv):
     global upbit
+    global g_fee, g_buy_max, g_polling_time, g_mon_ticker_list, g_stop_loss
+    global g_take_profit, g_no_trading_from, g_no_trading_to, g_run_mode
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('-m', '--mode', required=False, default='test', help='실행 모드 run/test default=test')
 
@@ -153,6 +187,8 @@ def main(argv):
     try:
         load_key()
         upbit = pyupbit.Upbit(g_access, g_secret)
+        load_run_conf()
+
     except Exception as e:
         print("Connection Error:", e)
     else:
@@ -162,8 +198,6 @@ def main(argv):
         # Balance inquiry of individual items
         # print('MASK:', upbit.get_amount('MASK'))
 
-        list_tickers = []
-        list_tickers.clear()
         balances = upbit.get_balances()
         for balance in balances:
             if balance['currency'] == 'KRW':
@@ -171,7 +205,7 @@ def main(argv):
                 continue
             if 'KRW-' + balance['currency'] in ticker_list:
                 print(balance['currency'], balance['balance'], balance['avg_buy_price'])
-                list_tickers.append('KRW-' + balance['currency'])
+                g_mon_ticker_list.append('KRW-' + balance['currency'])
 
         print("내 잔고 : " + str(format(int(my_balance), ",")) + " 원")
         print('미체결', get_order_all())
@@ -181,8 +215,7 @@ def main(argv):
 
         while 1:
             try:
-                for symbol in list_tickers:
-                    # ticker = "KRW-DOGE"  # 종목 코드
+                for symbol in g_mon_ticker_list:
                     ticker = symbol  # 종목 코드
                     now = datetime.datetime.now()  # 현재시각
                     start_time = get_start_time(ticker)  # 거래 시작 시각
@@ -209,15 +242,15 @@ def main(argv):
                                 my_krw = get_balance("KRW")  # 원화 잔고
                                 print("Your_KRW_Balance:", my_krw)
 
-                                if my_krw > buy_max_amount:
-                                    my_krw = buy_max_amount  # 10만 원치만 매수
+                                if my_krw > g_buy_max:
+                                    my_krw = g_buy_max  # 설정된 금액 까지만 매수
 
                                 if my_krw > 5000:  # 최소 주문금액 5000원
                                     print(now, "=== Buy_" + ticker.split("-")[1] + "===")
 
                                     # 시장가 매수
-                                    if not mode.lower().startswith('test'):
-                                        upbit.buy_market_order(ticker, my_krw * fee)  # 시장가 매수
+                                    if not g_run_mode.lower().startswith('test'):
+                                        upbit.buy_market_order(ticker, my_krw * g_fee)  # 시장가 매수
                                         time.sleep(5)
 
                                     my_ticker_bal = get_balance(ticker.split("-")[1])
@@ -244,13 +277,13 @@ def main(argv):
                             time.sleep(5)
 
                             # 매도 총가 = (매도가 * 종목수량) * 수수료 빼기
-                            sell_price = (current_price * my_ticker_bal) * fee
+                            sell_price = (current_price * my_ticker_bal) * g_fee
 
                             # 수익 = (매수 총가 - 매도 총가) 반올림 후 -1 곱하기
                             profit = (round(buy_price - sell_price, 0) * -1)
                             print("profit:", profit)
 
-                    time.sleep(polling_time)  # 시세 체크 속도
+                    time.sleep(g_polling_time)  # 시세 체크 속도
             except Exception as e:
                 print(e)
                 time.sleep(1)
