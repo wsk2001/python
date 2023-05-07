@@ -9,7 +9,6 @@ import json
 
 g_access = ''  # Upbit API access 키
 g_secret = ''  # Upbit API secret 키
-upbit = ''
 
 g_fee = 0.9995
 g_buy_max = 100000.0
@@ -21,16 +20,25 @@ g_no_trading_from = ''
 g_no_trading_to = ''
 g_run_mode = ''
 
-ticker_list = pyupbit.get_tickers('KRW')
+upbit = ''
+ticker_list = []
 
 # API KEY Load
 def load_key():
-    global g_access, g_secret
+    global g_access, g_secret, upbit, ticker_list
     with open("C:\\Temp\\ub_api_key.json") as f:
         setting_loaded = json.loads(f.read())
 
     g_access = setting_loaded["access_key"]
     g_secret = setting_loaded["secret_key"]
+
+    try:
+        upbit = pyupbit.Upbit(g_access, g_secret)
+        ticker_list.clear()
+        ticker_list = pyupbit.get_tickers('KRW')
+    except Exception as e:
+        print("Connection Error:", e)
+        sys.exit(0)
 
 def load_run_conf():
     global g_fee, g_buy_max, g_polling_time, g_mon_ticker_list, g_stop_loss
@@ -84,7 +92,6 @@ def get_order_all():
         time.sleep(0.1)
 
     return total_amount
-
 
 def have_tickers():
     dic_have = {}
@@ -186,7 +193,6 @@ def main(argv):
     # Start Connection
     try:
         load_key()
-        upbit = pyupbit.Upbit(g_access, g_secret)
         load_run_conf()
 
     except Exception as e:
@@ -227,12 +233,12 @@ def main(argv):
                         best_k = get_best_k(ticker)
                         best_k_run = 0
 
-                    if start_time < now < end_time - datetime.timedelta(seconds=10):  # 9:00 ~ 다음날 8:59:50
+                    if start_time < now < end_time - datetime.timedelta(seconds=20):  # 9:00 ~ 다음날 8:59:40
                         target_price = round(get_target_price(ticker, best_k), 0)
                         current_price = round(get_current_price(ticker), 0)
-                        print(ticker, "target_price:", target_price)  # 매수 목표가
-                        print(ticker,  "current_price:", current_price)  # 현재가
+                        print(ticker, "curr:", current_price, "target:", target_price)  # 현재가, 매수 목표가
 
+                        # 상승중 판단 필요 (이전 가격이 현재가 보다 낮을것)
                         if target_price == current_price:  # 매수 목표가에 현재가 도달시
                             my_ticker_bal = get_balance(ticker.split("-")[1])  # 종목 잔고
 
