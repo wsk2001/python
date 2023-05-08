@@ -22,6 +22,7 @@ g_run_mode = ''
 
 upbit = ''
 ticker_list = []
+dict_best_k = {}
 
 # API KEY Load
 def load_key():
@@ -86,12 +87,15 @@ def get_order(ticker):
 
 
 def get_order_all():
-    total_amount = 0.0
-    for t in ticker_list:
-        total_amount += float(get_order(t))
-        time.sleep(0.1)
+    dict_order = {}
+    dict_order.clear()
 
-    return total_amount
+    for t in ticker_list:
+        amt = float(get_order(t))
+        if 0.0 < amt:
+            dict_order[t] = amt
+
+    return dict_order
 
 def have_tickers():
     dic_have = {}
@@ -152,31 +156,20 @@ def get_current_price(ticker):
 # best_k 구하기
 def get_best_k(ticker):
     ror1, next_ror, best_ror, best_k = 0.0, 0.0, 0.0, 0.1
+
+    if dict_best_k.get(ticker) is not None:
+        return dict_best_k.get(ticker)
+
     for k in np.arange(0.1, 1.0, 0.1):
         next_ror = get_ror(ticker, k)
         time.sleep(0.3)
         if ror1 < next_ror:  # k값중 최고 k 구하기
             if next_ror != 1:  # 수익률이 0% 가 아닐 때
-                print(
-                    "k : %.1f ror1 : %f  next_ror : %f"
-                    % (k, ror1, next_ror),
-                    "change",
-                )
                 ror1 = next_ror
                 best_k = k
-                best_ror = ror1
-            else:
-                print(
-                    "k : %.1f ror1 : %f  next_ror : %f"
-                    % (k, ror1, next_ror),
-                    "No change_1",
-                )
-        else:
-            print(
-                "k : %.1f ror1 : %f  next_ror : %f" % (k, ror1, next_ror),
-                "No change_2",
-            )
-    print("best_k : %.1f  best_ror : %f" % (best_k, best_ror))
+
+    dict_best_k[ticker] = best_k
+
     return best_k
 
 
@@ -189,6 +182,7 @@ def main(argv):
 
     args = parser.parse_args()
     mode = args.mode
+    dict_best_k.clear()
 
     # Start Connection
     try:
@@ -198,12 +192,6 @@ def main(argv):
     except Exception as e:
         print("Connection Error:", e)
     else:
-        # get krw balance
-        # my_balance = get_balance("KRW")
-
-        # Balance inquiry of individual items
-        # print('MASK:', upbit.get_amount('MASK'))
-
         balances = upbit.get_balances()
         for balance in balances:
             if balance['currency'] == 'KRW':
@@ -213,30 +201,24 @@ def main(argv):
                 print(balance['currency'], balance['balance'], balance['avg_buy_price'])
                 g_mon_ticker_list.append('KRW-' + balance['currency'])
 
-        print("내 잔고 : " + str(format(int(my_balance), ",")) + " 원")
-        print('미체결', get_order_all())
+        print("balance : ", str(format(int(my_balance), ",")))
+        print("ordered : ", get_order_all())
 
-        best_k_run = 1  # k값 구하기 동작 여부
         buy_price = 0  # 매수 총가
 
         while 1:
             try:
+                now = datetime.datetime.now()  # 현재시각
+                start_time = get_start_time('KRW-BTC')  # 거래 시작 시각
+                end_time = start_time + datetime.timedelta(days=1)  # 거래 종료 시각
+                print(now, g_mon_ticker_list[0])
                 for symbol in g_mon_ticker_list:
                     ticker = symbol  # 종목 코드
-                    now = datetime.datetime.now()  # 현재시각
-                    start_time = get_start_time(ticker)  # 거래 시작 시각
-                    end_time = start_time + datetime.timedelta(days=1)  # 거래 종료 시각
-
-                    # best_k 구하기_시작 (종목별로 바꾸어야함)
-                    if best_k_run == 1:
-                        best_k = 0.1
-                        best_k = get_best_k(ticker)
-                        best_k_run = 0
+                    best_k = get_best_k(ticker)
 
                     if start_time < now < end_time - datetime.timedelta(seconds=20):  # 9:00 ~ 다음날 8:59:40
                         target_price = round(get_target_price(ticker, best_k), 0)
                         current_price = round(get_current_price(ticker), 0)
-                        print(ticker, "curr:", current_price, "target:", target_price)  # 현재가, 매수 목표가
 
                         # 상승중 판단 필요 (이전 가격이 현재가 보다 낮을것)
                         if target_price == current_price:  # 매수 목표가에 현재가 도달시
@@ -289,7 +271,8 @@ def main(argv):
                             profit = (round(buy_price - sell_price, 0) * -1)
                             print("profit:", profit)
 
-                    time.sleep(g_polling_time)  # 시세 체크 속도
+                    time.sleep(0.1)
+                time.sleep(g_polling_time)  # 시세 체크 속도
             except Exception as e:
                 print(e)
                 time.sleep(1)

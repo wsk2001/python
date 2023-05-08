@@ -55,7 +55,7 @@ def analyze(ticker, cnt, interval='day', to=None):
     if interval.startswith('month'):
         print('month , open, close, earning%')
     else:
-        print('date , open, high, low, close, volume, high%, low%, close%')
+        print('date, wd, open, high, low, close, volume, high%, low%, close%')
 
     for indexs, values in zip(idxs, vals):
         if st_o == 0:
@@ -70,7 +70,7 @@ def analyze(ticker, cnt, interval='day', to=None):
             chk_date = datetime.strptime(str(indexs)[:10], "%Y-%m-%d")
 
             week_day = (what_day_is_it(chk_date))
-            print(str(indexs)[:10], week_day, ',', f'{values[open_p]:.3f}, {values[high_p]:.3f},',
+            print(str(indexs)[:10], ',', week_day, ',', f'{values[open_p]:.3f}, {values[high_p]:.3f},',
                   f'{values[low_p]:.3f}, {values[close_p]:.3f}, {values[vol_p]:.3f}, {rh:.3f}%', ',',
                   f'{rl:.3f}%, {rc:.3f}%')
             if hv.o == 0.0:
