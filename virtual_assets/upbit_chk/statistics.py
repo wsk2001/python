@@ -1,78 +1,83 @@
-import calendar
-import getopt
-import locale
-import sys
-from time import sleep
-from datetime import datetime
+# -*- coding: utf-8 -*-
 
+import sqlite3
+import pandas as pd
 import pyupbit
+import argparse
+
+database_name = './dbms/virtual_asset.db'
+ticker_list = pyupbit.get_tickers('KRW')
+
+def stat_wd(start_date, ticker):
+    query = \
+        "select symbol, strftime('%w', date) as wd, round(avg(earn),2) as earn from day_candle " \
+        "where symbol='" + ticker + "' " \
+                                    "and date >= '" + start_date + "' " \
+                                                                   "group by wd; "
+
+    con = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, con)
+    vals = df.values.tolist()
+
+    return ticker, vals
 
 
-def what_day_is_it(date):
-    days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
-    day = date.weekday()
-    return days[day]
+def stat_day(start_date, ticker):
+    query = \
+        "select symbol, strftime('%d', date) as md, round(avg(earn),2) as earn from day_candle " \
+        "where symbol='" + ticker + "' " \
+                                    "and date >= '" + start_date + "' " \
+                                                                   "group by md " \
+                                                                   "order by md; "
+
+    con = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, con)
+    vals = df.values.tolist()
+
+    return ticker, vals
 
 
-def analyze_day(v, count):
-    df = pyupbit.get_ohlcv(v, interval='day', count=count, period=1)
+def stat_month(start_date, ticker):
+    query = \
+        "select symbol, strftime('%m', date) as md, round(avg(earn),2) as earn from day_candle " \
+        "where symbol='" + ticker + "' " \
+                                    "and date >= '" + start_date + "' " \
+                                                                   "group by md " \
+                                                                   "order by md; "
 
-    stat = {'Mon': 0, 'Tue': 0, 'Wed': 0, 'Thu': 0, 'Fri': 0, 'Sat': 0, 'Sun': 0}
-    plus_cnt = 0
-    minus_cnt = 0
-    day_cnt = 0
+    con = sqlite3.connect(database_name)
+    df = pd.read_sql_query(query, con)
+    vals = df.values.tolist()
 
-    for ind, row in df.iterrows():
-        wd = what_day_is_it(ind.to_pydatetime())
-        earn = ((row["close"] / row["open"]) - 1.0) * 100.0
-        day_cnt += 1
-        if earn < 0:
-            stat[wd] = stat[wd] - 1
-            minus_cnt = minus_cnt + 1
-        elif 0 < earn:
-            stat[wd] = stat[wd] + 1
-            plus_cnt = plus_cnt + 1
-
-    return v, stat, plus_cnt, minus_cnt, day_cnt
+    return ticker, vals
 
 
-def get_ticker_list():
-    return pyupbit.get_tickers(fiat="KRW")
+def main():
+    parser = argparse.ArgumentParser(description='statistics')
+    parser.add_argument('--start', required=False, default='2000-01-01', help='start_date')
+    parser.add_argument('--mode', required=False, default='W', help='statistic mode (W,D,M) default=W')
 
+    args = parser.parse_args()
+    start_date = args.start
+    work_mode = args.mode.upper()
 
-def main(argv):
-    cnt = 1
-
-    try:
-        opts, etc_args = getopt.getopt(argv[1:], "hc:"
-                                       , ["help", "count="])
-
-    except getopt.GetoptError:
-        print('usage:', argv[0], '-c <days>')
-        print('ex) python', f'{argv[0]}', '-c 365')
-        sys.exit(2)
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            print('usage:', argv[0], '-c <days>')
-            print('ex) python', f'{argv[0]}', '-c 365')
-            print('')
-            sys.exit()
-
-        elif opt in ("-c", "--count"):  # count
-            cnt = int(arg.strip())
-
-    lst = get_ticker_list()
-
-    print('업비트 원화 종목 요일별 등/락 분석 (상승은 +1, 하락은 -1 로 계산 하여 집계를 냄)')
-    print('종목,', '월,', '화,', '수,', '목,', '금,', '토,', '일,', '상승,', '하락,', '계산 일수')
-
-    for v in lst:
-        rv, st, p, m, dc = analyze_day(v, cnt)
-        print(rv[4:]+',', str(st['Mon'])+',', str(st['Tue'])+',', str(st['Wed'])+',',
-              str(st['Thu'])+',', str(st['Fri'])+',', str(st['Sat'])+',',
-              str(st['Sun'])+',', str(p)+',', str(m)+',', dc)
-        sleep(0.2)
-
+    if work_mode == 'W':
+        for t in sorted(ticker_list):
+            ticker, vals = stat_wd(start_date, t[4:])
+            print(ticker)
+            print(vals)
+    elif work_mode == 'D':
+        for t in sorted(ticker_list):
+            ticker, vals = stat_day(start_date, t[4:])
+            print(ticker)
+            print(vals)
+    else:
+        for t in sorted(ticker_list):
+            ticker, vals = stat_month(start_date, t[4:])
+            print(ticker, end='')
+            for v in vals:
+                print(',', v[1], v[2], end='')
+            print()
 
 if __name__ == "__main__":
-    main(sys.argv)
+    main()
