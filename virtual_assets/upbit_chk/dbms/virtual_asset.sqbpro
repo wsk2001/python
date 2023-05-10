@@ -293,9 +293,6 @@ select symbol, strftime('%m', date) as md, round(avg(earn),2) as earn from day_c
 where symbol='MTL'
 group by md
 order by earn
-/**/
+/**/
 
-select symbol, earn from day_candle
-where date = '2023-05-08'
-order by earn
 </sql><current_tab id="0"/></tab_sql></sqlb_project>

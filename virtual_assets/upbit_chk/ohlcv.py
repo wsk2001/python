@@ -120,7 +120,7 @@ arr_interval = ['day', 'week', 'month', 'minute1', 'minute3', 'minute5',
 
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('-c', '--count', required=False, default=21, help='수집 data 갯수 (default=10000)')
+    parser.add_argument('-c', '--count', required=False, default=28, help='수집 data 갯수 (default=10000)')
     parser.add_argument('-s', '--symbol', required=False, default='btc', help='심볼 (BTC, ETH, ADA, ..., default=all)')
     parser.add_argument('-d', '--enddate', required=False, default=None, help='종료 일자(yyyy-mm-dd, default=현재 일자)')
     parser.add_argument('-t', '--endtime', required=False, default=None, help='종료 시각(hh:mm:ss, default=현재 시각)')
