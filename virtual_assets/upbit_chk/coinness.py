@@ -28,9 +28,10 @@ async def get_data():
 
     async with async_playwright() as pw:
         ## chromium, firefox, webkit
-        browser = await pw.webkit.launch()
+        browser = await pw.firefox.launch()
         page = await browser.new_page()
-        await page.goto('https://coinness.live/market/ticker')
+        await page.goto('https://coinness.com/market/ticker')
+        # await page.goto('https://coinness.live/market/ticker')
         time.sleep(6)
 
         html = await page.content()
@@ -78,7 +79,7 @@ async def main(argv):
     global position
     global list_up_count
 
-    count_min = 5
+    count_min = 1
     unit_min = 60
 
     list_up_count.clear()
