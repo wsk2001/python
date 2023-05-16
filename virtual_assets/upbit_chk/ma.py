@@ -24,11 +24,22 @@ import pandas as pd
 # 스토캐스틱 선들의 방향과 봉우리 모양
 ##############################################################################
 def add_moving_average(df, period=9, screen_window=3, slow_window=3):
-    ma5 = ta.stream_MA(df['volume'], 5)
-    ma20 = ta.stream_MA(df['volume'], 20)
-    ma60 = ta.stream_MA(df['volume'], 60)
+    try:
+        ma5 = ta.stream_MA(df['close'], 5)
+        ma20 = ta.stream_MA(df['close'], 20)
+        ma60 = ta.stream_MA(df['close'], 60)
+        return df.assign(ma5=ma5, ma20=ma20, ma60=ma60).dropna().copy()
+    except:
+        pass
 
-    return df.assign(ma5=ma5, ma20=ma20, ma60=ma60).dropna().copy()
+def add_moving_average_volumn(df, period=9, screen_window=3, slow_window=3):
+    try:
+        ma5 = ta.stream_MA(df['volume'], 5)
+        ma20 = ta.stream_MA(df['volume'], 20)
+        ma60 = ta.stream_MA(df['volume'], 60)
+        return df.assign(ma5=ma5, ma20=ma20, ma60=ma60).dropna().copy()
+    except:
+        pass
 
 
 # 골든크로스(Golden cross) 및 데드크로스(Death cross) 확인(20일, 60일 이동편균선)
@@ -75,14 +86,17 @@ def check_ma(symbol='ALL', interval='day', count=365):
     lst.clear()
     print('symbol, ma5, ma20, ma60')
     for v in code_list:
-        ticker, ma5, ma20, ma60 = moving_average(v, interval, count)
-        if ma60 < ma20 < ma5:
-            print(f'{ticker}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f} **정배열**')
-            # like sprintf
-            fmt = f'{ticker}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f}'
-            lst.append(fmt)
-        else:
-            print(f'{ticker}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f}')
+        try:
+            ticker, ma5, ma20, ma60 = moving_average(v, interval, count)
+            if ma60 < ma20 < ma5:
+                print(f'{ticker}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f} **정배열**')
+                # like sprintf
+                fmt = f'{ticker}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f}'
+                lst.append(fmt)
+            else:
+                print(f'{ticker}, {ma5:.2f}, {ma20:.2f}, {ma60:.2f}')
+        except:
+            pass
 
         time.sleep(0.3)
 

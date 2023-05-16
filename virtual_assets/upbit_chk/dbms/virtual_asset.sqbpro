@@ -294,5 +294,17 @@ where symbol='MTL'
 group by md
 order by earn
 /**/
+
+
+/* 최근 7 일간, 일봉 기준 가격 변동률 평균 *
+select A.symbol as 심볼, round(avg(A.v),2) as 변동률 from
+(
+	select symbol, (hearn - learn) v from day_candle
+	where date &gt;= (SELECT date('now','localtime','-6 days'))
+	group by symbol, date
+) A
+group by A.symbol
+order by 변동률 desc
+/**/
 
 </sql><current_tab id="0"/></tab_sql></sqlb_project>

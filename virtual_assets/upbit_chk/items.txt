@@ -18,13 +18,15 @@
 # 코인달인 https://www.coindalin.com/bbs/register_form.php wonsool // 12~~~er
 # 크립토퀀트 : https://cryptoquant.com/ko/asset/btc/summary : gmail // k******2
 # https://cryptoquant.com/ko/asset/btc/summary#overview
+# https://coinpick.com/trading
 
 
 ############################################################
-CASH 492634		# 1042101 
+CASH 814796		# 1042101 
 # => 1,303,601 => 1,212,536
 
-EGLD 52130 9.45482417
+ARB   1605 1
+BORA  222  1
 # MTL 1380 350.91739130
 
 ############################################################
