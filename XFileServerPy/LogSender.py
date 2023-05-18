@@ -1,15 +1,34 @@
 import requests
 import json
 
-# 샘플 JSON 배열 생성
 data = [
     {
-        "name": "John Doe",
-        "email": "johndoe@example.com"
+        "userId":"testuser",
+        "accIp": "192.168.60.190",
+        "enpIp": "192.168.60.190",
+        "agtEnpPlatform": "windows 10",
+        "agtType": "LA",
+        "jobOperation": "E",
+        "agtDate": "2023-05-18 12:23:37.123",
+        "agtFilename": "C:\\Temp\\test1.cpp",
+        "agtFilesize": 100,
+        "agtFilehash": "12345678901234567890123456789012",
+        "agtDuration": 120.34,
+        "agtResult": "success"
     },
     {
-        "name": "Jane Doe",
-        "email": "janedoe@example.com"
+        "userId":"testuser",
+        "accIp": "192.168.60.190",
+        "enpIp": "192.168.60.190",
+        "agtEnpPlatform": "windows 10",
+        "agtType": "LA",
+        "jobOperation": "E",
+        "agtDate": "2023-05-18 12:23:37.123",
+        "agtFilename": "C:\\Temp\\test2.cpp",
+        "agtFilesize": 100,
+        "agtFilehash": "12345678901234567890123456789012",
+        "agtDuration": 120.34,
+        "agtResult": "success"
     }
 ]
 

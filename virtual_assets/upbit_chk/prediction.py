@@ -4,25 +4,25 @@ import argparse
 import pandas as pd
 import pickle
 from sklearn.linear_model import LinearRegression
+from prophet import Prophet
 
 database_name = './dbms/virtual_asset.db'
 
-def select_data(symbol, start_date):
+def select_data(symbol, start_date, end_date='9999-12-31'):
 
     query = f"select date, open, high, low, close, volume from day_candle " \
             f"where symbol = '{symbol.upper()}' and " \
-            f"date >= '{start_date}' order by Date;"
+            f"date >= '{start_date}' and " \
+            f"date <= '{end_date}' order by Date;"
 
     con = sqlite3.connect(database_name)
     df = pd.read_sql_query(query, con)
 
     con.close()
 
-    print(query)
-
     return df
 
-def updown_prediction(df):
+def updown_prediction(ticker, df):
     # Dependent variable selection
     # 종가를 종속 변수로, 기타 모든 변수를 독립 변수로 하는 선형 회귀 모델을 만듭니다.
     model = LinearRegression()
@@ -42,7 +42,7 @@ def updown_prediction(df):
     # 예측을 실제 가격과 비교합니다.
     # print(df[['close']].tail(5))
 
-    print('Next 5 days')
+    print(f"{ticker.upper()} Next 5 days price prediction (Doesn't fit at all.)")
     for p in predictions:
         print(round(p, 2))
 
@@ -52,19 +52,36 @@ def updown_prediction(df):
     # plt.show()
 
 
+def ph_predict(df):
+    df_train = df[['date', 'close']]
+    df_train = df_train.rename(columns={"date": "ds", "close": "y"})
+    m = Prophet()
+    m.fit(df_train)
+
+    future = m.make_future_dataframe(periods=7)
+    forecast = m.predict(future)
+
+    for f in forecast.tail(7):
+        print(f)
+
+
+# 전혀 예측 않됨.
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('--symbol', required=False, default='BTC', help='수집 data 갯수 (default=10000)')
-    parser.add_argument('--start', required=False, default='2023-01-01', help='시작 일자 (yyyy-mm-dd)')
+    parser.add_argument('-t', '--ticker', required=False, default='BTC', help='ticker')
+    parser.add_argument('-s', '--start', required=False, default='2023-01-01', help='start date (yyyy-mm-dd)')
+    parser.add_argument('-e', '--end', required=False, default='9999-12-31', help='end date (yyyy-mm-dd)')
 
     args = parser.parse_args()
-    symbol = args.symbol
+    ticker = args.ticker
     start = args.start
+    end = args.end
 
-    df = select_data(symbol, start)
+    df = select_data(ticker, start, end)
 
-    updown_prediction(df)
+    updown_prediction(ticker, df)
 
+    ph_predict(df)
 
 if __name__ == "__main__":
     main(sys.argv)

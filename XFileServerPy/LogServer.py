@@ -5,18 +5,29 @@ app = Flask(__name__)
 
 @app.route("/log/array", methods=["POST"])
 def array_get():
-    # 요청 본문에서 JSON 배열 가져오기
     data = request.json
+    print(data)
 
-    # 데이터 처리
+    # data parsing
     for user in data:
-        print(user["name"])
-        print(user["email"])
+        print()
+        print(user["userId"])
+        print(user["accIp"])
+        print(user["enpIp"])
+        print(user["agtEnpPlatform"])
+        print(user["agtType"])
+        print(user["jobOperation"])
+        print(user["agtDate"])
+        print(user["agtFilename"])
+        print(user["agtFilesize"])
+        print(user["agtFilehash"])
+        print(user["agtDuration"])
+        print(user["agtResult"])
 
     return "Success"
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=6000)
 
-# 요청 하는쪽 에서 호춯 하기 위한 URL 예.
+# An example URL for calling on the requesting side.
 # url = "http://192.168.60.190:6000/log/array"
