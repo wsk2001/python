@@ -37,22 +37,41 @@ def RSI_analysis(code_list, interval='day'):
 
     print("\nData 추출 시각 : " + time.strftime('%c', time.localtime(time.time())) + "\n")
 
+def RSI_One_Ticker(ticker, interval='day'):
+    # 코인별 시간별 가격
+    df = pyupbit.get_ohlcv(ticker, interval=interval, count=60, period=1)
+    rsi_s = ta.RSI(df['close'], timeperiod=14)
+    print()
+    print(ticker)
+    for rsi in rsi_s:
+        if rsi is None:
+            continue
+        if pd.isna(rsi):
+            continue
+        print(round(rsi, 2))
+    print()
 
 # Main function
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('--interval', required=False, default='day', help='check interval (default=day)')
+    parser.add_argument('-i', '--interval', required=False, default='day', help='check interval (default=day)')
+    parser.add_argument('-t', '--ticker', required=False, default='all', help='check interval (default=day)')
 
     args = parser.parse_args()
     interval = args.interval
+    ticker = args.ticker
 
-    code_list, _, _ = market_code()
+    if ticker.upper().startswith("ALL"):
+        code_list, _, _ = market_code()
 
-    try:
-        RSI_analysis(code_list, interval)
-    except Exception as e:
-        print(e)
-
+        try:
+            RSI_analysis(code_list, interval)
+        except Exception as e:
+            print(e)
+    else:
+        if not ticker.upper().startswith("KRW-"):
+            ticker = "KRW-" + ticker.upper()
+        RSI_One_Ticker(ticker, interval)
 
 if __name__ == "__main__":
     main(sys.argv)

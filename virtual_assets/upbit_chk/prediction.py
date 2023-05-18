@@ -1,19 +1,13 @@
 import sys
-from autots import AutoTS
 import sqlite3
-import pandas as pd
 import argparse
-import datetime
 import pandas as pd
-import numpy as np
-from sklearn.preprocessing import MinMaxScaler
-from sklearn.model_selection import train_test_split
-from keras.models import Sequential
-from keras.layers import LSTM, Dense
+import pickle
+from sklearn.linear_model import LinearRegression
 
 database_name = './dbms/virtual_asset.db'
 
-def price_prediction(symbol, start_date):
+def select_data(symbol, start_date):
 
     query = f"select date, open, high, low, close, volume from day_candle " \
             f"where symbol = '{symbol.upper()}' and " \
@@ -24,56 +18,52 @@ def price_prediction(symbol, start_date):
 
     con.close()
 
+    print(query)
+
     return df
+
+def updown_prediction(df):
+    # Dependent variable selection
+    # 종가를 종속 변수로, 기타 모든 변수를 독립 변수로 하는 선형 회귀 모델을 만듭니다.
+    model = LinearRegression()
+    model.fit(df[['open', 'high', 'low', 'volume']], df['close'])
+
+    # 모델을 저장합니다.
+    with open('model.pkl', 'wb') as f:
+        pickle.dump(model, f)
+
+    # 모델을 로드합니다.
+    with open('model.pkl', 'rb') as f:
+        model = pickle.load(f)
+
+    # 모델을 사용하여 다음 5일의 가격을 예측합니다.
+    predictions = model.predict(df[['open', 'high', 'low', 'volume']].tail(5))
+
+    # 예측을 실제 가격과 비교합니다.
+    # print(df[['close']].tail(5))
+
+    print('Next 5 days')
+    for p in predictions:
+        print(round(p, 2))
+
+    # 예측을 시각화합니다.
+    # plt.plot(df['close'])
+    # plt.plot(predictions)
+    # plt.show()
+
 
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('--symbol', required=False, default=21, help='수집 data 갯수 (default=10000)')
-    parser.add_argument('--start', required=False, default='2022-01-01', help='시작 일자 (yyyy-mm-dd)')
+    parser.add_argument('--symbol', required=False, default='BTC', help='수집 data 갯수 (default=10000)')
+    parser.add_argument('--start', required=False, default='2023-01-01', help='시작 일자 (yyyy-mm-dd)')
 
     args = parser.parse_args()
     symbol = args.symbol
     start = args.start
 
-    start_dt = datetime.datetime.now()
-    df = price_prediction(symbol, start)
+    df = select_data(symbol, start)
 
-    # 데이터 전처리
-    scaler = MinMaxScaler()
-    scaled_data = scaler.fit_transform(df['close'].values.reshape(-1, 1)) # 종가(Close) 데이터 스케일링
-    window_size = 20  # 윈도우 사이즈 설정
-    X = []
-    y = []
-    for i in range(len(scaled_data) - window_size):
-        X.append(scaled_data[i : i + window_size, 0])
-        y.append(scaled_data[i + window_size, 0])
-    X, y = np.array(X), np.array(y)
-    X = np.reshape(X, (X.shape[0], X.shape[1], 1))
-
-    # 훈련 데이터와 테스트 데이터로 분할
-    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=0)
-
-    # LSTM 모델 생성
-    model = Sequential()
-    model.add(LSTM(units=50, return_sequences=True, input_shape=(X_train.shape[1], 1)))
-    model.add(LSTM(units=50))
-    model.add(Dense(1))
-    model.compile(optimizer='adam', loss='mean_squared_error')
-
-    # 모델 학습
-    model.fit(X_train, y_train, epochs=100, batch_size=32)
-
-    # 모델 평가
-    train_loss = model.evaluate(X_train, y_train, batch_size=32)
-    test_loss = model.evaluate(X_test, y_test, batch_size=32)
-    print('Train Loss:', train_loss)
-    print('Test Loss:', test_loss)
-
-    # 모델을 활용한 예측
-    predicted = model.predict(X_test)
-    predicted = scaler.inverse_transform(predicted) # 스케일링된 데이터를 원본 스케일로 변환
-
-    print(predicted)
+    updown_prediction(df)
 
 
 if __name__ == "__main__":

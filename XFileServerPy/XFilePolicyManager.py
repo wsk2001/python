@@ -769,8 +769,8 @@ def main(page: ft.Page):
 
 if __name__ == "__main__":
     target = main
-    view_type = ft.FLET_APP
-    # view_type = ft.WEB_BROWSER
+    # view_type = ft.FLET_APP
+    view_type = ft.WEB_BROWSER
 
     ft.app(target=target, view=view_type, assets_dir='assets')
 
