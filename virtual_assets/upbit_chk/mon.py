@@ -11,19 +11,37 @@ import requests
 import ccxt
 from win10toast import ToastNotifier
 import argparse
+import json
+import jwt
+import hashlib
+import os
+import requests
+import uuid
+from urllib.parse import urlencode, unquote
 
 symbols = []
 usd = 1270
 noti = 'no'
 
+server_url = "https://api.upbit.com"
 
 class item:
-    def __init__(self, ticker, base, count, sl, tp):
+    def __init__(self, ticker, base, count):
         self.ticker = ticker
         self.base = base
         self.count = count
-        self.sl = sl
-        self.tp = tp
+
+def load_key():
+    global g_access, g_secret
+    with open("C:\\Temp\\ub_api_key.json") as f:
+        setting_loaded = json.loads(f.read())
+
+    # Upbit
+    access_key = setting_loaded["access_key"]
+    secret_key = setting_loaded["secret_key"]
+    pyupbit.Upbit(access_key, secret_key)
+
+    return access_key, secret_key
 
 
 def unixtime_to_str(unixtime):
@@ -90,8 +108,8 @@ def check_krw_ticker(v, btc_rate, base, cnt, sl=0.0, tp=0.0):
     # monitoring ticker
     if cnt == 1:
         tot = 0.0
-        print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
-              + f'{v[4:]:<6}' + ': ' + f'{base:12.2f}' + ', ' + f'{p:12.2f}' + ', ' \
+        print(f'{cur} ( {btc_rate:5.2f}, {cur_rate:6.2f} ) ' \
+              f'{v[4:]:<6} : {base:12.2f}, {p:12.2f}, ' \
               + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
         return 0, 0
@@ -148,6 +166,36 @@ def get_binance_btc_json(t, btc_rate, base, cnt):
           + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
 
+def get_my_account(akey, skey):
+    payload = {
+    'access_key': akey,
+    'nonce': str(uuid.uuid4()),
+    }
+
+    jwt_token = jwt.encode(payload, skey)
+    authorization = 'Bearer {}'.format(jwt_token)
+    headers = {
+    'Authorization': authorization,
+    }
+
+    res = requests.get(server_url + '/v1/accounts', headers=headers)
+
+    cash = 0.0 
+    va_items = res.json()
+    for va in va_items:
+        if va['currency'] == 'KRW':
+            cash = float(va['balance'])
+            continue
+        if float(va['avg_buy_price']) <= 0.0:
+            continue
+        
+        symbols.append(item(
+            va['unit_currency'] + '-' + va['currency'], 
+            float(va['avg_buy_price']), 
+            float(va['balance'])
+            ))
+    return cash
+
 def main(argv):
     global usd, noti
     inv_amt = 0.0
@@ -163,39 +211,12 @@ def main(argv):
     sleep_sec = int(args.sleep)
     noti = args.noti
 
-    file = open("items.txt", "r", encoding='UTF8')
-    lines = file.readlines()
-    cash = 0.0
     usd = upbit_get_usd_krw()
     fng = get_fng()
 
-    for l in lines:
-        line = l.strip()
-        if not line:
-            continue
-
-        if line.startswith("#") or line.startswith("//"):
-            continue
-
-        if len(line) <= 0:
-            continue
-
-        strings = line.split()
-        if strings[0].upper().startswith('CASH'):
-            cash = float(strings[1])
-            continue
-
-        inv_amt += float(strings[1]) * float(strings[2])
-        if not strings[0].startswith('BTC-'):
-            strings[0] = 'KRW-' + strings[0]
-
-        low_limit = -10000.0
-        upper_limit = 10000.0
-
-        symbols.append(item(strings[0], float(strings[1]), float(strings[2]), low_limit, upper_limit))
-
-    file.close()
-
+    akey, skey = load_key()
+    cash = get_my_account(akey, skey)
+ 
     binance = ccxt.binance()
 
     while True:
@@ -209,7 +230,7 @@ def main(argv):
             if itm.ticker.startswith('BTC-'):
                 t_mgn, t_amt = check_btc_ticker(itm.ticker, btc_rate, btc_price, itm.base, itm.count)
             else:
-                t_mgn, t_amt = check_krw_ticker(itm.ticker, btc_rate, itm.base, itm.count, itm.sl, itm.tp)
+                t_mgn, t_amt = check_krw_ticker(itm.ticker, btc_rate, itm.base, itm.count)
 
             if t_mgn is None or t_amt is None:
                 continue
