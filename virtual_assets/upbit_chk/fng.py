@@ -132,6 +132,14 @@ def get_coingecko_dominance():
     bitcoin_dominance = data['data']['market_cap_percentage']['btc']
     return bitcoin_dominance
 
+def get_alternative_btc_dominance():
+    tmp_url = 'https://api.alternative.me/v2/global'
+    response = requests.get(tmp_url)
+    data = json.loads(response.text)
+    bitcoin_dominance = data['data']['bitcoin_percentage_of_market_cap']
+    return bitcoin_dominance * 100.0
+
+
 
 def main(argv):
     fng_b0, fng_b1, fng_b2, fng_b3, fng_b4, fng_b5, fng_b6, fng_week, fng_month = get_fng()
@@ -145,10 +153,12 @@ def main(argv):
     print('')
 
     domi = get_coingecko_dominance()
+    domi_alternative = get_alternative_btc_dominance()
     _, price = get_binance_btc('BTC')
 
     print(f'바낸 비트 가격: $' + format(price, ',.2f'))
-    print(f'비트  도미넌스: {domi:.2f}')
+    print(f'비트  도미넌스: {domi:.2f} (coingecko)')
+    print(f'비트  도미넌스: {domi_alternative:.2f} (alternative)')
 
 
 

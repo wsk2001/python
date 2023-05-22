@@ -43,6 +43,18 @@ def load_key():
 
     return access_key, secret_key
 
+## monitoring data
+def load_mon_item():
+    file = open("C:\\Temp\\mon_tickers.json")
+    data = json.load(file)
+    for key, val in data.items():
+        df = pyupbit.get_ohlcv('KRW-' + key.upper(), count=1)
+        symbols.append(item(
+            'KRW-' + key.upper(), 
+            float(df['open'][0]), 
+            float(val)
+            ))
+
 
 def unixtime_to_str(unixtime):
     time_obj = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(unixtime))
@@ -216,6 +228,7 @@ def main(argv):
 
     akey, skey = load_key()
     cash = get_my_account(akey, skey)
+    load_mon_item()
  
     binance = ccxt.binance()
 
