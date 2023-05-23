@@ -7,12 +7,12 @@ import time
 async def cryptoquant_summary():
     async with async_playwright() as pw:
         ## chromium, firefox, webkit
-        ticker = 'btc'
+        ticker = 'xrp'
         browser = await pw.webkit.launch()
         page = await browser.new_page()
         await page.goto(f'https://cryptoquant.com/ko/asset/{ticker}/summary#overview')
         # sleep 을 빼면 일부 data 만 올라와서 올바른 분석이 되지 않는다.
-        time.sleep(6)
+        time.sleep(3)
 
         html = await page.content()
         soup = bs(html, 'html.parser').prettify()
@@ -64,7 +64,7 @@ async def cryptoquant_summary():
                             or line.startswith('미체결 약정') \
                             or line.startswith('기술적 분석') \
                             or line.startswith('스토캐스틱') \
-                            or (line.startswith('채굴자') and (len(line) == len('채굴자'))):                        print()
+                            or (line.startswith('채굴자') and (len(line) == len('채굴자'))): print()
 
                     if line.startswith('Comment by CryptoQuant'):
                         break
