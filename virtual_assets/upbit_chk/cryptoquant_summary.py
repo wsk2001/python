@@ -2,12 +2,11 @@ from playwright.async_api import async_playwright
 import asyncio
 from bs4 import BeautifulSoup as bs
 import time
+import argparse, sys
 
-
-async def cryptoquant_summary():
+async def cryptoquant_summary(ticker):
     async with async_playwright() as pw:
         ## chromium, firefox, webkit
-        ticker = 'xrp'
         browser = await pw.webkit.launch()
         page = await browser.new_page()
         await page.goto(f'https://cryptoquant.com/ko/asset/{ticker}/summary#overview')
@@ -72,9 +71,15 @@ async def cryptoquant_summary():
                     print(line)
 
 
-async def main():
-    await cryptoquant_summary()
+async def main(argv):
+    parser = argparse.ArgumentParser(description='옵션 지정 방법')
+    parser.add_argument('-t', '--ticker', required=False, default='btc', help='check interval (default=day)')
+
+    args = parser.parse_args()
+    ticker = args.ticker
+    await cryptoquant_summary(ticker)
+
 
 
 if __name__ == '__main__':
-    asyncio.run(main())
+    asyncio.run(main(sys.argv))
