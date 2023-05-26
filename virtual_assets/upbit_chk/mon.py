@@ -98,8 +98,8 @@ def check_usdt_ticker(v, btc_rate, base, cnt):
     pcnt = (mgn / base) * 100.0
     cur = datetime.datetime.now().strftime('%H:%M:%S')
 
-    print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
-          + f'{v[4:]:<6}' + ': ' + f'{base:12.2f}' + ', ' + f'{p:12.2f}' + ', ' \
+    print(cur + ' (' + f'{btc_rate:5.2f}, {cur_rate:6.2f}' + ' ) ' \
+          + f'{v[4:]:<6}: {base:12.2f}, {p:12.2f}, ' \
           + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
 
     return amt, tot
@@ -118,18 +118,13 @@ def check_krw_ticker(v, btc_rate, base, cnt, sl=0.0, tp=0.0):
     cur = datetime.datetime.now().strftime('%H:%M:%S')
 
     # monitoring ticker
-    if cnt == 1:
-        tot = 0.0
-        print(f'{cur} ( {btc_rate:5.2f}, {cur_rate:6.2f} ) ' \
-              f'{v[4:]:<6} : {base:12.2f}, {p:12.2f}, ' \
-              + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
+    print(f'{cur} ({btc_rate:5.2f}, {cur_rate:6.2f}) ' \
+          f'{v[4:]:<6} : {base:12.2f}, {p:12.2f}, ' \
+          f'{pcnt:6.2f}%, {amt:10.2f}, ' + (format(int(tot), ',d')  if cnt != 1 else '0'))
 
+    if cnt == 1:
         return 0, 0
     else:
-        print(cur + ' (' + f'{btc_rate:5.2f}' + ', ' + f'{cur_rate:6.2f}' + ' ) ' \
-              + f'{v[4:]:<6}' + ': ' + f'{base:12.2f}' + ', ' + f'{p:12.2f}' + ', ' \
-              + f'{pcnt:6.2f}%' + ', ' + f'{amt:10.2f}' + ', ' + format(int(tot), ',d'))
-
         if noti == 'yes':
             if sl != 0.0 and amt < sl:
                 toaster = ToastNotifier()
@@ -197,6 +192,7 @@ def get_my_account(akey, skey):
     for va in va_items:
         if va['currency'] == 'KRW':
             cash = float(va['balance'])
+            cash += float(va['locked'])
             continue
         if float(va['avg_buy_price']) <= 0.0:
             continue
