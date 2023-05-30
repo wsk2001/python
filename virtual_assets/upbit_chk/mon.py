@@ -191,8 +191,7 @@ def get_my_account(akey, skey):
     va_items = res.json()
     for va in va_items:
         if va['currency'] == 'KRW':
-            cash = float(va['balance'])
-            cash += float(va['locked'])
+            cash = float(va['balance']) + float(va['locked'])
             continue
         if float(va['avg_buy_price']) <= 0.0:
             continue
@@ -200,7 +199,7 @@ def get_my_account(akey, skey):
         symbols.append(item(
             va['unit_currency'] + '-' + va['currency'], 
             float(va['avg_buy_price']), 
-            float(va['balance'])
+            float(va['balance']) +float(va['locked'])
             ))
     return cash
 

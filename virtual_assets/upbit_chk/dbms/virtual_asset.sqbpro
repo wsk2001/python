@@ -275,10 +275,12 @@ group by A.symbol
 order by 변동률 desc
 /**/
 
-/*요일별 실적*
+/*요일별 실적 (일요일은 0, 토요일이 6)*
 select symbol, strftime('%w', date) as wd, round(avg(earn),2) as earn from day_candle
-where symbol='MTL'
-group by wd
+where date &gt;= '2023-04-01'
+and wd = '6'
+group by wd, symbol
+order by earn desc, symbol, wd 
 /**/
 
 /*일자별 실적*
@@ -307,10 +309,17 @@ group by A.symbol
 order by 변동률 desc
 /**/
 
- select * from day_candle
-where symbol = 'BTC'
-and date &gt;= (SELECT date('now','localtime','-30 days'))
+--select * from day_candle
+--where symbol = 'BTC'
+--and date &gt;= (SELECT date('now','localtime','-30 days'))
 
---VACUUM;
+VACUUM;
 
+/**
+select date, symbol, earn from day_candle
+where earn &gt; 10.0
+and date &gt;= '2020-01-01'
+and symbol != 'BTT'
+order by date desc, symbol
+/**/
 </sql><current_tab id="0"/></tab_sql></sqlb_project>
