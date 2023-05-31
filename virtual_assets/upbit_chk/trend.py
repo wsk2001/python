@@ -3,102 +3,60 @@ import datetime
 import sys, getopt
 import pyupbit
 from time import sleep
+import pandas as pd
 
-open_posi = 0
-close_posi = 3
+def trend(ticker):
+    df = pyupbit.get_ohlcv(ticker)
 
-def earning(t, str_date):
-    if not t.upper().startswith('KRW-'):
-        t = 'KRW-' + t
+    macd = pd.DataFrame()
+    macd["MACD"] = df["close"].ewm(span=12, min_periods=12).mean() - df["close"].ewm(span=26, min_periods=26).mean()
+    macd["Signal"] = macd["MACD"].ewm(span=9, min_periods=9).mean()
+    golden_cross = macd["MACD"] >= macd["Signal"]
 
-    arr_dt = ['00:00:00' for i in range(144)]
-    arr_ud = [0 for i in range(144)]
-
-    try:
-        base_dt = str_date + "  23:51:10"
-        dfs = pyupbit.get_ohlcv(t, interval='day', count=2, period=1, to=str_date.strip())
-        dft = pyupbit.get_ohlcv(t, interval='minute10', count=144, period=1, to=base_dt)
-
-        # ohlcv
-        vs = dfs.values.tolist()
-        vt = dft.values.tolist()
-        sv_1 = vs[0][open_posi]
-        sv_2 = vs[1][open_posi]
-        indexs = dft.index.tolist()
-
-        for i in range(len(vt)):
-            s_idx = str(indexs[i])[11:]
-            arr_dt[i] = s_idx
-            cmp_v = 0.0
-
-            if '09:00:00' <= s_idx:
-                cmp_v = sv_2
-            else:
-                cmp_v = sv_1
-
-            if cmp_v < vt[i][close_posi]:
-                arr_ud[i] = 1
-            elif cmp_v > vt[i][close_posi]:
-                arr_ud[i] = -1
-    except:
-        print('data getering error')
-    finally:
-        return t, arr_dt, arr_ud
-
-def get_ticker_list():
-    return pyupbit.get_tickers(fiat="KRW")
-
+    if macd["MACD"].iloc[-1] > 0:
+        return ticker, True, golden_cross
+    return ticker, False, golden_cross
 
 def main(argv):
-    str_date = "2022-01-01"
+    tickers = pyupbit.get_tickers(fiat="KRW")
 
-    try:
-        opts, etc_args = getopt.getopt(argv[1:], "hd:"
-                                       , ["help", "date="])
+    up_count = 0
+    down_count = 0
 
-    except getopt.GetoptError:
-        print(argv[0], '-d <date>')
-        print('ex) python', f'{argv[0]}', '-d 2022-06-05')
-        sys.exit(2)
+    rising_list = []
+    golden_cross = []
 
-    for opt, arg in opts:
-        if opt in ("-h", "--help"):
-            print(argv[0], '-d <date>')
-            print('ex) python', f'{argv[0]}', '-d 2022-06-05')
-            print('ex) python', f'{argv[0]}', '--date 2022-06-03')
-            sys.exit()
+    rising_list.clear()
+    golden_cross.clear()
 
-        elif opt in ("-d", "--date"):  # ticker symbol
-            str_date = arg
-
-    lst = get_ticker_list()
-
-    arr_dt = ['00:00:00' for i in range(144)]
-    arr_up = [0 for i in range(144)]
-    arr_down = [0 for i in range(144)]
-    flag_start = 0
-
-    for ticker in lst:
-        print(ticker[4:],  'chaecking... ')
-        if flag_start == 0 :
-            _, arr_dt, arr_ud = earning(ticker, str_date)
-            flag_start = 1
+    for ticker in tickers:
+        symbol, res, gc = trend(ticker)
+        print('.', end='')
+        sys.stdout.flush()
+        if res is True:
+            up_count += 1
+            rising_list.append(symbol)
         else:
-            _, _, arr_ud = earning(ticker, str_date)
+            down_count += 1
+        
+        if gc is True:
+            print(symbol)
+            golden_cross.append(symbol)
 
-        for i in range(len(arr_ud)):
-            if arr_ud[i] < 0 :
-                arr_down[i] = arr_down[i] + 1
-            if 0 < arr_ud[i] :
-                arr_up[i] = arr_up[i] + 1
-        sleep(0.2)
+        time.sleep(0.2)
+    
+    print()
+    print('uptrend:', up_count, ',downtrend:', down_count)
+    for s in rising_list:
+        print(s)
+    print()
 
-    print("\n")
-    print("업비트 원화 마켓 종목수 : " + str(len(lst)) + " 일자: " + str_date )
-    print("시간, 상승, 하락")
+    if 0 < len(golden_cross):
+        print('golden closs ticker')
+        for s in golden_cross:
+            print(s)
+        print()
 
-    for i in range(len(arr_ud)):
-        print(arr_dt[i]+',', str(arr_up[i])+',', arr_down[i] )
 
 if __name__ == "__main__":
     main(sys.argv)

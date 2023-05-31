@@ -7,42 +7,27 @@ from time import sleep
 '''
 출처: https://superhky.tistory.com/282
 '''
-
-def rising_market(ticker):
+def rising_market(ticker) :
     df = pyupbit.get_ohlcv(ticker)
     new_df = df['close']
 
-    chk_mov = df['close'].rolling(window=20, min_periods=1).mean()
+    open_price = df['open'][-1]
+    close_price = df['close'][-1]
+    earning = ((close_price / open_price) - 1.0) * 100.0
 
-    short_ema = df.close.ewm(span=12, adjust=False).mean()
 
-    long_ema = df.close.ewm(span=26, adjust=False).mean()
+    MOV      = df['close'].rolling(window=20, min_periods=1).mean()
+    ShortEMA = df.close.ewm(span=12, adjust=False).mean()
+    LongEMA  = df.close.ewm(span=26, adjust=False).mean()
+    MACD     = ShortEMA-LongEMA
+    Signal   = MACD.ewm(span=9, adjust=False).mean()
+    EMA      = df['close'].ewm(span=100, adjust=False).mean()
+    price    = pyupbit.get_current_price(ticker)
 
-    chk_macd = short_ema - long_ema
+    if (MACD[-1] > Signal[-1]) and (MACD[-1] > MACD[-2]) and (price > EMA[-1]) and (price > MOV[-1]) and (price > new_df[-2]):
+        return True, earning, close_price
 
-    rising_signal = chk_macd.ewm(span=9, adjust=False).mean()
-
-    ema = df['close'].ewm(span=100, adjust=False).mean()
-
-    price = pyupbit.get_current_price(ticker)
-
-    if 2 < len(chk_macd):
-        if (chk_macd[-1] > rising_signal[-1]) \
-                and (chk_macd[-1] > chk_macd[-2]) \
-                and (price > ema[-1]) \
-                and (price > chk_mov[-1]) \
-                and (price > new_df[-2]):
-
-            df = pyupbit.get_ohlcv(ticker, count=1)
-            open_price = df['open'][0]
-            close_price = df['close'][0]
-            earning = ((close_price / open_price) - 1.0) * 100.0
-
-            cur_dt = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S:')
-            print(cur_dt, ticker, open_price, close_price, f'{earning:10.2f}%', "expected to rise")
-
-            return True
-
+    return False, 0.0, close_price
 
 def main(argv):
     tickers = pyupbit.get_tickers(fiat="KRW")
@@ -50,7 +35,9 @@ def main(argv):
     print(cur, "checking...")
 
     for ticker in tickers:
-        rising_market(ticker)
+        res, earn, close_price = rising_market(ticker)
+        if res is True:
+            print( ticker, close_price, f'{earn:6.2f}%' )
         time.sleep(0.2)
 
     cur = datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S:')
