@@ -313,7 +313,7 @@ order by 변동률 desc
 --where symbol = 'BTC'
 --and date &gt;= (SELECT date('now','localtime','-30 days'))
 
-VACUUM;
+-- VACUUM;
 
 /**
 select date, symbol, earn from day_candle
@@ -322,4 +322,8 @@ and date &gt;= '2020-01-01'
 and symbol != 'BTT'
 order by date desc, symbol
 /**/
+
+select date, round(((close - ((high + low) / 2)) / open * 100),2) as power, earn from day_candle
+where date &gt;= '2023-05-01'
+and symbol == 'BTC'
 </sql><current_tab id="0"/></tab_sql></sqlb_project>

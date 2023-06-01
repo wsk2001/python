@@ -49,12 +49,17 @@ def load_mon_item():
     data = json.load(file)
     for key, val in data.items():
         df = pyupbit.get_ohlcv('KRW-' + key.upper(), count=1)
+
+        if df is None:
+            open_price = 100.0
+        else:    
+            open_price = float(df['open'][0])
+
         symbols.append(item(
             'KRW-' + key.upper(), 
-            float(df['open'][0]), 
+            open_price, 
             float(val)
             ))
-
 
 def unixtime_to_str(unixtime):
     time_obj = time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(unixtime))

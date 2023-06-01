@@ -1,15 +1,27 @@
 from flask import Flask, request
 import json
+import time
+from threading import Thread
 
 app = Flask(__name__)
 
+json_data = ''
+
 @app.route("/log/array", methods=["POST"])
 def array_get():
-    data = request.json
-    print(data)
+    global json_data
+    json_data = request.json
+    print(json_data)
 
+    return "Success"
+
+def view_data():
+  global json_data
+
+  while True:
     # data parsing
-    for user in data:
+    cnt = 0
+    for user in json_data:
         print()
         print(user["userId"])
         print(user["accIp"])
@@ -23,10 +35,15 @@ def array_get():
         print(user["agtFilehash"])
         print(user["agtDuration"])
         print(user["agtResult"])
+        cnt = 1
+    if 0 < cnt:
+        json_data = ''
+    time.sleep(1)
 
-    return "Success"
 
 if __name__ == "__main__":
+    thread = Thread(target=view_data, daemon=True)
+    thread.start()
     app.run(host='0.0.0.0', port=6000)
 
 # An example URL for calling on the requesting side.
