@@ -37,9 +37,9 @@ def select_ytd(ymd):
         "        ( " \
         "                select symbol, date, close from day_candle " \
         "                where date = '" + ymd + "' " \
-                                                 "        ) E " \
-                                                 ") " \
-                                                 "WHERE S.symbol = E.symbol; "
+        "        ) E " \
+        ") " \
+        "WHERE S.symbol = E.symbol; "
 
     con = sqlite3.connect(database_name)
     df = pd.read_sql_query(query, con)
