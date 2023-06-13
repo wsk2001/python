@@ -56,3 +56,37 @@ SEC는 코인베이스의 스테이킹 서비스를 문제 삼으면서 이더�
 
 증권 법에 비교적 자유로우면서 홍콩 테마인것 : BTC, ETH, DOT, UNI, LINK, LTC, AVAX, XLM, BCH
 증권법에 비교적 자유로울수 있는것 : POW코인들, STX
+
+----
+업비트 원화종목중 RSI 20 미만 종목 목록 입니다.
+
+ZRX, 19.96
+ETC, 19.96
+ICX, 19.68
+DKA, 19.49
+STPT, 19.44
+ADA, 19.26
+BAT, 19.05
+PUNDIX, 19.03
+XTZ, 18.98
+AXS, 18.58
+PLA, 18.35
+GLM, 18.18
+GMT, 18.15
+XEC, 17.97
+HIFI, 17.91
+TFUEL, 17.83
+NEAR, 17.80
+WAXP, 17.45
+HPO, 16.56
+THETA, 16.16
+1INCH, 15.51
+T, 14.82
+EGLD, 13.95
+ALGO, 13.04
+SHIB, 10.82
+CHZ, 10.53
+MED, 9.82
+FLOW, 9.79
+
+Data 추출 시각 : Tue Jun 13 07:06:50 2023

@@ -78,7 +78,7 @@ def upbit_cap():
     markets_page = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=1)
     df = pd.DataFrame(markets_page)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
 
-    for i in range(2,50):
+    for i in range(2,4):
         print(i)
         mp = cg.get_coins_markets(vs_currency="KRW", per_page=250, page=i)
         dft = pd.DataFrame(mp)[['id', 'symbol', 'name', 'market_cap']].set_index('id')
