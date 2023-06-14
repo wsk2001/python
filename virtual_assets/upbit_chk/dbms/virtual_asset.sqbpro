@@ -345,12 +345,13 @@ select S.symbol, round(S.open,2) as open, round(E.close,2) as close, round((((cl
         ) E  
 )  
 WHERE S.symbol = E.symbol
-order by YTD desc
-/**/
+order by YTD desc
+/**/
 
-select symbol, date, strftime('%w', date) as wd, learn, earn from day_candle
-where date &gt;= '1023-04-01'
-and symbol = 'AHT'
-and learn &lt;= -10.0
-order by date
-</sql><current_tab id="0"/></tab_sql></sqlb_project>
+/**/
+select symbol, date, strftime('%w', date) as wd, learn, earn from day_candle
+where date &gt;= '1023-04-01'
+and symbol = 'AHT'
+and learn &lt;= -10.0
+order by date
+/**/</sql><current_tab id="0"/></tab_sql></sqlb_project>
