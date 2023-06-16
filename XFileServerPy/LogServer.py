@@ -15,6 +15,11 @@ def array_get():
 
     return "Success"
 
+@app.route("/")
+def index():
+    return 'Web App with Python Flask!'
+
+
 def view_data():
   global json_data
 
