@@ -11,6 +11,7 @@ import pyupbit
 import requests
 from datetime import timedelta
 
+
 def funding_rate_binance():
     binance = ccxt.binance({'options': {
         'defaultType': 'future',
@@ -159,7 +160,6 @@ def main(argv):
     print(f'바낸 비트 가격: $' + format(price, ',.2f'))
     print(f'비트  도미넌스: {domi:.2f} (coingecko)')
     print(f'비트  도미넌스: {domi_alternative:.2f} (alternative)')
-
 
 
 def exit_gracefully(signal, frame):
