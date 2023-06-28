@@ -5,14 +5,14 @@ from threading import Thread
 import ssl
 
 app = Flask(__name__)
+app.debug = 1
 
-json_data = ''
+list_json = []
 
 @app.route("/log/array", methods=["POST"])
 def array_get():
-    global json_data
-    json_data = request.json
-    print(json_data)
+    json = request.json
+    list_json.append(json)
 
     return "Success"
 
@@ -20,34 +20,33 @@ def array_get():
 def index():
     return 'Web App with Python Flask!'
 
-
 def view_data():
-  global json_data
-
   while True:
-    # data parsing
-    cnt = 0
-    for user in json_data:
-        print()
-        print(user["userId"])
-        print(user["accIp"])
-        print(user["enpIp"])
-        print(user["agtEnpPlatform"])
-        print(user["agtType"])
-        print(user["jobOperation"])
-        print(user["agtDate"])
-        print(user["agtFilename"])
-        print(user["agtFilesize"])
-        print(user["agtFilehash"])
-        print(user["agtDuration"])
-        print(user["agtResult"])
-        cnt = 1
-    if 0 < cnt:
-        json_data = ''
-    time.sleep(1)
+    if 0 < len(list_json):
+        json_data = list_json.pop(0)
+        print(json_data)
+        # if json_data is not None:
+        #     for user in json_data:
+        #         print()
+        #         print(user["userId"])
+        #         print(user["accIp"])
+        #         print(user["enpIp"])
+        #         print(user["agtEnpPlatform"])
+        #         print(user["agtType"])
+        #         print(user["jobOperation"])
+        #         print(user["agtDate"])
+        #         print(user["agtFilename"])
+        #         print(user["agtFilesize"])
+        #         print(user["agtFilehash"])
+        #         print(user["agtDuration"])
+        #         print(user["agtResult"])
+
+    time.sleep(0.1)
 
 
 if __name__ == "__main__":
+    list_json.clear()
+
     thread = Thread(target=view_data, daemon=True)
     thread.start()
     

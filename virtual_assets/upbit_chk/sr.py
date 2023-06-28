@@ -84,10 +84,10 @@ def main(argv):
     global current_price
 
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('--symbol', required=False, default='BTC', help='심볼 (default:BTC)')
-    parser.add_argument('--interval', required=False, default='day', help='interval(day,minute60, ..., default=day)')
-    parser.add_argument('--count', required=False, default=365, help='count of candle')
-    parser.add_argument('--view', required=False, default="yes", help='view plot (yes/no)')
+    parser.add_argument('-s', '--symbol', required=False, default='BTC', help='심볼 (default:BTC)')
+    parser.add_argument('-i', '--interval', required=False, default='day', help='interval(day,minute60, ..., default=day)')
+    parser.add_argument('-c', '--count', required=False, default=365, help='count of candle')
+    parser.add_argument('-v', '--view', required=False, default="yes", help='view plot (yes/no)')
 
     args = parser.parse_args()
     symbol = args.symbol

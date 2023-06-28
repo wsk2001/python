@@ -259,7 +259,7 @@ def main(argv):
         btc_rate = ((btc_ohlcv[-1][4] / btc_ohlcv[-1][1]) - 1.0) * 100.0
 
         print(f'fng: {fng}, earn: {mgn:.0f}, {pcnt:.2f}%,',
-            f'BTC: ${btc_price:.2f} (${btc_rate:.2f}%),',
+            f'BTC: ${btc_price:.2f} ({btc_rate:.2f}%),',
             f'cash, {int(cash):,d}, total {int(amt + cash):,d}')
 
         if 0 < item_count:
