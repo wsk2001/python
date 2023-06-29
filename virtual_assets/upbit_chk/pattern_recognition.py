@@ -6,10 +6,31 @@ import pyupbit
 from common.utils import market_code
 from datetime import datetime
 import argparse
+# import matplotlib.pyplot as plt
 
+def macd(df):
+    macd = df['close'].ewm(span=12, min_periods=9).mean() - df['close'].ewm(span=26, min_periods=19).mean()
+
+    # MACD 선과 0선을 그래프로 표시합니다.
+    # plt.plot(macd)
+    # plt.axhline(0, color='red')
+
+    # MACD 선이 0선을 상향 돌파하는 지점을 찾습니다.
+    up_crossover = macd.index[macd > 0].min()
+
+    # MACD 선이 0선을 하향 돌파하는 지점을 찾습니다.
+    down_crossover = macd.index[macd < 0].min()
+
+    # MACD 선이 0선을 상향 돌파한 후, 하락 반전이 발생했는지 확인합니다.
+    if up_crossover < down_crossover:
+        res = 'MACD UP'
+    else:
+        res = 'MACD DOWN'
+
+    return res
 
 def get_candlestick_pattern(symbol, df, posi=-1):
-    # 캔들스틱 패턴을 인식합니다.
+    # Recognize candlestick patterns.
     res = symbol.upper()
 
     lst = talib.CDL2CROWS(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
@@ -270,10 +291,11 @@ def get_candlestick_pattern(symbol, df, posi=-1):
     if lst[posi] != 0:
         res += ', ' + 'CDLXSIDEGAP3METHODS'
 
-
     if res == symbol.upper():
         res += ', ' + 'NO Pattern'
-
+    else:
+        res += ', ' + macd(df)
+    
     # 캔들스틱 패턴을 반환합니다.
     # 미완성 (마지막 날짜 Data 만 취합 해서 확인 할 수 있도록 수정 필요)
     return res
@@ -298,6 +320,7 @@ def main(argv):
 
     if symbol.upper().startswith("ALL"):
         lst = pyupbit.get_tickers(fiat="KRW")
+        lst.sort()
 
         for v in lst:
             time.sleep(0.1)
