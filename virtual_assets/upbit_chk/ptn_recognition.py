@@ -421,9 +421,6 @@ def main(argv):
         # 캔들스틱 패턴을 출력합니다.
         print(patterns)
 
-        macd, signal, hist = get_macd(ohlcv)
-        print(macd, signal, hist)
-    
     # ptns = talib.get_functions()
 
     # for ptn in ptns:
