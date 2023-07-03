@@ -398,7 +398,13 @@ def main(argv):
 
     now = datetime.now()
     print()
-    print('업비트 원화마켓 캔들 패턴 추출 시간: ' + now.strftime('%Y-%m-%d %H:%M:%S'))
+    if posi == -2:
+        print('업비트 원화마켓 캔들 패턴 추출 시간 (어제 종가 기준): ' + now.strftime('%Y-%m-%d %H:%M:%S'))
+    elif posi == -1:
+        print('업비트 원화마켓 캔들 패턴 추출 시간 (현재 기준): ' + now.strftime('%Y-%m-%d %H:%M:%S'))
+    else:
+        dat_posi = str(abs(posi+1)) 
+        print('업비트 원화마켓 캔들 패턴 추출 시간 (' + dat_posi + '일전 기준): ' + now.strftime('%Y-%m-%d %H:%M:%S'))
     print()
     if symbol.upper().startswith("ALL"):
         lst = pyupbit.get_tickers(fiat="KRW")
