@@ -39,15 +39,389 @@
 pytrendline 1.0.0
 Detection for support and resistance trendlines on python
 
+pattern 정리.
+https://redchartgoddess.tistory.com/category/Stock%20Candle%20Analysis/Bullish%20Reversal%20Patterns
+
+
+- 상승반전캔들-㉑역망치형(역전된 망치형: Inverted Hammer) 보다 영향력이 높음
+
+- 상승반전캔들-⑱샛별형(Morning Star)처럼 명확한 반전 신호 아님
+
+- 상승반전캔들-㉗망치형(해머형:Hammer)과 함께 빈번히 출현
+
+ 
+
+  ●상승반전캔들-②강세 잠자리형(Bullish Dragonfly Doji)
+
+  ●상승반전캔들-㉑역망치형(역전된 망치형: Inverted Hammer)
+
+  ●상승반전캔들-㉗망치형(해머형:Hammer)
+
+  ●하락반전캔들-①교수형(Hanging Man)
+
+  ●하락반전캔들-⑥약세 비석형(Bearish Gravestong Doji)
+
+  ●하락반전캔들-⑦약세 잠자리형(Bearish gravestone Doji)
+
+  ●하락반전캔들-⑧유성형(Shooting Star)과 함께 공부하면 좋음
+
+
+ 
+
+※ 상승반전캔들-①강세 비석형 (Bullish Gravestone Doji)이 무조건적인 상승 반전을 의미하지는 않습니다. 그냥 참고만 하세요. 주식은 총체적 관점에서 봐야 한다고 생각합니다.
+
+ 
+ 
+  
+
+- 상승반전캔들-㉗망치형(해머형:Hammer)보다 영향력이 다소 높음
+
+ 
+
+●상승반전캔들-①강세 비석형(Bullish Gravestone Doji)
+
+●상승반전캔들-㉑역망치형(역전된 망치형:Inverted Hammer)
+
+●상승반전캔들-㉗망치형(해머형:Hammer)
+
+●하락반전캔들-①교수형(Hanging Man)
+
+●하락반전캔들-⑥약세 비석형(Bearish Gravestone Doji)
+
+●하락반전캔들-⑦약세 잠자리형(Bearish Dragonfly Doji)
+
+●하락반전캔들-⑧유성형(Shooting Star)과 함께 공부하면 좋음
+
+ 
+
+※상승반전캔들-②강세 잠자리형(Dragonfly Doji)이 무조건적인 상승 반전을 의미하지 않습니다. 그냥, 참고만 하세요. 주식은 총체적 관점에서 봐야 한다고 생각합니다.
+
+- 일반적으로 잘 나타나지 않고 신뢰도 낮음
+
+ 
+
+ ●상승반전캔들-⑨상승 반격형(Bullish Counter-attack Line),
+
+ ●하락반전캔들-㉒흑운형(먹구름형:Dark Cloud Cover),
+
+ ●하락반전캔들-⑫하락 반격형(Bearish Counter-attack Line)과 함께 공부하면 좋음
+
+ 
+
+※ 상승반전캔들-③관통형(Piercing Line)이 나왔다고 무조건적인 상승 반전을 의미하지는 않습니다. 단지, 참고만 하세요. 주식은 총체적 관점에서 봐야 한다고 생각합니다.
+
+
+상승반전캔들-④동일 저점형(Matching Low)
+※ 상승반전캔들-④동일 저점형이 나왔다고 무조건적인 상승 반전을 의미하지는 않습니다. 단지, 참고만 하세요. 주식은 총체적 관점에서 봐야 한다고 생각합니다.
+
+상승반전캔들-⑤막대 샌드위치형(Stick Sandwich)
+- 두 개의 음봉 사이에 하나의 양봉이 끼어있는 간단한 형태
+
+상승반전캔들-⑥사다리 바닥형(Ladder Bottom)
+
+ 
+
+- 하락 추세가 3일 연속 지속되다가 4일째 되는 날 대부분의 거래가 시가 위에서 이루어짐→ 비록 하락으로 마감해도 하락 추세가 마무리되어가고 있음을 감지
+
+상승반전캔들-⑦상승 기아형(Bullish Abandoned Baby in Downtrend)
+- 대표적인 상승반전캔들-⑲십자샛별형(샛별십자형:Morning Doji Star)에서 도지(Doji) 전후에 갭(Gap)이 생긴 경우
+- 아주 명확한 반전 신호로 봄
+- 매우 희귀한 패턴임
+
+●상승반전캔들-⑱샛별형(Evening Star),
+
+●상승반전캔들-⑲십자 샛별형(샛별 십자형:Morning Doji Star),
+
+●하락 반전캔들-③석별형(Evening Star),
+
+●하락반전캔들-④십자석별형(석별십자형:Evening Doji Star),
+
+●하락반전캔들-⑩하락 기아형(Bearish Abandoned Baby in Uptrend)과 같이 공부하면 좋음
+
+상승반전캔들-⑧상승 박차형(Bullish Kicking)
+
+ 
+
+- 상승지속캔들-④갈림길형(Bullish Separating Lines)과 형태상 유사함
+ - 시가가 동일하다는 것 대신에 어느 정도의 갭(Gap)이 발생한다는 차이점이 있음
+  
+
+●상승지속캔들-④상승 갈림길형(Bullish Separating Lines),
+
+●하락반전캔들-⑪하락 박차형(Bearish Kicking),
+
+●하락지속캔들-하락 갈림길형(Bearish Speparating Lines)과 같이 공부하면 좋음
+
+상승반전캔들-⑨상승 반격형(상승 접선형:Bullish Counter-attack Line)
+
+ 
+
+- 일반적으로 색깔이 다른 두 개의 긴 캔들이 비슷한 종가를 형성한 경우 이를 직전의 움직임에 대한 반격(Counter-attack)으로 표현
+
+
+●상승반전캔들-③관통형(Piercing Line),
+
+●하락반전캔들-⑫하락 반격형(하락 접선형:Bearish Counter-attack Line),
+
+●하락반전캔들-㉒흑운형(먹구름형:Dark Cloud Cover),
+
+●상승반전캔들-⑧상승 박차형(Bullish Kicking),
+
+●하락반전캔들-⑪하락 박차형(Bearish Kicking),
+
+●상승지속캔들-④상승 갈림길형(Bullish Separating Lines),
+
+●하락지속캔들-④하락 갈림길형(Bearish Separating Lines)과 함께 공부하면 좋음
+
+
+상승반전캔들-⑩상승 샅바형(Bullish Belt Hold Line)
+- 시가와 저가가 동일한 긴 양봉의 형태
+- 하락 추세 속에서 시가가 당일 최저가를 기록한 후 장중 상승을 보여 긴 몸통과 작은 윗꼬리를 가진 모습
+
+
+상승반전캔들-⑪상승 세 십자형(Bullish Tri Star)
+
+※ 십자형 도지(Doji)에 초점
+
+●기초캔들-⑤도지(Doji) 총정리- 도지(Doji)의 모든 것
+
+
+●상승반전캔들-⑦상승 기아형(Bullish Abandoned Baby in Downtrend)
+
+ 
+
+●상승반전캔들-⑫상승 십자 잉태형(Harami Cross in Downtrend:Bullish Harami Cross)
+
+●상승반전캔들-⑲십자 샛별형(샛별 십자형: Morning Doji Star)
+
+●하락반전캔들-④십자 석별형(석별 십자형:Evening Doji Star)
+
+●하락반전캔들-⑩하락 기아형(Bearish Abandoned Baby in Uptrend)
+
+●하락반전캔들-⑭하락 세 십자형(Bearish Tri Star)
+
+ 
+
+●하락반전캔들-⑮하락 십자 잉태형(Harami Cross in Uptrend:Bearish Harami Cross)과 함께 공부하면 좋음
+
+
+상승반전캔들-⑫상승 십자 잉태형(Harami Cross in Downtrend:Bullish Harami Cross)
+
+ 
+
+●상승반전캔들-⑬상승 잉태형(Harami in Downtrend:Bullish Harami),
+
+●상승반전캔들-⑭상승 잉태 확인형(Three Inside Up),
+
+●하락반전캔들-⑮하락 십자 잉태형(Harami Cross in Uptrend:Bearish Harami Cross),
+
+●하락반전캔들-⑯하락 잉태형(Harami in Uptrend:Bearish Harami)
+
+●하락반전캔들-⑰하락 잉태 확인형(Three Inside Down)과 함께 공부하면 좋음
+
+상승반전캔들-⑬상승 잉태형(Harami in Downtrend:Bullish Harami)
+
+- 상승반전캔들-⑫상승 십자 잉태형(Harami Cross in Downtrend:Bullish Harami Cross)가 상승반전캔들-⑬상승 잉태형(Harami in Downtrend:Bullish Harami)보다 신뢰도 더 높음
+
+ 
+
+●상승반전캔들-⑫상승 십자 잉태형(Harami Cross in Downtrend:Bullish Harami Cross),
+
+●하락반전캔들-⑮하락 십자 잉태형(Harami Cross in Uptrend:Bearish Harami Cross),
+
+●하락반전캔들-⑯하락 잉태형(Harami in Uptrend:Bearish Harami)과 함께 공부하면 좋음
+
+상승반전캔들-⑭상승 잉태확인형(Three Inside Up)
+
+
+상승반전캔들-⑮상승 장악형(Bullish Engulfing)
+
+상승반전캔들-⑯상승 장악확인형(Three Outside Up)
+
+ 
+
+● 상승반전캔들-⑮상승 장악형(Bullish Engulfing)
+
+● 하락반전캔들-⑱하락 장악형(Bearish Engulfing)
+
+● 하락반전캔들-⑲하락 장악 확인형(Three Outside Down)과 함께 공부하면 좋음
+
+상승반전캔들-⑰상승 탈출형(Bullish Breakaway)
+
+ 
+
+●상승반전캔들-㉒적삼병(Three White Soldiers),
+
+●하락반전캔들-⑳하락 탈출형(Bearish Breakaway),
+
+●하락반전캔들-㉑흑삼병(Three Black Crows)과 함께 공부하면 좋음
+
+상승반전캔들-⑱샛별형(Morning Star)
+●상승반전캔들-⑲십자 샛별형(샛별 십자형:Morning Doji Star),
+
+●상승반전캔들-⑦상승 기아형(Bullish Abandoned Baby in Downtrend),
+
+●하락반전캔들-⑩하락 기아형(Bearish Abandoned Baby in Uptrend),
+
+●하락반전캔들-③석별형(Evening Star),
+
+●하락반전캔들-④십자 석별형(석별 십자형:Evening Doji Star)과 같이 공부하면 좋음
+
+상승반전캔들-⑲십자샛별형(Morning Doji Star)
+
+- 상승반전캔들-⑱샛별형(Morning Star)과 유사하나 상승반전캔들-⑲십자샛별형(Morning Doji Star)의 신뢰도가 더 높음
+
+ 
+
+- 하락 추세에서 이 패턴을 발견하면 매수 추천
+
+
+ 
+
+●상승반전캔들-⑱샛별형(Morning Star),
+
+●상승반전캔들-⑦상승 기아형(Bullish Abandoned Baby in Downtrend),
+
+●하락반전캔들-③석별형(Evening Star),
+
+●하락반전캔들-④십자 석별형(석별 십자형:Evening Doji Star),
+
+●하락반전캔들-⑩하락 기아형(Bearish Abandoned Baby in Uptrend)과 같이 공부하면 좋음.
+
+
+상승반전캔들-⑳애기제비 감추기형(Concealing Baby Swallow)
+- 강한 반전 신호이고 장기 추세의 변곡점
+
+상승반전캔들-㉑역망치형(역전된 망치형: Inverted Hammer)
+- 상승반전캔들-㉗망치형(해머형:Hammer)과 이름 때문에 상반되는 것으로 오해하기 쉬우나 같은 상승 반전 캔들에 해당됨
+●상승반전캔들-①강세 비석형(Bullish Gravestone Doji)
+
+●상승반전캔들-②강세 잠자리형(Bullish Dragonfly Doji)
+
+●상승반전캔들-㉗망치형(해머형:Hammer)
+
+●하락반전캔들-①교수형(Hanging Man)
+
+●하락반전캔들-⑥약세 비석형(Bearish Gravestone Doji)
+
+●하락반전캔들-⑦약세 잠자리형(Bearish Dragonfly Doji)
+
+●하락반전캔들-⑧유성형(Shooting Star)과 함께 공부하면 좋음
+ 
+ 
+상승반전캔들-㉒적삼병(Three White Soldiers)
+- 만일 두 번째나 세 번째 양봉이 길게 늘어가는 경우(즉, 급상승하는 경우) 과열 국면에 진입할 가능성 → 주의가 필요함
+- (※ 3개 이상의 양봉에 초점)
+
+●상승지속캔들-①강세 삼선 반격형(바보 적삼병:Bullish Three-Line Strike:Fooling Three Soldiers)
+
+●상승지속캔들-②블록형(Bullish Advance Block)
+
+●상승지속캔들-⑥상승 나란히형(Bullish Side-by-Side White Lines)
+
+●상승지속캔들-⑩지연형(Stalled Pattern)
+
+●하락지속캔들-⑦하락 삼법형(Falling Three Methods)
+
+
+ 
+
+- (※ 3개 이상의 음봉에 초점)
+
+●상승반전캔들-⑥사다리 바닥형(Ladder Bottom)
+
+●상승반전캔들-⑰하락 탈출형(Bullish Breakaway)
+
+●상승반전캔들-⑳애기제비 감추기형(Concealing Baby Swallow)
+
+●상승반전캔들-남 삼성형(Three Stars in the South)
+
+●상승지속캔들-②매트형(Bullish Mat Hold)
+
+●상승지속캔들-⑦상승 삼법형(Falling Three Methods)
+
+●하락반전캔들-㉑흑삼병(Three Black Crows)
+
+●하락반전캔들-⑩약세 삼선 반격형(바보 흑삼병:Bearish Three-Line Strike:Fooling Three Crows)과 함께 공부하면 좋음
+
+
+상승반전캔들-㉓전서구형(Homing Pigeon)
+- 역설적임(매도할 사람 매도하고 나갔기 때문에 이제 상승할 것이라는 역설적인 의미)
+- 상대적으로 빈번하게 나타나며 신뢰도가 높음
 
 
 
+상승반전캔들-㉔집게 바닥형(Tweezers Bottom)
+- 다른 캔들 형태와 중복되어 나타날 확률이 높음
+
+상승반전캔들-㉕희귀 삼천 바닥형(Unique Three River Bottom)
+- 거래량의 추세를 살펴야 함
+- 두 번째 날의 꼬리가 길수록 상승 반전 가능성이 높아짐
+- 희귀하고 독특하지만 명확한 반전 신호임
+
+
+상승반전캔들-㉗망치형(해머형:Hammer)
+- 상승반전캔들-㉗망치형(해머형:Hammer)이 양봉이든 음봉이든 상관이 없으나 양봉이면 더 신뢰도가 높음
+
+●상승반전캔들-①강세 비석형(Bullish Gravestone Doji)
+
+●상승반전캔들-②강세 잠자리형(Bullish Dragonfly Doji)
+
+●상승반전캔들-㉑역망치형(역전된 망치형:Inverted Hammer)
+
+●하락반전캔들-①교수형(Hanging Man)
+
+●하락반전캔들-⑥약세 비석형(Bearish Gravestone Doji)
+
+●하락반전캔들-⑦약세 잠자리형(Bearish Dragonfly Doji)
+
+●하락반전캔들-⑧유성형(Shooting Star)과 함께 공부하면 좋음 
 
 
 
+TA-Lib은 기술적 분석을 위한 라이브러리로, 주가와 거래량을 분석하여 다양한 지표를 계산할 수 있습니다. 
+주어진 정보에 따르면, TA-Lib에서 거래량과 관련된 함수 목록은 다음과 같습니다:
 
+ADX (Average Directional Movement Index): 주가의 추세 강도를 측정하는 지표입니다. [1]
+ADXR (Average Directional Movement Index Rating): ADX 지표의 평균값을 계산하여 주가의 추세 강도를 평가합니다. [1]
+APO (Absolute Price Oscillator): 주가의 단기 이동평균과 장기 이동평균 간의 차이를 계산합니다. [1]
+AROON: 상승 및 하락 추세의 강도와 지속 기간을 측정하는 지표입니다. [1]
+Aroon Up이 100선 근처에 머문다는 것은 과거 N일 간의 고점이 현재로부터 멀지 않은 시점에 있다는 뜻이다. 
+100 근처의 값이 계속된다면 주가의 고점이 계속 갱신되어 멀어지지 않는 것이라고 생각할 수 있다. 
+이 때, Aroon Down이 낮은 값(0 - 30)에 머물면 저점은 갱신되지 않는 것이므로 주가가 진동하며 발산하지 않고 상승 추세에 올라 증가하고 있다고 해석할 수 있다.
+반대로 Aroon Down이 100선 근처에 머문다는 것은 과거 N일 간의 저점이 현재로부터 멀지 않은 시점에 있다는 뜻이다. 
+계속하여 100 근처의 값을 보인다면 저점이 계속 갱신되어 멀어지지 않는 것이라고 생각할 수 있다. 
+이 때, Aroon Up이 낮은 값(0 - 30)에 머물면 고점은 갱신되지 않는 것이므로 주가가 발산하지 않고 하락 추세에 올라 감소하고 있다고 해석할 수 있다.
+만약 Aroon Up과 Down 모두 100선 근처에서 머문다면 주가의 고점과 저점 모두가 계속해서 갱신되는 것이다. 
+이러한 현상은 주가의 변동성이 증가하며 주가가 삼각형 모양으로 발산하는 것으로 해석될 수 있다.
 
+AROONOSC (Aroon Oscillator): AROON 지표에서 상승 Aroon과 하락 Aroon 간의 차이를 계산합니다. [1]
+BOP (Balance Of Power): 매수자와 매도자 간의 강도를 계산하여 주가의 움직임을 평가합니다. [1]
+CCI (Commodity Channel Index): 주가의 평균 변동성을 측정하여 과매수 및 과매도 상태를 판단합니다. [1]
+CMO (Chande Momentum Oscillator): 주가의 상승 및 하락 모멘텀을 계산합니다. [1]
+DX (Directional Movement Index): 주가의 상승 및 하락 추세 강도를 계산합니다. [1]
+MACD (Moving Average Convergence/Divergence): 주가의 단기 이동평균과 장기 이동평균 간의 차이를 계산합니다.
 
+07-05
+['IQ', 400]
+['THETA', 400]
+['ZRX', 400]
+['GAS', 500]
+['GMT', 500]
+['IOST', 500]
+['BORA', 600]
+['CRO', 600]
+['KAVA', 600]
+['HPO', 700]
 
-
-
+['FLOW', -400]
+['BCH', -300]
+['HBAR', -300]
+['MASK', -300]
+['ATOM', -200]
+['AVAX', -200]
+['AXS', -200]
+['CELO', -200]
+['ELF', -200]
+['GRT', -200]
+['NEAR', -200]

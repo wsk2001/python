@@ -72,6 +72,135 @@ dic_cdc = {
     'CDLXSIDEGAP3METHODS': '추세의 전환'
 }
 
+dic_cdc_name = {
+    'CDL2CROWS':'Two Crows',
+    'CDL3BLACKCROWS':'Three Black Crows',
+    'CDL3INSIDE':'Three Inside Up/Down',
+    'CDL3LINESTRIKE':'Three-Line Strike',
+    'CDL3OUTSIDE':'Three Outside Up/Down',
+    'CDL3STARSINSOUTH':'Three Stars In The South',
+    'CDL3WHITESOLDIERS':'Three Advancing White Soldiers',
+    'CDLABANDONEDBABY':'Abandoned Baby',
+    'CDLADVANCEBLOCK':'Advance Block',
+    'CDLBELTHOLD':'Belt-hold',
+    'CDLBREAKAWAY':'Breakaway',
+    'CDLCLOSINGMARUBOZU':'Closing Marubozu',
+    'CDLCONCEALBABYSWALL':'Concealing Baby Swallow',
+    'CDLCOUNTERATTACK':'Counterattack',
+    'CDLDARKCLOUDCOVER':'Dark Cloud Cover',
+    'CDLDOJI':'Doji',
+    'CDLDOJISTAR':'Doji Star',
+    'CDLDRAGONFLYDOJI':'Dragonfly Doji',
+    'CDLENGULFING':'Engulfing Pattern',
+    'CDLEVENINGDOJISTAR':'Evening Doji Star',
+    'CDLEVENINGSTAR':'Evening Star',
+    'CDLGAPSIDESIDEWHITE':'Up/Down-gap side-by-side white lines',
+    'CDLGRAVESTONEDOJI':'Gravestone Doji',
+    'CDLHAMMER':'Hammer',
+    'CDLHANGINGMAN':'Hanging Man',
+    'CDLHARAMI':'Harami Pattern',
+    'CDLHARAMICROSS':'Harami Cross Pattern',
+    'CDLHIGHWAVE':'High-Wave Candle',
+    'CDLHIKKAKE':'Hikkake Pattern',
+    'CDLHIKKAKEMOD':'Modified Hikkake Pattern',
+    'CDLHOMINGPIGEON':'Homing Pigeon',
+    'CDLIDENTICAL3CROWS':'Identical Three Crows',
+    'CDLINNECK':'In-Neck Pattern',
+    'CDLINVERTEDHAMMER':'Inverted Hammer',
+    'CDLKICKING':'Kicking',
+    'CDLKICKINGBYLENGTH':'Kicking - bull/bear determined by the longer marubozu',
+    'CDLLADDERBOTTOM':'Ladder Bottom',
+    'CDLLONGLEGGEDDOJI':'Long Legged Doji',
+    'CDLLONGLINE':'Long Line Candle',
+    'CDLMARUBOZU':'Marubozu',
+    'CDLMATCHINGLOW':'Matching Low',
+    'CDLMATHOLD':'Mat Hold',
+    'CDLMORNINGDOJISTAR':'Morning Doji Star',
+    'CDLMORNINGSTAR':'Morning Star',
+    'CDLONNECK':'On-Neck Pattern',
+    'CDLPIERCING':'Piercing Pattern',
+    'CDLRICKSHAWMAN':'Rickshaw Man',
+    'CDLRISEFALL3METHODS':'Rising/Falling Three Methods',
+    'CDLSEPARATINGLINES':'Separating Lines',
+    'CDLSHOOTINGSTAR':'Shooting Star',
+    'CDLSHORTLINE':'Short Line Candle',
+    'CDLSPINNINGTOP':'Spinning Top',
+    'CDLSTALLEDPATTERN':'Stalled Pattern',
+    'CDLSTICKSANDWICH':'Stick Sandwich',
+    'CDLTAKURI':'Takuri (Dragonfly Doji with very long lower shadow)',
+    'CDLTASUKIGAP':'Tasuki Gap',
+    'CDLTHRUSTING':'Thrusting Pattern',
+    'CDLTRISTAR':'Tristar Pattern',
+    'CDLUNIQUE3RIVER':'Unique 3 River',
+    'CDLUPSIDEGAP2CROWS':'Upside Gap Two Crows',
+    'CDLXSIDEGAP3METHODS':'Upside/Downside Gap Three Methods'
+}
+
+dic_cdl_functions = {
+    'CDL2CROWS': talib.CDL2CROWS,
+    'CDL3BLACKCROWS': talib.CDL3BLACKCROWS,
+    'CDL3INSIDE': talib.CDL3INSIDE,
+    'CDL3LINESTRIKE': talib.CDL3LINESTRIKE,
+    'CDL3OUTSIDE': talib.CDL3OUTSIDE,
+    'CDL3STARSINSOUTH': talib.CDL3STARSINSOUTH,
+    'CDL3WHITESOLDIERS': talib.CDL3WHITESOLDIERS,
+    'CDLABANDONEDBABY': talib.CDLABANDONEDBABY,
+    'CDLADVANCEBLOCK': talib.CDLADVANCEBLOCK,
+    'CDLBELTHOLD': talib.CDLBELTHOLD,
+    'CDLBREAKAWAY': talib.CDLBREAKAWAY,
+    'CDLCLOSINGMARUBOZU': talib.CDLCLOSINGMARUBOZU,
+    'CDLCONCEALBABYSWALL': talib.CDLCONCEALBABYSWALL,
+    'CDLCOUNTERATTACK': talib.CDLCOUNTERATTACK,
+    'CDLDARKCLOUDCOVER': talib.CDLDARKCLOUDCOVER,
+    'CDLDOJI': talib.CDLDOJI,
+    'CDLDOJISTAR': talib.CDLDOJISTAR,
+    'CDLDRAGONFLYDOJI': talib.CDLDRAGONFLYDOJI,
+    'CDLENGULFING': talib.CDLENGULFING,
+    'CDLEVENINGDOJISTAR': talib.CDLEVENINGDOJISTAR,
+    'CDLEVENINGSTAR': talib.CDLEVENINGSTAR,
+    'CDLGAPSIDESIDEWHITE': talib.CDLGAPSIDESIDEWHITE,
+    'CDLGRAVESTONEDOJI': talib.CDLGRAVESTONEDOJI,
+    'CDLHAMMER': talib.CDLHAMMER,
+    'CDLHANGINGMAN': talib.CDLHANGINGMAN,
+    'CDLHARAMI': talib.CDLHARAMI,
+    'CDLHARAMICROSS': talib.CDLHARAMICROSS,
+    'CDLHIGHWAVE': talib.CDLHIGHWAVE,
+    'CDLHIKKAKE': talib.CDLHIKKAKE,
+    'CDLHIKKAKEMOD': talib.CDLHIKKAKEMOD,
+    'CDLHOMINGPIGEON': talib.CDLHOMINGPIGEON,
+    'CDLIDENTICAL3CROWS': talib.CDLIDENTICAL3CROWS,
+    'CDLINNECK': talib.CDLINNECK,
+    'CDLINVERTEDHAMMER': talib.CDLINVERTEDHAMMER,
+    'CDLKICKING': talib.CDLKICKING,
+    'CDLKICKINGBYLENGTH': talib.CDLKICKINGBYLENGTH,
+    'CDLLADDERBOTTOM': talib.CDLLADDERBOTTOM,
+    'CDLLONGLEGGEDDOJI': talib.CDLLONGLEGGEDDOJI,
+    'CDLLONGLINE': talib.CDLLONGLINE,
+    'CDLMARUBOZU': talib.CDLMARUBOZU,
+    'CDLMATCHINGLOW': talib.CDLMATCHINGLOW,
+    'CDLMATHOLD': talib.CDLMATHOLD,
+    'CDLMORNINGDOJISTAR': talib.CDLMORNINGDOJISTAR,
+    'CDLMORNINGSTAR': talib.CDLMORNINGSTAR,
+    'CDLONNECK': talib.CDLONNECK,
+    'CDLPIERCING': talib.CDLPIERCING,
+    'CDLRICKSHAWMAN': talib.CDLRICKSHAWMAN,
+    'CDLRISEFALL3METHODS': talib.CDLRISEFALL3METHODS,
+    'CDLSEPARATINGLINES': talib.CDLSEPARATINGLINES,
+    'CDLSHOOTINGSTAR': talib.CDLSHOOTINGSTAR,
+    'CDLSHORTLINE': talib.CDLSHORTLINE,
+    'CDLSPINNINGTOP': talib.CDLSPINNINGTOP,
+    'CDLSTALLEDPATTERN': talib.CDLSTALLEDPATTERN,
+    'CDLSTICKSANDWICH': talib.CDLSTICKSANDWICH,
+    'CDLTAKURI': talib.CDLTAKURI,
+    'CDLTASUKIGAP': talib.CDLTASUKIGAP,
+    'CDLTHRUSTING': talib.CDLTHRUSTING,
+    'CDLTRISTAR': talib.CDLTRISTAR,
+    'CDLUNIQUE3RIVER': talib.CDLUNIQUE3RIVER,
+    'CDLUPSIDEGAP2CROWS': talib.CDLUPSIDEGAP2CROWS,
+    'CDLXSIDEGAP3METHODS': talib.CDLXSIDEGAP3METHODS
+}
+
+
 def get_macd(df):
     macd, signal, hist = talib.MACD(df['close'], fastperiod=12, slowperiod=26, signalperiod=9)
     return macd, signal, hist 
@@ -97,273 +226,28 @@ def macd_trend(df, posi=-1):
     else:
         return 'MACD 홀드'
 
-def get_candlestick_pattern(symbol, df, posi=-1):
+# Python에서 ta-lib를 사용할 때 -100, +100, -200, +200 등과 같은 숫자는 무엇입니까?
+# +200 bullish pattern with confirmation
+# +100 bullish pattern (most cases)
+# 0 none
+# -100 bearish pattern
+# -200 bearish pattern with confirmation
+
+def get_cdl_patterns(symbol, df, posi=-1):
     # Recognize candlestick patterns.
     res = symbol.upper()
-
-    lst = talib.CDL2CROWS(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDL2CROWS(' + dic_cdc['CDL2CROWS'] + ')'
-    
-    lst = talib.CDL3BLACKCROWS(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDL3BLACKCROWS(' + dic_cdc['CDL3BLACKCROWS'] + ')'
-
-    lst = talib.CDL3INSIDE(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDL3INSIDE(' + dic_cdc['CDL3INSIDE'] + ')'
-
-
-    lst = talib.CDL3LINESTRIKE(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDL3LINESTRIKE(' + dic_cdc['CDL3LINESTRIKE'] + ')'
-
-    lst = talib.CDL3OUTSIDE(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDL3OUTSIDE(' + dic_cdc['CDL3OUTSIDE'] + ')'
-
-    lst = talib.CDL3STARSINSOUTH(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDL3STARSINSOUTH(' + dic_cdc['CDL3STARSINSOUTH'] + ')'
-
-    lst = talib.CDL3WHITESOLDIERS(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDL3WHITESOLDIERS(' + dic_cdc['CDL3WHITESOLDIERS'] + ')'
-
-    lst = talib.CDLABANDONEDBABY(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLABANDONEDBABY(' + dic_cdc['CDLABANDONEDBABY'] + ')'
-
-
-    lst = talib.CDLADVANCEBLOCK(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLADVANCEBLOCK(' + dic_cdc['CDLADVANCEBLOCK'] + ')'
-
-
-    lst = talib.CDLBELTHOLD(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLBELTHOLD(' + dic_cdc['CDLBELTHOLD'] + ')'
-
-    lst = talib.CDLBREAKAWAY(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLBREAKAWAY(' + dic_cdc['CDLBREAKAWAY'] + ')'
-
-
-    lst = talib.CDLCLOSINGMARUBOZU(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLCLOSINGMARUBOZU(' + dic_cdc['CDLCLOSINGMARUBOZU'] + ')'
-
-
-    lst = talib.CDLCONCEALBABYSWALL(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLCONCEALBABYSWALL(' + dic_cdc['CDLCONCEALBABYSWALL'] + ')'
-
-
-    lst = talib.CDLCOUNTERATTACK(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLCOUNTERATTACK(' + dic_cdc['CDLCOUNTERATTACK'] + ')'
-
-
-    lst = talib.CDLDARKCLOUDCOVER(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLDARKCLOUDCOVER(' + dic_cdc['CDLDARKCLOUDCOVER'] + ')'
-
-
-    lst = talib.CDLDOJI(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLDOJI(' + dic_cdc['CDLDOJI'] + ')'
-
-
-    lst = talib.CDLDOJISTAR(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLDOJISTAR(' + dic_cdc['CDLDOJISTAR'] + ')'
-
-
-    lst = talib.CDLDRAGONFLYDOJI(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLDRAGONFLYDOJI(' + dic_cdc['CDLDRAGONFLYDOJI'] + ')'
-
-
-    lst = talib.CDLENGULFING(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLENGULFING(' + dic_cdc['CDLENGULFING'] + ')'
-
-    lst = talib.CDLEVENINGDOJISTAR(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLEVENINGDOJISTAR(' + dic_cdc['CDLEVENINGDOJISTAR'] + ')'
-
-    lst = talib.CDLEVENINGSTAR(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLEVENINGSTAR(' + dic_cdc['CDLEVENINGSTAR'] + ')'
-
-    lst = talib.CDLGAPSIDESIDEWHITE(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLGAPSIDESIDEWHITE(' + dic_cdc['CDLGAPSIDESIDEWHITE'] + ')'
-
-    lst = talib.CDLGRAVESTONEDOJI(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLGRAVESTONEDOJI(' + dic_cdc['CDLGRAVESTONEDOJI'] + ')'
-
-    lst = talib.CDLHAMMER(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLHAMMER(' + dic_cdc['CDLHAMMER'] + ')'
-
-    lst = talib.CDLHANGINGMAN(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLHANGINGMAN(' + dic_cdc['CDLHANGINGMAN'] + ')'
-
-    lst = talib.CDLHARAMI(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLHARAMI(' + dic_cdc['CDLHARAMI'] + ')'
-
-    lst = talib.CDLHARAMICROSS(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLHARAMICROSS(' + dic_cdc['CDLHARAMICROSS'] + ')'
-
-
-    lst = talib.CDLHIGHWAVE(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLHIGHWAVE(' + dic_cdc['CDLHIGHWAVE'] + ')'
-
-    lst = talib.CDLHIKKAKE(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLHIKKAKE(' + dic_cdc['CDLHIKKAKE'] + ')'
-
-    lst = talib.CDLHIKKAKEMOD(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLHIKKAKEMOD(' + dic_cdc['CDLHIKKAKEMOD'] + ')'
-
-    lst = talib.CDLHOMINGPIGEON(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLHOMINGPIGEON(' + dic_cdc['CDLHOMINGPIGEON'] + ')'
-
-    lst = talib.CDLIDENTICAL3CROWS(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLIDENTICAL3CROWS(' + dic_cdc['CDLIDENTICAL3CROWS'] + ')'
-
-    lst = talib.CDLINNECK(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLINNECK(' + dic_cdc['CDLINNECK'] + ')'
-
-    lst = talib.CDLINVERTEDHAMMER(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLINVERTEDHAMMER(' + dic_cdc['CDLINVERTEDHAMMER'] + ')'
-
-    lst = talib.CDLKICKING(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLKICKING(' + dic_cdc['CDLKICKING'] + ')'
-
-    lst = talib.CDLKICKINGBYLENGTH(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLKICKINGBYLENGTH(' + dic_cdc['CDLKICKINGBYLENGTH'] + ')'
-
-    lst = talib.CDLLADDERBOTTOM(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLLADDERBOTTOM(' + dic_cdc['CDLLADDERBOTTOM'] + ')'
-
-    lst = talib.CDLLONGLEGGEDDOJI(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLLONGLEGGEDDOJI(' + dic_cdc['CDLLONGLEGGEDDOJI'] + ')'
-
-    lst = talib.CDLLONGLINE(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLLONGLINE(' + dic_cdc['CDLLONGLINE'] + ')'
-
-
-    lst = talib.CDLMARUBOZU(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLMARUBOZU(' + dic_cdc['CDLMARUBOZU'] + ')'
-
-    lst = talib.CDLMATCHINGLOW(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLMATCHINGLOW(' + dic_cdc['CDLMATCHINGLOW'] + ')'
-
-    lst = talib.CDLMATHOLD(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLMATHOLD(' + dic_cdc['CDLMATHOLD'] + ')'
-
-    lst = talib.CDLMORNINGDOJISTAR(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLMORNINGDOJISTAR(' + dic_cdc['CDLMORNINGDOJISTAR'] + ')'
-
-    lst = talib.CDLMORNINGSTAR(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLMORNINGSTAR(' + dic_cdc['CDLMORNINGSTAR'] + ')'
-
-    lst = talib.CDLONNECK(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLONNECK(' + dic_cdc['CDLONNECK'] + ')'
-
-    lst = talib.CDLPIERCING(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLPIERCING(' + dic_cdc['CDLPIERCING'] + ')'
-
-    lst = talib.CDLRICKSHAWMAN(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLRICKSHAWMAN(' + dic_cdc['CDLRICKSHAWMAN'] + ')'
-
-    lst = talib.CDLRISEFALL3METHODS(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLRISEFALL3METHODS(' + dic_cdc['CDLRISEFALL3METHODS'] + ')'
-
-    lst = talib.CDLSEPARATINGLINES(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLSEPARATINGLINES(' + dic_cdc['CDLSEPARATINGLINES'] + ')'
-
-    lst = talib.CDLSHOOTINGSTAR(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLSHOOTINGSTAR(' + dic_cdc['CDLSHOOTINGSTAR'] + ')'
-
-    lst = talib.CDLSHORTLINE(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLSHORTLINE(' + dic_cdc['CDLSHORTLINE'] + ')'
-
-    lst = talib.CDLSPINNINGTOP(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLSPINNINGTOP(' + dic_cdc['CDLSPINNINGTOP'] + ')'
-
-    lst = talib.CDLSTALLEDPATTERN(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLSTALLEDPATTERN(' + dic_cdc['CDLSTALLEDPATTERN'] + ')'
-
-    lst = talib.CDLSTICKSANDWICH(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLSTICKSANDWICH(' + dic_cdc['CDLSTICKSANDWICH'] + ')'
-
-    lst = talib.CDLTAKURI(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLTAKURI(' + dic_cdc['CDLTAKURI'] + ')'
-
-    lst = talib.CDLTASUKIGAP(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLTASUKIGAP(' + dic_cdc['CDLTASUKIGAP'] + ')'
-
-    lst = talib.CDLTHRUSTING(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLTHRUSTING(' + dic_cdc['CDLTHRUSTING'] + ')'
-
-    lst = talib.CDLTRISTAR(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLTRISTAR(' + dic_cdc['CDLTRISTAR'] + ')'
-
-    lst = talib.CDLUNIQUE3RIVER(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLUNIQUE3RIVER(' + dic_cdc['CDLUNIQUE3RIVER'] + ')'
-
-    lst = talib.CDLUPSIDEGAP2CROWS(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLUPSIDEGAP2CROWS(' + dic_cdc['CDLUPSIDEGAP2CROWS'] + ')'
-
-    lst = talib.CDLXSIDEGAP3METHODS(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
-    if lst[posi] != 0:
-        res += ', ' + 'CDLXSIDEGAP3METHODS(' + dic_cdc['CDLXSIDEGAP3METHODS'] + ')'
+    point = 0
+
+    for key, func in dic_cdl_functions.items():
+        lst = func(high=df['high'], low=df['low'], open=df['open'], close=df['close'])
+        if lst[posi] != 0:
+            res += ', ' + key[3:] + '(' + dic_cdc[key] + ') ' + str(lst[posi])
+            point += lst[posi]
 
     if res != symbol.upper():
         res += ', ' + macd_trend(df, posi) # + ', ' + rsi_determine_buy_sell(df, posi)
-    
-    # 캔들스틱 패턴을 반환합니다.
-    # 미완성 (마지막 날짜 Data 만 취합 해서 확인 할 수 있도록 수정 필요)
-    return res
+
+    return res, point    
 
 def rsi_determine_buy_sell(df, posi=-1):
     # RSI 계산
@@ -410,27 +294,35 @@ def main(argv):
         lst = pyupbit.get_tickers(fiat="KRW")
         lst.sort()
 
+        ptn_score_list = []
+        ptn_score_list.clear()
+
         for v in lst:
             time.sleep(0.1)
             ohlcv = get_ohlcv(v[4:], interval)
-            patterns = get_candlestick_pattern(v[4:], ohlcv, posi)
+            patterns, point = get_cdl_patterns(v[4:], ohlcv, posi)
             if patterns != v[4:].upper():
-                print(patterns)
+                # print(patterns, point)
+                ptn_score_list.append([v[4:], point])
+        
+        ptn_score_list.sort(key=lambda x: x[1])
+        for i in ptn_score_list:
+            print(i)
 
     else:
         # 캔들스틱 데이터를 가져옵니다.
         ohlcv = get_ohlcv(symbol, interval)
 
         # 캔들스틱 패턴을 인식합니다.
-        patterns = get_candlestick_pattern(symbol, ohlcv, posi)
+        patterns, point = get_cdl_patterns(symbol, ohlcv, posi)
 
         # 캔들스틱 패턴을 출력합니다.
-        print(patterns)
+        print(patterns, point)
 
     # ptns = talib.get_functions()
 
     # for ptn in ptns:
-    #     if ptn.startswith("CDL"):
+    #     if not ptn.startswith("CDL"):
     #         print(ptn)
 
 if __name__ == "__main__":
