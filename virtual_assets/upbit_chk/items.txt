@@ -402,26 +402,6 @@ CMO (Chande Momentum Oscillator): 주가의 상승 및 하락 모멘텀을 계�
 DX (Directional Movement Index): 주가의 상승 및 하락 추세 강도를 계산합니다. [1]
 MACD (Moving Average Convergence/Divergence): 주가의 단기 이동평균과 장기 이동평균 간의 차이를 계산합니다.
 
-07-05
-['IQ', 400]
-['THETA', 400]
-['ZRX', 400]
-['GAS', 500]
-['GMT', 500]
-['IOST', 500]
-['BORA', 600]
-['CRO', 600]
-['KAVA', 600]
-['HPO', 700]
 
-['FLOW', -400]
-['BCH', -300]
-['HBAR', -300]
-['MASK', -300]
-['ATOM', -200]
-['AVAX', -200]
-['AXS', -200]
-['CELO', -200]
-['ELF', -200]
-['GRT', -200]
-['NEAR', -200]
+'Momentum Indicators'
+'Overlap Studies'

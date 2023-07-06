@@ -261,6 +261,16 @@ def rsi_determine_buy_sell(df, posi=-1):
     else:
         return "RSI 홀드"
 
+
+def get_adx(df, posi=-1):
+    real = talib.ADX(df['high'], df['low'], df['close'], timeperiod=14)
+    return real[posi]
+
+def get_bbands(df, posi=-1):
+    upperband, middleband, lowerband = talib.BBANDS(df['close'])
+    return upperband[posi], middleband[posi], lowerband[posi]
+
+
 def get_ohlcv(ticker, interval='day'):
     if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
         ticker = 'KRW-' + ticker
@@ -299,25 +309,34 @@ def main(argv):
 
         for v in lst:
             time.sleep(0.1)
-            ohlcv = get_ohlcv(v[4:], interval)
-            patterns, point = get_cdl_patterns(v[4:], ohlcv, posi)
+            df = get_ohlcv(v[4:], interval)
+            patterns, point = get_cdl_patterns(v[4:], df, posi)
             if patterns != v[4:].upper():
-                # print(patterns, point)
-                ptn_score_list.append([v[4:], point])
+                print(patterns, point)
+                # ptn_score_list.append([v[4:], point])
         
         ptn_score_list.sort(key=lambda x: x[1])
         for i in ptn_score_list:
             print(i)
 
     else:
-        # 캔들스틱 데이터를 가져옵니다.
-        ohlcv = get_ohlcv(symbol, interval)
+        df = get_ohlcv(symbol, interval)
 
-        # 캔들스틱 패턴을 인식합니다.
-        patterns, point = get_cdl_patterns(symbol, ohlcv, posi)
+        patterns, point = get_cdl_patterns(symbol, df, posi)
+        patterns += ', ' + rsi_determine_buy_sell(df, posi)
 
-        # 캔들스틱 패턴을 출력합니다.
+        # indicators = talib.get_function_groups()['Momentum Indicators']
+        # indicators = talib.get_function_groups()['Overlap Studies']
+        # indicators = talib.get_function_groups()['Pattern Recognition']
+
+        # for indicator in indicators:
+        #     print(indicator)
+
+        # print(lst)
+
         print(patterns, point)
+        print(get_adx(df))
+
 
     # ptns = talib.get_functions()
 

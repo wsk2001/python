@@ -13,62 +13,73 @@ import talib as ta
 import pyupbit
 
 
-def macd_func(symbol, count, interval='day'):
-    if not symbol.startswith('KRW-') and not symbol.startswith('BTC-') and not symbol.startswith('USDT-'):
-        symbol = 'KRW-' + symbol
+def get_ohlcv(ticker, interval='day'):
+    if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
+        ticker = 'KRW-' + ticker
 
-    print(symbol)
-    df = pyupbit.get_ohlcv(symbol, count=count, interval=interval, period=1)
-    macd, macdsignal, macdhist = ta.MACD(df['close'], fastperiod=12, slowperiod=26, signalperiod=9)
-    return macd, macdsignal, macdhist
+    df = pyupbit.get_ohlcv(ticker, interval=interval)
+
+    return df
 
 
-def check_golden_cross(macd, macd_signal):
-    if macd[-5] < macd_signal[-5] and macd[-4] < macd_signal[-4] and macd[-3] < macd_signal[-3] and \
-            macd[-2] < macd_signal[-2] and macd[-1] > macd_signal[-1]:
-        return True
+def macd_trend(ticker, df, posi=-1):
+    if len(df) < 26:
+        return 'MACD no signal'
+    
+    macd_line = df['close'].ewm(span=12, min_periods=12).mean() - df['close'].ewm(span=26, min_periods=26).mean()
+
+    signal_line = macd_line.ewm(span=9, min_periods=9).mean()
+
+    zero_line = 0
+    b = 0
+    s = 0
+    h = 0
+    if macd_line[posi] > signal_line[posi] and macd_line[posi] > zero_line:
+        print(ticker,'매수')
+        b = 1
+    elif macd_line[posi] < signal_line[posi] and macd_line[posi] < zero_line:
+        print(ticker,'매도')
+        s = 1
     else:
-        return False
-
-
-def check_death_cross(macd, macd_signal):
-    if macd[-5] > macd_signal[-5] and macd[-4] > macd_signal[-4] and macd[-3] > macd_signal[-3] and \
-            macd[-2] > macd_signal[-2] and macd[-1] < macd_signal[-1]:
-        return True
-    else:
-        return False
-
-
+        print(ticker,'홀드')
+        h = 1
+    return b, s, h
 # Main function
 # macd 가 macdsignal 을 상향 돌파 하는지 확인.
 
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
-    parser.add_argument('--count', required=False, default=90, help='data gettering size (default=90)')
-    parser.add_argument('--interval', required=False, default='day',
+    parser.add_argument('-i', '--interval', required=False, default='minute5',
                         help='candle 종류 (day, week, month, minute1, ...)')
 
     args = parser.parse_args()
-    count = int(args.count)
     interval = args.interval
 
-    print('symbol, macd, signal, remark')
+
+    buy = 0
+    sell = 0
+    hold = 0
+
     try:
-        code_list, _, _ = market_code()
-        code_list.sort()
-        for t in code_list:
-            macd, macdsignal, macdhist = macd_func(t, count, interval)
-            if macd == None and macdsignal == None and macdhist == None:
-                continue
-            price = round(pyupbit.get_current_price(t),4)
-            if check_golden_cross(macd, macdsignal):
-                print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, price={price}, Golden Cross')
-            elif check_death_cross(macd, macdsignal):
-                print(f'{t[4:]}, {round(macd[-1], 2)}, {round(macdsignal[-1], 2)}, price={price}, Death Cross')
-            time.sleep(0.3)
+        lst = pyupbit.get_tickers(fiat="KRW")
+        lst.sort()
+
+        ptn_score_list = []
+        ptn_score_list.clear()
+
+        for v in lst:
+            time.sleep(0.1)
+            df = get_ohlcv(v[4:], interval)
+            b, s, h = macd_trend(v[4:], df)
+            buy += b
+            sell += s
+            hold += h
     except Exception as e:
         print(e)
 
+    print()
+    print('interval=', interval)
+    print('매수:', buy, ', 매도:', sell, ', 홀드:', hold)
 
 if __name__ == "__main__":
     main(sys.argv)
