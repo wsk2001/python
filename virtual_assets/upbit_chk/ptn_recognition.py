@@ -6,6 +6,8 @@ import pyupbit
 from common.utils import market_code
 from datetime import datetime
 import argparse
+import pandas as pd
+
 # import matplotlib.pyplot as plt
 
 dic_cdc = {
@@ -136,6 +138,8 @@ dic_cdc_name = {
     'CDLXSIDEGAP3METHODS':'Upside/Downside Gap Three Methods'
 }
 
+# Pattern Recognition Functions
+# https://github.com/wsk2001/ta-lib-python/blob/master/docs/func_groups/pattern_recognition.md
 dic_cdl_functions = {
     'CDL2CROWS': talib.CDL2CROWS,
     'CDL3BLACKCROWS': talib.CDL3BLACKCROWS,
@@ -200,6 +204,85 @@ dic_cdl_functions = {
     'CDLXSIDEGAP3METHODS': talib.CDLXSIDEGAP3METHODS
 }
 
+# Cycle Indicator Functions
+# https://github.com/wsk2001/ta-lib-python/blob/master/docs/func_groups/cycle_indicators.md
+dic_ci_functions = {
+    'HT_DCPHASE': talib.HT_DCPHASE,
+    'HT_DCPHASE': talib.HT_DCPHASE,
+    'HT_PHASOR': talib.HT_PHASOR,
+    'HT_SINE': talib.HT_SINE,
+    'HT_TRENDMODE': talib.HT_TRENDMODE
+}
+
+# Statistic Functions
+# https://github.com/wsk2001/ta-lib-python/blob/master/docs/func_groups/statistic_functions.md
+dic_statistic_functions = {
+    'BETA': talib.BETA,                                 # Beta - high, low
+    'CORREL': talib.CORREL,                             # 피어슨의 상관 계수(r) - high, low
+    'LINEARREG': talib.LINEARREG,                       # Linear Regression - close
+    'LINEARREG_ANGLE': talib.LINEARREG_ANGLE,           # Linear Regression Angle - close
+    'LINEARREG_INTERCEPT': talib.LINEARREG_INTERCEPT,   # Linear Regression Intercept - close
+    'LINEARREG_SLOPE': talib.LINEARREG_SLOPE,           # Linear Regression Slope - close
+    'STDDEV': talib.STDDEV,                             # Standard Deviation - close
+    'TSF': talib.TSF,                                   # Time Series Forecast - close
+    'VAR': talib.VAR,                                   # Variance - close
+
+}
+
+# Volatility Indicator Functions
+# https://github.com/wsk2001/ta-lib-python/blob/master/docs/func_groups/volatility_indicators.md
+dic_vi_functions = {
+    'ATR': talib.ATR,           # high, low, close
+    'NATR': talib.NATR,         # high, low, close
+    'TRANGE': talib.TRANGE,     # high, low, close
+}
+    
+# Momentum Indicator Functions
+# - 필수 입력 param 의 개 수가 달라 일반화 하기 어려움.
+# https://github.com/wsk2001/ta-lib-python/blob/master/docs/func_groups/momentum_indicators.md
+
+# Overlap Studies Functions
+# - 필수 입력 param 의 개 수가 달라 일반화 하기 어려움.
+# https://github.com/wsk2001/ta-lib-python/blob/master/docs/func_groups/overlap_studies.md
+
+# Price Transform Functions
+# - 필수 입력 param 의 개 수가 달라 일반화 하기 어려움.
+# https://github.com/wsk2001/ta-lib-python/blob/master/docs/func_groups/price_transform.md
+
+
+
+def donchian(df, period=20):
+    hi = pd.Series(df['high'])
+    lo = pd.Series(df['low'])
+    uc = hi.rolling(period, min_periods=period).max()
+    lc = lo.rolling(period, min_periods=period).min()
+    mc = (uc - lc) / 2
+    return lc, mc, uc
+
+def get_HT_DCPERIOD(df, posi=-1):
+    '''
+    HT_DCPERIOD는 Hilbert Transform Indicator의 Dominant Cycle Period로, 주어진 데이터의 주기적 패턴을 찾는 데 사용되는 지표입니다. HT_DCPERIOD는 Hilbert Transform Indicator를 사용하여 데이터의 진폭을 찾은 다음, 해당 진폭이 가장 큰 주기를 Dominant Cycle Period로 계산합니다. Dominant Cycle Period는 추세의 길이를 측정하는 데 사용할 수 있으며, 추세가 끝나갈 때를 예측하는 데에도 사용할 수 있습니다.
+
+    HT_DCPERIOD는 다음과 같은 방법으로 계산됩니다.
+
+    Hilbert Transform Indicator를 사용하여 데이터의 진폭을 찾습니다.
+    해당 진폭이 가장 큰 주기를 Dominant Cycle Period로 계산합니다.
+    HT_DCPERIOD는 주로 추세의 길이를 측정하는 데 사용됩니다. Dominant Cycle Period가 길수록 추세가 길어질 가능성이 높습니다. HT_DCPERIOD는 추세가 끝나갈 때를 예측하는 데에도 사용할 수 있습니다. Dominant Cycle Period가 감소하는 경우 추세가 끝나갈 가능성이 높습니다.
+
+    HT_DCPERIOD는 다음과 같은 장점이 있습니다.
+
+    추세의 길이를 측정할 수 있습니다.
+    추세가 끝나갈 때를 예측할 수 있습니다.
+    사용하기 쉽습니다.
+    HT_DCPERIOD는 다음과 같은 단점이 있습니다.
+
+    데이터의 특성에 따라 정확도가 떨어질 수 있습니다.
+    다른 지표와 함께 사용하여야 효과적입니다.
+    '''
+    real = talib.HT_DCPERIOD(df['close'])
+    return real
+
+
 
 def get_macd(df):
     macd, signal, hist = talib.MACD(df['close'], fastperiod=12, slowperiod=26, signalperiod=9)
@@ -261,15 +344,22 @@ def rsi_determine_buy_sell(df, posi=-1):
     else:
         return "RSI 홀드"
 
-
+# ADX는 0에서 100까지의 값을 가지며, 값이 높을수록 추세가 강하다는 것을 의미합니다
 def get_adx(df, posi=-1):
     real = talib.ADX(df['high'], df['low'], df['close'], timeperiod=14)
-    return real[posi]
+    return 'ADX ' + f'{real[posi]:.2f}'
 
 def get_bbands(df, posi=-1):
     upperband, middleband, lowerband = talib.BBANDS(df['close'])
-    return upperband[posi], middleband[posi], lowerband[posi]
+    return f'{upperband[posi]:.2f}' , f'{middleband[posi]:.2f}', f'{lowerband[posi]:.2f}'
 
+# 지지선, 저항선
+def get_sr(df, posi=-1):
+    close_prices = df['close'].values
+    high_prices = df['high'].values
+    low_prices = df['low'].values
+    supports = talib.SAR(high_prices, low_prices)
+    return  supports, close_prices[posi]
 
 def get_ohlcv(ticker, interval='day'):
     if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
@@ -335,7 +425,12 @@ def main(argv):
         # print(lst)
 
         print(patterns, point)
-        print(get_adx(df))
+        print(get_HT_DCPERIOD(df))
+
+        print()
+        print('donchain start')
+        print(donchian(df))
+        print('donchain end')
 
 
     # ptns = talib.get_functions()
