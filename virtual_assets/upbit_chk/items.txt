@@ -76,4 +76,13 @@ MACD (Moving Average Convergence/Divergence): 주가의 단기 이동평균과 �
 피보나치 되돌림
 Donchian 채널
 	- Donchian 채널은 자산의 변동성, 잠재적 탈주 및 되돌림 지점, 과매도 또는 과매수 조건을 평가하는 데 도움이 됩니다.
+	- 4주 최고가에 도달할 경우 매수, 4주 최저가에 도달할 경우 매도
 	
+
+['MATIC', 500]
+['ATOM', 600]
+['IOST', 600]
+['JST', 600]
+['QKC', 600]
+['MBL', 700]
+['VET', 700]

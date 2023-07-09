@@ -15,7 +15,6 @@ def rising_market(ticker) :
     close_price = df['close'][-1]
     earning = ((close_price / open_price) - 1.0) * 100.0
 
-
     MOV      = df['close'].rolling(window=20, min_periods=1).mean()
     ShortEMA = df.close.ewm(span=12, adjust=False).mean()
     LongEMA  = df.close.ewm(span=26, adjust=False).mean()
@@ -24,7 +23,11 @@ def rising_market(ticker) :
     EMA      = df['close'].ewm(span=100, adjust=False).mean()
     price    = pyupbit.get_current_price(ticker)
 
-    if (MACD[-1] > Signal[-1]) and (MACD[-1] > MACD[-2]) and (price > EMA[-1]) and (price > MOV[-1]) and (price > new_df[-2]):
+    if (MACD[-1] > Signal[-1]) \
+        and (MACD[-1] > MACD[-2]) \
+        and (price > EMA[-1]) \
+        and (price > MOV[-1]) \
+        and (price > new_df[-2]):
         return True, earning, close_price
 
     return False, 0.0, close_price

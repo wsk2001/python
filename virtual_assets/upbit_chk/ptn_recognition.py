@@ -290,24 +290,21 @@ def get_macd(df):
 
 def macd_trend(df, posi=-1):
     if len(df) < 26:
-        return 'MACD no signal'
+        return 'MACD(HOLD)', 0
     
     # Calculate the MACD line
-    macd_line = df['close'].ewm(span=12, min_periods=12).mean() - df['close'].ewm(span=26, min_periods=26).mean()
-
-    # Calculate the signal line
-    signal_line = macd_line.ewm(span=9, min_periods=9).mean()
+    macd, signal, hist = talib.MACD(df['close'], fastperiod=12, slowperiod=26, signalperiod=9)
 
     # Calculate the 0 line
     zero_line = 0
 
     # Determine the trend
-    if macd_line[posi] > signal_line[posi] and macd_line[posi] > zero_line:
-        return 'MACD 매수'
-    elif macd_line[posi] < signal_line[posi] and macd_line[posi] < zero_line:
-        return 'MACD 매도'
+    if macd[posi] > signal[posi] and macd[posi] > zero_line:
+        return 'MACD(매수)', 100
+    elif macd[posi] < signal[posi] and macd[posi] < zero_line:
+        return 'MACD(매도)', -100
     else:
-        return 'MACD 홀드'
+        return 'MACD(홀드)', 0
 
 # Python에서 ta-lib를 사용할 때 -100, +100, -200, +200 등과 같은 숫자는 무엇입니까?
 # +200 bullish pattern with confirmation
@@ -328,7 +325,9 @@ def get_cdl_patterns(symbol, df, posi=-1):
             point += lst[posi]
 
     if res != symbol.upper():
-        res += ', ' + macd_trend(df, posi) # + ', ' + rsi_determine_buy_sell(df, posi)
+        txt, v = macd_trend(df, posi)
+        point += v
+        res += ', ' + txt
 
     return res, point    
 
@@ -401,9 +400,10 @@ def main(argv):
             time.sleep(0.1)
             df = get_ohlcv(v[4:], interval)
             patterns, point = get_cdl_patterns(v[4:], df, posi)
+            print(".", end="")
             if patterns != v[4:].upper():
-                print(patterns, point)
-                # ptn_score_list.append([v[4:], point])
+                # print(patterns, point)
+                ptn_score_list.append([v[4:], point])
         
         ptn_score_list.sort(key=lambda x: x[1])
         for i in ptn_score_list:
