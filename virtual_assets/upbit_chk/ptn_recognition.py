@@ -425,12 +425,15 @@ def main(argv):
         # print(lst)
 
         print(patterns, point)
-        print(get_HT_DCPERIOD(df))
 
-        print()
-        print('donchain start')
-        print(donchian(df))
-        print('donchain end')
+        values = get_HT_DCPERIOD(df)
+        for v in values:
+            print(v)
+
+        # print()
+        # print('donchain start')
+        # print(donchian(df))
+        # print('donchain end')
 
 
     # ptns = talib.get_functions()
