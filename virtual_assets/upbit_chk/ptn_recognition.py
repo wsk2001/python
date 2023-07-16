@@ -402,13 +402,13 @@ def main(argv):
             patterns, point = get_cdl_patterns(v[4:], df, posi)
             # print(".", end="")
             if patterns != v[4:].upper():
-                print(patterns, point)
-                # ptn_score_list.append([v[4:], point])
+                # print(patterns, point)
+                ptn_score_list.append([v[4:], point])
         
         ptn_score_list.sort(key=lambda x: x[1])
         for i in ptn_score_list:
             print(i)
-
+ 
     else:
         df = get_ohlcv(symbol, interval)
 
