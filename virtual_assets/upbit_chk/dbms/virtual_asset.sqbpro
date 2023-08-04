@@ -347,20 +347,33 @@ select S.symbol, round(S.open,2) as open, round(E.close,2) as close, round((((cl
 WHERE S.symbol = E.symbol
 order by YTD desc
 /**/
-
-/* 고점 대비 실적 *
-SELECT H.symbol, H.date, H.high, C.date, C.close,  round((((C.close / H.high) -1) * 100),2) AS earn from
+
+/* 고점 대비 실적 *
+SELECT H.symbol, H.date, H.high, C.date, C.close,  round((((C.close / H.high) -1) * 100),2) AS earn from
 (
-	( 
+	( 
 		select symbol, date, max(close) as high from day_candle
-		group by symbol
-	) H,
-	( 
-		select symbol, date, close from day_candle
-		where date = (SELECT date('now','localtime'))
-	) C
-)
-WHERE H.symbol = C.symbol
-ORDER BY H.symbol
-/**/
+		group by symbol
+	) H,
+	( 
+		select symbol, date, close from day_candle
+		where date = (SELECT date('now','localtime'))
+	) C
+)
+WHERE H.symbol = C.symbol
+ORDER BY H.symbol
+/**/
+
+
+SELECT
+  strftime('%w', date) AS wd,
+  ((high - open) / open) * 100 AS rate
+FROM
+  day_candle
+WHERE
+  SYMBOL = 'BTC'
+GROUP BY
+  strftime('%w', date)
+ORDER BY
+  strftime('%w', date);
 </sql><current_tab id="0"/></tab_sql></sqlb_project>
