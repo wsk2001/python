@@ -54,12 +54,13 @@ def main():
     args = parser.parse_args()
     start_date = args.start
 
-    print("요일별 상승 확률")
+    print("요일별 상승 확률, 시작일: " + start_date + " ~ 현재")
     print("SYMBOL, 일, 월, 화, 수, 목, 금, 토")
     for t in sorted(ticker_list):
         ticker, vals = stat_wd(start_date, t[4:])
-        print(ticker, ', ', round(vals[0],2), ',', round(vals[1],2), ',', round(vals[2],2), ',', 
-              round(vals[3],2), ',', round(vals[4],2), ',', round(vals[5],2), ',', round(vals[6],2))
+        if vals is not None and 7 <= len(vals):
+            print(ticker, ', ', round(vals[0],2), ',', round(vals[1],2), ',', round(vals[2],2), ',', 
+                round(vals[3],2), ',', round(vals[4],2), ',', round(vals[5],2), ',', round(vals[6],2))
 
 if __name__ == "__main__":
     main()
