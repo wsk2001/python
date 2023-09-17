@@ -6,11 +6,17 @@ import pickle
 from sklearn.linear_model import LinearRegression
 from prophet import Prophet
 
+import numpy as np
+import pandas as pd
+from keras.models import Sequential
+from keras.layers import Dense
+
+
 database_name = './dbms/virtual_asset.db'
 
 def select_data(symbol, start_date, end_date='9999-12-31'):
 
-    query = f"select date, open, high, low, close, volume, rsi from day_candle " \
+    query = f"select date, open, high, low, close, volume from day_candle " \
             f"where symbol = '{symbol.upper()}' and " \
             f"date >= '{start_date}' and " \
             f"date <= '{end_date}' and " \
@@ -23,41 +29,41 @@ def select_data(symbol, start_date, end_date='9999-12-31'):
 
     return df
 
-def updown_prediction(ticker, df):
-    # Dependent variable selection
-    # 종가를 종속 변수로, 기타 모든 변수를 독립 변수로 하는 선형 회귀 모델을 만듭니다.
-    model = LinearRegression()
-    model.fit(df[['open', 'high', 'low', 'volume', 'rsi']], df['close'])
+def prediction(ticker, df):
+    # 데이터 전처리
+    df.drop(["date"], axis=1, inplace=True)
+    df.drop(["volume"], axis=1, inplace=True)
 
-    # 모델을 저장합니다.
-    # with open('model.pkl', 'wb') as f:
-    #     pickle.dump(model, f)
+    df.fillna(method="ffill", inplace=True)
+    df["close"] = df["close"] / df["close"].iloc[0]
 
-    # 모델을 로드합니다.
-    # with open('model.pkl', 'rb') as f:
-    #     model = pickle.load(f)
+    # 모델 설계
+    model = Sequential()
+    model.add(Dense(128, activation="relu", input_shape=(df.shape[1] - 1,)))
+    model.add(Dense(1))
 
-    # 모델을 사용하여 다음 5일의 가격을 예측합니다.
-    predictions = model.predict(df[['open', 'high', 'low', 'volume', 'rsi']].tail(5))
+    # 모델 학습
+    model.compile(loss="mse", optimizer="adam")
+    model.fit(df.drop("close", axis=1).astype("float32"), df["close"], epochs=300)
 
-    # 예측을 실제 가격과 비교합니다.
-    # print(df[['close']].tail(5))
+    # 모델 평가
+    score = model.evaluate(df.drop("close", axis=1), df["close"])
+    print("MSE:", score)
 
-    print(f"{ticker.upper()} Next 5 days price prediction (Doesn't fit at all.)")
-    for p in predictions:
-        print(round(p, 2))
+    # 주가 예측
+    predictions = model.predict(df.drop("close", axis=1).astype("float32"))
+    mean = np.mean(predictions)
+    variance = np.var(predictions, ddof=1)
 
-    # 예측을 시각화합니다.
-    # plt.plot(df['close'])
-    # plt.plot(predictions)
-    # plt.show()
+    print("평균:", mean)
+    print("분산:", variance)
 
 
 # 전혀 예측 않됨.
 def main(argv):
     parser = argparse.ArgumentParser(description='옵션 지정 방법')
     parser.add_argument('-t', '--ticker', required=False, default='BTC', help='ticker')
-    parser.add_argument('-s', '--start', required=False, default='2023-01-01', help='start date (yyyy-mm-dd)')
+    parser.add_argument('-s', '--start', required=False, default='2000-01-01', help='start date (yyyy-mm-dd)')
     parser.add_argument('-e', '--end', required=False, default='9999-12-31', help='end date (yyyy-mm-dd)')
 
     args = parser.parse_args()
@@ -67,7 +73,7 @@ def main(argv):
 
     df = select_data(ticker, start, end)
 
-    updown_prediction(ticker, df)
+    prediction(ticker, df)
 
 if __name__ == "__main__":
     main(sys.argv)

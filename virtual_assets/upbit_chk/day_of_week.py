@@ -4,6 +4,7 @@ import sqlite3
 import pandas as pd
 import pyupbit
 import argparse
+from datetime import datetime
 
 database_name = './dbms/virtual_asset.db'
 ticker_list = pyupbit.get_tickers('KRW')
@@ -53,8 +54,10 @@ def main():
 
     args = parser.parse_args()
     start_date = args.start
+    now = datetime.now()
 
-    print("요일별 상승 확률, 시작일: " + start_date + " ~ 현재")
+
+    print("요일별 상승 확률 시작일(" + start_date + ") ~ 현재(" + now.strftime('%Y-%m-%d') + ") 50% 미만은 하락")
     print("SYMBOL, 일, 월, 화, 수, 목, 금, 토")
     for t in sorted(ticker_list):
         ticker, vals = stat_wd(start_date, t[4:])

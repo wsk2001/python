@@ -122,10 +122,9 @@ def make_month_table():
         for ind, row in df.iterrows():
             rdate = ind.strftime('%Y-%m-%d')
 
-            rsi = 0
-            cur.execute("INSERT INTO month_candle VALUES(?,?,?,?,?,?,?,?);",
+            cur.execute("INSERT INTO month_candle VALUES(?,?,?,?,?,?,?);",
                         (rdate[:7], v[4:], row["open"], row["high"], row["low"],
-                         row["close"], rsi, round(row["volume"], 2)))
+                         row["close"], round(row["volume"], 2)))
 
         time.sleep(0.2)
 
@@ -219,10 +218,9 @@ def insert_db(start_date):
             high = round(((row["high"] / row["open"]) - 1.0) * 100.0,2)
             low = round(((row["low"] / row["open"]) - 1.0) * 100.0,2)
 
-            rsi = 0
-            cur.execute("INSERT INTO day_candle VALUES(?,?,?,?,?,?,?,?,?,?,?);",
+            cur.execute("INSERT INTO day_candle VALUES(?,?,?,?,?,?,?,?,?,?);",
                         (rdate, row["open"], row["high"], row["low"],
-                         row["close"], round(row["volume"], 2), high, low, earn, rsi, v[4:]))
+                         row["close"], round(row["volume"], 2), high, low, earn, v[4:]))
 
         time.sleep(0.2)
 
