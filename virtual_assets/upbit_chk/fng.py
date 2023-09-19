@@ -11,7 +11,6 @@ import pyupbit
 import requests
 from datetime import timedelta
 
-
 def funding_rate_binance():
     binance = ccxt.binance({'options': {
         'defaultType': 'future',
