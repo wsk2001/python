@@ -22,7 +22,7 @@ def get_ohlcv(ticker, interval='day'):
     if not ticker.startswith('KRW-') and not ticker.startswith('BTC-') and not ticker.startswith('USDT-'):
         ticker = 'KRW-' + ticker
 
-    df = pyupbit.get_ohlcv(ticker, interval=interval)
+    df = pyupbit.get_ohlcv(ticker, count=365, interval=interval)
 
     return df
 
