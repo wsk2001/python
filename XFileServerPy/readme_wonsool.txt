@@ -1,5 +1,5 @@
 Manager test 방법:
-	py XfcPolicyManager.py
+	py XFilePolicyManager.py
 
 TCP Server/Client test 방법:
 	py XfcApiServer.py  (API 정책을 분배하는 Server Test 용, 정책은 XfcPolicyManager 에서 DB 에 저장)
