@@ -32,7 +32,7 @@ def select_ytd(ymd):
         "( " \
         "       ( " \
         "                select symbol, date, open from day_candle " \
-        "                where date = '2023-01-01' " \
+        "                where date = '2024-01-01' " \
         "        ) S, " \
         "        ( " \
         "                select symbol, date, close from day_candle " \
@@ -55,7 +55,7 @@ def select_ytd_btc(ymd):
         "( " \
         "       ( " \
         "                select symbol, date, open from day_candle " \
-        "                where date = '2023-01-01' and symbol = 'BTC'" \
+        "                where date = '2024-01-01' and symbol = 'BTC'" \
         "        ) S, " \
         "        ( " \
         "                select symbol, date, close from day_candle " \
